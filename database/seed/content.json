@@ -1,0 +1,2333 @@
+{
+  "services": [
+    {
+      "num": "01",
+      "name": "Website Development",
+      "pillar": "Build",
+      "line": "Sites that load fast, rank, and give sales something to point at.",
+      "img": "/assets/responsive-web.png",
+      "alt": "Responsive website on laptop, tablet and phone",
+      "pos": "center",
+      "icon": "language",
+      "sort": 1
+    },
+    {
+      "num": "02",
+      "name": "App Development",
+      "pillar": "Build",
+      "line": "iOS and Android from one codebase, shipped and then maintained.",
+      "img": "/assets/shop-app.png",
+      "alt": "Shopping app screens",
+      "pos": "center top",
+      "icon": "smartphone",
+      "sort": 2
+    },
+    {
+      "num": "03",
+      "name": "SaaS & Software Solutions",
+      "pillar": "Build",
+      "line": "Custom platforms and subscription software, built to scale with the business.",
+      "img": "/assets/ops-dashboard.png",
+      "alt": "Operations SaaS dashboard",
+      "pos": "center 20%",
+      "icon": "cloud",
+      "sort": 3
+    },
+    {
+      "num": "04",
+      "name": "AI & Chatbot Solutions",
+      "pillar": "Build",
+      "line": "AI agents and chatbots that answer, book and qualify, around the clock.",
+      "img": "/assets/ai-chatbot.png",
+      "alt": "AI assistant app screens",
+      "pos": "center",
+      "icon": "psychology",
+      "sort": 4
+    },
+    {
+      "num": "05",
+      "name": "Game Development",
+      "pillar": "Build",
+      "line": "Unity builds scoped to finish, not to drift for eighteen months.",
+      "img": "/assets/game-ui.png",
+      "alt": "Mobile game home screen",
+      "pos": "center 35%",
+      "icon": "sports_esports",
+      "sort": 5
+    },
+    {
+      "num": "06",
+      "name": "Logo Design",
+      "pillar": "Brand",
+      "line": "A mark that holds up at 16 pixels and on a hoarding.",
+      "img": "/assets/logo-design.png",
+      "alt": "Logo concept sketches and applications",
+      "pos": "center 45%",
+      "icon": "draw",
+      "sort": 6
+    },
+    {
+      "num": "07",
+      "name": "Graphics Design",
+      "pillar": "Brand",
+      "line": "Print, social and packaging that stay recognisably yours.",
+      "img": "/assets/poster.png",
+      "alt": "Café promotional poster",
+      "pos": "center 30%",
+      "icon": "palette",
+      "sort": 7
+    },
+    {
+      "num": "08",
+      "name": "Video Editing",
+      "pillar": "Brand",
+      "line": "Cuts built for the feed, the pitch deck and the launch.",
+      "img": "/assets/video-edit.png",
+      "alt": "Video editing timeline on monitors",
+      "pos": "center 30%",
+      "icon": "movie",
+      "sort": 8
+    },
+    {
+      "num": "09",
+      "name": "SEO",
+      "pillar": "Grow",
+      "line": "Rankings that bring buyers, not just traffic.",
+      "img": "/assets/seo-dashboard.png",
+      "alt": "Search traffic and analytics dashboard",
+      "pos": "center",
+      "icon": "travel_explore",
+      "sort": 9
+    },
+    {
+      "num": "10",
+      "name": "Business Management",
+      "pillar": "Grow",
+      "line": "The systems that take over when the spreadsheet stops coping.",
+      "img": "/assets/inventory.png",
+      "alt": "Inventory management dashboard",
+      "pos": "center",
+      "icon": "account_tree",
+      "sort": 10
+    }
+  ],
+  "products": [
+    {
+      "icon": "receipt_long",
+      "name": "Billing Software",
+      "tag": "Simple and efficient billing",
+      "img": "/assets/banking-app.png",
+      "alt": "Billing and payments app screens",
+      "pos": "center",
+      "sort": 1
+    },
+    {
+      "icon": "groups",
+      "name": "Employee Management",
+      "tag": "Manage your workforce",
+      "img": "/assets/ops-dashboard.png",
+      "alt": "Workforce scheduling dashboard",
+      "pos": "left 30%",
+      "sort": 2
+    },
+    {
+      "icon": "inventory_2",
+      "name": "Inventory Management",
+      "tag": "Track stock with confidence",
+      "img": "/assets/inventory.png",
+      "alt": "Inventory overview dashboard",
+      "pos": "center",
+      "sort": 3
+    },
+    {
+      "icon": "account_balance",
+      "name": "Finance & FinServ",
+      "tag": "Smarter financial operations",
+      "img": "/assets/finance-dashboard.png",
+      "alt": "Finance dashboard with inflow and budget charts",
+      "pos": "center top",
+      "sort": 4
+    }
+  ],
+  "industries": [
+    {
+      "name": "Retail",
+      "problem": "Stock, prices and offers live in three places that disagree.",
+      "builds": [
+        "Storefronts",
+        "Inventory sync",
+        "Billing",
+        "Loyalty",
+        "Product SEO"
+      ],
+      "img": "/assets/ecommerce.png",
+      "alt": "E-commerce storefront on a desktop monitor",
+      "pos": "center 40%",
+      "sort": 1
+    },
+    {
+      "name": "Healthcare",
+      "problem": "Appointments arrive by phone, WhatsApp and walk-in.",
+      "builds": [
+        "Booking systems",
+        "Patient records",
+        "Reminders",
+        "Clinic sites"
+      ],
+      "img": "/assets/responsive-web.png",
+      "alt": "Clinic website and booking flow across laptop, tablet and phone",
+      "pos": "center",
+      "sort": 2
+    },
+    {
+      "name": "Education",
+      "problem": "Enquiry forms go to an inbox nobody owns.",
+      "builds": [
+        "Learning platforms",
+        "Admission portals",
+        "Student apps",
+        "Educational games"
+      ],
+      "img": "/assets/game-ui.png",
+      "alt": "Mobile game interface",
+      "pos": "center 30%",
+      "sort": 3
+    },
+    {
+      "name": "Real Estate",
+      "problem": "Listings updated on paper first.",
+      "builds": [
+        "Property portals",
+        "CRM pipelines",
+        "Virtual tours",
+        "Local SEO"
+      ],
+      "img": "/assets/responsive-web.png",
+      "alt": "Responsive website across devices",
+      "pos": "center",
+      "sort": 4
+    },
+    {
+      "name": "Manufacturing",
+      "problem": "Job status lives on a whiteboard.",
+      "builds": [
+        "ERP",
+        "Production tracking",
+        "Vendor portals",
+        "Dashboards"
+      ],
+      "img": "/assets/inventory.png",
+      "alt": "Inventory and production dashboard",
+      "pos": "center",
+      "sort": 5
+    },
+    {
+      "name": "Logistics",
+      "problem": "Every delivery update is a phone call made twice.",
+      "builds": [
+        "Fleet tracking",
+        "Delivery apps",
+        "Route planning",
+        "Tracking pages"
+      ],
+      "img": "/assets/ops-dashboard.png",
+      "alt": "Live job and route map dashboard",
+      "pos": "center 35%",
+      "sort": 6
+    },
+    {
+      "name": "Hospitality",
+      "problem": "Website says one thing, counter another.",
+      "builds": [
+        "Direct-order apps",
+        "Table booking",
+        "POS integration",
+        "Menu design"
+      ],
+      "img": "/assets/poster.png",
+      "alt": "Café promotional poster",
+      "pos": "center 40%",
+      "sort": 7
+    },
+    {
+      "name": "Startups",
+      "problem": "A prototype has to look investable.",
+      "builds": [
+        "MVP builds",
+        "Brand identity",
+        "Pitch decks",
+        "Launch campaigns"
+      ],
+      "img": "/assets/logo-design.png",
+      "alt": "Logo concept and brand applications",
+      "pos": "center 20%",
+      "sort": 8
+    }
+  ],
+  "work": [
+    {
+      "client": "Retail brand, Coimbatore",
+      "scope": [
+        "Website",
+        "Catalogue",
+        "Brand refresh"
+      ],
+      "pillar": "Build",
+      "img": "/assets/ecommerce.png",
+      "alt": "E-commerce storefront on a desktop monitor",
+      "pos": "center 40%",
+      "outcome": "One catalogue now drives the website, the shop counter and social — refreshed brand across all three.",
+      "featured": true,
+      "sort": 1
+    },
+    {
+      "client": "Clinic group, Tamil Nadu",
+      "scope": [
+        "Booking system",
+        "Website"
+      ],
+      "pillar": "Build",
+      "img": "/assets/responsive-web.png",
+      "alt": "Responsive website across laptop, tablet and phone",
+      "pos": "center",
+      "outcome": "Phone, WhatsApp and walk-in appointments moved into one online booking calendar.",
+      "featured": true,
+      "sort": 2
+    },
+    {
+      "client": "Manufacturer, Mettupalayam",
+      "scope": [
+        "Business systems",
+        "Graphics"
+      ],
+      "pillar": "Grow",
+      "img": "/assets/inventory.png",
+      "alt": "Inventory management dashboard",
+      "pos": "center",
+      "outcome": "Job status moved off the whiteboard and onto a live dashboard the whole floor can see.",
+      "featured": true,
+      "sort": 3
+    },
+    {
+      "client": "Food brand, Tamil Nadu",
+      "scope": [
+        "Logo",
+        "Packaging",
+        "Social"
+      ],
+      "pillar": "Brand",
+      "img": "/assets/poster.png",
+      "alt": "Café promotional poster with latte art",
+      "pos": "center 35%",
+      "outcome": "A new mark, packaging system and social kit that read as one brand on shelf and on screen.",
+      "featured": false,
+      "sort": 4
+    },
+    {
+      "client": "Education group",
+      "scope": [
+        "Admissions portal",
+        "SEO"
+      ],
+      "pillar": "Grow",
+      "img": "/assets/seo-dashboard.png",
+      "alt": "Search traffic dashboard",
+      "pos": "center",
+      "outcome": "Admission enquiries now land in one portal with an owner, and the campus pages rank for local searches.",
+      "featured": false,
+      "sort": 5
+    },
+    {
+      "client": "Indie game studio",
+      "scope": [
+        "Unity build",
+        "Trailer edit"
+      ],
+      "pillar": "Build",
+      "img": "/assets/game-ui.png",
+      "alt": "Fantasy mobile game home screen",
+      "pos": "center 30%",
+      "outcome": "A playable Unity build scoped to launch, plus the trailer cut that went with it.",
+      "featured": false,
+      "sort": 6
+    }
+  ],
+  "steps": [
+    {
+      "num": "01",
+      "title": "Discover",
+      "description": "We ask what the business needs before anyone opens a design tool.",
+      "outputs": [
+        "Your goals, in your words",
+        "A review of what exists today",
+        "Questions answered before any design"
+      ],
+      "stage": 1,
+      "sort": 1
+    },
+    {
+      "num": "02",
+      "title": "Define",
+      "description": "Scope, price and timeline written down and signed off.",
+      "outputs": [
+        "Written scope",
+        "Agreed price",
+        "Signed-off timeline"
+      ],
+      "stage": 1,
+      "sort": 2
+    },
+    {
+      "num": "03",
+      "title": "Design",
+      "description": "Screens you can react to, with two rounds of revisions.",
+      "outputs": [
+        "Clickable screens to react to",
+        "Two rounds of revisions",
+        "Approved designs before build"
+      ],
+      "stage": 2,
+      "sort": 3
+    },
+    {
+      "num": "04",
+      "title": "Develop",
+      "description": "Built in the open, with a staging link you can check any day.",
+      "outputs": [
+        "A staging link from week one",
+        "Progress you can check any day",
+        "Code and accounts in your name"
+      ],
+      "stage": 2,
+      "sort": 4
+    },
+    {
+      "num": "05",
+      "title": "Test",
+      "description": "Real devices, real content, real edge cases.",
+      "outputs": [
+        "Tested on real devices",
+        "Your real content loaded",
+        "Edge cases checked"
+      ],
+      "stage": 2,
+      "sort": 5
+    },
+    {
+      "num": "06",
+      "title": "Deploy",
+      "description": "Launch on a quiet day, with a rollback ready.",
+      "outputs": [
+        "A quiet-day launch",
+        "A rollback, ready",
+        "Files and logins handed over"
+      ],
+      "stage": 3,
+      "sort": 6
+    },
+    {
+      "num": "07",
+      "title": "Support",
+      "description": "We stay on the account after the invoice clears.",
+      "outputs": [
+        "A named point of contact",
+        "Fixes after launch",
+        "An optional monthly care plan"
+      ],
+      "stage": 3,
+      "sort": 7
+    }
+  ],
+  "roles": [
+    {
+      "title": "Senior Full Stack Developer",
+      "meta": [
+        "Mettupalayam",
+        "Full-time",
+        "5+ years",
+        "React · Node.js"
+      ],
+      "description": "Own client projects end to end — from architecture and API design to polished React front ends and production deployments. You'll lead builds for clients in the US and worldwide, and help the rest of the team level up.\n\nWhat you'll do: design and build full-stack web apps and SaaS platforms with Next.js, React, TypeScript and Node.js / NestJS; model data in PostgreSQL; integrate payments, auth, third-party APIs and AI features; set up CI/CD, testing and cloud hosting on AWS or Vercel; review code, mentor developers and turn client requirements into clear technical plans.\n\nWhat we look for: 5+ years building and shipping production web applications; deep JavaScript/TypeScript, React and Node.js; solid SQL, REST/GraphQL API design and Git; experience with cloud deployment and performance tuning; clear written English for working with international clients. Bonus: Next.js App Router, NestJS, Docker, LLM/AI integrations, or experience leading a small team. Show us live products or repositories you built — a degree is optional.",
+      "isOpen": true,
+      "sort": 1
+    },
+    {
+      "title": "App developer",
+      "meta": [
+        "Mettupalayam",
+        "Full-time",
+        "Flutter or React Native"
+      ],
+      "description": "You'll build and maintain iOS and Android apps from a single codebase for retail, healthcare and service businesses.\n\nWhat you'll do: build screens and flows from Figma; integrate REST APIs, payments, maps and push notifications; handle Play Store and App Store releases; keep crash rates low after launch.\n\nWhat we look for: hands-on Flutter or React Native; state management you can explain; at least one app you shipped or contributed to. Native Kotlin or Swift is a bonus.",
+      "isOpen": true,
+      "sort": 2
+    },
+    {
+      "title": "Graphic designer",
+      "meta": [
+        "Mettupalayam",
+        "Full-time"
+      ],
+      "description": "You'll design brand identities, social campaigns, packaging and print for clients across industries.\n\nWhat you'll do: build logo systems and brand guidelines; produce campaign and social creatives on deadline; prepare print-ready files; work with our developers so the brand carries into websites and apps.\n\nWhat we look for: a portfolio that shows thinking, not just finished art; strong typography; fluency in Figma and Adobe CC. Motion or illustration skills are a plus.",
+      "isOpen": true,
+      "sort": 3
+    },
+    {
+      "title": "Video editor",
+      "meta": [
+        "Mettupalayam",
+        "Full-time"
+      ],
+      "description": "You'll cut reels, product demos, launch films and ad edits for client brands and our own channels.\n\nWhat you'll do: edit short- and long-form video for Instagram, YouTube and pitch decks; handle colour, sound clean-up, captions and motion titles; turn raw footage into versions for every platform.\n\nWhat we look for: a reel that shows pacing and storytelling; Premiere Pro or DaVinci Resolve; After Effects basics. Experience with AI-assisted editing tools is welcome.",
+      "isOpen": true,
+      "sort": 4
+    },
+    {
+      "title": "Internships",
+      "meta": [
+        "Rolling",
+        "Design and development"
+      ],
+      "description": "Three- to six-month paid internships in development, design and video, with real client work from the first month.\n\nWhat you'll do: work alongside a mentor on live projects; ship something to production; get weekly feedback on your work.\n\nWhat we look for: something you built or made on your own — a site, an app, a design, a video. Students, career-switchers and self-taught builders are all welcome. Strong interns are offered full-time roles.",
+      "isOpen": true,
+      "sort": 5
+    }
+  ],
+  "articles": [
+    {
+      "slug": "why-we-still-argue-about-page-speed",
+      "title": "Why we still argue about page speed",
+      "category": "Build",
+      "img": null,
+      "alt": "Website on laptop, tablet and phone",
+      "author": "ASPR Global Tech Team",
+      "publishedAt": "14 April 2026",
+      "readTime": "6 min read",
+      "blocks": [
+        {
+          "type": "standfirst",
+          "text": "A beautiful website that takes six seconds to load on a phone is losing you customers every day. Here's why speed is a business decision, not a technical detail — and how to fix it."
+        },
+        {
+          "type": "takeaways",
+          "text": "Most visitors arrive on a phone, on mobile data — test for them, not for office Wi-Fi.\nGoogle uses Core Web Vitals in rankings, so slow pages also get found less.\nSet a performance budget before design starts, not after launch.\nImages, fonts and third-party scripts cause most slowdowns — and are the easiest to fix."
+        },
+        {
+          "type": "h2",
+          "text": "Why speed matters more than you think"
+        },
+        {
+          "type": "p",
+          "text": "Your customers rarely see your site the way it looked in the design review. They open it on a mid-range phone, on a patchy connection, often while doing something else. What they see is a blank screen, then a layout that jumps, then a button that moves just as they tap it. Many simply leave."
+        },
+        {
+          "type": "p",
+          "text": "Speed affects three things at once: how many visitors stay, how many of them enquire or buy, and how high you rank on Google. A slow site quietly costs you leads you never knew you had."
+        },
+        {
+          "type": "h2",
+          "text": "The three numbers Google checks"
+        },
+        {
+          "type": "list",
+          "text": "Largest Contentful Paint (LCP) — how quickly the main content appears. Aim for under 2.5 seconds.\nInteraction to Next Paint (INP) — how fast the page reacts when someone taps or clicks. Aim for under 200 ms.\nCumulative Layout Shift (CLS) — how much the page jumps while loading. Aim for under 0.1."
+        },
+        {
+          "type": "quote",
+          "text": "If the page is beautiful but nobody waits for it, it isn't beautiful. It's empty."
+        },
+        {
+          "type": "h2",
+          "text": "What we do on every build"
+        },
+        {
+          "type": "p",
+          "text": "We agree a performance budget at the very start: how heavy each page can be, how many scripts it can carry and how fast it must load on a real Android phone. Design decisions are made inside that budget — not argued about after launch."
+        },
+        {
+          "type": "checklist",
+          "text": "Serve images in modern formats (WebP/AVIF) at the size the screen needs\nLimit fonts to two families and preload them\nRemove or delay third-party scripts that don't earn their place\nRender pages on the server so content shows before JavaScript loads\nTest on a cheap phone over 4G, not just a laptop\nRe-check Core Web Vitals in Google Search Console after launch"
+        },
+        {
+          "type": "callout",
+          "text": "Quick test: open your site on your phone with Wi-Fi off. If you'd lose patience, so do your customers. Free tools like Google PageSpeed Insights show exactly what's slowing it down."
+        },
+        {
+          "type": "h2",
+          "text": "The bottom line"
+        },
+        {
+          "type": "p",
+          "text": "Speed isn't a nice-to-have for developers — it's a sales number. A fast site keeps more visitors, converts more of them and ranks higher. Build it in from day one and it costs almost nothing extra."
+        }
+      ],
+      "status": "published",
+      "sort": 1
+    },
+    {
+      "slug": "a-logo-test-that-takes-ten-seconds",
+      "title": "A logo test that takes ten seconds",
+      "category": "Brand",
+      "img": null,
+      "alt": "Logo concept sketches",
+      "author": "ASPR Global Tech Team",
+      "publishedAt": "5 May 2026",
+      "readTime": "5 min read",
+      "blocks": [
+        {
+          "type": "standfirst",
+          "text": "Before a logo goes anywhere near a client presentation, it has to pass a ten-second test. Most first drafts fail — and that's exactly why we run it."
+        },
+        {
+          "type": "takeaways",
+          "text": "A logo spends most of its life small: app icons, profile pictures, favicons.\nIf it doesn't work in one colour, it doesn't really work.\nA memorable mark is one people can sketch after seeing it once.\nTesting early is far cheaper than reprinting signage later."
+        },
+        {
+          "type": "h2",
+          "text": "Where your logo actually lives"
+        },
+        {
+          "type": "p",
+          "text": "We tend to judge logos large, centred on a white slide. Real life is harsher: a 16-pixel browser tab, a WhatsApp display picture, a stamp on a carton, a sign seen from across the road. A mark that only works big mostly doesn't work at all."
+        },
+        {
+          "type": "h2",
+          "text": "The ten-second test"
+        },
+        {
+          "type": "list",
+          "text": "Shrink it — view it at favicon size (16–32 px). Is it still recognisable?\nStrip the colour — print it in solid black. Does the shape still hold?\nLook away — glance for one second, then sketch it from memory. Could you?"
+        },
+        {
+          "type": "quote",
+          "text": "A good mark is the one your customer can draw from memory after seeing it once."
+        },
+        {
+          "type": "h2",
+          "text": "What the test usually catches"
+        },
+        {
+          "type": "list",
+          "text": "Thin lines that disappear at small sizes\nGradients that turn muddy in print or on fabric\nLettering so detailed it becomes a smudge\nShapes that look like a competitor's when simplified"
+        },
+        {
+          "type": "h2",
+          "text": "Before you approve a logo"
+        },
+        {
+          "type": "checklist",
+          "text": "Seen it as a favicon and an app icon\nSeen it in one colour, on light and dark backgrounds\nSeen it on a mock-up of your real sign, packaging or uniform\nAsked someone outside the project to sketch it from memory\nReceived vector files (SVG, EPS, PDF) and simple usage rules"
+        },
+        {
+          "type": "callout",
+          "text": "Small businesses can't buy recognition with big ad budgets — the logo has to do the work on its own. Ten seconds of honest testing is the cheapest brand insurance there is."
+        },
+        {
+          "type": "h2",
+          "text": "The bottom line"
+        },
+        {
+          "type": "p",
+          "text": "Judge your logo where it will really live, not on a perfect slide. If it survives small, single-colour and from-memory, it's ready for the world."
+        }
+      ],
+      "status": "published",
+      "sort": 2
+    },
+    {
+      "slug": "what-seo-cannot-fix",
+      "title": "What SEO cannot fix",
+      "category": "Grow",
+      "img": null,
+      "alt": "Search analytics dashboard",
+      "author": "ASPR Global Tech Team",
+      "publishedAt": "2 June 2026",
+      "readTime": "6 min read",
+      "blocks": [
+        {
+          "type": "standfirst",
+          "text": "SEO can bring the right people to your website. It can't make them trust you, stay, or pick up the phone. Knowing the difference saves months of disappointment — especially now that AI answers sit above search results."
+        },
+        {
+          "type": "takeaways",
+          "text": "Rankings only help if the page already convinces visitors to act.\nIn 2026, Google and AI assistants favour clear, specific, trustworthy pages.\nFix the website first, then technical SEO, then content.\nSEO is a 3–6 month investment that compounds — not a switch."
+        },
+        {
+          "type": "h2",
+          "text": "Problems SEO can't solve"
+        },
+        {
+          "type": "list",
+          "text": "A homepage that doesn't explain what you do in five seconds\nPrices or next steps hidden behind long forms\nNo reviews, case studies or proof you're real\nA phone number or WhatsApp button that's hard to find on mobile\nA slow, outdated site that looks untrustworthy"
+        },
+        {
+          "type": "p",
+          "text": "If these are present, more traffic simply means more people leaving. That's why our SEO work always starts with the website itself."
+        },
+        {
+          "type": "h2",
+          "text": "How search changed"
+        },
+        {
+          "type": "p",
+          "text": "Google and AI assistants now summarise answers directly on the results page. To be the source they quote, your pages need real, specific information — your services, your locations, your prices or price ranges, and direct answers to real customer questions. Thin pages written only for keywords get skipped."
+        },
+        {
+          "type": "quote",
+          "text": "SEO brings people to the door. Your website still has to open it."
+        },
+        {
+          "type": "h2",
+          "text": "What SEO genuinely does well"
+        },
+        {
+          "type": "checklist",
+          "text": "Complete and verify your Google Business Profile\nFix speed, mobile issues and broken pages\nAdd structured data (schema) so Google understands your business\nWrite one helpful page per service and per location you serve\nAnswer your customers' real questions in plain language\nTrack enquiries, not just traffic"
+        },
+        {
+          "type": "callout",
+          "text": "Ask any SEO provider one question: \"How will this bring more enquiries, not just more visitors?\" A good answer starts with your website, not with keywords."
+        },
+        {
+          "type": "h2",
+          "text": "The bottom line"
+        },
+        {
+          "type": "p",
+          "text": "Treat SEO as the amplifier, not the fix. Make the site worth visiting first — then good SEO brings steady enquiries without paying for every click."
+        }
+      ],
+      "status": "published",
+      "sort": 3
+    },
+    {
+      "slug": "the-scope-document-that-saved-a-project",
+      "title": "The scope document that saved a project",
+      "category": "Process",
+      "img": null,
+      "alt": "Project schedule and status dashboard",
+      "author": "ASPR Global Tech Team",
+      "publishedAt": "30 June 2026",
+      "readTime": "5 min read",
+      "blocks": [
+        {
+          "type": "standfirst",
+          "text": "Halfway through a build, a client asked for \"just one more feature\". A two-page scope document we had both signed turned a potential argument into a ten-minute conversation."
+        },
+        {
+          "type": "takeaways",
+          "text": "Scope creep arrives as small, reasonable-sounding requests.\nA good scope lists what's included — and what isn't.\nNew ideas become phase-two items, not silent delays.\nA clear scope protects the client most of all."
+        },
+        {
+          "type": "h2",
+          "text": "How scope creep really happens"
+        },
+        {
+          "type": "p",
+          "text": "It rarely starts with a big request. It's another user role, a second language, an export to Excel. Each one is small. Together they can double the timeline, blow the budget and sour a good relationship."
+        },
+        {
+          "type": "h2",
+          "text": "What goes in our scope document"
+        },
+        {
+          "type": "list",
+          "text": "The goal of the project, in the client's own words\nExactly what we will build — pages, screens, features\nWhat we will not build in this phase\nIntegrations and third-party services involved\nPrice, payment milestones and timeline\nHow change requests are handled and priced"
+        },
+        {
+          "type": "quote",
+          "text": "A written \"not in this phase\" at the start is kinder than a surprise invoice at the end."
+        },
+        {
+          "type": "h2",
+          "text": "What happened next"
+        },
+        {
+          "type": "p",
+          "text": "When the new request arrived, we opened the document together. The feature wasn't in it. We priced it as a phase-two item, the client agreed, and the original launch date held. Nobody had to remember who said what on a call months earlier."
+        },
+        {
+          "type": "checklist",
+          "text": "Is the goal written in plain language?\nIs there an explicit \"not included\" list?\nAre milestones tied to payments?\nIs there a simple process for change requests?\nHave both sides signed it before design starts?"
+        },
+        {
+          "type": "callout",
+          "text": "Hiring any agency or freelancer? Ask to see the scope before you pay a deposit. If there isn't one, that's your first warning sign."
+        },
+        {
+          "type": "h2",
+          "text": "The bottom line"
+        },
+        {
+          "type": "p",
+          "text": "A scope document isn't paperwork — it's how you stay in control. You know exactly what you're paying for and can make trade-offs with full information, instead of discovering them at launch."
+        }
+      ],
+      "status": "published",
+      "sort": 4
+    },
+    {
+      "slug": "choosing-boring-technology-on-purpose",
+      "title": "Choosing boring technology on purpose",
+      "category": "Build",
+      "img": null,
+      "alt": "App icons on a dark home screen",
+      "author": "ASPR Global Tech Team",
+      "publishedAt": "28 July 2026",
+      "readTime": "6 min read",
+      "blocks": [
+        {
+          "type": "standfirst",
+          "text": "Every month brings a new framework, database or AI tool promising to change everything. For client work we deliberately choose proven technology — and use new tools only where they clearly help."
+        },
+        {
+          "type": "takeaways",
+          "text": "Your product should still be maintainable five years from now.\nProven tools mean easier hiring, better security and lower long-term cost.\nNew technology must earn its place on our own projects first.\nAI is used where it solves a real problem, not as decoration."
+        },
+        {
+          "type": "h2",
+          "text": "Why \"boring\" is a feature"
+        },
+        {
+          "type": "p",
+          "text": "A business website or app should outlive the team that built it. That means choosing tools with large communities, long support windows and plenty of developers who already know them — so you're never locked to one agency."
+        },
+        {
+          "type": "h2",
+          "text": "Our default stack"
+        },
+        {
+          "type": "list",
+          "text": "Web: Next.js, React and TypeScript\nBack end: Node.js / NestJS or Python / Django\nData: PostgreSQL\nMobile: Flutter or React Native\nHosting: AWS or Vercel\nGames: Unity"
+        },
+        {
+          "type": "quote",
+          "text": "Clients pay for software that works on a Tuesday afternoon — not for our curiosity."
+        },
+        {
+          "type": "h2",
+          "text": "Where we do use new tools"
+        },
+        {
+          "type": "p",
+          "text": "Standing still isn't the goal. AI coding assistants speed up our development, automated tests catch problems early, and AI features — chatbots, document search, smart forms — go into products where they genuinely help users. When a newer tool has a clear advantage for a specific project, we explain the trade-off in plain language and write it into the scope."
+        },
+        {
+          "type": "checklist",
+          "text": "Is the technology widely used and actively maintained?\nCan other developers maintain it if we're not around?\nDoes it have a clear security and update track record?\nIs the code and hosting in your name?\nIs there a real reason to choose something newer?"
+        },
+        {
+          "type": "callout",
+          "text": "Before you sign with any developer, ask: \"If you disappeared tomorrow, how easily could someone else take over?\" The answer tells you a lot about their technology choices."
+        },
+        {
+          "type": "h2",
+          "text": "The bottom line"
+        },
+        {
+          "type": "p",
+          "text": "Boring by default, never boring by accident. Proven foundations keep your product stable and affordable; new tools are added only where they make a measurable difference."
+        }
+      ],
+      "status": "published",
+      "sort": 5
+    },
+    {
+      "slug": "hiring-for-skill-not-certificates",
+      "title": "Hiring for skill, not certificates",
+      "category": "Studio",
+      "img": null,
+      "alt": "Developer writing code on a laptop",
+      "author": "ASPR Global Tech Team",
+      "publishedAt": "25 August 2026",
+      "readTime": "4 min read",
+      "blocks": [
+        {
+          "type": "standfirst",
+          "text": "ASPR started because a talented learner didn't fit a classroom. That story still shapes how we hire: show us what you've built, and we'll care far less about where you studied."
+        },
+        {
+          "type": "takeaways",
+          "text": "Real work predicts job performance better than certificates.\nOur process: portfolio, a short task, a team conversation, a written offer.\nSelf-taught and career-switching candidates are welcome.\nClients benefit because their team was hired for what it can actually do."
+        },
+        {
+          "type": "h2",
+          "text": "Why we look at work first"
+        },
+        {
+          "type": "p",
+          "text": "Some of the best developers and designers we know are self-taught. They learned by building for friends, local shops and their own curiosity. A traditional CV filter would have rejected most of them in seconds."
+        },
+        {
+          "type": "h2",
+          "text": "How our hiring works"
+        },
+        {
+          "type": "list",
+          "text": "Send work, not a template CV — a live site, app, design file, repository or reel\nA short task that looks like real client work\nA conversation with the people you'd actually work with\nAn offer in writing, with clear role, pay and start date"
+        },
+        {
+          "type": "quote",
+          "text": "Your portfolio is your degree here."
+        },
+        {
+          "type": "h2",
+          "text": "Tips if you're applying"
+        },
+        {
+          "type": "checklist",
+          "text": "Lead with your best two or three pieces, not everything\nExplain what you did, the problem, and the result\nInclude links that work — GitHub, live sites, Behance, YouTube\nShow something you learned on your own\nKeep your message short and specific to the role"
+        },
+        {
+          "type": "callout",
+          "text": "No portfolio yet? Build one small, real thing for a local business or a friend. One finished project beats ten unfinished tutorials."
+        },
+        {
+          "type": "h2",
+          "text": "The bottom line"
+        },
+        {
+          "type": "p",
+          "text": "Hiring for skill takes more time per candidate, but it builds a team that can deliver. And a studio that keeps learning keeps its clients' products current."
+        }
+      ],
+      "status": "published",
+      "sort": 6
+    }
+  ],
+  "faqGroups": [
+    {
+      "title": "About working with us",
+      "sort": 1
+    },
+    {
+      "title": "Cost and timelines",
+      "sort": 2
+    },
+    {
+      "title": "Delivery and after",
+      "sort": 3
+    },
+    {
+      "title": "Capability questions",
+      "sort": 4
+    }
+  ],
+  "faqs": [
+    {
+      "slug": "start",
+      "groupSort": 1,
+      "question": "How do we start a project with you?",
+      "answer": "Send a brief through the form, WhatsApp or call. We reply within one working day and set up a Discover call — scope, price and timeline follow in writing. The call is free, takes about 30 minutes, and is scheduled in your time zone. You don't need a finished spec — an idea and a goal are enough to start.",
+      "featured": 1,
+      "sort": 1
+    },
+    {
+      "slug": "who",
+      "groupSort": 1,
+      "question": "Who will we actually be talking to?",
+      "answer": "One point of contact across all ten services — the specialists doing the work, with no middle layer. You get a shared channel (WhatsApp, Slack or email — your choice) and a weekly update. When a question is technical, the developer or designer on your project answers it directly.",
+      "featured": 2,
+      "sort": 2
+    },
+    {
+      "slug": "outside",
+      "groupSort": 1,
+      "question": "Do you work with clients in the US and other countries?",
+      "answer": "Yes. We work with clients in the US, UK, Europe, the Middle East and India. Calls are scheduled in your time zone, and you wake up to progress on the staging link. Quotes are in US dollars, and contracts, invoices and payments are handled online — no travel needed.",
+      "featured": 0,
+      "sort": 3
+    },
+    {
+      "slug": "alongside",
+      "groupSort": 1,
+      "question": "Can you work alongside our existing team?",
+      "answer": "Yes. We can take one workstream — say the app, the brand or SEO — and work to your team's tools, repos and review process, with a shared channel and a weekly check-in. We follow your coding standards and branching rules, and everything we build is documented so your team can take it over at any time.",
+      "featured": 0,
+      "sort": 4
+    },
+    {
+      "slug": "price",
+      "groupSort": 2,
+      "question": "How do you price a project?",
+      "answer": "After the Discover call we write down the scope, price and timeline, and you sign them off before any build starts. Quotes are in US dollars, or your local currency on request. Most projects are a fixed price paid in milestones, so you always know what the next payment is for. If the scope changes later, we price the change separately — no surprise bills.",
+      "featured": 0,
+      "sort": 5
+    },
+    {
+      "slug": "website-cost",
+      "groupSort": 2,
+      "question": "What does a typical website cost?",
+      "answer": "It depends on pages, features and integrations. A focused business website usually starts under $5,000; sites with e-commerce, booking or custom dashboards typically fall in the $5,000–$15,000 range. You get a fixed written quote after the Discover call. Every site includes mobile-friendly design, basic SEO setup and a handover walkthrough at no extra cost.",
+      "featured": 0,
+      "sort": 6
+    },
+    {
+      "slug": "how-long",
+      "groupSort": 2,
+      "question": "How long does a build take?",
+      "answer": "A business website typically takes 3–6 weeks, a mobile app or SaaS MVP 8–16 weeks, and a brand identity 2–4 weeks. The signed timeline in your scope document is the one we work to. You get a staging link from week one, so you can watch progress instead of waiting for a big reveal.",
+      "featured": 4,
+      "sort": 7
+    },
+    {
+      "slug": "phases",
+      "groupSort": 2,
+      "question": "Do you take projects in phases?",
+      "answer": "Yes. Larger replacements are quoted in phases, and app builds can price phase one on its own. Phase one usually delivers a working core you can launch or show investors. You decide on each next phase with real usage and feedback in hand.",
+      "featured": 0,
+      "sort": 8
+    },
+    {
+      "slug": "handover",
+      "groupSort": 3,
+      "question": "What exactly do we get on handover?",
+      "answer": "The source code in a repository you own, design files, admin logins, domain and hosting access, a short how-to guide or video walkthrough, and a list of every third-party service and what it costs. We also run a live handover session with your team, so nobody is left guessing how anything works.",
+      "featured": 0,
+      "sort": 9
+    },
+    {
+      "slug": "own",
+      "groupSort": 3,
+      "question": "Do we own the code and accounts?",
+      "answer": "Yes. You own everything — code, designs, domains and accounts. Accounts are opened in your name from day one, not moved over at the end. If you ever change partners, you can take it all with you — no lock-in and no hidden licence fees.",
+      "featured": 3,
+      "sort": 10
+    },
+    {
+      "slug": "breaks",
+      "groupSort": 3,
+      "question": "What happens if something breaks after launch?",
+      "answer": "Every launch has a rollback ready, and we stay on the account after the invoice clears. Urgent issues get a response within one working day, and bugs in our own work are fixed free. We also set up uptime monitoring, so we often know about a problem before you do.",
+      "featured": 0,
+      "sort": 11
+    },
+    {
+      "slug": "support",
+      "groupSort": 3,
+      "question": "Do you offer ongoing support plans?",
+      "answer": "Yes. Every launch includes a period of fixes at no charge. After that, an optional monthly care plan covers updates, security patches, backups, uptime monitoring and a set amount of small changes. You can pause or cancel the plan any month — no long contracts.",
+      "featured": 0,
+      "sort": 12
+    },
+    {
+      "slug": "app-web",
+      "groupSort": 4,
+      "question": "Can you handle app and web together?",
+      "answer": "Yes. Ten services sit under one roof, so app, web, brand and SEO come from one team on one timeline. Shared design and shared code keep the app and the website looking and working the same. You also get one invoice and one point of contact instead of three agencies.",
+      "featured": 0,
+      "sort": 13
+    },
+    {
+      "slug": "tech",
+      "groupSort": 4,
+      "question": "Which technologies do you build on?",
+      "answer": "React, Next.js, TypeScript and Tailwind on the front end; Node.js, NestJS, Python and Django on the back end; Flutter, React Native, Kotlin and Swift for mobile; Unity for games; PostgreSQL, MongoDB and SQLite for data; AWS and Vercel for hosting. We pick proven, widely used tools, so any good developer can maintain your product later. Where it helps, we add AI features such as chatbots, smart search and automation.",
+      "featured": 0,
+      "sort": 14
+    },
+    {
+      "slug": "brand-only",
+      "groupSort": 4,
+      "question": "Do you do brand work without a build?",
+      "answer": "Yes. Logo, graphics and video are services on their own. You get print-ready and web-ready files plus simple brand guidelines, so anyone can use your brand correctly. Many clients start with a brand and come back for the website once it's ready.",
+      "featured": 0,
+      "sort": 15
+    },
+    {
+      "slug": "rescue",
+      "groupSort": 4,
+      "question": "Can you fix a project someone else started?",
+      "answer": "Often, yes. We start with a paid code and infrastructure audit, tell you plainly what can be kept, what should be rebuilt, and what it will cost, and only then quote the work. The audit report is yours to keep, even if you decide not to continue with us. We've taken over half-finished sites, apps and stores — and we don't judge the last team's work in front of you.",
+      "featured": 0,
+      "sort": 16
+    }
+  ],
+  "packages": [
+    {
+      "name": "Launch",
+      "services": [
+        "Logo",
+        "Website",
+        "Graphics"
+      ],
+      "outcome": "A launch that looks coherent, from one team, on one timeline",
+      "price": "Fixed price after the Discover call",
+      "sort": 1
+    },
+    {
+      "name": "Replace",
+      "services": [
+        "Website",
+        "Business Systems"
+      ],
+      "outcome": "A single source of truth and decisions from live data",
+      "price": "Quoted in phases",
+      "sort": 2
+    },
+    {
+      "name": "Be found",
+      "services": [
+        "SEO",
+        "Graphics",
+        "Video"
+      ],
+      "outcome": "Enquiries from search instead of ad spend",
+      "price": "Six-month minimum",
+      "sort": 3
+    },
+    {
+      "name": "Ship the app",
+      "services": [
+        "App",
+        "Game",
+        "Logo"
+      ],
+      "outcome": "A product you can sell",
+      "price": "Phase one priced on its own",
+      "sort": 4
+    }
+  ],
+  "needs": [
+    {
+      "label": "Website",
+      "icon": "language",
+      "sort": 1
+    },
+    {
+      "label": "App",
+      "icon": "smartphone",
+      "sort": 2
+    },
+    {
+      "label": "Game",
+      "icon": "sports_esports",
+      "sort": 3
+    },
+    {
+      "label": "Logo",
+      "icon": "draw",
+      "sort": 4
+    },
+    {
+      "label": "Graphics",
+      "icon": "palette",
+      "sort": 5
+    },
+    {
+      "label": "Video",
+      "icon": "movie",
+      "sort": 6
+    },
+    {
+      "label": "Business Systems",
+      "icon": "account_tree",
+      "sort": 7
+    },
+    {
+      "label": "SEO",
+      "icon": "travel_explore",
+      "sort": 8
+    },
+    {
+      "label": "SaaS / Software",
+      "icon": "cloud",
+      "sort": 9
+    },
+    {
+      "label": "AI / Chatbot",
+      "icon": "psychology",
+      "sort": 10
+    },
+    {
+      "label": "Product demo",
+      "icon": "play_circle",
+      "sort": 11
+    },
+    {
+      "label": "Not sure yet",
+      "icon": "help",
+      "sort": 12
+    }
+  ],
+  "settings": {
+    "company": {
+      "name": "ASPR Global Tech",
+      "website": "asprglobaltech.com",
+      "websiteUrl": "https://asprglobaltech.com",
+      "email": "support@asprglobaltech.com",
+      "careersEmail": "careers@asprglobaltech.com",
+      "phone": "+91 75399 07704",
+      "phoneHref": "tel:+917539907704",
+      "whatsappUrl": "https://wa.me/917539907704",
+      "address": "12D, 1444C, 27/1, S M Nagar, Perumal Gounder Layout, Post, Mahadevapuram, Mettupalayam, Tamil Nadu 641305, India",
+      "hours": "Mon–Sat, 9:30 AM – 6:30 PM IST · US-hour calls on request",
+      "instagramUrl": "https://www.instagram.com/aspr_globaltech/",
+      "facebookUrl": "https://www.facebook.com/profile.php?id=61593394312825"
+    },
+    "heroStrip": [
+      {
+        "src": "/assets/responsive-web.png",
+        "alt": "Responsive website shown on laptop, tablet and phone"
+      },
+      {
+        "src": "/assets/banking-app.png",
+        "alt": "Mobile banking app screens with balance and analytics"
+      },
+      {
+        "src": "/assets/ops-dashboard.png",
+        "alt": "Operations dashboard with live job map and schedule"
+      },
+      {
+        "src": "/assets/shop-app.png",
+        "alt": "Shopping app screens with product listings"
+      },
+      {
+        "src": "/assets/game-ui.png",
+        "alt": "Fantasy mobile game home screen with battle button"
+      },
+      {
+        "src": "/assets/finance-dashboard.png",
+        "alt": "Personal finance dashboard in dark and light themes"
+      },
+      {
+        "src": "/assets/ecommerce.png",
+        "alt": "E-commerce storefront on a desktop monitor"
+      },
+      {
+        "src": "/assets/car-app.png",
+        "alt": "Car marketplace app screens"
+      },
+      {
+        "src": "/assets/inventory.png",
+        "alt": "Inventory management dashboard"
+      }
+    ],
+    "stats": {
+      "projects": 300,
+      "clients": 150,
+      "specialistsMin": 10,
+      "specialistsMax": 15,
+      "services": 10
+    },
+    "why": [
+      {
+        "n": "01",
+        "t": "One team, start to finish",
+        "d": "Strategy, design, build and growth sit with one team — no handoffs between agencies."
+      },
+      {
+        "n": "02",
+        "t": "Plain answers, in writing",
+        "d": "Scope, price and timeline are written down and signed before any build starts."
+      },
+      {
+        "n": "03",
+        "t": "You own everything",
+        "d": "Code, designs, domains and accounts are in your name from day one."
+      },
+      {
+        "n": "04",
+        "t": "We stay after launch",
+        "d": "A named contact, fixes after go-live and an optional care plan keep things running."
+      }
+    ],
+    "proof": [
+      {
+        "a": "10 services",
+        "b": "1 point of contact"
+      },
+      {
+        "a": "10–15 specialists",
+        "b": "No middle layer"
+      },
+      {
+        "a": "150+",
+        "b": "Clients served"
+      }
+    ],
+    "timeline": [
+      {
+        "k": "Before",
+        "t": "The team, working separately"
+      },
+      {
+        "k": "March 2026",
+        "t": "Registered as a partnership firm"
+      },
+      {
+        "k": "Now",
+        "t": "10 services under one roof"
+      },
+      {
+        "k": "Next",
+        "t": "A studio businesses around the world call first"
+      }
+    ],
+    "values": [
+      {
+        "t": "Skill over syllabus",
+        "d": "We hire and promote for what people can build, not the certificate on the wall."
+      },
+      {
+        "t": "Say the hard thing early",
+        "d": "If a timeline, budget or idea won't work, you hear it in week one — not at launch."
+      },
+      {
+        "t": "Ship it properly",
+        "d": "Tested on real devices, documented, and handed over so it keeps working without us."
+      },
+      {
+        "t": "Keep it explainable",
+        "d": "Every decision, line item and invoice should make sense to you without a translator."
+      },
+      {
+        "t": "Stay curious",
+        "d": "New tools — AI included — get tried on our own work before they touch yours."
+      }
+    ],
+    "facts": [
+      {
+        "k": "ESTABLISHED",
+        "v": "March 2026"
+      },
+      {
+        "k": "ENTITY",
+        "v": "Partnership firm"
+      },
+      {
+        "k": "BASED IN",
+        "v": "India · Serving worldwide"
+      },
+      {
+        "k": "TEAM",
+        "v": "10–15"
+      },
+      {
+        "k": "SERVICES",
+        "v": "10"
+      },
+      {
+        "k": "CLIENTS",
+        "v": "150+"
+      },
+      {
+        "k": "PROJECTS",
+        "v": "300+"
+      }
+    ],
+    "stack": [
+      {
+        "h": "Front end",
+        "icon": "web",
+        "items": [
+          "React",
+          "Next.js",
+          "TypeScript",
+          "Tailwind CSS"
+        ]
+      },
+      {
+        "h": "Back end",
+        "icon": "dns",
+        "items": [
+          "Node.js",
+          "NestJS",
+          "Python",
+          "Django"
+        ]
+      },
+      {
+        "h": "Mobile",
+        "icon": "smartphone",
+        "items": [
+          "Flutter",
+          "React Native",
+          "Kotlin",
+          "Swift"
+        ]
+      },
+      {
+        "h": "Games",
+        "icon": "sports_esports",
+        "items": [
+          "Unity",
+          "C#"
+        ]
+      },
+      {
+        "h": "Data",
+        "icon": "database",
+        "items": [
+          "PostgreSQL",
+          "MongoDB",
+          "SQLite"
+        ]
+      },
+      {
+        "h": "Cloud",
+        "icon": "cloud",
+        "items": [
+          "AWS",
+          "Vercel"
+        ]
+      },
+      {
+        "h": "Design",
+        "icon": "palette",
+        "items": [
+          "Figma",
+          "Adobe CC"
+        ]
+      }
+    ],
+    "teamRoles": [
+      "Web engineers",
+      "App developers",
+      "Game developers",
+      "Designers",
+      "Video editors",
+      "SEO",
+      "Business systems"
+    ],
+    "hiring": [
+      {
+        "n": "01",
+        "t": "Send work, not a template CV",
+        "d": "Share a live site, app, design file or reel — show us what you have built.",
+        "icon": "folder_open"
+      },
+      {
+        "n": "02",
+        "t": "A short task",
+        "d": "A small piece of real-world work, so we see how you think and finish.",
+        "icon": "task_alt"
+      },
+      {
+        "n": "03",
+        "t": "A conversation with the team",
+        "d": "Meet the people you would actually work with. Ask anything.",
+        "icon": "forum"
+      },
+      {
+        "n": "04",
+        "t": "An offer in writing",
+        "d": "Clear role, pay and start date — written down, no surprises.",
+        "icon": "workspace_premium"
+      }
+    ],
+    "budgets": [
+      "Under $5,000",
+      "$5,000–$15,000",
+      "$15,000–$50,000",
+      "$50,000+",
+      "Not sure yet"
+    ],
+    "timelines": [
+      "As soon as possible",
+      "1–3 months",
+      "3–6 months",
+      "Flexible"
+    ],
+    "contactMethods": [
+      "Email",
+      "Phone call",
+      "WhatsApp"
+    ],
+    "processGroups": [
+      {
+        "stage": 1,
+        "label": "THINK IT",
+        "verb": "Think it.",
+        "stageLabel": "STAGE 1 · STEPS 01–02",
+        "sum": "Before design or code: what the business needs, and a written agreement on scope, price and timeline."
+      },
+      {
+        "stage": 2,
+        "label": "BUILD IT",
+        "verb": "Build it.",
+        "stageLabel": "STAGE 2 · STEPS 03–05",
+        "sum": "Designed, built and tested in the open, with a staging link you can check any day."
+      },
+      {
+        "stage": 3,
+        "label": "SCALE IT",
+        "verb": "Scale it.",
+        "stageLabel": "STAGE 3 · STEPS 06–07",
+        "sum": "A calm launch, and a team that stays on the account afterwards."
+      }
+    ],
+    "showTestimonials": false,
+    "serviceDetails": {
+      "website-development": {
+        "slug": "website-development",
+        "tagline": "Fast, beautiful websites that turn visitors into customers.",
+        "intro": "Your website is your best salesperson — it works 24/7. We design and build sites that load in under two seconds, look great on every phone, rank on Google, and make it easy for visitors to call, book or buy.",
+        "outcomes": [
+          [
+            "< 2s",
+            "load time target on mobile"
+          ],
+          [
+            "100%",
+            "responsive on every screen"
+          ],
+          [
+            "Day 1",
+            "SEO-ready structure"
+          ]
+        ],
+        "deliverables": [
+          "Custom design (no cheap templates)",
+          "Mobile-first, responsive build",
+          "Easy content editing (CMS)",
+          "Contact, booking or shop features",
+          "On-page SEO + Google Analytics",
+          "Speed, security and SSL setup",
+          "Hosting setup and launch",
+          "Handover video walkthrough"
+        ],
+        "idealFor": [
+          "Businesses that need a professional first impression",
+          "Companies replacing an old, slow site",
+          "Shops ready to sell online",
+          "Service firms that want more leads"
+        ],
+        "timeline": "3–6 weeks",
+        "budget": "Under $5,000 for a business site · $5,000–$15,000 with e-commerce or booking",
+        "process": [
+          [
+            "Discover",
+            "Goals, audience, competitors and the pages you need."
+          ],
+          [
+            "Design",
+            "Clickable mock-ups of key pages, two revision rounds."
+          ],
+          [
+            "Build",
+            "Development on a live staging link you can check any day."
+          ],
+          [
+            "Launch",
+            "Speed, SEO and device testing, then a quiet-day go-live."
+          ]
+        ],
+        "tech": [
+          "Next.js",
+          "React",
+          "WordPress",
+          "Shopify",
+          "Tailwind CSS",
+          "Vercel"
+        ],
+        "addOns": [
+          "Blog & content writing",
+          "Multi-language",
+          "Online payments",
+          "Monthly care plan"
+        ],
+        "faqs": [
+          [
+            "Can I edit the website myself?",
+            "Yes. You get an easy editor for text, images and blog posts, plus a short video showing how."
+          ],
+          [
+            "Will my site work on phones?",
+            "Yes — we design mobile-first, then test on real phones and tablets before launch."
+          ],
+          [
+            "Can you redesign my existing site?",
+            "Yes. We keep what works (and your Google rankings), and rebuild the rest."
+          ]
+        ]
+      },
+      "app-development": {
+        "slug": "app-development",
+        "tagline": "iOS and Android apps your customers will actually keep.",
+        "intro": "We build one codebase that runs on both iPhone and Android — so you launch faster and pay for one app, not two. From the first sketch to the App Store listing, and the updates after.",
+        "outcomes": [
+          [
+            "2-in-1",
+            "iOS + Android from one codebase"
+          ],
+          [
+            "8–16 wks",
+            "typical MVP to launch"
+          ],
+          [
+            "Store",
+            "submission handled for you"
+          ]
+        ],
+        "deliverables": [
+          "UX flows and app design",
+          "iOS and Android app (Flutter or React Native)",
+          "Admin panel / dashboard",
+          "Login, payments, maps, push notifications",
+          "Backend API and database",
+          "App Store & Play Store submission",
+          "Crash and analytics tracking",
+          "Post-launch fixes and updates"
+        ],
+        "idealFor": [
+          "Startups launching an MVP",
+          "Businesses offering booking, ordering or loyalty",
+          "Companies digitising field or staff work",
+          "Founders who need an investor-ready product"
+        ],
+        "timeline": "8–16 weeks",
+        "budget": "$5,000–$15,000 for an MVP · $15,000–$50,000 for larger platforms",
+        "process": [
+          [
+            "Discover",
+            "Users, core features and what phase one must include."
+          ],
+          [
+            "Design",
+            "Clickable prototype you can test on your own phone."
+          ],
+          [
+            "Build",
+            "Weekly test builds you can install and try."
+          ],
+          [
+            "Launch",
+            "Store submission, monitoring and a fix window."
+          ]
+        ],
+        "tech": [
+          "Flutter",
+          "React Native",
+          "Kotlin",
+          "Swift",
+          "Node.js",
+          "Firebase"
+        ],
+        "addOns": [
+          "In-app payments",
+          "Offline mode",
+          "Chat & notifications",
+          "Monthly care plan"
+        ],
+        "faqs": [
+          [
+            "Do I need separate apps for iPhone and Android?",
+            "No. One codebase serves both, which saves time and money."
+          ],
+          [
+            "Who publishes the app?",
+            "We handle the App Store and Play Store submission, using accounts in your name."
+          ],
+          [
+            "Can the app grow later?",
+            "Yes. We plan phase one so new features can be added without a rebuild."
+          ]
+        ]
+      },
+      "saas-and-software-solutions": {
+        "slug": "saas-and-software-solutions",
+        "tagline": "Custom software and SaaS platforms built to scale.",
+        "intro": "Have a product idea or an internal process that spreadsheets can't handle? We build secure, multi-user web platforms — with subscriptions, dashboards and roles — that grow with your business.",
+        "outcomes": [
+          [
+            "MVP",
+            "in weeks, not years"
+          ],
+          [
+            "Multi",
+            "tenant, roles & permissions"
+          ],
+          [
+            "Cloud",
+            "hosting that scales"
+          ]
+        ],
+        "deliverables": [
+          "Product scoping and roadmap",
+          "Web app UI/UX design",
+          "User accounts, roles and teams",
+          "Subscriptions and billing (Stripe)",
+          "Dashboards and reports",
+          "APIs and third-party integrations",
+          "Cloud deployment (AWS/Vercel)",
+          "Documentation and handover"
+        ],
+        "idealFor": [
+          "Founders building a SaaS product",
+          "Companies replacing manual workflows",
+          "Teams needing a client or partner portal",
+          "Businesses outgrowing off-the-shelf tools"
+        ],
+        "timeline": "8–16 weeks for an MVP",
+        "budget": "$15,000–$50,000 for most MVPs · larger platforms quoted in phases",
+        "process": [
+          [
+            "Discover",
+            "Users, workflows and the smallest valuable first version."
+          ],
+          [
+            "Design",
+            "Screens and data model agreed before code."
+          ],
+          [
+            "Build",
+            "Two-week sprints with a demo at the end of each."
+          ],
+          [
+            "Scale",
+            "Launch, monitor, and plan the next release with real data."
+          ]
+        ],
+        "tech": [
+          "Next.js",
+          "NestJS",
+          "Django",
+          "PostgreSQL",
+          "Stripe",
+          "AWS"
+        ],
+        "addOns": [
+          "AI features",
+          "Mobile companion app",
+          "Data migration",
+          "Dedicated team"
+        ],
+        "faqs": [
+          [
+            "Do I own the software?",
+            "Yes — code, data and accounts are yours from day one. No licence fees to us."
+          ],
+          [
+            "Can you take payments and subscriptions?",
+            "Yes. We integrate Stripe or Razorpay for one-off and recurring billing."
+          ],
+          [
+            "Is my data secure?",
+            "We use encrypted connections, role-based access, backups and proven cloud hosting."
+          ]
+        ]
+      },
+      "ai-and-chatbot-solutions": {
+        "slug": "ai-and-chatbot-solutions",
+        "tagline": "AI agents that answer, book and qualify — around the clock.",
+        "intro": "Let AI handle the repetitive conversations. We build chatbots and voice agents trained on your own business information, so customers get instant, accurate answers on your website, WhatsApp or phone — and your team gets qualified leads.",
+        "outcomes": [
+          [
+            "24/7",
+            "instant answers for customers"
+          ],
+          [
+            "Leads",
+            "captured and sent to your team"
+          ],
+          [
+            "Your data",
+            "answers grounded in your content"
+          ]
+        ],
+        "deliverables": [
+          "Website chatbot (like the one on this site)",
+          "WhatsApp and Instagram bots",
+          "AI voice agent for calls",
+          "Training on your FAQs, prices and docs",
+          "Lead capture into your CRM or inbox",
+          "Appointment booking integration",
+          "Human handoff when needed",
+          "Conversation dashboard and reports"
+        ],
+        "idealFor": [
+          "Businesses missing calls and messages",
+          "Clinics, salons and services that take bookings",
+          "E-commerce with repeat questions",
+          "Teams wanting to automate support"
+        ],
+        "timeline": "2–6 weeks",
+        "budget": "Under $5,000 for a website chatbot · $5,000–$15,000 for voice and multi-channel agents",
+        "process": [
+          [
+            "Discover",
+            "The questions customers ask and the actions the bot should take."
+          ],
+          [
+            "Train",
+            "We load your content and set clear rules on what it may say."
+          ],
+          [
+            "Test",
+            "Real conversations, edge cases and handoff checks."
+          ],
+          [
+            "Launch",
+            "Go live, review transcripts and keep improving."
+          ]
+        ],
+        "tech": [
+          "Google Gemini",
+          "OpenAI",
+          "Claude",
+          "WhatsApp API",
+          "Node.js",
+          "Vector search"
+        ],
+        "addOns": [
+          "Voice agent",
+          "CRM integration",
+          "Multi-language replies",
+          "Monthly tuning"
+        ],
+        "faqs": [
+          [
+            "Will the bot make things up?",
+            "We ground it in your own content and set strict rules, so it says \"I don't know\" rather than guess."
+          ],
+          [
+            "Can it hand over to a human?",
+            "Yes — it can pass the conversation and details to your team by email, WhatsApp or CRM."
+          ],
+          [
+            "Try one first?",
+            "Yes — the assistant on this website is one of ours. Click the chat button to try it."
+          ]
+        ]
+      },
+      "game-development": {
+        "slug": "game-development",
+        "tagline": "Unity games scoped to finish — and fun to play.",
+        "intro": "We build mobile and PC games in Unity, from casual and educational games to branded game experiences. Every project is scoped tightly so it ships, instead of drifting for eighteen months.",
+        "outcomes": [
+          [
+            "Unity",
+            "mobile, PC and web builds"
+          ],
+          [
+            "Scoped",
+            "to launch, not to drift"
+          ],
+          [
+            "Live",
+            "updates after release"
+          ]
+        ],
+        "deliverables": [
+          "Game concept and design document",
+          "2D or 3D art and animation",
+          "Gameplay programming (Unity, C#)",
+          "UI, menus and progression",
+          "Ads, in-app purchases or rewards",
+          "Leaderboards and analytics",
+          "Store submission",
+          "Trailer and store visuals"
+        ],
+        "idealFor": [
+          "Indie studios needing extra hands",
+          "Brands wanting a game for marketing",
+          "Schools and edtech building learning games",
+          "Founders with a game idea"
+        ],
+        "timeline": "6–20 weeks",
+        "budget": "$5,000–$15,000 for casual games · $15,000+ for larger titles",
+        "process": [
+          [
+            "Concept",
+            "Core loop, audience and scope agreed in writing."
+          ],
+          [
+            "Prototype",
+            "A playable grey-box version to test the fun early."
+          ],
+          [
+            "Production",
+            "Art, levels and features in weekly builds."
+          ],
+          [
+            "Launch",
+            "Polish, store release and post-launch updates."
+          ]
+        ],
+        "tech": [
+          "Unity",
+          "C#",
+          "Blender",
+          "Photoshop",
+          "Firebase",
+          "Unity Ads"
+        ],
+        "addOns": [
+          "Multiplayer",
+          "Trailer edit",
+          "Live-ops updates",
+          "Porting"
+        ],
+        "faqs": [
+          [
+            "Which platforms can you build for?",
+            "Android, iOS, PC and web (WebGL) from the same Unity project."
+          ],
+          [
+            "Can you finish a game someone else started?",
+            "Often, yes — we review the project first and give an honest plan."
+          ],
+          [
+            "Can the game make money?",
+            "Yes — we can add ads, in-app purchases or premium pricing."
+          ]
+        ]
+      },
+      "logo-design": {
+        "slug": "logo-design",
+        "tagline": "A logo that works at 16 pixels and on a billboard.",
+        "intro": "Your logo is the first thing people remember. We design distinctive marks that stay clear on a phone icon, a shop sign and a business card — and give you every file you'll ever need.",
+        "outcomes": [
+          [
+            "3",
+            "unique concepts to choose from"
+          ],
+          [
+            "All",
+            "file formats delivered"
+          ],
+          [
+            "Guide",
+            "so anyone uses it right"
+          ]
+        ],
+        "deliverables": [
+          "Brand discovery questionnaire",
+          "3 original logo concepts",
+          "Two rounds of refinements",
+          "Colour palette and fonts",
+          "Full colour, mono and icon versions",
+          "Print (PDF, EPS) and web (SVG, PNG) files",
+          "Social media profile kit",
+          "Simple brand guidelines"
+        ],
+        "idealFor": [
+          "New businesses and startups",
+          "Brands that look dated",
+          "Businesses preparing signage or packaging",
+          "Companies merging or rebranding"
+        ],
+        "timeline": "2–3 weeks",
+        "budget": "Under $5,000",
+        "process": [
+          [
+            "Discover",
+            "Your story, audience, competitors and style."
+          ],
+          [
+            "Sketch",
+            "Three distinct concepts, each with a reason."
+          ],
+          [
+            "Refine",
+            "Two rounds on your favourite direction."
+          ],
+          [
+            "Deliver",
+            "All files and a one-page guide."
+          ]
+        ],
+        "tech": [
+          "Adobe Illustrator",
+          "Figma",
+          "Photoshop"
+        ],
+        "addOns": [
+          "Business cards & stationery",
+          "Signage design",
+          "Full brand identity",
+          "Packaging"
+        ],
+        "faqs": [
+          [
+            "Do I own the logo?",
+            "Yes — full ownership and all source files are yours."
+          ],
+          [
+            "What if I don't like the concepts?",
+            "We refine based on your feedback; that's what the revision rounds are for."
+          ],
+          [
+            "Will I get files for print and web?",
+            "Yes — vector, PNG, SVG and PDF, in colour, black and white."
+          ]
+        ]
+      },
+      "graphics-design": {
+        "slug": "graphics-design",
+        "tagline": "Social posts, print and packaging that stay unmistakably you.",
+        "intro": "Consistent design builds trust. We create social media creatives, ads, brochures, packaging and presentations that look professional and stay on-brand — on demand or as a monthly design partner.",
+        "outcomes": [
+          [
+            "On-brand",
+            "every single post"
+          ],
+          [
+            "Fast",
+            "turnaround for campaigns"
+          ],
+          [
+            "Print + digital",
+            "ready files"
+          ]
+        ],
+        "deliverables": [
+          "Social media posts and stories",
+          "Ad creatives for Meta and Google",
+          "Brochures, flyers and posters",
+          "Packaging and labels",
+          "Pitch decks and presentations",
+          "Menu and catalogue design",
+          "Editable templates for your team",
+          "Print-ready file preparation"
+        ],
+        "idealFor": [
+          "Brands posting on social every week",
+          "Businesses running ad campaigns",
+          "Products needing packaging",
+          "Teams preparing sales decks"
+        ],
+        "timeline": "2–10 days per batch",
+        "budget": "Per project, or a monthly design plan",
+        "process": [
+          [
+            "Brief",
+            "Goal, audience, size and deadline."
+          ],
+          [
+            "Design",
+            "First drafts in your brand style."
+          ],
+          [
+            "Revise",
+            "Feedback rounds until it's right."
+          ],
+          [
+            "Deliver",
+            "Web and print-ready files."
+          ]
+        ],
+        "tech": [
+          "Photoshop",
+          "Illustrator",
+          "InDesign",
+          "Figma",
+          "Canva templates"
+        ],
+        "addOns": [
+          "Monthly design plan",
+          "Copywriting",
+          "Motion graphics",
+          "Printing coordination"
+        ],
+        "faqs": [
+          [
+            "Can I get a monthly package?",
+            "Yes — a monthly plan covers a set number of designs with fast turnaround."
+          ],
+          [
+            "Do you provide editable templates?",
+            "Yes, so your team can make quick changes themselves."
+          ],
+          [
+            "Can you match our existing brand?",
+            "Yes — share your guidelines and we'll follow them exactly."
+          ]
+        ]
+      },
+      "video-editing": {
+        "slug": "video-editing",
+        "tagline": "Videos cut for the feed, the pitch and the launch.",
+        "intro": "Video gets the most attention online. We turn your raw footage into scroll-stopping reels, product demos, ads and launch films — with captions, music, colour and motion graphics.",
+        "outcomes": [
+          [
+            "Reels",
+            "built for every platform"
+          ],
+          [
+            "Captions",
+            "on every video"
+          ],
+          [
+            "48–72h",
+            "typical turnaround for short edits"
+          ]
+        ],
+        "deliverables": [
+          "Short reels for Instagram, TikTok, YouTube Shorts",
+          "YouTube and long-form edits",
+          "Product demo and explainer videos",
+          "Ad edits in multiple sizes",
+          "Captions and subtitles",
+          "Colour grading and sound clean-up",
+          "Motion titles and logo animation",
+          "Thumbnails"
+        ],
+        "idealFor": [
+          "Brands growing on social media",
+          "Startups launching a product",
+          "Coaches and creators",
+          "Businesses running video ads"
+        ],
+        "timeline": "2–5 days per video",
+        "budget": "Per video, or a monthly content plan",
+        "process": [
+          [
+            "Brief",
+            "Platform, length, style and reference videos."
+          ],
+          [
+            "Rough cut",
+            "Story and pacing for your feedback."
+          ],
+          [
+            "Polish",
+            "Colour, sound, captions and graphics."
+          ],
+          [
+            "Deliver",
+            "Every size and format you need."
+          ]
+        ],
+        "tech": [
+          "Premiere Pro",
+          "After Effects",
+          "DaVinci Resolve",
+          "CapCut"
+        ],
+        "addOns": [
+          "Script writing",
+          "Motion graphics",
+          "Monthly reels plan",
+          "Thumbnail design"
+        ],
+        "faqs": [
+          [
+            "Do you shoot the footage?",
+            "We focus on editing; you can send phone footage or we can guide your shoot."
+          ],
+          [
+            "Can I get vertical and horizontal versions?",
+            "Yes — every format for every platform."
+          ],
+          [
+            "How do I send large files?",
+            "Via Google Drive, Dropbox or WeTransfer — whatever is easiest."
+          ]
+        ]
+      },
+      "seo": {
+        "slug": "seo",
+        "tagline": "Rankings that bring buyers, not just traffic.",
+        "intro": "SEO brings customers who are already searching for what you sell. We fix the technical basics, optimise your pages and Google Business Profile, and create helpful content — so you're found on Google and in AI answers.",
+        "outcomes": [
+          [
+            "Local",
+            "Google Maps visibility"
+          ],
+          [
+            "Monthly",
+            "reports in plain language"
+          ],
+          [
+            "AI-ready",
+            "content for AI search answers"
+          ]
+        ],
+        "deliverables": [
+          "Full technical SEO audit",
+          "Keyword and competitor research",
+          "On-page optimisation",
+          "Google Business Profile setup",
+          "Speed and Core Web Vitals fixes",
+          "Content plan and blog articles",
+          "Schema / structured data",
+          "Monthly ranking and traffic report"
+        ],
+        "idealFor": [
+          "Local businesses wanting more calls",
+          "E-commerce stores growing organic sales",
+          "Service firms tired of paying for ads",
+          "New sites that need to be found"
+        ],
+        "timeline": "Results build over 3–6 months",
+        "budget": "Monthly plan · six-month minimum",
+        "process": [
+          [
+            "Audit",
+            "What's holding your site back today."
+          ],
+          [
+            "Fix",
+            "Technical issues, speed and page structure."
+          ],
+          [
+            "Grow",
+            "Content and local listings, every month."
+          ],
+          [
+            "Report",
+            "Rankings, traffic and leads in plain language."
+          ]
+        ],
+        "tech": [
+          "Google Search Console",
+          "Google Analytics 4",
+          "Ahrefs",
+          "Semrush",
+          "Schema.org"
+        ],
+        "addOns": [
+          "Content writing",
+          "Link building",
+          "Google Ads",
+          "Website speed rebuild"
+        ],
+        "faqs": [
+          [
+            "How long until I see results?",
+            "Usually 3–6 months for steady gains; technical fixes can help sooner."
+          ],
+          [
+            "Do you guarantee #1 rankings?",
+            "No honest agency can. We guarantee the work, the reporting and the transparency."
+          ],
+          [
+            "Does SEO still matter with AI search?",
+            "Yes — AI answers draw on well-structured, trustworthy pages. We optimise for both."
+          ]
+        ]
+      },
+      "business-management": {
+        "slug": "business-management",
+        "tagline": "Systems that take over when the spreadsheet stops coping.",
+        "intro": "Stock, billing, staff and orders spread across WhatsApp and Excel? We build simple business systems — ERP, CRM, inventory and dashboards — so everyone works from one source of truth.",
+        "outcomes": [
+          [
+            "One",
+            "source of truth for the team"
+          ],
+          [
+            "Live",
+            "dashboards for decisions"
+          ],
+          [
+            "Hours",
+            "saved every week"
+          ]
+        ],
+        "deliverables": [
+          "Process mapping workshop",
+          "Inventory and stock management",
+          "Billing, invoicing and taxes",
+          "CRM and sales pipeline",
+          "Staff, attendance and tasks",
+          "Dashboards and reports",
+          "Data import from Excel",
+          "Staff training"
+        ],
+        "idealFor": [
+          "Manufacturers and distributors",
+          "Retail and wholesale businesses",
+          "Service companies with field teams",
+          "Growing teams outgrowing spreadsheets"
+        ],
+        "timeline": "4–12 weeks",
+        "budget": "$5,000–$15,000 typical · ready-made products from less",
+        "process": [
+          [
+            "Map",
+            "How work flows today, and where it breaks."
+          ],
+          [
+            "Design",
+            "Screens and reports your team will actually use."
+          ],
+          [
+            "Build",
+            "In phases, starting with the biggest pain."
+          ],
+          [
+            "Train",
+            "Data moved over and every user trained."
+          ]
+        ],
+        "tech": [
+          "NestJS",
+          "Django",
+          "PostgreSQL",
+          "React",
+          "Power BI"
+        ],
+        "addOns": [
+          "Mobile app for staff",
+          "Barcode / QR scanning",
+          "Accounting integration",
+          "Monthly care plan"
+        ],
+        "faqs": [
+          [
+            "Can you use our existing data?",
+            "Yes — we import from Excel, QuickBooks, Tally or your current tool."
+          ],
+          [
+            "Will my team find it easy?",
+            "We design with your staff and train every user before launch."
+          ],
+          [
+            "Is there a ready-made option?",
+            "Yes — see our Billing, Inventory and Employee Management products."
+          ]
+        ]
+      }
+    },
+    "productDetails": {
+      "AI Voice Agent": {
+        "features": [
+          "Answers calls 24/7, in a natural voice",
+          "Books appointments into your calendar",
+          "Qualifies leads and sends you a summary",
+          "Hands complex calls to your team"
+        ],
+        "bestFor": "Clinics, salons, real estate and service businesses"
+      },
+      "Billing Software": {
+        "features": [
+          "Tax-ready invoices (sales tax, VAT, GST) in seconds",
+          "Payments, dues and reminders",
+          "Customer and product records",
+          "Daily sales reports"
+        ],
+        "bestFor": "Shops, wholesalers and service businesses"
+      },
+      "Employee Management": {
+        "features": [
+          "Attendance and leave tracking",
+          "Shift scheduling",
+          "Payroll-ready reports",
+          "Tasks and performance notes"
+        ],
+        "bestFor": "Teams of 10 to 500 people"
+      },
+      "Inventory Management": {
+        "features": [
+          "Live stock across locations",
+          "Low-stock alerts",
+          "Barcode and QR scanning",
+          "Purchase and supplier records"
+        ],
+        "bestFor": "Retail, warehouses and manufacturers"
+      },
+      "Finance & FinServ": {
+        "features": [
+          "Income, expense and budget tracking",
+          "Cash-flow dashboards",
+          "Loan and EMI management",
+          "Exportable financial reports"
+        ],
+        "bestFor": "Finance teams and financial service firms"
+      }
+    }
+  }
+}

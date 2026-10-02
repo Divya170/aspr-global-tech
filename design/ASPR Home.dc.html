@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300,0,0&display=block" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#F5F7FB;}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#111F38;-webkit-font-smoothing:antialiased;}
+a{color:#1A4AD8;text-decoration:none;}
+a:hover{color:#16233F;}
+*:focus-visible{outline:2px solid #1A4AD8;outline-offset:3px;border-radius:6px;}
+button{font-family:inherit;}
+img{display:block;}
+</style>
+</helmet>
+<div style="font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:#F5F7FB;color:#111F38;min-height:100vh;font-feature-settings:'tnum' 0;">
+
+<a href="#main" style="position:absolute;left:-9999px;top:8px;background:#1A4AD8;color:#fff;padding:10px 16px;border-radius:10px;font-weight:700;z-index:100;" style-focus="left:16px;">Skip to content</a>
+
+<!-- HEADER -->
+<header style="position:sticky;top:0;z-index:40;background:rgba(245,247,251,0.92);backdrop-filter:blur(10px);border-bottom:1px solid #E3E8F2;">
+  <div style="max-width:1280px;margin:0 auto;padding:14px clamp(20px,4vw,48px);display:flex;align-items:center;justify-content:space-between;gap:24px;">
+    <a href="#" aria-label="ASPR Global Tech home" style="display:flex;align-items:center;flex:0 0 auto;">
+      <img src="assets/aspr-logo.png" alt="ASPR Global Tech" style="height:48px;width:auto;"></img>
+    </a>
+    <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+      <nav aria-label="Main" style="display:flex;align-items:center;gap:6px;">
+        <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
+          <a href="{{ n.href }}" style="padding:10px 14px;border-radius:10px;font-weight:600;font-size:15px;color:#111F38;display:flex;align-items:center;gap:6px;" style-hover="background:#EAF0FD;color:#1A4AD8;">{{ n.label }}<span style="font-size:10px;color:#5A6380;">{{ n.caret }}</span></a>
+        </sc-for>
+      </nav>
+    </sc-if>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <a href="#contact" onClick="{{ openForm }}" style="background:#1A4AD8;color:#fff;padding:12px 18px;border-radius:12px;font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;white-space:nowrap;" style-hover="background:#16233F;color:#fff;">Start a project <span>→</span></a>
+      <sc-if value="{{ notDesktop }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ toggleMenu }}" aria-expanded="{{ menu }}" aria-label="Open menu" style="width:46px;height:46px;border-radius:12px;border:1px solid #E3E8F2;background:#fff;color:#111F38;font-size:18px;font-weight:800;cursor:pointer;">{{ menuIcon }}</button>
+      </sc-if>
+    </div>
+  </div>
+  <sc-if value="{{ drawerOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="border-top:1px solid #E3E8F2;background:#fff;padding:12px 20px 24px;display:flex;flex-direction:column;">
+      <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
+        <a href="{{ n.href }}" onClick="{{ toggleMenu }}" style="padding:16px 4px;border-bottom:1px solid #E3E8F2;font-weight:700;font-size:18px;color:#111F38;display:flex;justify-content:space-between;">{{ n.label }}<span style="color:#1A4AD8;">+</span></a>
+      </sc-for>
+    </div>
+  </sc-if>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section ref="{{ heroRef }}" data-screen-label="Hero" style="position:relative;overflow:hidden;background-color:#F5F7FB;background-image:radial-gradient(circle at 88% 0%, #DBE8FA 0%, rgba(219,232,250,0) 46%),radial-gradient(#D6DEEC 1px, transparent 1.3px);background-size:100% 100%,22px 22px;">
+  <div aria-hidden="true" style="position:absolute;right:-260px;top:-300px;width:760px;height:760px;border-radius:50%;border:1px solid rgba(26,74,216,0.10);"></div>
+  <div aria-hidden="true" style="position:absolute;right:-160px;top:-200px;width:560px;height:560px;border-radius:50%;border:1px solid rgba(26,74,216,0.12);"></div>
+  <div aria-hidden="true" style="position:absolute;right:-60px;top:-100px;width:360px;height:360px;border-radius:50%;border:1px solid rgba(26,74,216,0.14);"></div>
+  <svg aria-hidden="true" viewBox="0 0 700 360" style="position:absolute;right:0;top:40px;width:min(62vw,760px);height:auto;pointer-events:none;"><path d="M 20 330 Q 330 -60 690 110" fill="none" stroke="#1A4AD8" stroke-width="1.6" stroke-linecap="round"></path></svg>
+
+  <div style="position:relative;max-width:1280px;margin:0 auto;padding:clamp(48px,8vw,104px) clamp(20px,4vw,48px) 48px;">
+    <div style="display:inline-flex;align-items:center;gap:10px;border:1.5px solid #1A4AD8;color:#1A4AD8;border-radius:999px;padding:8px 16px;font-weight:700;font-size:13px;letter-spacing:0.16em;background:#fff;">
+      <span style="position:relative;width:8px;height:8px;border-radius:50%;background:#1A4AD8;box-shadow:{{ pulseShadow }};transition:box-shadow 900ms ease-out;"></span>
+      NOW LAUNCHING
+    </div>
+    <h1 style="margin:28px 0 0;font-weight:800;font-size:clamp(44px,7.4vw,100px);line-height:1.03;letter-spacing:-0.035em;max-width:13.5em;color:#111F38;">
+      <sc-for list="{{ heroLines }}" as="l" hint-placeholder-count="3">
+        <span style="display:block;overflow:hidden;padding-bottom:0.04em;"><span style="display:block;opacity:{{ l.op }};transform:{{ l.tf }};transition:opacity 600ms cubic-bezier(.2,.7,.2,1) {{ l.delay }},transform 600ms cubic-bezier(.2,.7,.2,1) {{ l.delay }};">{{ l.text }}<span style="color:#1A4AD8;">{{ l.dot }}</span></span></span>
+      </sc-for>
+    </h1>
+    <div style="display:flex;flex-wrap:wrap;gap:28px 64px;align-items:flex-end;justify-content:space-between;margin-top:28px;">
+      <div style="max-width:620px;">
+        <p style="margin:0;color:#1A4AD8;font-weight:600;font-size:clamp(16px,1.6vw,20px);letter-spacing:0.01em;">Technology • Innovation • Solutions</p>
+        <p style="margin:16px 0 0;color:#5A6380;font-size:clamp(16px,1.35vw,18px);line-height:1.6;text-wrap:pretty;">We build websites, apps, SaaS platforms, AI agents and games for businesses that need them to actually perform — then design the brand around them and get them found.</p>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;flex:0 1 auto;">
+        <a href="#contact" onClick="{{ openForm }}" style="flex:1 1 200px;background:#1A4AD8;color:#fff;padding:18px 26px;border-radius:12px;font-weight:700;font-size:16px;display:flex;justify-content:center;align-items:center;gap:10px;" style-hover="background:#16233F;color:#fff;" style-active="transform:scale(0.98);">Start a project <span>→</span></a>
+        <a href="#products" style="flex:1 1 200px;background:#fff;color:#111F38;border:1.5px solid #111F38;padding:16.5px 26px;border-radius:12px;font-weight:700;font-size:16px;display:flex;justify-content:center;align-items:center;gap:10px;" style-hover="border-color:#1A4AD8;color:#1A4AD8;" style-active="transform:scale(0.98);">Explore products</a>
+      </div>
+    </div>
+  </div>
+
+  <div onMouseEnter="{{ pauseStrip }}" onMouseLeave="{{ playStrip }}" onFocus="{{ pauseStrip }}" onBlur="{{ playStrip }}" onTouchStart="{{ pauseStrip }}" style="position:relative;overflow-x:{{ stripOverflow }};overflow-y:hidden;padding:8px 0 56px;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;" aria-label="Examples of interfaces we build">
+    <div ref="{{ stripRef }}" style="display:flex;gap:20px;width:max-content;padding:0 clamp(20px,4vw,48px);will-change:transform;">
+      <sc-for list="{{ strip }}" as="t" hint-placeholder-count="6">
+        <figure style="margin:0;height:{{ stripH }};border-radius:20px;overflow:hidden;background:#fff;border:1px solid #E3E8F2;box-shadow:0 1px 0 rgba(17,31,56,0.04),0 18px 40px -24px rgba(17,31,56,0.28);flex:0 0 auto;scroll-snap-align:start;">
+          <img src="{{ t.src }}" alt="{{ t.alt }}" loading="{{ t.loading }}" style="height:100%;width:auto;"></img>
+        </figure>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section ref="{{ statsRef }}" data-screen-label="Stats" style="position:relative;overflow:hidden;background:#16233F;color:#fff;">
+  <div aria-hidden="true" style="position:absolute;left:-200px;bottom:-420px;width:640px;height:640px;border-radius:50%;border:1px solid rgba(143,168,240,0.16);"></div>
+  <div aria-hidden="true" style="position:absolute;left:-100px;bottom:-320px;width:440px;height:440px;border-radius:50%;border:1px solid rgba(143,168,240,0.16);"></div>
+  <div style="position:relative;max-width:1280px;margin:0 auto;padding:clamp(40px,5vw,64px) clamp(20px,4vw,48px);">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:32px 24px;">
+      <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:6px;padding-left:18px;border-left:1px solid rgba(143,168,240,0.3);">
+          <span style="font-weight:800;font-size:clamp(40px,5vw,64px);letter-spacing:-0.03em;line-height:1;font-variant-numeric:tabular-nums;">{{ s.val }}</span>
+          <span style="color:#C9D6F7;font-weight:500;font-size:15px;">{{ s.label }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <p style="margin:32px 0 0;color:#8FA8F0;font-size:13px;">300+ projects delivered by our team, across previous and current engagements.</p>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" data-screen-label="What We Build" style="background-color:#F5F7FB;background-image:radial-gradient(#DCE3EF 1px, transparent 1.3px);background-size:22px 22px;">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(64px,9vw,128px) clamp(20px,4vw,48px);">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 24px;padding-bottom:20px;border-bottom:1px solid #E3E8F2;">
+      <h2 style="margin:0;font-weight:800;font-size:clamp(14px,1.4vw,20px);letter-spacing:0.16em;">WHAT WE BUILD</h2>
+      <span style="color:#5A6380;font-size:16px;">Designed around real business needs</span>
+    </div>
+    <div role="tablist" aria-label="Filter services by pillar" style="display:flex;gap:8px;margin:24px 0 28px;overflow-x:auto;padding-bottom:4px;">
+      <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+        <button role="tab" aria-selected="{{ f.on }}" onClick="{{ f.pick }}" style="flex:0 0 auto;min-height:44px;padding:0 20px;border-radius:999px;border:1.5px solid {{ f.bd }};background:{{ f.bg }};color:{{ f.fg }};font-weight:700;font-size:15px;cursor:pointer;transition:background 200ms ease-out,color 200ms ease-out;">{{ f.label }} <span style="opacity:0.6;font-weight:500;margin-left:4px;">{{ f.count }}</span></button>
+      </sc-for>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px;">
+      <sc-for list="{{ services }}" as="c" hint-placeholder-count="10">
+        <a href="#" style="grid-column:{{ c.col }};background:#fff;border:1px solid #E3E8F2;border-radius:16px;padding:16px;display:flex;flex-direction:{{ c.dir }};gap:20px;color:#111F38;transition:transform 250ms cubic-bezier(.2,.7,.2,1),border-color 250ms ease-out,box-shadow 250ms ease-out;opacity:{{ c.op }};" style-hover="transform:translateY(-4px);border-color:#1A4AD8;box-shadow:0 20px 40px -28px rgba(26,74,216,0.5);color:#111F38;">
+          <div style="flex:{{ c.imgFlex }};height:{{ c.imgH }};border-radius:10px;overflow:hidden;background:#EAF0FD;">
+            <img src="{{ c.img }}" alt="{{ c.alt }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:{{ c.pos }};"></img>
+          </div>
+          <div style="flex:1 1 0;display:flex;flex-direction:column;gap:12px;padding:4px 4px 6px;min-width:0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="display:flex;align-items:center;gap:12px;"><span style="width:48px;height:48px;border-radius:12px;background:#EAF0FD;display:grid;place-items:center;"><span class="material-symbols-rounded" aria-hidden="true" style="font-family:'Material Symbols Rounded';font-weight:normal;font-style:normal;font-size:26px;line-height:1;color:#1A4AD8;font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24;">{{ c.icon }}</span></span><span style="font-weight:700;font-size:13px;color:#5A6380;font-variant-numeric:tabular-nums;">{{ c.n }}</span></span>
+              <span style="font-size:12px;font-weight:700;letter-spacing:0.12em;color:#5A6380;border:1px solid #E3E8F2;border-radius:999px;padding:5px 10px;">{{ c.pillarUp }}</span>
+            </div>
+            <h3 style="margin:4px 0 0;font-weight:800;font-size:{{ c.titleSize }};letter-spacing:-0.02em;line-height:1.15;">{{ c.name }}</h3>
+            <p style="margin:0;color:#5A6380;font-size:15.5px;line-height:1.55;text-wrap:pretty;">{{ c.line }}</p>
+            <span style="margin-top:auto;padding-top:6px;color:#1A4AD8;font-weight:700;font-size:14px;">Explore →</span>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products" data-screen-label="Products" style="background-color:#F5F7FB;background-image:radial-gradient(#DCE3EF 1px, transparent 1.3px);background-size:22px 22px;">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(64px,9vw,128px) clamp(20px,4vw,48px);">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 24px;padding-bottom:20px;border-bottom:1px solid #E3E8F2;margin-bottom:32px;">
+      <h2 style="margin:0;font-weight:800;font-size:clamp(14px,1.4vw,20px);letter-spacing:0.16em;">READY-TO-DEPLOY SOLUTIONS</h2>
+      <span style="color:#5A6380;font-size:16px;">Built for modern businesses</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:16px;">
+      <article style="flex:5 1 360px;position:relative;overflow:hidden;border-radius:20px;padding:clamp(28px,3vw,40px);min-height:540px;color:#fff;background:linear-gradient(150deg,#1C46BB 0%,#16233F 78%);display:flex;flex-direction:column;">
+        <div aria-hidden="true" style="position:absolute;right:-180px;top:-180px;width:480px;height:480px;border-radius:50%;border:1px solid rgba(255,255,255,0.14);"></div>
+        <div aria-hidden="true" style="position:absolute;right:-100px;top:-100px;width:320px;height:320px;border-radius:50%;border:1px solid rgba(255,255,255,0.16);"></div>
+        <div style="position:relative;display:flex;justify-content:space-between;align-items:flex-start;">
+          <span style="width:56px;height:56px;border-radius:14px;background:rgba(255,255,255,0.14);display:grid;place-items:center;"><span class="material-symbols-rounded" aria-hidden="true" style="font-family:'Material Symbols Rounded';font-weight:normal;font-style:normal;font-size:30px;line-height:1;color:#FFFFFF;font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24;">graphic_eq</span></span>
+          <span style="border:1.5px solid rgba(255,255,255,0.55);border-radius:999px;padding:8px 16px;font-size:12px;font-weight:700;letter-spacing:0.2em;">FLAGSHIP</span>
+        </div>
+        <div ref="{{ waveRef }}" aria-hidden="true" style="display:flex;align-items:center;gap:5px;height:140px;margin:auto 0 32px;">
+          <sc-for list="{{ bars }}" as="b" hint-placeholder-count="28">
+            <span style="flex:1 1 0;max-width:8px;height:{{ b.h }};border-radius:4px;background:{{ b.c }};transform-origin:center;transform:scaleY(0.6);"></span>
+          </sc-for>
+        </div>
+        <h3 style="margin:0;font-weight:800;font-size:clamp(32px,3.4vw,48px);letter-spacing:-0.03em;line-height:1.05;">AI Voice Agent</h3>
+        <p style="margin:12px 0 0;color:#C9D6F7;font-size:18px;">Automate customer conversations</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:28px;">
+          <a href="#contact" onClick="{{ openDemo }}" style="background:#fff;color:#16233F;padding:14px 22px;border-radius:12px;font-weight:700;font-size:15px;" style-hover="background:#EAF0FD;color:#16233F;">Book a demo →</a>
+          <button onClick="{{ toggleWave }}" style="min-height:48px;background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,0.4);padding:0 18px;border-radius:12px;font-weight:600;font-size:14px;cursor:pointer;">{{ waveLabel }}</button>
+        </div>
+      </article>
+      <div style="flex:7 1 520px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px;">
+        <sc-for list="{{ products }}" as="p" hint-placeholder-count="4">
+          <article style="background:#fff;border:1px solid #E3E8F2;border-radius:16px;padding:12px;display:flex;flex-direction:column;transition:border-color 250ms ease-out,transform 250ms cubic-bezier(.2,.7,.2,1);" style-hover="border-color:#1A4AD8;transform:translateY(-4px);">
+            <div style="aspect-ratio:16/10;border-radius:10px;overflow:hidden;background:#EAF0FD;">
+              <img src="{{ p.img }}" alt="{{ p.alt }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:{{ p.pos }};"></img>
+            </div>
+            <div style="padding:18px 8px 8px;display:flex;flex-direction:column;gap:6px;flex:1;">
+              <span style="width:48px;height:48px;border-radius:12px;background:#EAF0FD;display:grid;place-items:center;margin-bottom:8px;"><span class="material-symbols-rounded" aria-hidden="true" style="font-family:'Material Symbols Rounded';font-weight:normal;font-style:normal;font-size:26px;line-height:1;color:#1A4AD8;font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24;">{{ p.icon }}</span></span>
+              <h3 style="margin:0;font-weight:800;font-size:20px;letter-spacing:-0.02em;">{{ p.name }}</h3>
+              <p style="margin:0;color:#5A6380;font-size:15px;">{{ p.tag }}</p>
+              <a href="#contact" onClick="{{ p.demo }}" style="margin-top:14px;font-weight:700;font-size:14px;color:#1A4AD8;">Book a demo →</a>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section ref="{{ processRef }}" data-screen-label="Process" style="position:relative;background-color:#F5F7FB;background-image:radial-gradient(#DCE3EF 1px, transparent 1.3px);background-size:22px 22px;border-top:1px solid #E3E8F2;">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(64px,9vw,128px) clamp(20px,4vw,48px);display:flex;flex-wrap:wrap;gap:48px clamp(32px,6vw,96px);align-items:flex-start;">
+    <div style="flex:4 1 340px;position:{{ stickyPos }};top:110px;">
+      <h2 style="margin:0 0 28px;font-weight:800;font-size:clamp(14px,1.4vw,20px);letter-spacing:0.16em;">HOW WE WORK</h2>
+      <div style="position:relative;">
+        <svg aria-hidden="true" viewBox="0 0 120 300" preserveAspectRatio="none" style="position:absolute;right:0;top:0;width:120px;height:100%;overflow:visible;">
+          <path d="M 10 10 Q 130 150 30 290" fill="none" stroke="#DBE8FA" stroke-width="2"></path>
+          <path d="M 10 10 Q 130 150 30 290" fill="none" stroke="#1A4AD8" stroke-width="2" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="{{ arcOffset }}"></path>
+        </svg>
+        <sc-for list="{{ verbs }}" as="v" hint-placeholder-count="3">
+          <p style="margin:0;font-weight:800;font-size:clamp(44px,6vw,84px);letter-spacing:-0.04em;line-height:1.05;color:{{ v.color }};transition:color 320ms ease-out;">{{ v.text }}</p>
+        </sc-for>
+      </div>
+      <p style="margin:28px 0 0;color:#5A6380;font-size:17px;line-height:1.6;max-width:26em;">Seven steps, written down before we start, visible to you the whole way through.</p>
+    </div>
+    <div style="flex:6 1 420px;display:flex;flex-direction:column;gap:40px;">
+      <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+        <div ref="{{ g.ref }}" style="display:flex;flex-direction:column;gap:12px;">
+          <p style="margin:0 0 4px;font-weight:700;font-size:13px;letter-spacing:0.18em;color:#1A4AD8;">{{ g.label }}</p>
+          <sc-for list="{{ g.steps }}" as="st" hint-placeholder-count="2">
+            <div style="background:#fff;border:1px solid #E3E8F2;border-radius:16px;padding:24px;display:flex;gap:20px;align-items:flex-start;">
+              <span style="font-weight:800;font-size:28px;color:#1A4AD8;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;min-width:44px;">{{ st.n }}</span>
+              <div>
+                <h3 style="margin:2px 0 6px;font-weight:800;font-size:21px;letter-spacing:-0.01em;">{{ st.t }}</h3>
+                <p style="margin:0;color:#5A6380;font-size:16px;line-height:1.6;">{{ st.d }}</p>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section data-screen-label="Industries" onMouseEnter="{{ pauseInd }}" onMouseLeave="{{ playInd }}" style="background:#fff;border-top:1px solid #E3E8F2;">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(64px,9vw,128px) clamp(20px,4vw,48px);">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 24px;padding-bottom:20px;border-bottom:1px solid #E3E8F2;">
+      <h2 style="margin:0;font-weight:800;font-size:clamp(14px,1.4vw,20px);letter-spacing:0.16em;">INDUSTRIES</h2>
+      <button onClick="{{ toggleInd }}" style="background:none;border:none;color:#5A6380;font-size:15px;font-weight:600;cursor:pointer;min-height:44px;padding:0;">{{ indPauseLabel }}</button>
+    </div>
+    <div role="tablist" aria-label="Industries" style="display:flex;gap:8px;margin:24px 0 32px;overflow-x:auto;padding-bottom:4px;">
+      <sc-for list="{{ industries }}" as="i" hint-placeholder-count="8">
+        <button role="tab" aria-selected="{{ i.on }}" onClick="{{ i.pick }}" style="flex:0 0 auto;min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid {{ i.bd }};background:{{ i.bg }};color:{{ i.fg }};font-weight:700;font-size:15px;cursor:pointer;transition:background 200ms ease-out,color 200ms ease-out;">{{ i.name }}</button>
+      </sc-for>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:32px clamp(32px,5vw,72px);align-items:center;">
+      <div style="flex:6 1 420px;position:relative;aspect-ratio:4/3;border-radius:20px;overflow:hidden;background:#EAF0FD;border:1px solid #E3E8F2;">
+        <sc-for list="{{ industries }}" as="i" hint-placeholder-count="1">
+          <div style="position:absolute;inset:0;opacity:{{ i.op }};transition:opacity 700ms ease-out;">
+            <sc-if value="{{ i.hasImg }}" hint-placeholder-val="{{ true }}">
+              <img src="{{ i.img }}" alt="{{ i.alt }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:{{ i.pos }};"></img>
+            </sc-if>
+            <sc-if value="{{ i.noImg }}" hint-placeholder-val="{{ false }}">
+              <div style="width:100%;height:100%;display:grid;place-items:center;background:repeating-linear-gradient(135deg,#EAF0FD 0 12px,#F5F7FB 12px 24px);font-family:ui-monospace,Menlo,monospace;font-size:13px;color:#5A6380;">[ {{ i.alt }} ]</div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+      <div style="flex:4 1 320px;">
+        <p style="margin:0;font-weight:700;font-size:13px;letter-spacing:0.18em;color:#1A4AD8;">{{ ind.upper }}</p>
+        <p style="margin:14px 0 0;font-weight:800;font-size:clamp(26px,2.8vw,38px);letter-spacing:-0.025em;line-height:1.15;text-wrap:pretty;">{{ ind.problem }}</p>
+        <p style="margin:32px 0 12px;font-weight:700;font-size:13px;letter-spacing:0.18em;color:#5A6380;">WHAT WE BUILD</p>
+        <div style="display:flex;flex-direction:column;">
+          <sc-for list="{{ ind.builds }}" as="b" hint-placeholder-count="4">
+            <div style="display:flex;gap:14px;align-items:center;padding:12px 0;border-top:1px solid #E3E8F2;font-weight:600;font-size:17px;"><span style="width:8px;height:8px;border-radius:2px;background:#1A4AD8;"></span>{{ b }}</div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section data-screen-label="Why ASPR" style="background-color:#F5F7FB;border-top:1px solid #E3E8F2;">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(64px,9vw,128px) clamp(20px,4vw,48px);display:flex;flex-wrap:wrap;gap:48px clamp(32px,6vw,96px);">
+    <div style="flex:6 1 460px;">
+      <h2 style="margin:0 0 32px;font-weight:800;font-size:clamp(14px,1.4vw,20px);letter-spacing:0.16em;">WHY ASPR</h2>
+      <ol style="list-style:none;margin:0;padding:0;">
+        <sc-for list="{{ why }}" as="w" hint-placeholder-count="4">
+          <li style="display:flex;gap:clamp(16px,3vw,36px);align-items:baseline;padding:24px 0;border-top:1px solid #E3E8F2;">
+            <span style="font-weight:800;font-size:clamp(18px,2vw,24px);color:#1A4AD8;font-variant-numeric:tabular-nums;">{{ w.n }}</span>
+            <div>
+              <h3 style="margin:0;font-weight:800;font-size:clamp(26px,3.2vw,44px);letter-spacing:-0.03em;line-height:1.08;">{{ w.t }}</h3>
+              <p style="margin:10px 0 0;color:#5A6380;font-size:16px;line-height:1.6;font-family:ui-monospace,Menlo,monospace;font-size:13px;">[One-line body required]</p>
+            </div>
+          </li>
+        </sc-for>
+      </ol>
+    </div>
+    <div style="flex:4 1 320px;display:flex;flex-direction:column;gap:12px;">
+      <div style="border-radius:20px;overflow:hidden;aspect-ratio:4/3;background:#16233F;">
+        <img src="assets/coding.png" alt="Developer's hands typing code on a laptop at a desk" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center 55%;"></img>
+      </div>
+      <sc-for list="{{ proof }}" as="p" hint-placeholder-count="3">
+        <div style="background:#fff;border:1px solid #E3E8F2;border-radius:16px;padding:22px 24px;display:flex;justify-content:space-between;gap:16px;align-items:center;">
+          <span style="font-weight:800;font-size:20px;letter-spacing:-0.01em;">{{ p.a }}</span>
+          <span style="color:#5A6380;font-size:15px;text-align:right;">{{ p.b }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section data-screen-label="Work" style="background:#fff;border-top:1px solid #E3E8F2;">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(64px,9vw,128px) clamp(20px,4vw,48px);">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 24px;padding-bottom:20px;border-bottom:1px solid #E3E8F2;margin-bottom:32px;">
+      <h2 style="margin:0;font-weight:800;font-size:clamp(14px,1.4vw,20px);letter-spacing:0.16em;">SELECTED WORK</h2>
+      <a href="ASPR Company.dc.html#work" style="font-weight:700;font-size:16px;">See all work →</a>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px;">
+      <sc-for list="{{ work }}" as="k" hint-placeholder-count="3">
+        <a href="#" style="display:flex;flex-direction:column;gap:18px;color:#111F38;" style-hover="color:#1A4AD8;">
+          <div style="aspect-ratio:4/3;border-radius:16px;overflow:hidden;background:#EAF0FD;border:1px solid #E3E8F2;">
+            <img src="{{ k.img }}" alt="{{ k.alt }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:{{ k.pos }};transition:transform 700ms cubic-bezier(.2,.7,.2,1);" style-hover="transform:scale(1.05);"></img>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <span style="background:#1A4AD8;color:#fff;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700;letter-spacing:0.12em;">{{ k.pillar }}</span>
+            <sc-for list="{{ k.scope }}" as="sc" hint-placeholder-count="2">
+              <span style="background:#EAF0FD;color:#111F38;border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600;">{{ sc }}</span>
+            </sc-for>
+          </div>
+          <h3 style="margin:0;font-weight:800;font-size:22px;letter-spacing:-0.02em;">{{ k.client }}</h3>
+          <p style="margin:-8px 0 0;color:#5A6380;font-family:ui-monospace,Menlo,monospace;font-size:13px;">[Outcome pending]</p>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section data-screen-label="Founder" style="background-color:#F5F7FB;background-image:radial-gradient(#DCE3EF 1px, transparent 1.3px);background-size:22px 22px;border-top:1px solid #E3E8F2;">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(64px,9vw,128px) clamp(20px,4vw,48px);display:flex;flex-wrap:wrap;gap:40px clamp(32px,6vw,96px);align-items:center;">
+    <div style="flex:4 1 300px;aspect-ratio:4/5;border-radius:20px;border:1px solid #E3E8F2;background:repeating-linear-gradient(135deg,#EAF0FD 0 12px,#FFFFFF 12px 24px);display:grid;place-items:center;font-family:ui-monospace,Menlo,monospace;font-size:13px;color:#5A6380;text-align:center;padding:20px;">[ Portrait — Radakrishna ]</div>
+    <div style="flex:6 1 420px;">
+      <h2 style="margin:0;font-weight:800;font-size:clamp(14px,1.4vw,20px);letter-spacing:0.16em;">HOW IT STARTED</h2>
+      <p style="margin:24px 0 0;font-weight:700;font-size:clamp(22px,2.3vw,32px);letter-spacing:-0.02em;line-height:1.35;text-wrap:pretty;">ASPR Global Tech began when a father realised his son wasn't bad at learning — he was bad at sitting still for it. One full-stack course later, a seed was planted. <span style="color:#1A4AD8;">Today that seed is a company that builds websites, apps, games and brands for businesses across India.</span></p>
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;margin-top:36px;padding-top:24px;border-top:1px solid #E3E8F2;">
+        <div>
+          <p style="margin:0;font-weight:800;font-size:18px;">Radakrishna</p>
+          <p style="margin:4px 0 0;color:#5A6380;font-size:15px;">Founder &amp; Managing Partner</p>
+        </div>
+        <a href="ASPR Company.dc.html#about" style="font-weight:700;font-size:16px;">Read our story →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section data-screen-label="FAQ" style="background:#fff;border-top:1px solid #E3E8F2;">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(64px,9vw,128px) clamp(20px,4vw,48px);display:flex;flex-wrap:wrap;gap:32px clamp(32px,6vw,96px);">
+    <div style="flex:4 1 300px;">
+      <h2 style="margin:0;font-weight:800;font-size:clamp(14px,1.4vw,20px);letter-spacing:0.16em;">QUESTIONS</h2>
+      <p style="margin:20px 0 0;font-weight:800;font-size:clamp(28px,3vw,40px);letter-spacing:-0.03em;line-height:1.1;">Plain answers, in writing.</p>
+      <a href="ASPR Company.dc.html#faq" style="display:inline-block;margin-top:20px;font-weight:700;font-size:16px;">All 16 questions →</a>
+    </div>
+    <div style="flex:6 1 420px;">
+      <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="4">
+        <div style="border-top:1px solid #E3E8F2;">
+          <button onClick="{{ q.toggle }}" aria-expanded="{{ q.open }}" style="width:100%;min-height:72px;background:none;border:none;display:flex;justify-content:space-between;align-items:center;gap:16px;text-align:left;cursor:pointer;padding:16px 0;color:#111F38;font-weight:700;font-size:clamp(17px,1.6vw,20px);">
+            {{ q.q }}
+            <span style="flex:0 0 auto;width:36px;height:36px;border-radius:10px;background:{{ q.tileBg }};color:{{ q.tileFg }};display:grid;place-items:center;font-size:20px;transition:background 200ms ease-out;">{{ q.sign }}</span>
+          </button>
+          <sc-if value="{{ q.open }}" hint-placeholder-val="{{ false }}">
+            <p style="margin:0 0 24px;color:#5A6380;font-family:ui-monospace,Menlo,monospace;font-size:13px;">[Answer required from ASPR]</p>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="contact" data-screen-label="CTA" style="background:#F5F7FB;padding:clamp(24px,4vw,48px) clamp(12px,3vw,48px);">
+  <div style="max-width:1280px;margin:0 auto;position:relative;overflow:hidden;border-radius:24px;background:linear-gradient(120deg,#1E4CCE 0%,#16233F 70%);color:#fff;padding:clamp(36px,6vw,80px) clamp(24px,5vw,72px);">
+    <div aria-hidden="true" style="position:absolute;right:-240px;top:50%;margin-top:-340px;width:680px;height:680px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);"></div>
+    <div aria-hidden="true" style="position:absolute;right:-140px;top:50%;margin-top:-240px;width:480px;height:480px;border-radius:50%;border:1px solid rgba(255,255,255,0.14);"></div>
+    <div aria-hidden="true" style="position:absolute;right:-40px;top:50%;margin-top:-140px;width:280px;height:280px;border-radius:50%;border:1px solid rgba(255,255,255,0.16);"></div>
+    <div style="position:relative;max-width:760px;">
+      <h2 style="margin:0;font-weight:800;font-size:clamp(36px,5.4vw,72px);letter-spacing:-0.03em;line-height:1.02;">LET'S BUILD SOMETHING GREAT.</h2>
+      <p style="margin:20px 0 0;color:#DBE8FA;font-size:clamp(16px,1.5vw,19px);line-height:1.6;max-width:34em;">Have an idea, a business challenge, or a product to build? Let's turn it into a digital solution.</p>
+    </div>
+    <div style="position:relative;height:1px;background:rgba(255,255,255,0.2);margin:36px 0 28px;"></div>
+    <div style="position:relative;display:flex;flex-wrap:wrap;gap:12px 40px;">
+      <sc-for list="{{ contacts }}" as="ct" hint-placeholder-count="3">
+        <a href="{{ ct.href }}" style="display:flex;align-items:center;gap:12px;color:#fff;min-height:48px;flex:1 1 220px;max-width:340px;" style-hover="color:#DBE8FA;">
+          <span style="width:40px;height:40px;display:grid;place-items:center;"><span class="material-symbols-rounded" aria-hidden="true" style="font-family:'Material Symbols Rounded';font-weight:normal;font-style:normal;font-size:26px;line-height:1;color:#DBE8FA;font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24;">{{ ct.k }}</span></span>
+          <span style="font-weight:600;font-size:16px;">{{ ct.v }}</span>
+        </a>
+      </sc-for>
+    </div>
+    <div style="position:relative;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:24px;margin-top:36px;">
+      <p style="margin:0;color:#8FA8F0;font-weight:700;font-size:clamp(18px,1.8vw,22px);letter-spacing:0.01em;">Think it. Build it. Scale it.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;">
+        <a href="#" onClick="{{ openForm }}" style="background:#fff;color:#16233F;padding:16px 24px;border-radius:12px;font-weight:700;font-size:16px;flex:1 1 180px;text-align:center;" style-hover="background:#EAF0FD;color:#16233F;">Start a project →</a>
+        <a href="https://wa.me/917539907704" style="border:1.5px solid rgba(255,255,255,0.6);color:#fff;padding:14.5px 24px;border-radius:12px;font-weight:700;font-size:16px;flex:1 1 180px;text-align:center;" style-hover="background:rgba(255,255,255,0.08);color:#fff;">WhatsApp us</a>
+      </div>
+    </div>
+    <p style="position:relative;margin:24px 0 0;color:#C9D6F7;font-size:14px;">We reply to every enquiry within one working day.</p>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer style="background:#16233F;color:#C9D6F7;">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(56px,7vw,96px) clamp(20px,4vw,48px) 32px;">
+    <div style="display:flex;flex-wrap:wrap;gap:40px 48px;">
+      <div style="flex:3 1 280px;">
+        <img src="assets/aspr-logo-white.png" alt="ASPR Global Tech" style="height:60px;width:auto;"></img>
+        <p style="margin:20px 0 0;font-size:15px;line-height:1.6;max-width:24em;">We build websites, apps, games and brands for businesses that need them to work.</p>
+        <p style="margin:28px 0 10px;color:#fff;font-weight:700;font-size:15px;">Newsletter</p>
+        <p style="margin:0 0 14px;font-size:14px;line-height:1.6;max-width:26em;">One email a month. What we built, what broke, what we learned. No sales sequences.</p>
+        <form onSubmit="{{ subscribe }}" style="display:flex;gap:8px;max-width:400px;">
+          <label for="nl" style="position:absolute;left:-9999px;">Email address</label>
+          <input id="nl" type="email" required="" placeholder="you@company.com" style="flex:1;min-width:0;height:48px;border-radius:12px;border:1px solid rgba(143,168,240,0.35);background:rgba(255,255,255,0.04);color:#fff;padding:0 14px;font-family:inherit;font-size:15px;"></input>
+          <button type="submit" style="height:48px;padding:0 18px;border-radius:12px;border:none;background:#1A4AD8;color:#fff;font-weight:700;font-size:15px;cursor:pointer;">{{ subLabel }}</button>
+        </form>
+      </div>
+      <sc-for list="{{ footCols }}" as="fc" hint-placeholder-count="3">
+        <div style="flex:1 1 150px;">
+          <p style="margin:0 0 16px;color:#fff;font-weight:700;font-size:13px;letter-spacing:0.16em;">{{ fc.h }}</p>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <sc-for list="{{ fc.links }}" as="fl" hint-placeholder-count="5">
+              <a href="{{ fl.href }}" style="color:#C9D6F7;font-size:15px;" style-hover="color:#fff;">{{ fl.t }}</a>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+      <div style="flex:2 1 240px;">
+        <p style="margin:0 0 16px;color:#fff;font-weight:700;font-size:13px;letter-spacing:0.16em;">CONTACT</p>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;line-height:1.55;">
+          <a href="mailto:support@asprglobaltech.com" style="color:#fff;">support@asprglobaltech.com</a>
+          <a href="tel:+917539907704" style="color:#fff;">+91 75399 07704</a>
+          <span>12D, 1444C, 27/1, S M Nagar, Perumal Gounder Layout, Post, Mahadevapuram, Mettupalayam, Tamil Nadu 641305, India</span>
+          <span>Mon–Sat, 9:30 AM – 6:30 PM IST</span>
+          <span style="display:flex;gap:16px;margin-top:4px;"><a href="#" style="color:#8FA8F0;">Instagram</a><a href="#" style="color:#8FA8F0;">Facebook</a></span>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;margin-top:56px;padding-top:24px;border-top:1px solid rgba(143,168,240,0.2);font-size:13px;">
+      <span>© 2026 ASPR Global Tech. A registered partnership firm. Mettupalayam, Tamil Nadu, India.</span>
+      <span style="display:flex;flex-wrap:wrap;gap:16px;"><a href="#" style="color:#C9D6F7;">Privacy</a><a href="#" style="color:#C9D6F7;">Terms</a><a href="#" style="color:#C9D6F7;">Cookies</a><a href="#" style="color:#C9D6F7;">Disclaimer</a></span>
+    </div>
+  </div>
+</footer>
+
+
+<!-- BRIEF BUILDER -->
+<sc-if value="{{ formOpen }}" hint-placeholder-val="{{ false }}">
+<div onKeyDown="{{ formKey }}" style="position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:{{ fPad }};">
+  <div onClick="{{ closeForm }}" aria-hidden="true" style="position:absolute;inset:0;background:rgba(17,31,56,0.6);opacity:{{ fOp }};transition:opacity 240ms ease-out;"></div>
+  <div role="dialog" aria-modal="true" aria-labelledby="bf-title" style="position:relative;width:100%;max-width:1120px;height:{{ fH }};border-radius:{{ fRadius }};overflow:auto;background:#fff;display:flex;flex-wrap:wrap;align-items:stretch;opacity:{{ fOp }};transform:{{ fTf }};transition:opacity 240ms ease-out,transform 280ms cubic-bezier(.2,.7,.2,1);box-shadow:0 40px 80px -32px rgba(17,31,56,0.5);">
+
+    <div style="flex:6 1 520px;min-width:0;padding:clamp(24px,3.5vw,44px);display:flex;flex-direction:column;box-sizing:border-box;">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;">
+        <p style="margin:0;font-weight:800;font-size:13px;letter-spacing:0.18em;color:#1A4AD8;">START A PROJECT</p>
+        <button ref="{{ closeRef }}" type="button" onClick="{{ closeForm }}" aria-label="Close" style="width:44px;height:44px;border-radius:12px;border:1px solid #E3E8F2;background:#fff;cursor:pointer;display:grid;place-items:center;" style-hover="border-color:#1A4AD8;"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-weight:normal;font-style:normal;font-size:22px;line-height:1;color:#111F38;font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24;">close</span></button>
+      </div>
+
+      <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;gap:8px;margin:24px 0 8px;">
+          <sc-for list="{{ stepsUi }}" as="su" hint-placeholder-count="3">
+            <div style="flex:1 1 0;display:flex;flex-direction:column;gap:8px;">
+              <span style="height:4px;border-radius:2px;background:{{ su.bar }};transition:background 320ms ease-out;"></span>
+              <span style="font-size:13px;font-weight:700;color:{{ su.fg }};">{{ su.n }} · {{ su.label }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <h2 id="bf-title" style="margin:20px 0 6px;font-weight:800;font-size:clamp(28px,3vw,40px);letter-spacing:-0.03em;line-height:1.08;">{{ stepTitle }}</h2>
+        <p style="margin:0 0 24px;color:#5A6380;font-size:16px;line-height:1.55;">{{ stepSub }}</p>
+
+        <sc-if value="{{ showErrSummary }}" hint-placeholder-val="{{ false }}">
+          <div role="alert" style="border:1.5px solid #F4C7C3;background:#FEF3F2;border-radius:12px;padding:14px 16px;margin-bottom:20px;">
+            <p style="margin:0 0 6px;font-weight:700;font-size:14.5px;color:#B42318;">Please fix {{ errCount }} before continuing:</p>
+            <sc-for list="{{ errList }}" as="el" hint-placeholder-count="1"><p style="margin:2px 0 0;font-size:14px;color:#7A271A;">— {{ el }}</p></sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ step0 }}" hint-placeholder-val="{{ true }}">
+          <fieldset style="border:none;margin:0;padding:0;">
+            <legend style="position:absolute;left:-9999px;">What do you need?</legend>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,168px),1fr));gap:10px;">
+              <sc-for list="{{ needChips }}" as="nc" hint-placeholder-count="12">
+                <button type="button" role="checkbox" aria-checked="{{ nc.on }}" onClick="{{ nc.toggle }}" style="min-height:56px;display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:14px;border:1.5px solid {{ nc.bd }};background:{{ nc.bg }};color:#111F38;cursor:pointer;text-align:left;font-weight:700;font-size:14.5px;transition:all 180ms ease-out;" style-hover="border-color:#1A4AD8;">
+                  <span style="flex:0 0 auto;width:36px;height:36px;border-radius:10px;background:{{ nc.tile }};display:grid;place-items:center;transition:background 180ms ease-out;"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:21px;line-height:1;color:{{ nc.ic }};font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24;">{{ nc.icon }}</span></span>
+                  <span style="flex:1;">{{ nc.label }}</span>
+                  <span aria-hidden="true" style="width:20px;height:20px;border-radius:6px;border:1.5px solid {{ nc.bd }};background:{{ nc.box }};color:#fff;display:grid;place-items:center;font-size:13px;font-weight:800;">{{ nc.tick }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </fieldset>
+          <sc-if value="{{ has.needs }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0;color:#B42318;font-size:13.5px;font-weight:600;">{{ err.needs }}</p></sc-if>
+        </sc-if>
+
+        <sc-if value="{{ step1 }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-wrap:wrap;gap:18px 16px;">
+            <div style="flex:1 1 240px;"><label for="bf-name" style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Your name <span style="color:#B42318;">*</span></label><input id="bf-name" type="text" value="{{ form.name }}" onChange="{{ on.name }}" placeholder="Full name" aria-invalid="{{ has.name }}"  style="width:100%;box-sizing:border-box;height:52px;border-radius:12px;border:1.5px solid {{ bd.name }};background:#fff;padding:0 14px;font-family:inherit;font-size:16px;color:#111F38;outline:none;transition:border-color 180ms ease-out;" style-focus="border-color:#1A4AD8;box-shadow:0 0 0 3px rgba(26,74,216,0.15);"></input><sc-if value="{{ has.name }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0;color:#B42318;font-size:13.5px;font-weight:600;">{{ err.name }}</p></sc-if></div>
+            <div style="flex:1 1 240px;"><label for="bf-email" style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Email <span style="color:#B42318;">*</span></label><input id="bf-email" type="email" value="{{ form.email }}" onChange="{{ on.email }}" placeholder="you@company.com" aria-invalid="{{ has.email }}"  style="width:100%;box-sizing:border-box;height:52px;border-radius:12px;border:1.5px solid {{ bd.email }};background:#fff;padding:0 14px;font-family:inherit;font-size:16px;color:#111F38;outline:none;transition:border-color 180ms ease-out;" style-focus="border-color:#1A4AD8;box-shadow:0 0 0 3px rgba(26,74,216,0.15);"></input><sc-if value="{{ has.email }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0;color:#B42318;font-size:13.5px;font-weight:600;">{{ err.email }}</p></sc-if></div>
+            <div style="flex:1 1 240px;"><label for="bf-phone" style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Phone / WhatsApp <span style="color:#B42318;">*</span></label><input id="bf-phone" type="tel" value="{{ form.phone }}" onChange="{{ on.phone }}" placeholder="+91 98765 43210" aria-invalid="{{ has.phone }}"  style="width:100%;box-sizing:border-box;height:52px;border-radius:12px;border:1.5px solid {{ bd.phone }};background:#fff;padding:0 14px;font-family:inherit;font-size:16px;color:#111F38;outline:none;transition:border-color 180ms ease-out;" style-focus="border-color:#1A4AD8;box-shadow:0 0 0 3px rgba(26,74,216,0.15);"></input><sc-if value="{{ has.phone }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0;color:#B42318;font-size:13.5px;font-weight:600;">{{ err.phone }}</p></sc-if></div>
+            <div style="flex:1 1 240px;"><label for="bf-company" style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Company <span style="color:#5A6380;font-weight:500;">(optional)</span></label><input id="bf-company" type="text" value="{{ form.company }}" onChange="{{ on.company }}" placeholder="Business name" aria-invalid="{{ has.company }}"  style="width:100%;box-sizing:border-box;height:52px;border-radius:12px;border:1.5px solid {{ bd.company }};background:#fff;padding:0 14px;font-family:inherit;font-size:16px;color:#111F38;outline:none;transition:border-color 180ms ease-out;" style-focus="border-color:#1A4AD8;box-shadow:0 0 0 3px rgba(26,74,216,0.15);"></input><sc-if value="{{ has.company }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0;color:#B42318;font-size:13.5px;font-weight:600;">{{ err.company }}</p></sc-if></div>
+            <div style="flex:1 1 100%;">
+              <span style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Best way to reach you</span>
+              <div role="radiogroup" style="display:flex;flex-wrap:wrap;gap:8px;"><sc-for list="{{ contactOpts }}" as="co" hint-placeholder-count="4"><button type="button" role="radio" aria-checked="{{ co.on }}" onClick="{{ co.pick }}" style="min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid {{ co.bd }};background:{{ co.bg }};color:{{ co.fg }};font-weight:600;font-size:14.5px;cursor:pointer;transition:all 180ms ease-out;">{{ co.label }}</button></sc-for></div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ step2 }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:22px;">
+            <div><span style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Budget range <span style="color:#5A6380;font-weight:500;">(optional)</span></span><div role="radiogroup" style="display:flex;flex-wrap:wrap;gap:8px;"><sc-for list="{{ budgetOpts }}" as="bo" hint-placeholder-count="4"><button type="button" role="radio" aria-checked="{{ bo.on }}" onClick="{{ bo.pick }}" style="min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid {{ bo.bd }};background:{{ bo.bg }};color:{{ bo.fg }};font-weight:600;font-size:14.5px;cursor:pointer;transition:all 180ms ease-out;">{{ bo.label }}</button></sc-for></div></div>
+            <div><span style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">When do you want to launch? <span style="color:#5A6380;font-weight:500;">(optional)</span></span><div role="radiogroup" style="display:flex;flex-wrap:wrap;gap:8px;"><sc-for list="{{ timeOpts }}" as="to" hint-placeholder-count="4"><button type="button" role="radio" aria-checked="{{ to.on }}" onClick="{{ to.pick }}" style="min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid {{ to.bd }};background:{{ to.bg }};color:{{ to.fg }};font-weight:600;font-size:14.5px;cursor:pointer;transition:all 180ms ease-out;">{{ to.label }}</button></sc-for></div></div>
+            <div>
+              <label for="bf-message" style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Tell us about it <span style="color:#B42318;">*</span></label>
+              <textarea id="bf-message" value="{{ form.message }}" onChange="{{ on.message }}" rows="5" placeholder="What does the business do, what's not working, and what would good look like?" aria-invalid="{{ has.message }}" style="width:100%;box-sizing:border-box;border-radius:12px;border:1.5px solid {{ bd.message }};padding:14px;font-family:inherit;font-size:16px;line-height:1.55;color:#111F38;resize:vertical;outline:none;" style-focus="border-color:#1A4AD8;box-shadow:0 0 0 3px rgba(26,74,216,0.15);"></textarea>
+              <div style="display:flex;justify-content:space-between;gap:12px;"><sc-if value="{{ has.message }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0;color:#B42318;font-size:13.5px;font-weight:600;">{{ err.message }}</p></sc-if><span style="margin:6px 0 0 auto;color:#5A6380;font-size:13px;font-variant-numeric:tabular-nums;">{{ msgCount }}</span></div>
+            </div>
+            <div>
+              <span style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Attachments <span style="color:#5A6380;font-weight:500;">(optional — specs, sketches, references)</span></span>
+              <label for="bf-files" style="display:flex;align-items:center;gap:14px;border:1.5px dashed #C9D3E6;border-radius:14px;padding:18px;cursor:pointer;background:#F5F7FB;" style-hover="border-color:#1A4AD8;background:#EAF0FD;">
+                <span style="width:44px;height:44px;border-radius:12px;background:#EAF0FD;display:grid;place-items:center;"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-weight:normal;font-style:normal;font-size:24px;line-height:1;color:#1A4AD8;font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24;">upload_file</span></span>
+                <span style="display:flex;flex-direction:column;gap:2px;"><span style="font-weight:700;font-size:15px;">Choose files</span><span style="color:#5A6380;font-size:13.5px;">PDF, images or docs · up to 10 MB each</span></span>
+              </label>
+              <input id="bf-files" type="file" multiple="" onChange="{{ on.files }}" style="position:absolute;width:1px;height:1px;opacity:0;"></input>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
+                <sc-for list="{{ fileList }}" as="fi" hint-placeholder-count="0">
+                  <span style="display:flex;align-items:center;gap:8px;background:#EAF0FD;border-radius:999px;padding:6px 8px 6px 14px;font-size:13.5px;font-weight:600;">{{ fi.name }}<button type="button" onClick="{{ fi.remove }}" aria-label="Remove file" style="width:26px;height:26px;border-radius:50%;border:none;background:#fff;cursor:pointer;font-size:14px;color:#111F38;">✕</button></span>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <div style="margin-top:auto;padding-top:32px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;">
+          <p style="margin:0;color:#5A6380;font-size:14px;display:flex;align-items:center;gap:8px;"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-weight:normal;font-style:normal;font-size:18px;line-height:1;color:#1A4AD8;font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24;">schedule</span>We reply to every enquiry within one working day.</p>
+          <div style="display:flex;gap:10px;flex:0 1 auto;margin-left:auto;">
+            <sc-if value="{{ canBack }}" hint-placeholder-val="{{ false }}">
+              <button type="button" onClick="{{ back }}" style="min-height:52px;padding:0 20px;border-radius:12px;border:1.5px solid #E3E8F2;background:#fff;color:#111F38;font-weight:700;font-size:15px;cursor:pointer;" style-hover="border-color:#111F38;">← Back</button>
+            </sc-if>
+            <button type="button" onClick="{{ next }}" style="min-height:52px;padding:0 24px;border-radius:12px;border:none;background:#1A4AD8;color:#fff;font-weight:700;font-size:15px;cursor:pointer;display:flex;align-items:center;gap:10px;" style-hover="background:#16233F;" style-active="transform:scale(0.98);">{{ nextLabel }}</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+        <div style="margin:auto 0;padding:32px 0;">
+          <span style="width:64px;height:64px;border-radius:18px;background:#1A4AD8;display:grid;place-items:center;"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-weight:normal;font-style:normal;font-size:36px;line-height:1;color:#FFFFFF;font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24;">check</span></span>
+          <h2 id="bf-title" style="margin:28px 0 10px;font-weight:800;font-size:clamp(32px,3.6vw,48px);letter-spacing:-0.03em;line-height:1.05;">Brief received, {{ firstName }}.</h2>
+          <p style="margin:0;color:#5A6380;font-size:17px;line-height:1.6;max-width:30em;">We'll read it properly and reply by {{ contactVia }} within one working day. Reference <strong style="color:#111F38;font-variant-numeric:tabular-nums;">{{ refNo }}</strong>.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;">
+            <a href="https://wa.me/917539907704" style="min-height:52px;padding:0 22px;border-radius:12px;background:#111F38;color:#fff;font-weight:700;font-size:15px;display:flex;align-items:center;gap:10px;" style-hover="background:#1A4AD8;color:#fff;">Continue on WhatsApp</a>
+            <button type="button" onClick="{{ resetForm }}" style="min-height:52px;padding:0 22px;border-radius:12px;border:1.5px solid #E3E8F2;background:#fff;color:#111F38;font-weight:700;font-size:15px;cursor:pointer;">Start another brief</button>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+
+    <aside aria-label="Your brief" style="flex:4 1 320px;min-width:0;position:relative;overflow:hidden;background:linear-gradient(150deg,#1C46BB 0%,#16233F 72%);color:#fff;padding:clamp(24px,3.5vw,44px);box-sizing:border-box;display:flex;flex-direction:column;gap:22px;">
+      <div aria-hidden="true" style="position:absolute;right:-200px;bottom:-200px;width:520px;height:520px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);"></div>
+      <div aria-hidden="true" style="position:absolute;right:-110px;bottom:-110px;width:340px;height:340px;border-radius:50%;border:1px solid rgba(255,255,255,0.14);"></div>
+      <div style="position:relative;display:flex;justify-content:space-between;align-items:center;">
+        <p style="margin:0;font-weight:800;font-size:13px;letter-spacing:0.18em;">YOUR BRIEF</p>
+        <span style="font-size:13px;color:#C9D6F7;font-variant-numeric:tabular-nums;">{{ briefFill }}</span>
+      </div>
+      <div style="position:relative;">
+        <p style="margin:0 0 10px;font-size:13px;color:#8FA8F0;font-weight:700;letter-spacing:0.08em;">NEEDS</p>
+        <sc-if value="{{ noNeeds }}" hint-placeholder-val="{{ true }}"><p style="margin:0;color:#C9D6F7;font-size:15px;line-height:1.55;">Pick what you need — your brief builds itself here.</p></sc-if>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <sc-for list="{{ selNeeds }}" as="sn" hint-placeholder-count="0"><span style="border:1px solid rgba(255,255,255,0.35);border-radius:999px;padding:6px 12px;font-size:13.5px;font-weight:600;">{{ sn }}</span></sc-for>
+        </div>
+      </div>
+      <sc-if value="{{ hasPkg }}" hint-placeholder-val="{{ false }}">
+        <div style="position:relative;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:18px;">
+          <p style="margin:0;font-size:12px;font-weight:800;letter-spacing:0.18em;color:#8FA8F0;">SUGGESTED PACKAGE · {{ pkg.match }}</p>
+          <p style="margin:8px 0 0;font-weight:800;font-size:26px;letter-spacing:-0.02em;">{{ pkg.name }}</p>
+          <p style="margin:6px 0 0;color:#DBE8FA;font-size:14.5px;line-height:1.5;">{{ pkg.outcome }}</p>
+          <p style="margin:10px 0 0;color:#C9D6F7;font-size:13px;">{{ pkg.services }} · {{ pkg.price }}</p>
+        </div>
+      </sc-if>
+      <div style="position:relative;display:flex;flex-direction:column;gap:0;">
+        <sc-for list="{{ briefRows }}" as="br" hint-placeholder-count="4">
+          <div style="display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-top:1px solid rgba(255,255,255,0.14);font-size:14.5px;">
+            <span style="color:#8FA8F0;">{{ br.k }}</span><span style="font-weight:600;text-align:right;color:{{ br.c }};overflow-wrap:anywhere;">{{ br.v }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <p style="position:relative;margin:auto 0 0;color:#8FA8F0;font-weight:700;font-size:17px;">Think it. Build it. Scale it.</p>
+    </aside>
+  </div>
+</div>
+</sc-if>
+
+<!-- Floating -->
+<sc-if value="{{ showBottomBar }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:0;right:0;bottom:0;z-index:50;background:#fff;border-top:1px solid #E3E8F2;padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:grid;grid-template-columns:1fr 1fr 1.6fr;gap:8px;">
+    <a href="https://wa.me/917539907704" style="min-height:48px;border-radius:12px;border:1px solid #E3E8F2;display:grid;place-items:center;font-weight:700;font-size:14px;color:#111F38;">WhatsApp</a>
+    <a href="tel:+917539907704" style="min-height:48px;border-radius:12px;border:1px solid #E3E8F2;display:grid;place-items:center;font-weight:700;font-size:14px;color:#111F38;">Call</a>
+    <a href="#contact" onClick="{{ openForm }}" style="min-height:48px;border-radius:12px;background:#1A4AD8;display:grid;place-items:center;font-weight:700;font-size:14px;color:#fff;">Start a project</a>
+  </div>
+</sc-if>
+<sc-if value="{{ showWaFloat }}" hint-placeholder-val="{{ true }}">
+  <a href="https://wa.me/917539907704" aria-label="Chat on WhatsApp" style="position:fixed;right:24px;bottom:24px;z-index:50;height:52px;padding:0 20px;border-radius:999px;background:#111F38;color:#fff;display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;box-shadow:0 16px 32px -16px rgba(17,31,56,0.6);" style-hover="background:#1A4AD8;color:#fff;"><span style="width:10px;height:10px;border-radius:50%;background:#25D366;"></span>WhatsApp</a>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;driftSeconds&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:40,&quot;min&quot;:15,&quot;max&quot;:90,&quot;step&quot;:5,&quot;unit&quot;:&quot;s&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Motion&quot;},&quot;reduceMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;}}">
+class Component extends DCLogic {
+  state = { w: 1280, filter: 'All', ind: 0, indPaused: false, t0: 0, prog: [0,0,0,0], verb: 0, arc: 0, faq: 0, revealed: false, pastHero: false, menu: false, waveOff: false, sub: false, pulse: false, formOpen: false, fShown: false, step: 0, tried: {}, sent: false, refNo: '', f: { needs: [], name: '', email: '', phone: '', company: '', contact: 'Email', budget: '', timeline: '', message: '', files: [] } };
+  closeRef = React.createRef();
+  NEEDS = [['Website','language'],['App','smartphone'],['Game','sports_esports'],['Logo','draw'],['Graphics','palette'],['Video','movie'],['Business Systems','account_tree'],['SEO','travel_explore'],['SaaS / Software','cloud'],['AI / Chatbot','psychology'],['Product demo','play_circle'],['Not sure yet','help']];
+  PKGS = [
+    { name: 'Launch', set: ['Logo','Website','Graphics'], outcome: 'A launch that looks coherent, from one team, on one timeline', price: 'Fixed price after the Discover call' },
+    { name: 'Replace', set: ['Website','Business Systems'], outcome: 'A single source of truth and decisions from live data', price: 'Quoted in phases' },
+    { name: 'Be found', set: ['SEO','Graphics','Video'], outcome: 'Enquiries from search instead of ad spend', price: 'Six-month minimum' },
+    { name: 'Ship the app', set: ['App','Game','Logo'], outcome: 'A product you can sell', price: 'Phase one priced on its own' },
+  ];
+  openForm(e, preset) {
+    if (e && e.preventDefault) e.preventDefault();
+    this.setState(s => ({ formOpen: true, fShown: false, menu: false, f: preset && !s.f.needs.includes(preset) && !s.sent ? { ...s.f, needs: [...s.f.needs, preset] } : s.f }));
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => { this.setState({ fShown: true }); this.closeRef.current && this.closeRef.current.focus(); }, 20);
+  }
+  closeForm() { this.setState({ fShown: false }); document.body.style.overflow = ''; setTimeout(() => this.setState({ formOpen: false }), 240); }
+  errorsFor(step) {
+    const f = this.state.f, e = {};
+    if (step === 0 && !f.needs.length) e.needs = 'Pick at least one thing you need — or "Not sure yet".';
+    if (step === 1) {
+      if (!f.name.trim()) e.name = 'Enter your name so we know who to reply to.';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.trim())) e.email = f.email.trim() ? 'That email looks incomplete — check for a missing @ or domain.' : 'Enter an email address.';
+      if (f.phone.replace(/\D/g, '').length < 10) e.phone = 'Enter a phone number with at least 10 digits.';
+    }
+    if (step === 2 && f.message.trim().length < 20) e.message = 'Give us a little more — at least 20 characters.';
+    return e;
+  }
+  goNext() {
+    const s = this.state, e = this.errorsFor(s.step);
+    if (Object.keys(e).length) return this.setState({ tried: { ...s.tried, [s.step]: true } });
+    if (s.step < 2) this.setState({ step: s.step + 1 });
+    else this.setState({ sent: true, refNo: 'ASPR-' + String(Date.now()).slice(-6) });
+  }
+  strip = React.createRef(); wave = React.createRef(); statsRef = React.createRef(); processRef = React.createRef(); heroRef = React.createRef();
+  gRefs = [React.createRef(), React.createRef(), React.createRef()];
+
+  reduced() { return !!this.props.reduceMotion || this.mq; }
+
+  componentDidMount() {
+    this.mq = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this._r = () => this.setState({ w: window.innerWidth }); this._r();
+    window.addEventListener('resize', this._r);
+    setTimeout(() => this.setState({ revealed: true }), 80);
+    this.pi = setInterval(() => this.setState(s => ({ pulse: !s.pulse })), 1000);
+    this.off = 0; let last = performance.now();
+    const tick = t => {
+      const dt = Math.min(64, t - last); last = t;
+      const el = this.strip.current;
+      if (el) {
+        if (!this.paused && !this.reduced() && this.state.w >= 760) {
+          const half = el.scrollWidth / 2, secs = this.props.driftSeconds ?? 40;
+          this.off = (this.off + dt * half / (secs * 1000)) % half;
+          el.style.transform = `translate3d(${-this.off}px,0,0)`;
+        } else if (this.state.w < 760) el.style.transform = 'none';
+      }
+      const wv = this.wave.current;
+      if (wv) [...wv.children].forEach((b, i) => {
+        b.style.transform = (this.reduced() || this.state.waveOff) ? 'scaleY(0.6)' : `scaleY(${0.25 + 0.75 * Math.abs(Math.sin(t / 380 + i * 0.5) * Math.cos(t / 900 + i * 0.21))})`;
+      });
+      this.raf = requestAnimationFrame(tick);
+    };
+    this.raf = requestAnimationFrame(tick);
+    this.iv = setInterval(() => { if (!this.state.indPaused && !this.hoverInd && !this.reduced()) this.setState(s => ({ ind: (s.ind + 1) % 8 })); }, 6000);
+    this.io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { this.io.disconnect(); this.countUp(); } }), { threshold: 0.35 });
+    if (this.statsRef.current) this.io.observe(this.statsRef.current);
+    this._s = () => this.onScroll();
+    document.addEventListener('scroll', this._s, { capture: true, passive: true });
+    this.onScroll();
+  }
+  componentWillUnmount() {
+    cancelAnimationFrame(this.raf); clearInterval(this.iv); clearInterval(this.pi);
+    window.removeEventListener('resize', this._r); document.removeEventListener('scroll', this._s, { capture: true });
+    this.io && this.io.disconnect();
+  }
+  countUp() {
+    if (this.reduced()) return this.setState({ prog: [1,1,1,1] });
+    const start = performance.now();
+    const step = t => { const p = Math.min(1, (t - start) / 1200), e = 1 - Math.pow(1 - p, 3);
+      this.setState({ prog: [e,e,e,e] }); if (p < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }
+  onScroll() {
+    const vh = window.innerHeight;
+    const pr = this.processRef.current, hr = this.heroRef.current;
+    let arc = this.state.arc, verb = this.state.verb;
+    if (pr) { const r = pr.getBoundingClientRect(); arc = Math.max(0, Math.min(1, (vh * 0.55 - r.top) / (r.height - vh * 0.3))); }
+    this.gRefs.forEach((g, i) => { if (g.current && g.current.getBoundingClientRect().top < vh * 0.5) verb = i; });
+    if (this.gRefs[0].current && this.gRefs[0].current.getBoundingClientRect().top >= vh * 0.5) verb = 0;
+    const pastHero = hr ? hr.getBoundingClientRect().bottom < 0 : false;
+    if (Math.abs(arc - this.state.arc) > 0.004 || verb !== this.state.verb || pastHero !== this.state.pastHero) this.setState({ arc, verb, pastHero });
+  }
+
+  formVals(mobile) {
+    const s = this.state, f = s.f, royal = '#1A4AD8', ink = '#111F38';
+    const errs = s.tried[s.step] ? this.errorsFor(s.step) : {};
+    const set = k => e => { const v = e.target.value; this.setState(x => ({ f: { ...x.f, [k]: v } })); };
+    const on = { name: set('name'), email: set('email'), phone: set('phone'), company: set('company'), message: set('message'),
+      files: e => { const names = [...(e.target.files || [])].map(x => x.name); e.target.value = ''; this.setState(x => ({ f: { ...x.f, files: [...x.f.files, ...names] } })); } };
+    const keys = ['needs','name','email','phone','message'];
+    const has = {}, bd = {}, err = {};
+    ['needs','name','email','phone','company','message'].forEach(k => { has[k] = !!errs[k]; err[k] = errs[k] || ''; bd[k] = errs[k] ? '#B42318' : '#E3E8F2'; });
+    const needChips = this.NEEDS.map(([label, icon]) => { const sel = f.needs.includes(label);
+      return { label, icon, on: sel, bd: sel ? royal : (has.needs ? '#F4C7C3' : '#E3E8F2'), bg: sel ? '#EAF0FD' : '#fff', tile: sel ? royal : '#EAF0FD', ic: sel ? '#fff' : royal, box: sel ? royal : '#fff', tick: sel ? '✓' : '',
+        toggle: () => this.setState(x => ({ f: { ...x.f, needs: sel ? x.f.needs.filter(n => n !== label) : [...x.f.needs, label] } })) }; });
+    const radio = (key, opts) => opts.map(label => { const sel = f[key] === label;
+      return { label, on: sel, bd: sel ? ink : '#E3E8F2', bg: sel ? ink : '#fff', fg: sel ? '#fff' : ink, pick: () => this.setState(x => ({ f: { ...x.f, [key]: sel && key !== 'contact' ? '' : label } })) }; });
+    let pkg = null, best = 1;
+    this.PKGS.forEach(p => { const m = p.set.filter(n => f.needs.includes(n)).length; if (m > best) { best = m; pkg = { ...p, match: m + ' OF ' + p.set.length + ' MATCH', services: p.set.join(' + ') }; } });
+    const titles = ['What do you need?', 'Who should we talk to?', 'Tell us the details'];
+    const subs = ['Select everything that applies. We\'ll suggest a package if your picks match one.', 'One person, one point of contact — the same way we work.', 'A few lines is plenty. Scope, price and timeline get written down after the Discover call.'];
+    const errList = Object.values(errs);
+    const filled = [f.needs.length, f.name, f.email, f.phone, f.message].filter(Boolean).length;
+    const dash = v => v || '—', dc = v => v ? '#fff' : 'rgba(255,255,255,0.45)';
+    return {
+      formOpen: s.formOpen, fOp: s.fShown ? 1 : 0, fTf: s.fShown ? 'translateY(0)' : 'translateY(12px)',
+      fPad: mobile ? '0' : '24px', fH: mobile ? '100%' : 'min(820px, calc(100vh - 48px))', fRadius: mobile ? '0' : '24px',
+      closeForm: () => this.closeForm(), closeRef: this.closeRef,
+      formKey: e => { if (e.key === 'Escape') this.closeForm(); },
+      notSent: !s.sent, sent: s.sent, step0: s.step === 0, step1: s.step === 1, step2: s.step === 2,
+      stepsUi: ['What you need', 'About you', 'The details'].map((label, i) => ({ label, n: '0' + (i + 1), bar: i <= s.step ? royal : '#E3E8F2', fg: i === s.step ? ink : '#5A6380' })),
+      stepTitle: titles[s.step], stepSub: subs[s.step],
+      showErrSummary: errList.length > 1, errCount: errList.length + ' things', errList,
+      form: f, on, has, bd, err, needChips,
+      contactOpts: radio('contact', ['Email', 'Phone call', 'WhatsApp']),
+      budgetOpts: radio('budget', ['Under ₹1 lakh', '₹1–5 lakh', '₹5–15 lakh', '₹15 lakh+', 'Not sure yet']),
+      timeOpts: radio('timeline', ['As soon as possible', '1–3 months', '3–6 months', 'Flexible']),
+      msgCount: f.message.trim().length + ' / 20 min',
+      fileList: f.files.map((name, i) => ({ name, remove: () => this.setState(x => ({ f: { ...x.f, files: x.f.files.filter((_, j) => j !== i) } })) })),
+      canBack: s.step > 0, back: () => this.setState({ step: s.step - 1 }), next: () => this.goNext(),
+      nextLabel: s.step < 2 ? 'Continue →' : 'Send my brief →',
+      firstName: (f.name.trim().split(' ')[0]) || 'thanks', contactVia: f.contact === 'Phone call' ? 'phone' : f.contact.toLowerCase(), refNo: s.refNo,
+      resetForm: () => this.setState({ sent: false, step: 0, tried: {}, f: { needs: [], name: '', email: '', phone: '', company: '', contact: 'Email', budget: '', timeline: '', message: '', files: [] } }),
+      noNeeds: !f.needs.length, selNeeds: f.needs, hasPkg: !!pkg, pkg: pkg || {}, briefFill: filled + ' / 5 required',
+      briefRows: [
+        { k: 'Name', v: dash(f.name), c: dc(f.name) }, { k: 'Company', v: dash(f.company), c: dc(f.company) },
+        { k: 'Contact via', v: f.contact, c: '#fff' }, { k: 'Budget', v: dash(f.budget), c: dc(f.budget) },
+        { k: 'Timeline', v: dash(f.timeline), c: dc(f.timeline) }, { k: 'Files', v: f.files.length ? f.files.length + ' attached' : '—', c: dc(f.files.length) },
+      ],
+    };
+  }
+  renderVals() {
+    const s = this.state, w = s.w, mobile = w < 760, desktop = w >= 1024;
+    const royal = '#1A4AD8', ink = '#111F38';
+    const lines = ['Building Digital', 'Solutions for', 'the Future'];
+    const heroLines = lines.map((text, i) => ({ text, dot: i === 2 ? '.' : '',
+      op: (s.revealed || this.reduced()) ? 1 : 0, tf: (s.revealed || this.reduced()) ? 'translateY(0)' : 'translateY(105%)', delay: `${i * 60}ms` }));
+
+    const tiles = [
+      ['assets/responsive-web.png', 'Responsive website shown on laptop, tablet and phone'],
+      ['assets/banking-app.png', 'Mobile banking app screens with balance and analytics'],
+      ['assets/ops-dashboard.png', 'Operations dashboard with live job map and schedule'],
+      ['assets/shop-app.png', 'Shopping app screens with product listings'],
+      ['assets/game-ui.png', 'Fantasy mobile game home screen with battle button'],
+      ['assets/finance-dashboard.png', 'Personal finance dashboard in dark and light themes'],
+      ['assets/ecommerce.png', 'E-commerce storefront on a desktop monitor'],
+      ['assets/car-app.png', 'Car marketplace app screens'],
+      ['assets/inventory.png', 'Inventory management dashboard'],
+    ];
+    const strip = [...tiles, ...tiles].map(([src, alt], i) => ({ src, alt: i < tiles.length ? alt : '', loading: i < 4 ? 'eager' : 'lazy' }));
+
+    const T = [300, 150, 15, 10], p = s.prog;
+    const stats = [
+      { val: Math.round(T[0] * p[0]) + '+', label: 'Projects delivered' },
+      { val: Math.round(T[1] * p[1]) + '+', label: 'Clients served' },
+      { val: Math.round(10 * p[2]) + '–' + Math.round(15 * p[2]), label: 'Specialists' },
+      { val: String(Math.round(T[3] * p[3])), label: 'Services under one roof' },
+    ];
+
+    const svc = [
+      ['01','Website Development','Build','Sites that load fast, rank, and give sales something to point at.','assets/responsive-web.png','Responsive website on laptop, tablet and phone','center'],
+      ['02','App Development','Build','iOS and Android from one codebase, shipped and then maintained.','assets/shop-app.png','Shopping app screens','center top'],
+      ['03','SaaS & Software Solutions','Build','Custom platforms and subscription software, built to scale with the business.','assets/ops-dashboard.png','Operations SaaS dashboard','center 20%'],
+      ['04','AI & Chatbot Solutions','Build','AI agents and chatbots that answer, book and qualify, around the clock.','assets/ai-chatbot.png','AI assistant app screens','center'],
+      ['05','Game Development','Build','Unity builds scoped to finish, not to drift for eighteen months.','assets/game-ui.png','Mobile game home screen','center 35%'],
+      ['06','Logo Design','Brand','A mark that holds up at 16 pixels and on a hoarding.','assets/logo-design.png','Logo concept sketches and applications','center 45%'],
+      ['07','Graphics Design','Brand','Print, social and packaging that stay recognisably yours.','assets/poster.png','Café promotional poster','center 30%'],
+      ['08','Video Editing','Brand','Cuts built for the feed, the pitch deck and the launch.','assets/video-edit.png','Video editing timeline on monitors','center 30%'],
+      ['09','SEO','Grow','Rankings that bring buyers, not just traffic.','assets/seo-dashboard.png','Search traffic and analytics dashboard','center'],
+      ['10','Business Management','Grow','The systems that take over when the spreadsheet stops coping.','assets/inventory.png','Inventory management dashboard','center'],
+    ];
+    const layouts = { All: [7,5,4,4,4,4,4,4,6,6], Build: [7,5,4,4,4], Brand: [4,4,4], Grow: [6,6] };
+    const filtered = svc.filter(x => s.filter === 'All' || x[2] === s.filter);
+    const spans = layouts[s.filter];
+    const services = filtered.map((x, i) => {
+      const span = mobile ? 12 : (w < 1024 ? (spans[i] >= 6 ? 12 : 6) : spans[i]);
+      const wide = !mobile && span >= 6 && span === 12 && s.filter !== 'All';
+      const horiz = !mobile && (span === 12 || (desktop && span >= 6 && s.filter === 'Grow'));
+      return { n: x[0], icon: {"Website Development":"language","App Development":"smartphone","SaaS & Software Solutions":"cloud","AI & Chatbot Solutions":"psychology","Game Development":"sports_esports","Logo Design":"draw","Graphics Design":"palette","Video Editing":"movie","SEO":"travel_explore","Business Management":"account_tree"}[x[1]], name: x[1], pillarUp: x[2].toUpperCase(), line: x[3], img: x[4], alt: x[5], pos: x[6],
+        col: `span ${span}`, dir: horiz ? 'row' : 'column', imgFlex: horiz ? '0 0 46%' : '0 0 auto',
+        imgH: horiz ? '240px' : (span >= 5 ? (mobile ? '200px' : '280px') : '180px'),
+        titleSize: span >= 5 ? '26px' : '21px', op: 1 };
+    });
+    const filters = ['All','Build','Brand','Grow'].map(label => { const on = s.filter === label;
+      return { label, on, count: label === 'All' ? 10 : svc.filter(x => x[2] === label).length,
+        bg: on ? ink : '#fff', fg: on ? '#fff' : ink, bd: on ? ink : '#E3E8F2', pick: () => this.setState({ filter: label }) }; });
+
+    const products = [
+      { icon: 'receipt_long', name: 'Billing Software', tag: 'Simple and efficient billing', img: 'assets/banking-app.png', alt: 'Billing and payments app screens', pos: 'center' },
+      { icon: 'groups', name: 'Employee Management', tag: 'Manage your workforce', img: 'assets/ops-dashboard.png', alt: 'Workforce scheduling dashboard', pos: 'left 30%' },
+      { icon: 'inventory_2', name: 'Inventory Management', tag: 'Track stock with confidence', img: 'assets/inventory.png', alt: 'Inventory overview dashboard', pos: 'center' },
+      { icon: 'account_balance', name: 'Finance & FinServ', tag: 'Smarter financial operations', img: 'assets/finance-dashboard.png', alt: 'Finance dashboard with inflow and budget charts', pos: 'center top' },
+    ].map(p => ({ ...p, demo: e => this.openForm(e, 'Product demo') }));
+    const bars = Array.from({ length: 30 }, (_, i) => ({ h: `${30 + 70 * Math.abs(Math.sin(i * 0.9))}%`, c: i % 5 === 2 ? '#fff' : '#8FA8F0' }));
+
+    const groups = [
+      { label: 'THINK IT', steps: [{ n: '01', t: 'Discover', d: 'We ask what the business needs before anyone opens a design tool.' }, { n: '02', t: 'Define', d: 'Scope, price and timeline written down and signed off.' }] },
+      { label: 'BUILD IT', steps: [{ n: '03', t: 'Design', d: 'Screens you can react to, with two rounds of revisions.' }, { n: '04', t: 'Develop', d: 'Built in the open, with a staging link you can check any day.' }, { n: '05', t: 'Test', d: 'Real devices, real content, real edge cases.' }] },
+      { label: 'SCALE IT', steps: [{ n: '06', t: 'Deploy', d: 'Launch on a quiet day, with a rollback ready.' }, { n: '07', t: 'Support', d: 'We stay on the account after the invoice clears.' }] },
+    ].map((g, i) => ({ ...g, ref: this.gRefs[i] }));
+    const verbs = ['Think it.', 'Build it.', 'Scale it.'].map((text, i) => ({ text, color: i === s.verb ? royal : (i < s.verb ? ink : '#B8C2D8') }));
+
+    const IND = [
+      ['Retail','Stock, prices and offers live in three places that disagree.',['Storefronts','Inventory sync','Billing','Loyalty','Product SEO'],'assets/ecommerce.png','E-commerce storefront on a desktop monitor','center 40%'],
+      ['Healthcare','Appointments arrive by phone, WhatsApp and walk-in.',['Booking systems','Patient records','Reminders','Clinic sites'],null,'Clinic booking system image','center'],
+      ['Education','Enquiry forms go to an inbox nobody owns.',['Learning platforms','Admission portals','Student apps','Educational games'],'assets/game-ui.png','Mobile game interface','center 30%'],
+      ['Real Estate','Listings updated on paper first.',['Property portals','CRM pipelines','Virtual tours','Local SEO'],'assets/responsive-web.png','Responsive website across devices','center'],
+      ['Manufacturing','Job status lives on a whiteboard.',['ERP','Production tracking','Vendor portals','Dashboards'],'assets/inventory.png','Inventory and production dashboard','center'],
+      ['Logistics','Every delivery update is a phone call made twice.',['Fleet tracking','Delivery apps','Route planning','Tracking pages'],'assets/ops-dashboard.png','Live job and route map dashboard','center 35%'],
+      ['Hospitality','Website says one thing, counter another.',['Direct-order apps','Table booking','POS integration','Menu design'],'assets/poster.png','Café promotional poster','center 40%'],
+      ['Startups','A prototype has to look investable.',['MVP builds','Brand identity','Pitch decks','Launch campaigns'],'assets/logo-design.png','Logo concept and brand applications','center 20%'],
+    ];
+    const industries = IND.map((x, i) => { const on = i === s.ind;
+      return { name: x[0], on, img: x[3], hasImg: !!x[3], noImg: !x[3], alt: x[4], pos: x[5], op: on ? 1 : 0,
+        bg: on ? ink : '#fff', fg: on ? '#fff' : ink, bd: on ? ink : '#E3E8F2', pick: () => this.setState({ ind: i, indPaused: true }) }; });
+    const cur = IND[s.ind];
+
+    const why = [{ n: '01', t: 'One team, start to finish' }, { n: '02', t: 'Plain answers, in writing' }, { n: '03', t: 'You own everything' }, { n: '04', t: 'We stay after launch' }];
+    const proof = [{ a: '10 services', b: '1 point of contact' }, { a: '10–15 specialists', b: 'No middle layer' }, { a: '150+', b: 'Clients served' }];
+    const work = [
+      { client: 'Retail brand, Coimbatore', pillar: 'BUILD', scope: ['Website', 'Catalogue', 'Brand refresh'], img: 'assets/ecommerce.png', alt: 'Retail storefront on desktop', pos: 'center 40%' },
+      { client: 'Clinic group, Tamil Nadu', pillar: 'BUILD', scope: ['Booking system', 'Website'], img: 'assets/responsive-web.png', alt: 'Responsive website across devices', pos: 'center' },
+      { client: 'Manufacturer, Mettupalayam', pillar: 'GROW', scope: ['Business systems', 'Graphics'], img: 'assets/inventory.png', alt: 'Business systems dashboard', pos: 'center' },
+    ];
+    const faqs = ['How do we start a project with you?', 'Who will we actually be talking to?', 'Do we own the code and accounts?', 'How long does a build take?'].map((q, i) => {
+      const open = s.faq === i; return { q, open, sign: open ? '−' : '+', tileBg: open ? royal : '#EAF0FD', tileFg: open ? '#fff' : royal,
+        toggle: () => this.setState({ faq: open ? -1 : i }) }; });
+    const contacts = [
+      { k: 'language', v: 'asprglobaltech.com', href: 'https://asprglobaltech.com' },
+      { k: 'mail', v: 'support@asprglobaltech.com', href: 'mailto:support@asprglobaltech.com' },
+      { k: 'call', v: '+91 75399 07704', href: 'tel:+917539907704' },
+    ];
+    const footCols = [
+      { h: 'SERVICES', links: ['Website Development', 'App Development', 'SaaS & Software', 'AI & Chatbots', 'Game Development', 'Brand & Design', 'SEO'] },
+      { h: 'PRODUCTS', links: ['AI Voice Agent', 'Billing Software', 'Employee Management', 'Inventory Management', 'Finance & FinServ'] },
+      { h: 'COMPANY', links: ['About', 'Process', 'Work', 'Careers', 'Insights', 'FAQ', 'Contact'].map(t => ({ t, href: 'ASPR Company.dc.html#' + t.toLowerCase() })) },
+    ].map((c, i) => i < 2 ? { ...c, links: c.links.map(t => ({ t, href: i ? '#products' : '#services' })) } : c);
+
+    return {
+      mobile, desktop, notDesktop: !desktop, menu: s.menu, drawerOpen: !desktop && s.menu, menuIcon: s.menu ? '✕' : '☰',
+      toggleMenu: () => this.setState(x => ({ menu: !x.menu })),
+      navItems: [{ label: 'Services', caret: '', href: '#services' }, { label: 'Products', caret: '', href: '#products' }, { label: 'Work', caret: '', href: 'ASPR Company.dc.html#work' }, { label: 'About', caret: '', href: 'ASPR Company.dc.html#about' }, { label: 'Company', caret: '▾', href: 'ASPR Company.dc.html#process' }],
+      heroRef: this.heroRef, heroLines, pulseShadow: (s.pulse && !this.reduced()) ? '0 0 0 7px rgba(26,74,216,0)' : '0 0 0 0 rgba(26,74,216,0.45)',
+      strip: mobile ? strip.slice(0, tiles.length) : strip, stripRef: this.strip, stripH: mobile ? '240px' : '320px', stripOverflow: mobile ? 'auto' : 'hidden',
+      pauseStrip: () => { this.paused = true; }, playStrip: () => { this.paused = false; },
+      statsRef: this.statsRef, stats,
+      filters, services,
+      products, bars, waveRef: this.wave, waveLabel: s.waveOff ? 'Play waveform' : 'Pause waveform', toggleWave: () => this.setState(x => ({ waveOff: !x.waveOff })),
+      processRef: this.processRef, groups, verbs, arcOffset: String(1 - s.arc), stickyPos: mobile ? 'static' : 'sticky',
+      industries, ind: { upper: cur[0].toUpperCase(), problem: cur[1], builds: cur[2] },
+      pauseInd: () => { this.hoverInd = true; }, playInd: () => { this.hoverInd = false; },
+      toggleInd: () => this.setState(x => ({ indPaused: !x.indPaused })), indPauseLabel: s.indPaused ? '▶ Resume rotation' : '❚❚ Pause rotation',
+      why, proof, work, faqs, contacts, footCols,
+      subscribe: e => { e.preventDefault(); this.setState({ sub: true }); }, subLabel: s.sub ? 'Subscribed ✓' : 'Subscribe',
+      ...this.formVals(mobile),
+      openForm: e => this.openForm(e), openDemo: e => this.openForm(e, 'Product demo'),
+      showBottomBar: mobile && s.pastHero, showWaFloat: !mobile,
+    };
+  }
+}
+</script>
+</body>
+</html>

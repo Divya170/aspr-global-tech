@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300,0,0&display=block" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#F5F7FB;}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#111F38;-webkit-font-smoothing:antialiased;}
+a{color:#1A4AD8;text-decoration:none;}
+a:hover{color:#16233F;}
+*:focus-visible{outline:2px solid #1A4AD8;outline-offset:3px;border-radius:6px;}
+button,input,textarea{font-family:inherit;}
+img{display:block;}
+</style>
+</helmet>
+<div style="font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:#F5F7FB;color:#111F38;min-height:100vh;">
+
+<a href="#main" style="position:absolute;left:-9999px;top:8px;background:#1A4AD8;color:#fff;padding:10px 16px;border-radius:10px;font-weight:700;z-index:100;" style-focus="left:16px;">Skip to content</a>
+
+<sc-if value="{{ isArticle }}" hint-placeholder-val="{{ false }}">
+  <div aria-hidden="true" style="position:fixed;left:0;top:0;height:3px;z-index:60;background:#1A4AD8;width:{{ progW }};transition:width 80ms linear;"></div>
+</sc-if>
+
+<!-- HEADER -->
+<header style="position:sticky;top:0;z-index:40;background:rgba(245,247,251,0.92);backdrop-filter:blur(10px);border-bottom:1px solid #E3E8F2;">
+  <div style="max-width:1280px;margin:0 auto;padding:14px clamp(20px,4vw,48px);display:flex;align-items:center;justify-content:space-between;gap:24px;">
+    <a href="ASPR Home.dc.html" aria-label="ASPR Global Tech home" style="display:flex;align-items:center;flex:0 0 auto;"><img src="assets/aspr-logo.png" alt="ASPR Global Tech" style="height:48px;width:auto;"></img></a>
+    <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+      <nav aria-label="Main" style="display:flex;align-items:center;gap:4px;">
+        <a href="ASPR Home.dc.html#services" style="padding:10px 14px;border-radius:10px;font-weight:600;font-size:15px;color:#111F38;" style-hover="background:#EAF0FD;color:#1A4AD8;">Services</a>
+        <a href="ASPR Home.dc.html#products" style="padding:10px 14px;border-radius:10px;font-weight:600;font-size:15px;color:#111F38;" style-hover="background:#EAF0FD;color:#1A4AD8;">Products</a>
+        <a href="#work" style="padding:10px 14px;border-radius:10px;font-weight:600;font-size:15px;color:{{ workNavColor }};" style-hover="background:#EAF0FD;color:#1A4AD8;">Work</a>
+        <div onMouseEnter="{{ ddOpen }}" onMouseLeave="{{ ddClose }}" style="position:relative;">
+          <button type="button" onClick="{{ ddToggle }}" aria-expanded="{{ dd }}" style="padding:10px 14px;border-radius:10px;border:none;background:{{ ddBg }};font-weight:600;font-size:15px;color:#111F38;cursor:pointer;display:flex;align-items:center;gap:6px;">Company <span style="font-size:10px;color:#5A6380;">▾</span></button>
+          <sc-if value="{{ dd }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;right:0;top:100%;padding-top:8px;">
+              <div style="width:280px;background:#fff;border:1px solid #E3E8F2;border-radius:16px;padding:8px;box-shadow:0 24px 48px -24px rgba(17,31,56,0.35);display:flex;flex-direction:column;">
+                <sc-for list="{{ pagesNav }}" as="pn" hint-placeholder-count="7">
+                  <a href="{{ pn.href }}" style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;color:#111F38;font-weight:600;font-size:15px;background:{{ pn.bg }};" style-hover="background:#EAF0FD;color:#1A4AD8;">
+                    <span style="width:34px;height:34px;border-radius:10px;background:#EAF0FD;display:grid;place-items:center;"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;color:#1A4AD8;font-variation-settings:'wght' 300;">{{ pn.icon }}</span></span>{{ pn.label }}
+                  </a>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </nav>
+    </sc-if>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <a href="#contact" style="background:#1A4AD8;color:#fff;padding:12px 18px;border-radius:12px;font-weight:700;font-size:15px;white-space:nowrap;" style-hover="background:#16233F;color:#fff;">Start a project →</a>
+      <sc-if value="{{ notDesktop }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ toggleMenu }}" aria-expanded="{{ menu }}" aria-label="Menu" style="width:46px;height:46px;border-radius:12px;border:1px solid #E3E8F2;background:#fff;color:#111F38;font-size:18px;font-weight:800;cursor:pointer;">{{ menuIcon }}</button>
+      </sc-if>
+    </div>
+  </div>
+  <sc-if value="{{ drawerOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="border-top:1px solid #E3E8F2;background:#fff;padding:8px 20px 24px;display:flex;flex-direction:column;max-height:calc(100vh - 80px);overflow:auto;">
+      <a href="ASPR Home.dc.html#services" style="padding:15px 4px;border-bottom:1px solid #E3E8F2;font-weight:700;font-size:18px;color:#111F38;">Services</a>
+      <a href="ASPR Home.dc.html#products" style="padding:15px 4px;border-bottom:1px solid #E3E8F2;font-weight:700;font-size:18px;color:#111F38;">Products</a>
+      <p style="margin:18px 4px 6px;font-weight:800;font-size:12px;letter-spacing:0.18em;color:#5A6380;">COMPANY</p>
+      <sc-for list="{{ pagesNav }}" as="pn" hint-placeholder-count="7">
+        <a href="{{ pn.href }}" style="padding:13px 4px;border-bottom:1px solid #E3E8F2;font-weight:700;font-size:17px;color:{{ pn.fg }};">{{ pn.label }}</a>
+      </sc-for>
+    </div>
+  </sc-if>
+</header>
+
+<main id="main">
+
+<!-- ================= ABOUT ================= -->
+<sc-if value="{{ isAbout }}" hint-placeholder-val="{{ true }}">
+<section data-screen-label="About — Story" style="position:relative;overflow:hidden;background-color:#F5F7FB;background-image:radial-gradient(circle at 90% 0%, #DBE8FA 0%, rgba(219,232,250,0) 44%),radial-gradient(#D6DEEC 1px, transparent 1.3px);background-size:100% 100%,22px 22px;">
+  <div aria-hidden="true" style="position:absolute;right:-240px;top:-280px;width:700px;height:700px;border-radius:50%;border:1px solid rgba(26,74,216,0.10);"></div>
+  <div aria-hidden="true" style="position:absolute;right:-140px;top:-180px;width:500px;height:500px;border-radius:50%;border:1px solid rgba(26,74,216,0.12);"></div>
+  <div style="position:relative;max-width:1280px;margin:0 auto;padding:clamp(48px,8vw,104px) clamp(20px,4vw,48px) clamp(64px,8vw,112px);display:flex;flex-wrap:wrap;gap:48px clamp(32px,6vw,88px);align-items:flex-end;">
+    <div style="flex:6 1 480px;">
+      <p style="margin:0;font-weight:800;font-size:clamp(14px,1.4vw,18px);letter-spacing:0.16em;">ABOUT ASPR</p>
+      <h1 style="margin:22px 0 0;font-weight:800;font-size:clamp(42px,6.2vw,88px);line-height:1.03;letter-spacing:-0.035em;text-wrap:balance;">It started with a boy who didn't fit the timetable.</h1>
+      <p style="margin:24px 0 0;color:#1A4AD8;font-weight:600;font-size:clamp(16px,1.6vw,20px);">Build • Brand • Grow</p>
+    </div>
+    <div style="flex:4 1 320px;display:flex;flex-direction:column;gap:18px;font-size:17px;line-height:1.7;color:#5A6380;max-width:720px;">
+      <p style="margin:0;color:#111F38;font-weight:600;font-size:clamp(18px,1.6vw,21px);line-height:1.55;">ASPR Global Tech began when a father realised his son wasn't bad at learning — he was bad at sitting still for it.</p>
+      <p style="margin:0;">One full-stack course later, a seed was planted. Today that seed is a company that builds websites, apps, games and brands for businesses across India.</p>
+      <p style="margin:0;font-family:ui-monospace,Menlo,monospace;font-size:13px;">[Full founder story — long-read continuation required]</p>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="About — Mission" style="position:relative;overflow:hidden;background:#16233F;color:#fff;">
+  <div aria-hidden="true" style="position:absolute;right:-220px;bottom:-360px;width:720px;height:720px;border-radius:50%;border:1px solid rgba(143,168,240,0.16);"></div>
+  <div aria-hidden="true" style="position:absolute;right:-120px;bottom:-260px;width:520px;height:520px;border-radius:50%;border:1px solid rgba(143,168,240,0.16);"></div>
+  <div style="position:relative;max-width:1280px;margin:0 auto;padding:clamp(64px,8vw,112px) clamp(20px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px clamp(32px,6vw,96px);">
+    <div>
+      <p style="margin:0;font-weight:800;font-size:13px;letter-spacing:0.2em;color:#8FA8F0;">MISSION</p>
+      <p style="margin:18px 0 0;font-weight:700;font-size:clamp(24px,2.6vw,34px);line-height:1.3;letter-spacing:-0.02em;text-wrap:pretty;">To give growing businesses the kind of digital execution that used to be reserved for companies with in-house teams and enterprise budgets.</p>
+    </div>
+    <div>
+      <p style="margin:0;font-weight:800;font-size:13px;letter-spacing:0.2em;color:#8FA8F0;">VISION</p>
+      <p style="margin:18px 0 0;font-weight:700;font-size:clamp(24px,2.6vw,34px);line-height:1.3;letter-spacing:-0.02em;text-wrap:pretty;">To become the studio that businesses across South India call first — and the place where self-taught, unconventional talent gets a real career.</p>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="About — Leadership" style="background:#fff;">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(64px,9vw,120px) clamp(20px,4vw,48px);display:flex;flex-wrap:wrap;gap:40px clamp(32px,6vw,96px);align-items:center;">
+    <div style="flex:4 1 300px;aspect-ratio:4/5;max-height:560px;border-radius:20px;border:1px solid #E3E8F2;background:repeating-linear-gradient(135deg,#EAF0FD 0 12px,#FFFFFF 12px 24px);display:grid;place-items:center;font-family:ui-monospace,Menlo,monospace;font-size:13px;color:#5A6380;">[ Portrait — Radakrishna ]</div>
+    <div style="flex:6 1 420px;">
+      <p style="margin:0;font-weight:800;font-size:clamp(14px,1.4vw,18px);letter-spacing:0.16em;">LEADERSHIP</p>
+      <h2 style="margin:22px 0 0;font-weight:800;font-size:clamp(36px,4.4vw,60px);letter-spacing:-0.03em;line-height:1.05;">Radakrishna</h2>
+      <p style="margin:10px 0 0;color:#1A4AD8;font-weight:600;font-size:18px;">Founder &amp; Managing Partner</p>
+      <p style="margin:28px 0 0;padding-top:24px;border-top:1px solid #E3E8F2;color:#5A6380;font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:1.7;">[Founder bio required — background, why ASPR, what he still works on day to day]</p>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="About — Timeline" style="background-color:#F5F7FB;background-image:radial-gradient(#DCE3EF 1px, transparent 1.3px);background-size:22px 22px;border-top:1px solid #E3E8F2;">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(64px,9vw,120px) clamp(20px,4vw,48px);">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 24px;margin-bottom:48px;">
+      <h2 style="margin:0;font-weight:800;font-size:clamp(14px,1.4vw,18px);letter-spacing:0.16em;">HOW WE GOT HERE</h2>
+      <span style="color:#5A6380;font-size:16px;">From separate freelancers to one studio</span>
+    </div>
+    <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:32px 0;">
+      <sc-for list="{{ timeline }}" as="tl" hint-placeholder-count="4">
+        <li style="position:relative;padding:30px 24px 0 0;border-top:2px solid {{ tl.line }};">
+          <span style="position:absolute;left:0;top:-9px;width:16px;height:16px;border-radius:50%;background:{{ tl.dot }};border:2px solid #1A4AD8;box-sizing:border-box;"></span>
+          <p style="margin:0;font-weight:800;font-size:clamp(22px,2.2vw,30px);letter-spacing:-0.02em;color:{{ tl.kc }};">{{ tl.k }}</p>
+          <p style="margin:10px 0 0;color:#5A6380;font-size:16px;line-height:1.55;max-width:18em;">{{ tl.t }}</p>
+        </li>
+      </sc-for>
+    </ol>
+  </div>
+</section>
+
+<section data-screen-label="About — Values" style="background:#fff;border-top:1px solid #E3E8F2;">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(64px,9vw,120px) clamp(20px,4vw,48px);display:flex;flex-wrap:wrap;gap:32px clamp(32px,6vw,96px);">
+    <div style="flex:3 1 280px;">
+      <h2 style="margin:0;font-weight:800;font-size:clamp(14px,1.4vw,18px);letter-spacing:0.16em;">WHAT WE HOLD TO</h2>
+      <div style="margin-top:28px;border-radius:20px;overflow:hidden;aspect-ratio:4/5;background:#16233F;max-width:420px;">
+        <img src="assets/coding.png" alt="Developer typing code on a laptop at a desk" loading="lazy" style="width:100%;height:100%;object-fit:cover;"></img>
+      </div>
+    </div>
+    <ol style="flex:7 1 460px;list-style:none;margin:0;padding:0;">
+      <sc-for list="{{ values }}" as="v" hint-placeholder-count="5">
+        <li style="display:flex;gap:clamp(16px,3vw,36px);align-items:baseline;padding:26px 0;border-top:1px solid #E3E8F2;">
+          <span style="font-weight:800;font-size:clamp(18px,2vw,24px);color:#1A4AD8;font-variant-numeric:tabular-nums;">{{ v.n }}</span>
+          <div>
+            <h3 style="margin:0;font-weight:800;font-size:clamp(26px,3.2vw,44px);letter-spacing:-0.03em;line-height:1.08;">{{ v.t }}</h3>
+            <p style="margin:10px 0 0;color:#5A6380;font-family:ui-monospace,Menlo,monospace;font-size:13px;">[One-line body required]</p>
+          </div>
+        </li>
+      </sc-for>
+    </ol>
+  </div>
+</section>
+
+<section data-screen-label="About — Facts" style="background:#F5F7FB;border-top:1px solid #E3E8F2;border-bottom:1px solid #E3E8F2;">
+  <div style="max-width:1280px;margin:0 auto;padding:40px clamp(20px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:24px;">
+    <sc-for list="{{ facts }}" as="fa" hint-placeholder-count="7">
+      <div style="padding-left:16px;border-left:2px solid #1A4AD8;">
+        <p style="margin:0;color:#5A6380;font-size:13px;font-weight:700;letter-spacing:0.1em;">{{ fa.k }}</p>
+        <p style="margin:6px 0 0;font-weight:800;font-size:20px;letter-spacing:-0.01em;">{{ fa.v }}</p>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section data-screen-label="About — Team &amp; Stack" style="background:#fff;">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(64px,9vw,120px) clamp(20px,4vw,48px);display:flex;flex-wrap:wrap;gap:48px clamp(32px,6vw,96px);">
+    <div style="flex:4 1 320px;">
+      <h2 style="margin:0;font-weight:800;font-size:clamp(14px,1.4vw,18px);letter-spacing:0.16em;">THE TEAM</h2>
+      <p style="margin:20px 0 24px;font-weight:800;font-size:clamp(28px,3vw,40px);letter-spacing:-0.03em;line-height:1.1;">10–15 specialists, no middle layer.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <sc-for list="{{ teamRoles }}" as="tr" hint-placeholder-count="7">
+          <span style="background:#EAF0FD;border-radius:999px;padding:9px 16px;font-weight:600;font-size:15px;">{{ tr }}</span>
+        </sc-for>
+      </div>
+    </div>
+    <div style="flex:6 1 460px;">
+      <h2 style="margin:0 0 20px;font-weight:800;font-size:clamp(14px,1.4vw,18px);letter-spacing:0.16em;">WHAT WE BUILD WITH</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:12px;">
+        <sc-for list="{{ stack }}" as="sg" hint-placeholder-count="7">
+          <div style="border:1px solid #E3E8F2;border-radius:16px;padding:18px;background:#F5F7FB;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+              <span style="width:36px;height:36px;border-radius:10px;background:#EAF0FD;display:grid;place-items:center;"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;color:#1A4AD8;font-variation-settings:'wght' 300;">{{ sg.icon }}</span></span>
+              <span style="font-weight:800;font-size:16px;">{{ sg.h }}</span>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;">
+              <sc-for list="{{ sg.items }}" as="si" hint-placeholder-count="3">
+                <span style="background:#fff;border:1px solid #E3E8F2;border-radius:8px;padding:5px 10px;font-size:13.5px;font-weight:600;">{{ si }}</span>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+</sc-if>
+
+<!-- ================= PROCESS ================= -->
+<sc-if value="{{ isProcess }}" hint-placeholder-val="{{ false }}">
+<section data-screen-label="Process — Hero" style="position:relative;overflow:hidden;background-color:#F5F7FB;background-image:radial-gradient(circle at 90% 0%, #DBE8FA 0%, rgba(219,232,250,0) 44%),radial-gradient(#D6DEEC 1px, transparent 1.3px);background-size:100% 100%,22px 22px;">
+  <svg aria-hidden="true" viewBox="0 0 700 360" style="position:absolute;right:0;top:30px;width:min(60vw,720px);height:auto;pointer-events:none;"><path d="M 20 330 Q 330 -60 690 110" fill="none" stroke="#1A4AD8" stroke-width="1.6" stroke-linecap="round"></path></svg>
+  <div style="position:relative;max-width:1280px;margin:0 auto;padding:clamp(48px,8vw,104px) clamp(20px,4vw,48px) clamp(48px,6vw,80px);">
+    <p style="margin:0;font-weight:800;font-size:clamp(14px,1.4vw,18px);letter-spacing:0.16em;">PROCESS</p>
+    <h1 style="margin:22px 0 0;font-weight:800;font-size:clamp(44px,7vw,96px);line-height:1.02;letter-spacing:-0.035em;">Think it. <span style="color:#1A4AD8;">Build it.</span> Scale it.</h1>
+    <p style="margin:24px 0 0;color:#5A6380;font-size:clamp(16px,1.4vw,19px);line-height:1.6;max-width:36em;">Seven steps. Each one produces something you can see, check and keep.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:36px;">
+      <sc-for list="{{ stepIndex }}" as="sx" hint-placeholder-count="7">
+        <a href="{{ sx.href }}" onClick="{{ sx.go }}" style="display:flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:999px;background:#fff;border:1px solid #E3E8F2;color:#111F38;font-weight:700;font-size:14.5px;" style-hover="border-color:#1A4AD8;color:#1A4AD8;"><span style="color:#1A4AD8;font-variant-numeric:tabular-nums;">{{ sx.n }}</span>{{ sx.t }}</a>
+      </sc-for>
+    </div>
+  </div>
+</section>
+<sc-for list="{{ processGroups }}" as="pg" hint-placeholder-count="3">
+  <section data-screen-label="Process — Group" style="background:{{ pg.bg }};border-top:1px solid #E3E8F2;">
+    <div style="max-width:1280px;margin:0 auto;padding:clamp(56px,8vw,112px) clamp(20px,4vw,48px);display:flex;flex-wrap:wrap;gap:32px clamp(32px,6vw,96px);align-items:flex-start;">
+      <div style="flex:4 1 300px;position:{{ stickyPos }};top:110px;">
+        <p style="margin:0;font-weight:800;font-size:13px;letter-spacing:0.2em;color:#1A4AD8;">{{ pg.stage }}</p>
+        <h2 style="margin:12px 0 0;font-weight:800;font-size:clamp(48px,6vw,84px);letter-spacing:-0.04em;line-height:1;">{{ pg.verb }}</h2>
+        <p style="margin:18px 0 0;color:#5A6380;font-size:17px;line-height:1.6;max-width:22em;">{{ pg.sum }}</p>
+      </div>
+      <div style="flex:6 1 460px;display:flex;flex-direction:column;gap:16px;">
+        <sc-for list="{{ pg.steps }}" as="ps" hint-placeholder-count="2">
+          <article id="{{ ps.id }}" style="background:#fff;border:1px solid #E3E8F2;border-radius:20px;padding:clamp(22px,2.6vw,32px);scroll-margin-top:110px;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;">
+              <h3 style="margin:0;font-weight:800;font-size:clamp(24px,2.4vw,32px);letter-spacing:-0.02em;">{{ ps.t }}</h3>
+              <span style="font-weight:800;font-size:clamp(28px,3vw,40px);color:#DBE8FA;letter-spacing:-0.03em;font-variant-numeric:tabular-nums;">{{ ps.n }}</span>
+            </div>
+            <p style="margin:8px 0 22px;color:#5A6380;font-size:17px;line-height:1.6;">{{ ps.d }}</p>
+            <p style="margin:0 0 10px;font-weight:800;font-size:12px;letter-spacing:0.18em;color:#5A6380;">YOU GET</p>
+            <div style="display:flex;flex-direction:column;">
+              <sc-for list="{{ ps.out }}" as="po" hint-placeholder-count="3">
+                <div style="display:flex;gap:12px;align-items:center;padding:11px 0;border-top:1px solid #E3E8F2;font-weight:600;font-size:16px;">
+                  <span style="flex:0 0 auto;width:24px;height:24px;border-radius:7px;background:#EAF0FD;display:grid;place-items:center;"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:17px;line-height:1;color:#1A4AD8;font-variation-settings:'wght' 500;">check</span></span>{{ po }}
+                </div>
+              </sc-for>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+</sc-for>
+<div style="background:#fff;border-top:1px solid #E3E8F2;">
+  <p style="max-width:1280px;margin:0 auto;padding:18px clamp(20px,4vw,48px);color:#5A6380;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;">[Step outputs are drafted from the step descriptions — confirm with ASPR]</p>
+</div>
+</sc-if>
+
+
+<!-- ================= WORK ================= -->
+<sc-if value="{{ isWork }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Work">
+<section style="position:relative;overflow:hidden;background-color:#F5F7FB;background-image:radial-gradient(circle at 90% 0%, #DBE8FA 0%, rgba(219,232,250,0) 44%),radial-gradient(#D6DEEC 1px, transparent 1.3px);background-size:100% 100%,22px 22px;">
+  <div aria-hidden="true" style="position:absolute;right:-240px;top:-280px;width:700px;height:700px;border-radius:50%;border:1px solid rgba(26,74,216,0.10);"></div>
+  <div aria-hidden="true" style="position:absolute;right:-140px;top:-180px;width:500px;height:500px;border-radius:50%;border:1px solid rgba(26,74,216,0.12);"></div>
+  <div style="position:relative;max-width:1280px;margin:0 auto;padding:clamp(48px,8vw,96px) clamp(20px,4vw,48px) clamp(40px,5vw,64px);">
+    <p style="margin:0;font-weight:800;font-size:clamp(14px,1.4vw,18px);letter-spacing:0.16em;">WORK</p>
+    <h1 style="margin:22px 0 0;font-weight:800;font-size:clamp(42px,6.4vw,88px);line-height:1.03;letter-spacing:-0.035em;max-width:14em;text-wrap:balance;">Built for businesses that needed it to work.</h1>
+    <p style="margin:22px 0 0;color:#5A6380;font-size:clamp(16px,1.4vw,19px);line-height:1.6;max-width:36em;">A selection of engagements across Build, Brand and Grow. Outcomes are published once each client has signed them off.</p>
+  </div>
+</section>
+<section style="background:#fff;border-top:1px solid #E3E8F2;">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(40px,5vw,64px) clamp(20px,4vw,48px) clamp(64px,9vw,120px);">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;margin-bottom:32px;">
+      <div role="tablist" aria-label="Filter work by pillar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;"><sc-for list="{{ workFilters }}" as="fx" hint-placeholder-count="4"><button role="tab" aria-selected="{{ fx.on }}" onClick="{{ fx.pick }}" style="flex:0 0 auto;min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid {{ fx.bd }};background:{{ fx.bg }};color:{{ fx.fg }};font-weight:700;font-size:15px;cursor:pointer;transition:background 200ms ease-out,color 200ms ease-out;">{{ fx.label }}</button></sc-for></div>
+      <span style="color:#5A6380;font-size:15px;">Client names shared with permission only</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:40px 20px;">
+      <sc-for list="{{ work }}" as="k" hint-placeholder-count="6">
+        <a href="#" style="display:flex;flex-direction:column;gap:16px;color:#111F38;" style-hover="color:#1A4AD8;">
+          <div style="aspect-ratio:4/3;border-radius:16px;overflow:hidden;background:#EAF0FD;border:1px solid #E3E8F2;">
+            <img src="{{ k.img }}" alt="{{ k.alt }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:{{ k.pos }};transition:transform 700ms cubic-bezier(.2,.7,.2,1);" style-hover="transform:scale(1.05);"></img>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <span style="background:#1A4AD8;color:#fff;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700;letter-spacing:0.12em;">{{ k.pillar }}</span>
+            <sc-for list="{{ k.scope }}" as="sc" hint-placeholder-count="2"><span style="background:#EAF0FD;color:#111F38;border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600;">{{ sc }}</span></sc-for>
+          </div>
+          <h2 style="margin:0;font-weight:800;font-size:24px;letter-spacing:-0.02em;">{{ k.client }}</h2>
+          <p style="margin:-6px 0 0;color:#5A6380;font-family:ui-monospace,Menlo,monospace;font-size:13px;">[Outcome pending]</p>
+        </a>
+      </sc-for>
+    </div>
+    <sc-if value="{{ showTestimonials }}" hint-placeholder-val="{{ false }}">
+      <figure style="margin:64px 0 0;border:1px solid #E3E8F2;border-radius:20px;padding:clamp(28px,4vw,48px);background:#F5F7FB;">
+        <blockquote style="margin:0;font-weight:700;font-size:clamp(22px,2.4vw,32px);line-height:1.35;letter-spacing:-0.02em;color:#5A6380;">"[Client testimonial — add once a client approves a quote]"</blockquote>
+        <figcaption style="margin-top:20px;font-size:15px;color:#5A6380;">[Name] · [Role, Company]</figcaption>
+      </figure>
+    </sc-if>
+  </div>
+</section>
+</div>
+</sc-if>
+
+<!-- ================= CAREERS ================= -->
+<sc-if value="{{ isCareers }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Careers">
+<section style="position:relative;overflow:hidden;background-color:#F5F7FB;background-image:radial-gradient(circle at 90% 0%, #DBE8FA 0%, rgba(219,232,250,0) 44%),radial-gradient(#D6DEEC 1px, transparent 1.3px);background-size:100% 100%,22px 22px;">
+  <div aria-hidden="true" style="position:absolute;right:-240px;top:-280px;width:700px;height:700px;border-radius:50%;border:1px solid rgba(26,74,216,0.10);"></div>
+  <div aria-hidden="true" style="position:absolute;right:-140px;top:-180px;width:500px;height:500px;border-radius:50%;border:1px solid rgba(26,74,216,0.12);"></div>
+  <div style="position:relative;max-width:1280px;margin:0 auto;padding:clamp(48px,8vw,96px) clamp(20px,4vw,48px) clamp(40px,5vw,64px);">
+    <p style="margin:0;font-weight:800;font-size:clamp(14px,1.4vw,18px);letter-spacing:0.16em;">CAREERS</p>
+    <h1 style="margin:22px 0 0;font-weight:800;font-size:clamp(42px,6.4vw,88px);line-height:1.03;letter-spacing:-0.035em;max-width:14em;text-wrap:balance;">Skill over syllabus.</h1>
+    <p style="margin:22px 0 0;color:#5A6380;font-size:clamp(16px,1.4vw,19px);line-height:1.6;max-width:36em;">We hire self-taught and unconventional talent for real careers in Mettupalayam. Show us what you have built.</p><p style="margin:18px 0 0;color:#1A4AD8;font-weight:600;font-size:clamp(16px,1.6vw,20px);">Mettupalayam • Full-time • Internships</p>
+  </div>
+</section>
+<section style="position:relative;overflow:hidden;background:#16233F;color:#fff;">
+  <div aria-hidden="true" style="position:absolute;right:-200px;top:-300px;width:620px;height:620px;border-radius:50%;border:1px solid rgba(143,168,240,0.16);"></div>
+  <div style="position:relative;max-width:1280px;margin:0 auto;padding:clamp(48px,6vw,80px) clamp(20px,4vw,48px);">
+    <p style="margin:0 0 28px;font-weight:800;font-size:13px;letter-spacing:0.2em;color:#8FA8F0;">HOW HIRING WORKS</p>
+    <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:24px;">
+      <sc-for list="{{ hiring }}" as="hs" hint-placeholder-count="4">
+        <li style="border-top:1px solid rgba(143,168,240,0.35);padding-top:20px;">
+          <span style="font-weight:800;font-size:40px;letter-spacing:-0.03em;color:#8FA8F0;font-variant-numeric:tabular-nums;">{{ hs.n }}</span>
+          <p style="margin:10px 0 0;font-weight:700;font-size:20px;line-height:1.3;">{{ hs.t }}</p>
+        </li>
+      </sc-for>
+    </ol>
+  </div>
+</section>
+<section style="background-color:#F5F7FB;background-image:radial-gradient(#DCE3EF 1px, transparent 1.3px);background-size:22px 22px;">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(56px,8vw,112px) clamp(20px,4vw,48px);display:flex;flex-wrap:wrap;gap:32px clamp(32px,6vw,96px);align-items:flex-start;">
+    <div style="flex:3 1 280px;position:{{ stickyPos }};top:110px;">
+      <h2 style="margin:0;font-weight:800;font-size:clamp(14px,1.4vw,18px);letter-spacing:0.16em;">OPEN ROLES</h2>
+      <p style="margin:20px 0 0;font-weight:800;font-size:clamp(28px,3vw,40px);letter-spacing:-0.03em;line-height:1.1;">Five ways in.</p>
+      <p style="margin:16px 0 0;color:#5A6380;font-size:16px;line-height:1.6;">Open a role to apply. Prefer email? <a href="mailto:careers@asprglobaltech.com" style="font-weight:700;">careers@asprglobaltech.com</a></p>
+    </div>
+    <div style="flex:7 1 480px;display:flex;flex-direction:column;gap:12px;">
+      <sc-for list="{{ roles }}" as="r" hint-placeholder-count="5">
+        <div style="background:#fff;border:1.5px solid {{ r.bd }};border-radius:18px;padding:4px clamp(18px,2.4vw,28px);transition:border-color 200ms ease-out;">
+          <button type="button" onClick="{{ r.toggle }}" aria-expanded="{{ r.open }}" style="width:100%;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;text-align:left;color:#111F38;">
+            <span style="display:flex;flex-direction:column;gap:10px;">
+              <span style="font-weight:800;font-size:clamp(20px,2vw,26px);letter-spacing:-0.02em;">{{ r.t }}</span>
+              <span style="display:flex;flex-wrap:wrap;gap:6px;"><sc-for list="{{ r.meta }}" as="m" hint-placeholder-count="2"><span style="background:#EAF0FD;border-radius:999px;padding:4px 11px;font-size:13px;font-weight:600;color:#111F38;">{{ m }}</span></sc-for></span>
+            </span>
+            <span style="flex:0 0 auto;width:40px;height:40px;border-radius:12px;background:{{ r.tileBg }};color:{{ r.tileFg }};display:grid;place-items:center;font-size:22px;">{{ r.sign }}</span>
+          </button>
+          <sc-if value="{{ r.open }}" hint-placeholder-val="{{ false }}">
+            <div style="border-top:1px solid #E3E8F2;padding:24px 0 28px;">
+              <sc-if value="{{ r.notSent }}" hint-placeholder-val="{{ true }}">
+                <p style="margin:0 0 20px;color:#5A6380;font-family:ui-monospace,Menlo,monospace;font-size:13px;">[Role description, responsibilities and requirements]</p>
+                <form onSubmit="{{ r.submit }}" noValidate="" style="display:flex;flex-wrap:wrap;gap:18px 16px;">
+                  <div style="flex:1 1 100%;"><span style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Applying for</span><span style="display:inline-flex;align-items:center;gap:8px;background:#16233F;color:#fff;border-radius:999px;padding:8px 16px;font-weight:700;font-size:14px;">{{ r.t }}</span></div>
+                  <div style="flex:1 1 240px;"><label for="a-name" style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Your name <span style="color:#B42318;">*</span></label><input id="a-name" type="text" value="{{ af.name }}" onChange="{{ aon.name }}" placeholder="Full name" aria-invalid="{{ ahas.name }}" style="width:100%;box-sizing:border-box;height:52px;border-radius:12px;border:1.5px solid {{ abd.name }};background:#fff;padding:0 14px;font-size:16px;color:#111F38;outline:none;" style-focus="border-color:#1A4AD8;box-shadow:0 0 0 3px rgba(26,74,216,0.15);"></input><sc-if value="{{ ahas.name }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0;color:#B42318;font-size:13.5px;font-weight:600;">{{ aerr.name }}</p></sc-if></div>
+                  <div style="flex:1 1 240px;"><label for="a-email" style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Email <span style="color:#B42318;">*</span></label><input id="a-email" type="email" value="{{ af.email }}" onChange="{{ aon.email }}" placeholder="you@example.com" aria-invalid="{{ ahas.email }}" style="width:100%;box-sizing:border-box;height:52px;border-radius:12px;border:1.5px solid {{ abd.email }};background:#fff;padding:0 14px;font-size:16px;color:#111F38;outline:none;" style-focus="border-color:#1A4AD8;box-shadow:0 0 0 3px rgba(26,74,216,0.15);"></input><sc-if value="{{ ahas.email }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0;color:#B42318;font-size:13.5px;font-weight:600;">{{ aerr.email }}</p></sc-if></div>
+                  <div style="flex:1 1 240px;"><label for="a-phone" style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Phone <span style="color:#B42318;">*</span></label><input id="a-phone" type="tel" value="{{ af.phone }}" onChange="{{ aon.phone }}" placeholder="+91 98765 43210" aria-invalid="{{ ahas.phone }}" style="width:100%;box-sizing:border-box;height:52px;border-radius:12px;border:1.5px solid {{ abd.phone }};background:#fff;padding:0 14px;font-size:16px;color:#111F38;outline:none;" style-focus="border-color:#1A4AD8;box-shadow:0 0 0 3px rgba(26,74,216,0.15);"></input><sc-if value="{{ ahas.phone }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0;color:#B42318;font-size:13.5px;font-weight:600;">{{ aerr.phone }}</p></sc-if></div>
+                  <div style="flex:1 1 240px;"><label for="a-portfolio" style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Portfolio link <span style="color:#B42318;">*</span></label><input id="a-portfolio" type="url" value="{{ af.portfolio }}" onChange="{{ aon.portfolio }}" placeholder="GitHub, Behance, Dribbble, YouTube…" aria-invalid="{{ ahas.portfolio }}" style="width:100%;box-sizing:border-box;height:52px;border-radius:12px;border:1.5px solid {{ abd.portfolio }};background:#fff;padding:0 14px;font-size:16px;color:#111F38;outline:none;" style-focus="border-color:#1A4AD8;box-shadow:0 0 0 3px rgba(26,74,216,0.15);"></input><sc-if value="{{ ahas.portfolio }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0;color:#B42318;font-size:13.5px;font-weight:600;">{{ aerr.portfolio }}</p></sc-if></div>
+                  <div style="flex:1 1 100%;"><span style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Attachments <span style="color:#5A6380;font-weight:500;">(work samples — CV not required)</span></span>
+<label for="a-files" style="display:flex;align-items:center;gap:14px;border:1.5px dashed #C9D3E6;border-radius:14px;padding:16px;cursor:pointer;background:#F5F7FB;" style-hover="border-color:#1A4AD8;background:#EAF0FD;"><span style="width:44px;height:44px;border-radius:12px;background:#EAF0FD;display:grid;place-items:center;"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:24px;line-height:1;color:#1A4AD8;font-variation-settings:'wght' 300;">upload_file</span></span><span style="display:flex;flex-direction:column;gap:2px;"><span style="font-weight:700;font-size:15px;">Choose files</span><span style="color:#5A6380;font-size:13.5px;">PDF, images or docs · up to 10 MB each</span></span></label>
+<input id="a-files" type="file" multiple="" onChange="{{ aon.files }}" style="position:absolute;width:1px;height:1px;opacity:0;"></input>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;"><sc-for list="{{ afiles }}" as="fi" hint-placeholder-count="0"><span style="display:flex;align-items:center;gap:8px;background:#EAF0FD;border-radius:999px;padding:6px 8px 6px 14px;font-size:13.5px;font-weight:600;">{{ fi.name }}<button type="button" onClick="{{ fi.remove }}" aria-label="Remove file" style="width:26px;height:26px;border-radius:50%;border:none;background:#fff;cursor:pointer;font-size:13px;color:#111F38;">✕</button></span></sc-for></div></div>
+                  <div style="flex:1 1 100%;"><label for="a-message" style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Anything else? <span style="color:#5A6380;font-weight:500;">(optional)</span></label><textarea id="a-message" value="{{ af.message }}" onChange="{{ aon.message }}" rows="3" placeholder="What you built, what you learned on your own, what you want to do next." style="width:100%;box-sizing:border-box;border-radius:12px;border:1.5px solid #E3E8F2;padding:14px;font-size:16px;line-height:1.55;color:#111F38;resize:vertical;outline:none;" style-focus="border-color:#1A4AD8;box-shadow:0 0 0 3px rgba(26,74,216,0.15);"></textarea></div>
+                  <div style="flex:1 1 100%;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;">
+                    <span style="color:#5A6380;font-size:14px;">Shortlisted? Next is a short paid task.</span>
+                    <button type="submit" style="min-height:52px;padding:0 24px;border-radius:12px;border:none;background:#1A4AD8;color:#fff;font-weight:700;font-size:15px;cursor:pointer;" style-hover="background:#16233F;" style-active="transform:scale(0.98);">Send application →</button>
+                  </div>
+                </form>
+              </sc-if>
+              <sc-if value="{{ r.sent }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;gap:16px;align-items:center;">
+                  <span style="width:48px;height:48px;border-radius:14px;background:#1A4AD8;display:grid;place-items:center;"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:28px;line-height:1;color:#FFFFFF;font-variation-settings:'wght' 300;">check</span></span>
+                  <div><p style="margin:0;font-weight:800;font-size:20px;">Application received.</p><p style="margin:4px 0 0;color:#5A6380;font-size:15px;">We look at the work first and reply within one working day.</p></div>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+</div>
+</sc-if>
+
+<!-- ================= INSIGHTS ================= -->
+<sc-if value="{{ isInsights }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Insights">
+<section style="position:relative;overflow:hidden;background-color:#F5F7FB;background-image:radial-gradient(circle at 90% 0%, #DBE8FA 0%, rgba(219,232,250,0) 44%),radial-gradient(#D6DEEC 1px, transparent 1.3px);background-size:100% 100%,22px 22px;">
+  <div aria-hidden="true" style="position:absolute;right:-240px;top:-280px;width:700px;height:700px;border-radius:50%;border:1px solid rgba(26,74,216,0.10);"></div>
+  <div aria-hidden="true" style="position:absolute;right:-140px;top:-180px;width:500px;height:500px;border-radius:50%;border:1px solid rgba(26,74,216,0.12);"></div>
+  <div style="position:relative;max-width:1280px;margin:0 auto;padding:clamp(48px,8vw,96px) clamp(20px,4vw,48px) clamp(40px,5vw,64px);">
+    <p style="margin:0;font-weight:800;font-size:clamp(14px,1.4vw,18px);letter-spacing:0.16em;">INSIGHTS</p>
+    <h1 style="margin:22px 0 0;font-weight:800;font-size:clamp(42px,6.4vw,88px);line-height:1.03;letter-spacing:-0.035em;max-width:14em;text-wrap:balance;">What we built, what broke, what we learned.</h1>
+    <p style="margin:22px 0 0;color:#5A6380;font-size:clamp(16px,1.4vw,19px);line-height:1.6;max-width:36em;">Short notes from the studio on building, branding and growing — written by the people doing the work.</p>
+  </div>
+</section>
+<section style="background:#fff;border-top:1px solid #E3E8F2;">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(40px,5vw,64px) clamp(20px,4vw,48px) clamp(64px,9vw,120px);">
+    <div style="margin-bottom:32px;"><div role="tablist" aria-label="Filter by category" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;"><sc-for list="{{ insFilters }}" as="fx" hint-placeholder-count="4"><button role="tab" aria-selected="{{ fx.on }}" onClick="{{ fx.pick }}" style="flex:0 0 auto;min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid {{ fx.bd }};background:{{ fx.bg }};color:{{ fx.fg }};font-weight:700;font-size:15px;cursor:pointer;transition:background 200ms ease-out,color 200ms ease-out;">{{ fx.label }}</button></sc-for></div></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:40px 20px;">
+      <sc-for list="{{ articles }}" as="ar" hint-placeholder-count="6">
+        <a href="{{ ar.href }}" style="display:flex;flex-direction:column;gap:14px;color:#111F38;" style-hover="color:#1A4AD8;">
+          <div style="aspect-ratio:16/10;border-radius:16px;overflow:hidden;background:#EAF0FD;border:1px solid #E3E8F2;">
+            <sc-if value="{{ ar.hasImg }}" hint-placeholder-val="{{ true }}"><img src="{{ ar.img }}" alt="{{ ar.alt }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform 700ms cubic-bezier(.2,.7,.2,1);" style-hover="transform:scale(1.05);"></img></sc-if>
+            <sc-if value="{{ ar.noImg }}" hint-placeholder-val="{{ false }}"><div style="width:100%;height:100%;display:grid;place-items:center;background:repeating-linear-gradient(135deg,#EAF0FD 0 12px,#F5F7FB 12px 24px);font-family:ui-monospace,Menlo,monospace;font-size:13px;color:#5A6380;">[ {{ ar.alt }} ]</div></sc-if>
+          </div>
+          <span style="font-weight:800;font-size:12px;letter-spacing:0.18em;color:#1A4AD8;">{{ ar.cat }}</span>
+          <h2 style="margin:0;font-weight:800;font-size:24px;letter-spacing:-0.02em;line-height:1.2;text-wrap:pretty;">{{ ar.t }}</h2>
+          <span style="color:#5A6380;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;">[Author] · [Date] · [Read time]</span>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+</section>
+</div>
+</sc-if>
+
+<!-- ================= ARTICLE ================= -->
+<sc-if value="{{ isArticle }}" hint-placeholder-val="{{ false }}">
+<article ref="{{ artRef }}" data-screen-label="Article" style="background:#fff;">
+  <div style="max-width:720px;margin:0 auto;padding:clamp(40px,6vw,80px) clamp(20px,4vw,24px) 0;">
+    <a href="#insights" onClick="{{ backToInsights }}" style="display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:15px;">← All insights</a>
+    <p style="margin:32px 0 0;font-weight:800;font-size:13px;letter-spacing:0.18em;color:#1A4AD8;">{{ art.cat }}</p>
+    <h1 style="margin:14px 0 0;font-weight:800;font-size:clamp(36px,5vw,60px);letter-spacing:-0.035em;line-height:1.06;text-wrap:balance;">{{ art.t }}</h1>
+    <p style="margin:20px 0 0;padding-bottom:28px;border-bottom:1px solid #E3E8F2;color:#5A6380;font-family:ui-monospace,Menlo,monospace;font-size:13px;">[Author] · [Date] · [Read time]</p>
+  </div>
+  <div style="max-width:1080px;margin:36px auto 0;padding:0 clamp(20px,4vw,48px);">
+    <div style="aspect-ratio:16/8;border-radius:20px;overflow:hidden;background:#EAF0FD;border:1px solid #E3E8F2;">
+      <sc-if value="{{ art.hasImg }}" hint-placeholder-val="{{ true }}"><img src="{{ art.img }}" alt="{{ art.alt }}" style="width:100%;height:100%;object-fit:cover;"></img></sc-if>
+      <sc-if value="{{ art.noImg }}" hint-placeholder-val="{{ false }}"><div style="width:100%;height:100%;display:grid;place-items:center;background:repeating-linear-gradient(135deg,#EAF0FD 0 12px,#F5F7FB 12px 24px);font-family:ui-monospace,Menlo,monospace;font-size:13px;color:#5A6380;">[ {{ art.alt }} ]</div></sc-if>
+    </div>
+  </div>
+  <div style="max-width:70ch;margin:0 auto;padding:48px clamp(20px,4vw,24px) clamp(56px,8vw,96px);font-size:18px;line-height:1.75;color:#2A3653;">
+    <p style="margin:0 0 24px;font-weight:600;font-size:21px;line-height:1.6;color:#111F38;">[Standfirst — one or two sentences that set up the argument]</p>
+    <p style="margin:0 0 24px;font-family:ui-monospace,Menlo,monospace;font-size:14px;color:#5A6380;">[Article body — paragraph]</p>
+    <h2 style="margin:40px 0 16px;font-weight:800;font-size:28px;letter-spacing:-0.02em;color:#111F38;">[Subheading]</h2>
+    <p style="margin:0 0 24px;font-family:ui-monospace,Menlo,monospace;font-size:14px;color:#5A6380;">[Article body — paragraph]</p>
+    <blockquote style="margin:36px 0;padding:4px 0 4px 24px;border-left:3px solid #1A4AD8;font-weight:700;font-size:24px;line-height:1.4;color:#111F38;">[Pull quote]</blockquote>
+    <p style="margin:0 0 24px;font-family:ui-monospace,Menlo,monospace;font-size:14px;color:#5A6380;">[Article body — paragraph]</p>
+    <h2 style="margin:40px 0 16px;font-weight:800;font-size:28px;letter-spacing:-0.02em;color:#111F38;">[Subheading]</h2>
+    <p style="margin:0;font-family:ui-monospace,Menlo,monospace;font-size:14px;color:#5A6380;">[Article body — paragraph]</p>
+  </div>
+  <section style="background:#F5F7FB;border-top:1px solid #E3E8F2;">
+    <div style="max-width:1280px;margin:0 auto;padding:clamp(48px,6vw,80px) clamp(20px,4vw,48px);">
+      <h2 style="margin:0 0 28px;font-weight:800;font-size:clamp(14px,1.4vw,18px);letter-spacing:0.16em;">KEEP READING</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px;">
+        <sc-for list="{{ related }}" as="rl" hint-placeholder-count="3">
+          <a href="{{ rl.href }}" style="background:#fff;border:1px solid #E3E8F2;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:12px;color:#111F38;transition:transform 250ms cubic-bezier(.2,.7,.2,1),border-color 250ms ease-out;" style-hover="transform:translateY(-4px);border-color:#1A4AD8;color:#111F38;">
+            <span style="font-weight:800;font-size:12px;letter-spacing:0.18em;color:#1A4AD8;">{{ rl.cat }}</span>
+            <span style="font-weight:800;font-size:21px;letter-spacing:-0.02em;line-height:1.25;">{{ rl.t }}</span>
+            <span style="margin-top:auto;color:#1A4AD8;font-weight:700;font-size:14px;">Read →</span>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+</article>
+</sc-if>
+
+<!-- ================= FAQ ================= -->
+<sc-if value="{{ isFaq }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="FAQ">
+<section style="position:relative;overflow:hidden;background-color:#F5F7FB;background-image:radial-gradient(circle at 90% 0%, #DBE8FA 0%, rgba(219,232,250,0) 44%),radial-gradient(#D6DEEC 1px, transparent 1.3px);background-size:100% 100%,22px 22px;">
+  <div aria-hidden="true" style="position:absolute;right:-240px;top:-280px;width:700px;height:700px;border-radius:50%;border:1px solid rgba(26,74,216,0.10);"></div>
+  <div aria-hidden="true" style="position:absolute;right:-140px;top:-180px;width:500px;height:500px;border-radius:50%;border:1px solid rgba(26,74,216,0.12);"></div>
+  <div style="position:relative;max-width:1280px;margin:0 auto;padding:clamp(48px,8vw,96px) clamp(20px,4vw,48px) clamp(40px,5vw,64px);">
+    <p style="margin:0;font-weight:800;font-size:clamp(14px,1.4vw,18px);letter-spacing:0.16em;">FAQ</p>
+    <h1 style="margin:22px 0 0;font-weight:800;font-size:clamp(42px,6.4vw,88px);line-height:1.03;letter-spacing:-0.035em;max-width:14em;text-wrap:balance;">Plain answers, in writing.</h1>
+    <p style="margin:22px 0 0;color:#5A6380;font-size:clamp(16px,1.4vw,19px);line-height:1.6;max-width:36em;">Sixteen questions we get asked most. Every question has its own link — share the one you need.</p>
+  </div>
+</section>
+<section style="background:#fff;border-top:1px solid #E3E8F2;">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(48px,7vw,96px) clamp(20px,4vw,48px);display:flex;flex-wrap:wrap;gap:32px clamp(32px,6vw,96px);align-items:flex-start;">
+    <nav aria-label="FAQ groups" style="flex:3 1 260px;position:{{ stickyPos }};top:110px;display:flex;flex-direction:column;gap:4px;">
+      <p style="margin:0 0 12px;font-weight:800;font-size:13px;letter-spacing:0.18em;color:#5A6380;">GROUPS</p>
+      <sc-for list="{{ faqIndex }}" as="fx" hint-placeholder-count="4">
+        <a href="{{ fx.href }}" onClick="{{ fx.go }}" style="display:flex;gap:14px;align-items:baseline;padding:12px 14px;border-radius:12px;color:#111F38;font-weight:700;font-size:16px;" style-hover="background:#EAF0FD;color:#1A4AD8;"><span style="color:#1A4AD8;font-variant-numeric:tabular-nums;">{{ fx.n }}</span>{{ fx.g }}</a>
+      </sc-for>
+    </nav>
+    <div style="flex:7 1 480px;display:flex;flex-direction:column;gap:56px;">
+      <sc-for list="{{ faqGroups }}" as="fg" hint-placeholder-count="4">
+        <div id="{{ fg.id }}" style="scroll-margin-top:110px;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-bottom:14px;">
+            <h2 style="margin:0;font-weight:800;font-size:clamp(24px,2.6vw,34px);letter-spacing:-0.025em;">{{ fg.g }}</h2>
+            <span style="color:#5A6380;font-size:14px;">{{ fg.count }}</span>
+          </div>
+          <sc-for list="{{ fg.qs }}" as="q" hint-placeholder-count="4">
+            <div id="{{ q.id }}" style="border-top:1px solid #E3E8F2;scroll-margin-top:110px;">
+              <button type="button" onClick="{{ q.toggle }}" aria-expanded="{{ q.open }}" style="width:100%;min-height:72px;background:none;border:none;display:flex;justify-content:space-between;align-items:center;gap:16px;text-align:left;cursor:pointer;padding:16px 0;color:#111F38;font-weight:700;font-size:clamp(17px,1.6vw,20px);">{{ q.q }}<span style="flex:0 0 auto;width:36px;height:36px;border-radius:10px;background:{{ q.tileBg }};color:{{ q.tileFg }};display:grid;place-items:center;font-size:20px;transition:background 200ms ease-out;">{{ q.sign }}</span></button>
+              <sc-if value="{{ q.hasA }}" hint-placeholder-val="{{ false }}"><p style="margin:0 0 16px;color:#5A6380;font-size:16.5px;line-height:1.65;max-width:62ch;">{{ q.a }}</p></sc-if>
+              <sc-if value="{{ q.noA }}" hint-placeholder-val="{{ false }}"><p style="margin:0 0 16px;color:#5A6380;font-family:ui-monospace,Menlo,monospace;font-size:13px;">[Answer required from ASPR]</p></sc-if>
+              <sc-if value="{{ q.open }}" hint-placeholder-val="{{ false }}"><a href="{{ q.link }}" style="display:inline-flex;align-items:center;gap:6px;margin:0 0 22px;font-size:13.5px;font-weight:700;"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:16px;line-height:1;color:#1A4AD8;font-variation-settings:'wght' 300;">link</span>Link to this answer</a></sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+</div>
+</sc-if>
+
+<!-- ================= CONTACT ================= -->
+<sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Contact">
+<section style="position:relative;overflow:hidden;background-color:#F5F7FB;background-image:radial-gradient(circle at 90% 0%, #DBE8FA 0%, rgba(219,232,250,0) 44%),radial-gradient(#D6DEEC 1px, transparent 1.3px);background-size:100% 100%,22px 22px;">
+  <div aria-hidden="true" style="position:absolute;right:-240px;top:-280px;width:700px;height:700px;border-radius:50%;border:1px solid rgba(26,74,216,0.10);"></div>
+  <div aria-hidden="true" style="position:absolute;right:-140px;top:-180px;width:500px;height:500px;border-radius:50%;border:1px solid rgba(26,74,216,0.12);"></div>
+  <div style="position:relative;max-width:1280px;margin:0 auto;padding:clamp(48px,8vw,96px) clamp(20px,4vw,48px) clamp(40px,5vw,64px);">
+    <p style="margin:0;font-weight:800;font-size:clamp(14px,1.4vw,18px);letter-spacing:0.16em;">CONTACT</p>
+    <h1 style="margin:22px 0 0;font-weight:800;font-size:clamp(42px,6.4vw,88px);line-height:1.03;letter-spacing:-0.035em;max-width:14em;text-wrap:balance;">Let's build something great.</h1>
+    <p style="margin:22px 0 0;color:#5A6380;font-size:clamp(16px,1.4vw,19px);line-height:1.6;max-width:36em;">Have an idea, a business challenge, or a product to build? Let's turn it into a digital solution.</p>
+  </div>
+</section>
+<section style="background:#F5F7FB;border-top:1px solid #E3E8F2;">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(32px,5vw,64px) clamp(20px,4vw,48px) clamp(64px,9vw,120px);display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start;">
+    <div style="flex:6 1 540px;min-width:0;background:#fff;border:1px solid #E3E8F2;border-radius:24px;padding:clamp(24px,3.5vw,44px);">
+      <sc-if value="{{ cNotSent }}" hint-placeholder-val="{{ true }}">
+        <form onSubmit="{{ cSubmit }}" noValidate="">
+          <h2 style="margin:0;font-weight:800;font-size:clamp(26px,2.6vw,34px);letter-spacing:-0.025em;">Your brief</h2>
+          <p style="margin:8px 0 28px;color:#5A6380;font-size:16px;">Five required fields. Everything else helps us come back with better questions.</p>
+          <sc-if value="{{ cErrMany }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="border:1.5px solid #F4C7C3;background:#FEF3F2;border-radius:12px;padding:14px 16px;margin-bottom:24px;">
+              <p style="margin:0 0 6px;font-weight:700;font-size:14.5px;color:#B42318;">Please fix {{ cErrCount }} before sending:</p>
+              <sc-for list="{{ cErrList }}" as="el" hint-placeholder-count="1"><p style="margin:2px 0 0;font-size:14px;color:#7A271A;">— {{ el }}</p></sc-for>
+            </div>
+          </sc-if>
+          <fieldset style="border:none;margin:0 0 28px;padding:0;">
+            <legend style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;padding:0;">What do you need? <span style="color:#B42318;">*</span></legend>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,160px),1fr));gap:10px;">
+              <sc-for list="{{ needChips }}" as="nc" hint-placeholder-count="12">
+                <button type="button" role="checkbox" aria-checked="{{ nc.on }}" onClick="{{ nc.toggle }}" style="min-height:56px;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;border:1.5px solid {{ nc.bd }};background:{{ nc.bg }};color:#111F38;cursor:pointer;text-align:left;font-weight:700;font-size:14.5px;transition:all 180ms ease-out;" style-hover="border-color:#1A4AD8;">
+                  <span style="flex:0 0 auto;width:36px;height:36px;border-radius:10px;background:{{ nc.tile }};display:grid;place-items:center;transition:background 180ms ease-out;"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:21px;line-height:1;color:{{ nc.ic }};font-variation-settings:'wght' 300;">{{ nc.icon }}</span></span>
+                  <span style="flex:1;">{{ nc.label }}</span>
+                  <span aria-hidden="true" style="width:20px;height:20px;border-radius:6px;border:1.5px solid {{ nc.bd }};background:{{ nc.box }};color:#fff;display:grid;place-items:center;font-size:13px;font-weight:800;">{{ nc.tick }}</span>
+                </button>
+              </sc-for>
+            </div>
+            <sc-if value="{{ chas.needs }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0;color:#B42318;font-size:13.5px;font-weight:600;">{{ cerr.needs }}</p></sc-if>
+          </fieldset>
+          <div style="display:flex;flex-wrap:wrap;gap:18px 16px;">
+            <div style="flex:1 1 240px;"><label for="c-name" style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Your name <span style="color:#B42318;">*</span></label><input id="c-name" type="text" value="{{ cf.name }}" onChange="{{ con.name }}" placeholder="Full name" aria-invalid="{{ chas.name }}" style="width:100%;box-sizing:border-box;height:52px;border-radius:12px;border:1.5px solid {{ cbd.name }};background:#fff;padding:0 14px;font-size:16px;color:#111F38;outline:none;" style-focus="border-color:#1A4AD8;box-shadow:0 0 0 3px rgba(26,74,216,0.15);"></input><sc-if value="{{ chas.name }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0;color:#B42318;font-size:13.5px;font-weight:600;">{{ cerr.name }}</p></sc-if></div>
+            <div style="flex:1 1 240px;"><label for="c-email" style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Email <span style="color:#B42318;">*</span></label><input id="c-email" type="email" value="{{ cf.email }}" onChange="{{ con.email }}" placeholder="you@company.com" aria-invalid="{{ chas.email }}" style="width:100%;box-sizing:border-box;height:52px;border-radius:12px;border:1.5px solid {{ cbd.email }};background:#fff;padding:0 14px;font-size:16px;color:#111F38;outline:none;" style-focus="border-color:#1A4AD8;box-shadow:0 0 0 3px rgba(26,74,216,0.15);"></input><sc-if value="{{ chas.email }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0;color:#B42318;font-size:13.5px;font-weight:600;">{{ cerr.email }}</p></sc-if></div>
+            <div style="flex:1 1 240px;"><label for="c-phone" style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Phone / WhatsApp <span style="color:#B42318;">*</span></label><input id="c-phone" type="tel" value="{{ cf.phone }}" onChange="{{ con.phone }}" placeholder="+91 98765 43210" aria-invalid="{{ chas.phone }}" style="width:100%;box-sizing:border-box;height:52px;border-radius:12px;border:1.5px solid {{ cbd.phone }};background:#fff;padding:0 14px;font-size:16px;color:#111F38;outline:none;" style-focus="border-color:#1A4AD8;box-shadow:0 0 0 3px rgba(26,74,216,0.15);"></input><sc-if value="{{ chas.phone }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0;color:#B42318;font-size:13.5px;font-weight:600;">{{ cerr.phone }}</p></sc-if></div>
+            <div style="flex:1 1 240px;"><label for="c-company" style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Company <span style="color:#5A6380;font-weight:500;">(optional)</span></label><input id="c-company" type="text" value="{{ cf.company }}" onChange="{{ con.company }}" placeholder="Business name" aria-invalid="{{ chas.company }}" style="width:100%;box-sizing:border-box;height:52px;border-radius:12px;border:1.5px solid {{ cbd.company }};background:#fff;padding:0 14px;font-size:16px;color:#111F38;outline:none;" style-focus="border-color:#1A4AD8;box-shadow:0 0 0 3px rgba(26,74,216,0.15);"></input><sc-if value="{{ chas.company }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0;color:#B42318;font-size:13.5px;font-weight:600;">{{ cerr.company }}</p></sc-if></div>
+            <div style="flex:1 1 100%;"><span style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Budget range <span style="color:#5A6380;font-weight:500;">(optional)</span></span>
+              <div role="radiogroup" style="display:flex;flex-wrap:wrap;gap:8px;"><sc-for list="{{ budgetOpts }}" as="bo" hint-placeholder-count="5"><button type="button" role="radio" aria-checked="{{ bo.on }}" onClick="{{ bo.pick }}" style="min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid {{ bo.bd }};background:{{ bo.bg }};color:{{ bo.fg }};font-weight:600;font-size:14.5px;cursor:pointer;">{{ bo.label }}</button></sc-for></div>
+            </div>
+            <div style="flex:1 1 100%;">
+              <label for="c-message" style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Tell us about it <span style="color:#B42318;">*</span></label>
+              <textarea id="c-message" value="{{ cf.message }}" onChange="{{ con.message }}" rows="5" placeholder="What does the business do, what's not working, and what would good look like?" aria-invalid="{{ chas.message }}" style="width:100%;box-sizing:border-box;border-radius:12px;border:1.5px solid {{ cbd.message }};padding:14px;font-size:16px;line-height:1.55;color:#111F38;resize:vertical;outline:none;" style-focus="border-color:#1A4AD8;box-shadow:0 0 0 3px rgba(26,74,216,0.15);"></textarea>
+              <div style="display:flex;justify-content:space-between;gap:12px;"><sc-if value="{{ chas.message }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0;color:#B42318;font-size:13.5px;font-weight:600;">{{ cerr.message }}</p></sc-if><span style="margin:6px 0 0 auto;color:#5A6380;font-size:13px;font-variant-numeric:tabular-nums;">{{ msgCount }}</span></div>
+            </div>
+            <div style="flex:1 1 100%;"><span style="display:block;font-weight:700;font-size:14px;color:#111F38;margin-bottom:8px;">Attachments <span style="color:#5A6380;font-weight:500;">(optional — specs, sketches, references)</span></span>
+<label for="c-files" style="display:flex;align-items:center;gap:14px;border:1.5px dashed #C9D3E6;border-radius:14px;padding:16px;cursor:pointer;background:#F5F7FB;" style-hover="border-color:#1A4AD8;background:#EAF0FD;"><span style="width:44px;height:44px;border-radius:12px;background:#EAF0FD;display:grid;place-items:center;"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:24px;line-height:1;color:#1A4AD8;font-variation-settings:'wght' 300;">upload_file</span></span><span style="display:flex;flex-direction:column;gap:2px;"><span style="font-weight:700;font-size:15px;">Choose files</span><span style="color:#5A6380;font-size:13.5px;">PDF, images or docs · up to 10 MB each</span></span></label>
+<input id="c-files" type="file" multiple="" onChange="{{ con.files }}" style="position:absolute;width:1px;height:1px;opacity:0;"></input>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;"><sc-for list="{{ cfiles }}" as="fi" hint-placeholder-count="0"><span style="display:flex;align-items:center;gap:8px;background:#EAF0FD;border-radius:999px;padding:6px 8px 6px 14px;font-size:13.5px;font-weight:600;">{{ fi.name }}<button type="button" onClick="{{ fi.remove }}" aria-label="Remove file" style="width:26px;height:26px;border-radius:50%;border:none;background:#fff;cursor:pointer;font-size:13px;color:#111F38;">✕</button></span></sc-for></div></div>
+          </div>
+          <div style="margin-top:32px;padding-top:24px;border-top:1px solid #E3E8F2;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;">
+            <p style="margin:0;color:#5A6380;font-size:14px;display:flex;align-items:center;gap:8px;"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;color:#1A4AD8;font-variation-settings:'wght' 300;">schedule</span>We reply to every enquiry within one working day.</p>
+            <button type="submit" style="min-height:56px;padding:0 28px;border-radius:12px;border:none;background:#1A4AD8;color:#fff;font-weight:700;font-size:16px;cursor:pointer;" style-hover="background:#16233F;" style-active="transform:scale(0.98);">Send my brief →</button>
+          </div>
+        </form>
+      </sc-if>
+      <sc-if value="{{ cSent }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:24px 0;">
+          <span style="width:64px;height:64px;border-radius:18px;background:#1A4AD8;display:grid;place-items:center;"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:36px;line-height:1;color:#FFFFFF;font-variation-settings:'wght' 300;">check</span></span>
+          <h2 style="margin:28px 0 10px;font-weight:800;font-size:clamp(32px,3.6vw,48px);letter-spacing:-0.03em;line-height:1.05;">Brief received, {{ firstName }}.</h2>
+          <p style="margin:0;color:#5A6380;font-size:17px;line-height:1.6;max-width:30em;">We'll read it properly and reply within one working day. Reference <strong style="color:#111F38;">{{ refNo }}</strong>.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;">
+            <a href="https://wa.me/917539907704" style="min-height:52px;padding:0 22px;border-radius:12px;background:#111F38;color:#fff;font-weight:700;font-size:15px;display:flex;align-items:center;" style-hover="background:#1A4AD8;color:#fff;">Continue on WhatsApp</a>
+            <button type="button" onClick="{{ cReset }}" style="min-height:52px;padding:0 22px;border-radius:12px;border:1.5px solid #E3E8F2;background:#fff;color:#111F38;font-weight:700;font-size:15px;cursor:pointer;">Send another brief</button>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+
+    <aside style="flex:4 1 340px;min-width:0;display:flex;flex-direction:column;gap:16px;position:{{ stickyPos }};top:100px;">
+      <div style="position:relative;overflow:hidden;border-radius:24px;background:linear-gradient(150deg,#1C46BB 0%,#16233F 72%);color:#fff;padding:28px;">
+        <div aria-hidden="true" style="position:absolute;right:-160px;bottom:-160px;width:420px;height:420px;border-radius:50%;border:1px solid rgba(255,255,255,0.14);"></div>
+        <p style="position:relative;margin:0 0 14px;font-weight:800;font-size:13px;letter-spacing:0.18em;">BRIEF SUMMARY</p>
+        <sc-if value="{{ noNeeds }}" hint-placeholder-val="{{ true }}"><p style="position:relative;margin:0;color:#C9D6F7;font-size:15px;line-height:1.55;">Pick what you need — the summary and a suggested package build here.</p></sc-if>
+        <div style="position:relative;display:flex;flex-wrap:wrap;gap:6px;"><sc-for list="{{ selNeeds }}" as="sn" hint-placeholder-count="0"><span style="border:1px solid rgba(255,255,255,0.35);border-radius:999px;padding:6px 12px;font-size:13.5px;font-weight:600;">{{ sn }}</span></sc-for></div>
+        <sc-if value="{{ hasPkg }}" hint-placeholder-val="{{ false }}">
+          <div style="position:relative;margin-top:18px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);border-radius:16px;padding:18px;">
+            <p style="margin:0;font-size:12px;font-weight:800;letter-spacing:0.18em;color:#8FA8F0;">SUGGESTED PACKAGE · {{ pkg.match }}</p>
+            <p style="margin:8px 0 0;font-weight:800;font-size:26px;letter-spacing:-0.02em;">{{ pkg.name }}</p>
+            <p style="margin:6px 0 0;color:#DBE8FA;font-size:14.5px;line-height:1.5;">{{ pkg.outcome }}</p>
+            <p style="margin:10px 0 0;color:#C9D6F7;font-size:13px;">{{ pkg.services }} · {{ pkg.price }}</p>
+          </div>
+        </sc-if>
+      </div>
+      <div style="background:#fff;border:1px solid #E3E8F2;border-radius:24px;padding:8px 24px;">
+        <a href="mailto:support@asprglobaltech.com" style="display:flex;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid #E3E8F2;color:#111F38;"><span style="width:44px;height:44px;border-radius:12px;background:#EAF0FD;display:grid;place-items:center;flex:0 0 auto;"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:24px;line-height:1;color:#1A4AD8;font-variation-settings:'wght' 300;">mail</span></span><span><span style="display:block;color:#5A6380;font-size:13px;">Email</span><span style="font-weight:700;font-size:16px;overflow-wrap:anywhere;">support@asprglobaltech.com</span></span></a>
+        <a href="tel:+917539907704" style="display:flex;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid #E3E8F2;color:#111F38;"><span style="width:44px;height:44px;border-radius:12px;background:#EAF0FD;display:grid;place-items:center;flex:0 0 auto;"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:24px;line-height:1;color:#1A4AD8;font-variation-settings:'wght' 300;">call</span></span><span><span style="display:block;color:#5A6380;font-size:13px;">Phone &amp; WhatsApp</span><span style="font-weight:700;font-size:16px;">+91 75399 07704</span></span></a>
+        <div style="display:flex;gap:14px;align-items:flex-start;padding:16px 0;border-bottom:1px solid #E3E8F2;"><span style="width:44px;height:44px;border-radius:12px;background:#EAF0FD;display:grid;place-items:center;flex:0 0 auto;"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:24px;line-height:1;color:#1A4AD8;font-variation-settings:'wght' 300;">location_on</span></span><span><span style="display:block;color:#5A6380;font-size:13px;">Studio</span><span style="font-weight:600;font-size:15px;line-height:1.5;">12D, 1444C, 27/1, S M Nagar, Perumal Gounder Layout, Post, Mahadevapuram, Mettupalayam, Tamil Nadu 641305, India</span></span></div>
+        <div style="display:flex;gap:14px;align-items:center;padding:16px 0;"><span style="width:44px;height:44px;border-radius:12px;background:#EAF0FD;display:grid;place-items:center;flex:0 0 auto;"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:24px;line-height:1;color:#1A4AD8;font-variation-settings:'wght' 300;">schedule</span></span><span><span style="display:block;color:#5A6380;font-size:13px;">Working hours</span><span style="font-weight:700;font-size:16px;">Mon–Sat, 9:30 AM – 6:30 PM IST</span></span></div>
+      </div>
+      <a href="https://maps.google.com/?q=Mahadevapuram,+Mettupalayam,+Tamil+Nadu+641305" style="display:block;border-radius:24px;overflow:hidden;border:1px solid #E3E8F2;color:#111F38;">
+        <div style="aspect-ratio:16/9;display:grid;place-items:center;background-color:#EAF0FD;background-image:radial-gradient(#C9D3E6 1px, transparent 1.3px);background-size:16px 16px;font-family:ui-monospace,Menlo,monospace;font-size:13px;color:#5A6380;">[ Map — Mettupalayam studio ]</div>
+        <div style="background:#fff;padding:14px 20px;font-weight:700;font-size:15px;color:#1A4AD8;">Open in Google Maps →</div>
+      </a>
+      <p style="margin:4px 4px 0;color:#5A6380;font-size:14px;">We reply to every enquiry within one working day.</p>
+    </aside>
+  </div>
+</section>
+</div>
+</sc-if>
+
+
+</main>
+
+<!-- CTA BAND -->
+<sc-if value="{{ showCta }}" hint-placeholder-val="{{ true }}">
+<section data-screen-label="CTA" style="background:#F5F7FB;padding:clamp(24px,4vw,48px) clamp(12px,3vw,48px);">
+  <div style="max-width:1280px;margin:0 auto;position:relative;overflow:hidden;border-radius:24px;background:linear-gradient(120deg,#1E4CCE 0%,#16233F 70%);color:#fff;padding:clamp(36px,6vw,80px) clamp(24px,5vw,72px);">
+    <div aria-hidden="true" style="position:absolute;right:-240px;top:50%;margin-top:-340px;width:680px;height:680px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);"></div>
+    <div aria-hidden="true" style="position:absolute;right:-140px;top:50%;margin-top:-240px;width:480px;height:480px;border-radius:50%;border:1px solid rgba(255,255,255,0.14);"></div>
+    <div style="position:relative;max-width:760px;">
+      <h2 style="margin:0;font-weight:800;font-size:clamp(34px,5vw,68px);letter-spacing:-0.03em;line-height:1.02;">{{ ctaHead }}</h2>
+      <p style="margin:18px 0 0;color:#DBE8FA;font-size:clamp(16px,1.5vw,19px);line-height:1.6;max-width:34em;">{{ ctaBody }}</p>
+    </div>
+    <div style="position:relative;height:1px;background:rgba(255,255,255,0.2);margin:32px 0 26px;"></div>
+    <div style="position:relative;display:flex;flex-wrap:wrap;gap:12px 40px;">
+      <sc-for list="{{ contacts }}" as="ct" hint-placeholder-count="3">
+        <a href="{{ ct.href }}" style="display:flex;align-items:center;gap:12px;color:#fff;min-height:48px;flex:1 1 220px;max-width:340px;" style-hover="color:#DBE8FA;">
+          <span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:26px;line-height:1;color:#DBE8FA;font-variation-settings:'wght' 300;">{{ ct.k }}</span>
+          <span style="font-weight:600;font-size:16px;">{{ ct.v }}</span>
+        </a>
+      </sc-for>
+    </div>
+    <div style="position:relative;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:24px;margin-top:32px;">
+      <p style="margin:0;color:#8FA8F0;font-weight:700;font-size:clamp(18px,1.8vw,22px);">Think it. Build it. Scale it.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;">
+        <a href="{{ ctaHref }}" style="background:#fff;color:#16233F;padding:16px 24px;border-radius:12px;font-weight:700;font-size:16px;flex:1 1 180px;text-align:center;" style-hover="background:#EAF0FD;color:#16233F;">{{ ctaBtn }}</a>
+        <a href="https://wa.me/917539907704" style="border:1.5px solid rgba(255,255,255,0.6);color:#fff;padding:14.5px 24px;border-radius:12px;font-weight:700;font-size:16px;flex:1 1 180px;text-align:center;" style-hover="background:rgba(255,255,255,0.08);color:#fff;">WhatsApp us</a>
+      </div>
+    </div>
+  </div>
+</section>
+</sc-if>
+
+<!-- FOOTER -->
+<footer style="background:#16233F;color:#C9D6F7;">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(56px,7vw,96px) clamp(20px,4vw,48px) 32px;">
+    <div style="display:flex;flex-wrap:wrap;gap:40px 48px;">
+      <div style="flex:3 1 280px;">
+        <img src="assets/aspr-logo-white.png" alt="ASPR Global Tech" style="height:60px;width:auto;"></img>
+        <p style="margin:20px 0 0;font-size:15px;line-height:1.6;max-width:24em;">We build websites, apps, games and brands for businesses that need them to work.</p>
+        <p style="margin:28px 0 10px;color:#fff;font-weight:700;font-size:15px;">Newsletter</p>
+        <p style="margin:0 0 14px;font-size:14px;line-height:1.6;max-width:26em;">One email a month. What we built, what broke, what we learned. No sales sequences.</p>
+        <form onSubmit="{{ subscribe }}" style="display:flex;gap:8px;max-width:400px;">
+          <label for="nl" style="position:absolute;left:-9999px;">Email address</label>
+          <input id="nl" type="email" required="" placeholder="you@company.com" style="flex:1;min-width:0;height:48px;border-radius:12px;border:1px solid rgba(143,168,240,0.35);background:rgba(255,255,255,0.04);color:#fff;padding:0 14px;font-size:15px;"></input>
+          <button type="submit" style="height:48px;padding:0 18px;border-radius:12px;border:none;background:#1A4AD8;color:#fff;font-weight:700;font-size:15px;cursor:pointer;">{{ subLabel }}</button>
+        </form>
+      </div>
+      <sc-for list="{{ footCols }}" as="fc" hint-placeholder-count="3">
+        <div style="flex:1 1 150px;">
+          <p style="margin:0 0 16px;color:#fff;font-weight:700;font-size:13px;letter-spacing:0.16em;">{{ fc.h }}</p>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <sc-for list="{{ fc.links }}" as="fl" hint-placeholder-count="5">
+              <a href="{{ fl.href }}" style="color:{{ fl.c }};font-size:15px;" style-hover="color:#fff;">{{ fl.t }}</a>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+      <div style="flex:2 1 240px;">
+        <p style="margin:0 0 16px;color:#fff;font-weight:700;font-size:13px;letter-spacing:0.16em;">CONTACT</p>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;line-height:1.55;">
+          <a href="mailto:support@asprglobaltech.com" style="color:#fff;">support@asprglobaltech.com</a>
+          <a href="tel:+917539907704" style="color:#fff;">+91 75399 07704</a>
+          <span>12D, 1444C, 27/1, S M Nagar, Perumal Gounder Layout, Post, Mahadevapuram, Mettupalayam, Tamil Nadu 641305, India</span>
+          <span>Mon–Sat, 9:30 AM – 6:30 PM IST</span>
+          <span style="display:flex;gap:16px;margin-top:4px;"><a href="#" style="color:#8FA8F0;">Instagram</a><a href="#" style="color:#8FA8F0;">Facebook</a></span>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;margin-top:56px;padding-top:24px;border-top:1px solid rgba(143,168,240,0.2);font-size:13px;">
+      <span>© 2026 ASPR Global Tech. A registered partnership firm. Mettupalayam, Tamil Nadu, India.</span>
+      <span style="display:flex;flex-wrap:wrap;gap:16px;"><a href="#" style="color:#C9D6F7;">Privacy</a><a href="#" style="color:#C9D6F7;">Terms</a><a href="#" style="color:#C9D6F7;">Cookies</a><a href="#" style="color:#C9D6F7;">Disclaimer</a></span>
+    </div>
+  </div>
+</footer>
+
+<sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+  <a href="https://wa.me/917539907704" aria-label="Chat on WhatsApp" style="position:fixed;right:24px;bottom:24px;z-index:50;height:52px;padding:0 20px;border-radius:999px;background:#111F38;color:#fff;display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;box-shadow:0 16px 32px -16px rgba(17,31,56,0.6);" style-hover="background:#1A4AD8;color:#fff;"><span style="width:10px;height:10px;border-radius:50%;background:#25D366;"></span>WhatsApp</a>
+</sc-if>
+<sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:0;right:0;bottom:0;z-index:50;background:#fff;border-top:1px solid #E3E8F2;padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:grid;grid-template-columns:1fr 1fr 1.6fr;gap:8px;">
+    <a href="https://wa.me/917539907704" style="min-height:48px;border-radius:12px;border:1px solid #E3E8F2;display:grid;place-items:center;font-weight:700;font-size:14px;color:#111F38;">WhatsApp</a>
+    <a href="tel:+917539907704" style="min-height:48px;border-radius:12px;border:1px solid #E3E8F2;display:grid;place-items:center;font-weight:700;font-size:14px;color:#111F38;">Call</a>
+    <a href="#contact" style="min-height:48px;border-radius:12px;background:#1A4AD8;display:grid;place-items:center;font-weight:700;font-size:14px;color:#fff;">Start a project</a>
+  </div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showTestimonials&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Work page&quot;}}">
+class Component extends DCLogic {
+  EMPTY_C = { needs: [], name: '', email: '', phone: '', company: '', budget: '', message: '', files: [] };
+  EMPTY_A = { name: '', email: '', phone: '', portfolio: '', message: '', files: [] };
+  state = { page: 'about', w: 1280, menu: false, dd: false, workF: 'All', insF: 'All', art: null, faq: {}, faqG: 0, role: -1,
+    a: { ...this.EMPTY_A }, aTried: false, aSent: -1, c: { ...this.EMPTY_C }, cTried: false, cSent: false, refNo: '', prog: 0, sub: false };
+  artRef = React.createRef();
+  PAGES = [['about','About','info'],['process','Process','account_tree'],['work','Work','work'],['careers','Careers','badge'],['insights','Insights','article'],['faq','FAQ','help'],['contact','Contact','mail']];
+  NEEDS = [['Website','language'],['App','smartphone'],['Game','sports_esports'],['Logo','draw'],['Graphics','palette'],['Video','movie'],['Business Systems','account_tree'],['SEO','travel_explore'],['SaaS / Software','cloud'],['AI / Chatbot','psychology'],['Product demo','play_circle'],['Not sure yet','help']];
+  PKGS = [
+    { name: 'Launch', set: ['Logo','Website','Graphics'], outcome: 'A launch that looks coherent, from one team, on one timeline', price: 'Fixed price after the Discover call' },
+    { name: 'Replace', set: ['Website','Business Systems'], outcome: 'A single source of truth and decisions from live data', price: 'Quoted in phases' },
+    { name: 'Be found', set: ['SEO','Graphics','Video'], outcome: 'Enquiries from search instead of ad spend', price: 'Six-month minimum' },
+    { name: 'Ship the app', set: ['App','Game','Logo'], outcome: 'A product you can sell', price: 'Phase one priced on its own' },
+  ];
+  STEPS = [
+    ['01','Discover','We ask what the business needs before anyone opens a design tool.',['Your goals, in your words','A review of what exists today','Questions answered before any design']],
+    ['02','Define','Scope, price and timeline written down and signed off.',['Written scope','Agreed price','Signed-off timeline']],
+    ['03','Design','Screens you can react to, with two rounds of revisions.',['Clickable screens to react to','Two rounds of revisions','Approved designs before build']],
+    ['04','Develop','Built in the open, with a staging link you can check any day.',['A staging link from week one','Progress you can check any day','Code and accounts in your name']],
+    ['05','Test','Real devices, real content, real edge cases.',['Tested on real devices','Your real content loaded','Edge cases checked']],
+    ['06','Deploy','Launch on a quiet day, with a rollback ready.',['A quiet-day launch','A rollback, ready','Files and logins handed over']],
+    ['07','Support','We stay on the account after the invoice clears.',['A named point of contact','Fixes after launch','[Support plan details]']],
+  ];
+  WORK = [
+    ['Retail brand, Coimbatore', ['Website','Catalogue','Brand refresh'], 'Build', 'assets/ecommerce.png', 'E-commerce storefront on a desktop monitor', 'center 40%'],
+    ['Clinic group, Tamil Nadu', ['Booking system','Website'], 'Build', 'assets/responsive-web.png', 'Responsive website across laptop, tablet and phone', 'center'],
+    ['Manufacturer, Mettupalayam', ['Business systems','Graphics'], 'Grow', 'assets/inventory.png', 'Inventory management dashboard', 'center'],
+    ['Food brand, Tamil Nadu', ['Logo','Packaging','Social'], 'Brand', 'assets/poster.png', 'Café promotional poster with latte art', 'center 35%'],
+    ['Education group', ['Admissions portal','SEO'], 'Grow', 'assets/seo-dashboard.png', 'Search traffic dashboard', 'center'],
+    ['Indie game studio', ['Unity build','Trailer edit'], 'Build', 'assets/game-ui.png', 'Fantasy mobile game home screen', 'center 30%'],
+  ];
+  ROLES = [
+    ['Frontend developer', ['Mettupalayam','Full-time','React']],
+    ['App developer', ['Mettupalayam','Full-time','Flutter or React Native']],
+    ['Graphic designer', ['Mettupalayam','Full-time']],
+    ['Video editor', ['Mettupalayam','Full-time']],
+    ['Internships', ['Rolling','Design and development']],
+  ];
+  ARTS = [
+    ['Why we still argue about page speed', 'Build', 'assets/responsive-web.png', 'Website on laptop, tablet and phone'],
+    ['A logo test that takes ten seconds', 'Brand', 'assets/logo-design.png', 'Logo concept sketches'],
+    ['What SEO cannot fix', 'Grow', 'assets/seo-dashboard.png', 'Search analytics dashboard'],
+    ['The scope document that saved a project', 'Process', null, 'Scope document'],
+    ['Choosing boring technology on purpose', 'Build', 'assets/coding.png', 'Code on a laptop screen'],
+    ['Hiring for skill, not certificates', 'Studio', null, 'Studio team at work'],
+  ];
+  FAQ = [
+    ['About working with us', [
+      ['start','How do we start a project with you?','Send a brief through the form, WhatsApp or call. We reply within one working day and set up a Discover call — scope, price and timeline follow in writing.'],
+      ['who','Who will we actually be talking to?','One point of contact across all ten services — the specialists doing the work, with no middle layer.'],
+      ['outside','Do you work with clients outside Tamil Nadu?','Yes. We are based in Mettupalayam and work with clients across India and abroad.'],
+      ['alongside','Can you work alongside our existing team?',null]]],
+    ['Cost and timelines', [
+      ['price','How do you price a project?','After the Discover call we write down the scope, price and timeline, and you sign them off before any build starts.'],
+      ['website-cost','What does a typical website cost?',null],
+      ['how-long','How long does a build take?',null],
+      ['phases','Do you take projects in phases?','Yes. Larger replacements are quoted in phases, and app builds can price phase one on its own.']]],
+    ['Delivery and after', [
+      ['handover','What exactly do we get on handover?',null],
+      ['own','Do we own the code and accounts?','Yes. You own everything — code, designs, domains and accounts.'],
+      ['breaks','What happens if something breaks after launch?','Every launch has a rollback ready, and we stay on the account after the invoice clears.'],
+      ['support','Do you offer ongoing support plans?',null]]],
+    ['Capability questions', [
+      ['app-web','Can you handle app and web together?','Yes. Ten services sit under one roof, so app, web, brand and SEO come from one team on one timeline.'],
+      ['tech','Which technologies do you build on?','React, Next.js, TypeScript and Tailwind on the front end; Node.js, NestJS, Python and Django on the back end; Flutter, React Native, Kotlin and Swift for mobile; Unity for games; PostgreSQL, MongoDB and SQLite; AWS and Vercel.'],
+      ['brand-only','Do you do brand work without a build?','Yes. Logo, graphics and video are services on their own.'],
+      ['rescue','Can you fix a project someone else started?',null]]],
+  ];
+
+  componentDidMount() {
+    this._r = () => this.setState({ w: window.innerWidth }); this._r(); window.addEventListener('resize', this._r);
+    this._h = () => this.route(); window.addEventListener('hashchange', this._h); this.route();
+    this._s = () => {
+      const el = this.artRef.current; if (!el) return;
+      const r = el.getBoundingClientRect(), vh = window.innerHeight;
+      const p = Math.max(0, Math.min(1, (vh * 0.25 - r.top) / Math.max(1, r.height - vh * 0.6)));
+      if (Math.abs(p - this.state.prog) > 0.004) this.setState({ prog: p });
+    };
+    document.addEventListener('scroll', this._s, { capture: true, passive: true });
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._r); window.removeEventListener('hashchange', this._h);
+    document.removeEventListener('scroll', this._s, { capture: true });
+  }
+  scrollTop(y) { window.scrollTo(0, y || 0); if (document.scrollingElement) document.scrollingElement.scrollTop = y || 0; }
+  route() {
+    const h = decodeURIComponent(location.hash.slice(1)), [pg, sub] = h.split('/');
+    const ids = this.PAGES.map(p => p[0]);
+    const page = ids.includes(pg) ? pg : 'about';
+    const st = { page, menu: false, dd: false, prog: 0 };
+    if (page === 'insights') st.art = sub != null && sub !== '' && !isNaN(+sub) ? +sub : null;
+    if (page === 'faq' && sub) st.faq = { ...this.state.faq, [sub]: true };
+    this.setState(st, () => {
+      const target = sub && document.getElementById((page === 'faq' ? 'q-' : '') + sub);
+      if (target && page !== 'insights') setTimeout(() => this.scrollTop(target.getBoundingClientRect().top + window.scrollY - 110), 30);
+      else this.scrollTop(0);
+    });
+  }
+  go(hash) { return e => { if (e && e.preventDefault) e.preventDefault(); if (location.hash === hash) this.route(); else location.hash = hash; }; }
+
+  cErrors() {
+    const f = this.state.c, e = {};
+    if (!f.needs.length) e.needs = 'Pick at least one thing you need — or "Not sure yet".';
+    if (!f.name.trim()) e.name = 'Enter your name so we know who to reply to.';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.trim())) e.email = f.email.trim() ? 'That email looks incomplete — check for a missing @ or domain.' : 'Enter an email address.';
+    if (f.phone.replace(/\D/g, '').length < 10) e.phone = 'Enter a phone number with at least 10 digits.';
+    if (f.message.trim().length < 20) e.message = 'Give us a little more — at least 20 characters.';
+    return e;
+  }
+  aErrors() {
+    const f = this.state.a, e = {};
+    if (!f.name.trim()) e.name = 'Enter your name.';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.trim())) e.email = f.email.trim() ? 'That email looks incomplete.' : 'Enter an email address.';
+    if (f.phone.replace(/\D/g, '').length < 10) e.phone = 'Enter a phone number with at least 10 digits.';
+    if (!f.portfolio.trim() && !f.files.length) e.portfolio = 'Send work, not a template CV — add a portfolio link or attach files.';
+    return e;
+  }
+  fieldKit(key, errs) {
+    const f = this.state[key];
+    const set = k => e => { const v = e.target.value; this.setState(x => ({ [key]: { ...x[key], [k]: v } })); };
+    const on = {}; Object.keys(f).forEach(k => { if (k !== 'files' && k !== 'needs') on[k] = set(k); });
+    on.files = e => { const names = [...(e.target.files || [])].map(x => x.name); e.target.value = ''; this.setState(x => ({ [key]: { ...x[key], files: [...x[key].files, ...names] } })); };
+    const has = {}, bd = {}, err = {};
+    Object.keys(f).forEach(k => { has[k] = !!errs[k]; err[k] = errs[k] || ''; bd[k] = errs[k] ? '#B42318' : '#E3E8F2'; });
+    const files = f.files.map((name, i) => ({ name, remove: () => this.setState(x => ({ [key]: { ...x[key], files: x[key].files.filter((_, j) => j !== i) } })) }));
+    return { f, on, has, bd, err, files, errList: Object.values(errs) };
+  }
+
+  renderVals() {
+    const s = this.state, w = s.w, mobile = w < 760, desktop = w >= 1024, royal = '#1A4AD8', ink = '#111F38';
+    const is = p => s.page === p;
+    const pagesNav = this.PAGES.map(([id, label, icon]) => ({ label, icon, href: '#' + id, bg: is(id) ? '#EAF0FD' : 'transparent', fg: is(id) ? royal : ink }));
+    const chip = (on) => ({ bg: on ? ink : '#fff', fg: on ? '#fff' : ink, bd: on ? ink : '#E3E8F2' });
+
+    // about
+    const timeline = [['Before','The team, working separately'],['March 2026','Registered as a partnership firm'],['Now','10 services under one roof'],['Next','A studio businesses across South India call first']]
+      .map(([k, t], i) => ({ k, t, line: i < 3 ? royal : '#C9D3E6', dot: i === 2 ? royal : '#fff', kc: i === 2 ? royal : ink }));
+    const values = ['Skill over syllabus','Say the hard thing early','Ship it properly','Keep it explainable','Stay curious'].map((t, i) => ({ n: '0' + (i + 1), t }));
+    const facts = [['ESTABLISHED','March 2026'],['ENTITY','Partnership firm'],['BASED IN','Mettupalayam, TN'],['TEAM','10–15'],['SERVICES','10'],['CLIENTS','150+'],['PROJECTS','300+']].map(([k, v]) => ({ k, v }));
+    const stack = [['Front end','web',['React','Next.js','TypeScript','Tailwind CSS']],['Back end','dns',['Node.js','NestJS','Python','Django']],['Mobile','smartphone',['Flutter','React Native','Kotlin','Swift']],['Games','sports_esports',['Unity','C#']],['Data','database',['PostgreSQL','MongoDB','SQLite']],['Cloud','cloud',['AWS','Vercel']],['Design','palette',['Figma','Adobe CC']]]
+      .map(([h, icon, items]) => ({ h, icon, items }));
+
+    // process
+    const stepIndex = this.STEPS.map(([n, t]) => ({ n, t, href: '#process/step-' + n, go: this.go('#process/step-' + n) }));
+    const mk = arr => arr.map(([n, t, d, out]) => ({ n, t, d, out, id: 'step-' + n }));
+    const processGroups = [
+      { stage: 'STAGE 1 · STEPS 01–02', verb: 'Think it.', sum: 'Before design or code: what the business needs, and a written agreement on scope, price and timeline.', steps: mk(this.STEPS.slice(0, 2)), bg: '#fff' },
+      { stage: 'STAGE 2 · STEPS 03–05', verb: 'Build it.', sum: 'Designed, built and tested in the open, with a staging link you can check any day.', steps: mk(this.STEPS.slice(2, 5)), bg: '#F5F7FB' },
+      { stage: 'STAGE 3 · STEPS 06–07', verb: 'Scale it.', sum: 'A calm launch, and a team that stays on the account afterwards.', steps: mk(this.STEPS.slice(5)), bg: '#fff' },
+    ];
+
+    // work
+    const workFilters = ['All','Build','Brand','Grow'].map(label => ({ label, on: s.workF === label, ...chip(s.workF === label),
+      count: label === 'All' ? this.WORK.length : this.WORK.filter(x => x[2] === label).length, pick: () => this.setState({ workF: label }) }));
+    const work = this.WORK.filter(x => s.workF === 'All' || x[2] === s.workF).map(([client, scope, pillar, img, alt, pos]) => ({ client, scope, pillar: pillar.toUpperCase(), img, alt, pos }));
+
+    // careers
+    const ak = this.fieldKit('a', s.aTried ? this.aErrors() : {});
+    const roles = this.ROLES.map(([t, meta], i) => { const open = s.role === i;
+      return { t, meta, open, sent: s.aSent === i, notSent: s.aSent !== i, sign: open ? '−' : '+', bd: open ? royal : '#E3E8F2', tileBg: open ? royal : '#EAF0FD', tileFg: open ? '#fff' : royal,
+        toggle: () => this.setState({ role: open ? -1 : i, aTried: false }),
+        submit: e => { e.preventDefault(); if (Object.keys(this.aErrors()).length) return this.setState({ aTried: true }); this.setState({ aSent: i, aTried: false, a: { ...this.EMPTY_A } }); } }; });
+    const hiring = [['01','Send work, not a template CV'],['02','A short paid task'],['03','A conversation with the team'],['04','An offer in writing']].map(([n, t]) => ({ n, t }));
+
+    // insights
+    const cats = ['All','Build','Brand','Grow','Process','Studio'];
+    const insFilters = cats.map(label => ({ label, on: s.insF === label, ...chip(s.insF === label), pick: () => this.setState({ insF: label }) }));
+    const artObj = (x, i) => ({ t: x[0], cat: x[1].toUpperCase(), img: x[2], hasImg: !!x[2], noImg: !x[2], alt: x[3], href: '#insights/' + i, open: this.go('#insights/' + i) });
+    const articles = this.ARTS.map(artObj).filter((_, i) => s.insF === 'All' || this.ARTS[i][1] === s.insF);
+    const art = s.art != null && this.ARTS[s.art] ? artObj(this.ARTS[s.art], s.art) : null;
+    const related = art ? this.ARTS.map(artObj).filter((_, i) => i !== s.art).sort((a, b) => (b.cat === art.cat) - (a.cat === art.cat)).slice(0, 3) : [];
+
+    // faq
+    const faqGroups = this.FAQ.map(([g, qs], gi) => ({ g, id: 'faq-g' + gi, href: '#faq/g' + gi, n: '0' + (gi + 1), count: qs.length + ' questions',
+      qs: qs.map(([id, q, a]) => { const open = !!s.faq[id];
+        return { id: 'q-' + id, link: '#faq/' + id, q, a: a || '', hasA: open && !!a, noA: open && !a, open, sign: open ? '−' : '+', tileBg: open ? royal : '#EAF0FD', tileFg: open ? '#fff' : royal,
+          toggle: () => this.setState(x => ({ faq: { ...x.faq, [id]: !x.faq[id] } })) }; }) }));
+    const faqIndex = faqGroups.map(g => ({ g: g.g, n: g.n, href: '#faq/' + g.id, go: this.go('#faq/' + g.id) }));
+
+    // contact
+    const ck = this.fieldKit('c', s.cTried ? this.cErrors() : {});
+    const needChips = this.NEEDS.map(([label, icon]) => { const sel = s.c.needs.includes(label);
+      return { label, icon, on: sel, bd: sel ? royal : (ck.has.needs ? '#F4C7C3' : '#E3E8F2'), bg: sel ? '#EAF0FD' : '#fff', tile: sel ? royal : '#EAF0FD', ic: sel ? '#fff' : royal, box: sel ? royal : '#fff', tick: sel ? '✓' : '',
+        toggle: () => this.setState(x => ({ c: { ...x.c, needs: sel ? x.c.needs.filter(n => n !== label) : [...x.c.needs, label] } })) }; });
+    const budgetOpts = ['Under ₹1 lakh','₹1–5 lakh','₹5–15 lakh','₹15 lakh+','Not sure yet'].map(label => { const on = s.c.budget === label;
+      return { label, on, ...chip(on), pick: () => this.setState(x => ({ c: { ...x.c, budget: on ? '' : label } })) }; });
+    let pkg = null, best = 1;
+    this.PKGS.forEach(p => { const m = p.set.filter(n => s.c.needs.includes(n)).length; if (m > best) { best = m; pkg = { ...p, match: m + ' OF ' + p.set.length + ' MATCH', services: p.set.join(' + ') }; } });
+
+    const ctaMap = {
+      about: ['LET\'S BUILD SOMETHING GREAT.', 'Have an idea, a business challenge, or a product to build? Let\'s turn it into a digital solution.', 'Start a project →', '#contact'],
+      process: ['START WITH DISCOVER.', 'Tell us what the business needs. We\'ll come back with scope, price and timeline — in writing.', 'Start a project →', '#contact'],
+      work: ['YOUR PROJECT COULD BE NEXT.', 'Have an idea, a business challenge, or a product to build? Let\'s turn it into a digital solution.', 'Start a project →', '#contact'],
+      careers: ['DON\'T SEE YOUR ROLE?', 'Send your work to careers@asprglobaltech.com. Skill over syllabus, always.', 'Email careers →', 'mailto:careers@asprglobaltech.com'],
+      insights: ['LET\'S BUILD SOMETHING GREAT.', 'Have an idea, a business challenge, or a product to build? Let\'s turn it into a digital solution.', 'Start a project →', '#contact'],
+      faq: ['STILL HAVE A QUESTION?', 'Ask us directly. We reply to every enquiry within one working day.', 'Start a project →', '#contact'],
+    };
+    const cta = ctaMap[s.page] || ctaMap.about;
+    const footLink = (t, href) => ({ t, href, c: href === '#' + s.page ? '#fff' : '#C9D6F7' });
+
+    return {
+      mobile, desktop, notDesktop: !desktop, menu: s.menu, drawerOpen: !desktop && s.menu, menuIcon: s.menu ? '✕' : '☰',
+      toggleMenu: () => this.setState(x => ({ menu: !x.menu })),
+      dd: s.dd, ddBg: s.dd ? '#EAF0FD' : 'transparent', ddOpen: () => this.setState({ dd: true }), ddClose: () => this.setState({ dd: false }), ddToggle: () => this.setState(x => ({ dd: !x.dd })),
+      workNavColor: is('work') ? royal : ink, pagesNav,
+      isAbout: is('about'), isProcess: is('process'), isWork: is('work'), isCareers: is('careers'), isInsights: is('insights') && !art, isArticle: is('insights') && !!art, isFaq: is('faq'), isContact: is('contact'),
+      stickyPos: mobile ? 'static' : 'sticky',
+      timeline, values, facts, stack, teamRoles: ['Web engineers','App developers','Game developers','Designers','Video editors','SEO','Business systems'],
+      stepIndex, processGroups,
+      workFilters, work, showTestimonials: !!this.props.showTestimonials,
+      roles, hiring, af: ak.f, aon: ak.on, ahas: ak.has, abd: ak.bd, aerr: ak.err, afiles: ak.files,
+      insFilters, articles, art: art || {}, related, artRef: this.artRef, progW: (s.prog * 100).toFixed(1) + '%', backToInsights: this.go('#insights'),
+      faqGroups, faqIndex,
+      cf: ck.f, con: ck.on, chas: ck.has, cbd: ck.bd, cerr: ck.err, cfiles: ck.files, cErrList: ck.errList, cErrMany: ck.errList.length > 1, cErrCount: ck.errList.length + ' things',
+      needChips, budgetOpts, hasPkg: !!pkg, pkg: pkg || {}, noNeeds: !s.c.needs.length, selNeeds: s.c.needs,
+      msgCount: s.c.message.trim().length + ' / 20 min',
+      cSubmit: e => { e.preventDefault(); if (Object.keys(this.cErrors()).length) { this.setState({ cTried: true }); return; } this.setState({ cSent: true, cTried: false, refNo: 'ASPR-' + String(Date.now()).slice(-6) }); this.scrollTop(0); },
+      cSent: s.cSent, cNotSent: !s.cSent, refNo: s.refNo, firstName: s.c.name.trim().split(' ')[0] || 'thanks',
+      cReset: () => this.setState({ cSent: false, c: { ...this.EMPTY_C } }),
+      showCta: !is('contact'), ctaHead: cta[0], ctaBody: cta[1], ctaBtn: cta[2], ctaHref: cta[3],
+      contacts: [{ k: 'language', v: 'asprglobaltech.com', href: 'https://asprglobaltech.com' }, { k: 'mail', v: 'support@asprglobaltech.com', href: 'mailto:support@asprglobaltech.com' }, { k: 'call', v: '+91 75399 07704', href: 'tel:+917539907704' }],
+      footCols: [
+        { h: 'SERVICES', links: ['Website Development','App Development','SaaS & Software','AI & Chatbots','Game Development','Brand & Design','SEO'].map(t => footLink(t, 'ASPR Home.dc.html#services')) },
+        { h: 'PRODUCTS', links: ['AI Voice Agent','Billing Software','Employee Management','Inventory Management','Finance & FinServ'].map(t => footLink(t, 'ASPR Home.dc.html#products')) },
+        { h: 'COMPANY', links: this.PAGES.map(([id, label]) => footLink(label, '#' + id)) },
+      ],
+      subscribe: e => { e.preventDefault(); this.setState({ sub: true }); }, subLabel: s.sub ? 'Subscribed ✓' : 'Subscribe',
+    };
+  }
+}
+</script>
+</body>
+</html>

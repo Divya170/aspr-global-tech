@@ -1,0 +1,19 @@
+{
+  "name": "aspr-global-tech",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ASPR Global Tech website — Next.js frontend, NestJS API, SQLite database",
+  "scripts": {
+    "install:all": "npm install && npm --prefix backend install && npm --prefix frontend install",
+    "dev": "concurrently -n api,web -c blue,green \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
+    "build": "npm --prefix backend run build && npm --prefix frontend run build",
+    "start": "concurrently -n api,web -c blue,green \"npm --prefix backend run start:prod\" \"npm --prefix frontend run start\"",
+    "db:reset": "npm --prefix backend run db:reset",
+    "views": "python3 tools/prepare_templates.py design tools/templates && rm -f frontend/app/pseudo.css && python3 tools/dc2jsx.py tools/templates/home.dc.html HomeView frontend/components/views/HomeView.jsx frontend/app/pseudo.css && python3 tools/dc2jsx.py tools/templates/company.dc.html CompanyView frontend/components/views/CompanyView.jsx frontend/app/pseudo.css",
+    "seed:build": "node tools/build-seed.mjs"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  },
+  "engines": { "node": ">=20" }
+}

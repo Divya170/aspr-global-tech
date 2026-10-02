@@ -1,0 +1,8 @@
+node_modules/
+backend/dist/
+frontend/.next/
+.env
+*.log
+database/uploads/
+database/*.sqlite-wal
+database/*.sqlite-shm
