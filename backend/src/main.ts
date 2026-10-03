@@ -5,12 +5,16 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { config } from './config';
 
-async function bootstrap(): Promise<void> {
+/**
+ * Starts the API. Runs directly (`node dist/main`) or is called by the root server.js,
+ * which handles shutdown signals itself and passes `shutdownHooks: false`.
+ */
+export async function bootstrap({ shutdownHooks = true } = {}): Promise<NestExpressApplication> {
   const defaultSecrets =
     config.adminPassword === 'change-me-aspr' ||
     ['dev-only-secret-change-me', 'replace-with-a-long-random-string'].includes(config.adminTokenSecret);
   if (process.env.NODE_ENV === 'production' && defaultSecrets) {
-    Logger.error('Refusing to start: set ADMIN_PASSWORD and ADMIN_TOKEN_SECRET in backend/.env.', 'Bootstrap');
+    Logger.error('Refusing to start: set ADMIN_PASSWORD and ADMIN_TOKEN_SECRET in .env.', 'Bootstrap');
     process.exit(1);
   }
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -22,9 +26,12 @@ async function bootstrap(): Promise<void> {
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
     next();
   });
-  app.enableShutdownHooks();
-  await app.listen(config.port);
-  Logger.log(`ASPR API listening on http://localhost:${config.port}/api`, 'Bootstrap');
-  if (config.adminPassword === 'change-me-aspr') Logger.warn('ADMIN_PASSWORD is the default — set it in backend/.env before going live.', 'Bootstrap');
+  if (shutdownHooks) app.enableShutdownHooks();
+  if (config.host) await app.listen(config.port, config.host);
+  else await app.listen(config.port);
+  Logger.log(`ASPR API listening on http://${config.host || 'localhost'}:${config.port}/api`, 'Bootstrap');
+  if (config.adminPassword === 'change-me-aspr') Logger.warn('ADMIN_PASSWORD is the default — set it in .env before going live.', 'Bootstrap');
+  return app;
 }
-bootstrap();
+
+if (require.main === module) bootstrap();

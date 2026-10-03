@@ -1,4 +1,12 @@
-const API = process.env.API_INTERNAL_URL || 'http://localhost:4000';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import nextEnv from '@next/env';
+
+// Also read the project-root .env used by server.js in production. The /api proxy target and
+// NEXT_PUBLIC_* values are fixed at build time, so the build must see the same settings.
+nextEnv.loadEnvConfig(path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'));
+
+const API = process.env.API_INTERNAL_URL || `http://127.0.0.1:${process.env.API_PORT || 4000}`;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

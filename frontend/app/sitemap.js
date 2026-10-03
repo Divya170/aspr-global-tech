@@ -1,5 +1,5 @@
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://asprglobaltech.com';
-const API = process.env.API_INTERNAL_URL || 'http://localhost:4000';
+const API = process.env.API_INTERNAL_URL || 'http://127.0.0.1:4000';
 const slug = (n) => String(n).toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 export const dynamic = 'force-dynamic';

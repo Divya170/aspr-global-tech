@@ -2,7 +2,7 @@
 // path, which next.config.mjs proxies to the NestJS backend (no CORS, one origin).
 // On the server (page data loading) we call the backend directly.
 
-const SERVER_BASE = process.env.API_INTERNAL_URL || 'http://localhost:4000';
+const SERVER_BASE = process.env.API_INTERNAL_URL || 'http://127.0.0.1:4000';
 
 export class ApiError extends Error {
   constructor(message, status, body) {

@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 // check happens here. Known slugs are cached for a minute; if the API is down, let the page
 // render its own error screen.
 
-const API = process.env.API_INTERNAL_URL || 'http://localhost:4000';
+const API = process.env.API_INTERNAL_URL || 'http://127.0.0.1:4000';
 const slug = (n) => String(n).toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 let cache = { at: 0, slugs: null };
 

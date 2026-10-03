@@ -13,7 +13,7 @@ The approved ASPR design (Home and Company pages), turned into a working, data-d
 Requires Node.js 20 or newer.
 
 ```bash
-npm run install:all                      # installs root, backend and frontend
+npm install                              # also installs backend/ and frontend/
 cp backend/.env.example backend/.env     # then set ADMIN_PASSWORD and ADMIN_TOKEN_SECRET
 cp frontend/.env.example frontend/.env.local
 npm run dev                              # API on :4000, website on :3000
@@ -23,9 +23,9 @@ npm run dev                              # API on :4000, website on :3000
 - Admin dashboard: http://localhost:3000/admin (password from `ADMIN_PASSWORD`)
 - API health: http://localhost:4000/api/health
 
-`database/app.sqlite` ships already seeded with all the content from the design. If you delete it, the API recreates the schema and re-seeds it on the next start (`npm run db:reset` does this for you).
+`database/app.sqlite` is not in git. The API creates the schema and seeds it with all the content from the design on its first start (`npm run db:reset` deletes it so the next start re-seeds).
 
-Production: `npm run build && npm start`.
+Production: `npm run build && npm start` runs the website and API in one process (`server.js`). See [DEPLOY.md](DEPLOY.md) for Hostinger.
 
 ## How it fits together
 
@@ -165,13 +165,15 @@ aspr-global-tech/
 
 ## Configuration
 
+In production, put everything in one `.env` at the project root (see `.env.example`), or set the keys as real environment variables. The root `.env` is also read by the backend and the Next.js build. In development, `backend/.env` and `frontend/.env.local` work as before.
+
 **`backend/.env`**
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `PORT` | `4000` | API port |
-| `DB_PATH` | `../database/app.sqlite` | SQLite file |
-| `UPLOAD_DIR` | `../database/uploads` | Where attachments are stored |
+| `PORT` | `4000` | API port when run on its own (`server.js` uses `PORT` for the website and `API_PORT` for the API) |
+| `DB_PATH` | `../database/app.sqlite` | SQLite file (relative paths resolve from `backend/`; use an absolute path outside the app in production) |
+| `UPLOAD_DIR` | `../database/uploads` | Where attachments are stored (same rule as `DB_PATH`) |
 | `CORS_ORIGIN` | `http://localhost:3000` | Allowed browser origin(s), comma-separated |
 | `ADMIN_PASSWORD` | `change-me-aspr` | Admin dashboard password — **change this** |
 | `ADMIN_TOKEN_SECRET` | dev value | Signs admin session tokens — **change this** |
@@ -182,7 +184,7 @@ aspr-global-tech/
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `API_INTERNAL_URL` | `http://localhost:4000` | Where Next.js reaches the API |
+| `API_INTERNAL_URL` | `http://127.0.0.1:4000` | Where Next.js reaches the API |
 
 ## Content notes
 

@@ -1,9 +1,14 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-/** Minimal .env loader (KEY=value lines) so the API has zero config dependencies. */
-function loadDotEnv(): void {
-  const file = path.resolve(process.cwd(), '.env');
+/** backend/, whether running from src (ts) or dist (js). Relative paths resolve from here, not the cwd. */
+const BACKEND_DIR = path.resolve(__dirname, '..');
+
+/**
+ * Minimal .env loader (KEY=value lines) so the API has zero config dependencies.
+ * Real environment variables win, then the project-root .env, then backend/.env.
+ */
+export function loadDotEnv(file: string): void {
   if (!fs.existsSync(file)) return;
   for (const line of fs.readFileSync(file, 'utf8').split(/\r?\n/)) {
     const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*?)\s*$/i);
@@ -12,14 +17,18 @@ function loadDotEnv(): void {
     if (process.env[m[1]] === undefined) process.env[m[1]] = value;
   }
 }
-loadDotEnv();
+loadDotEnv(path.resolve(BACKEND_DIR, '..', '.env'));
+loadDotEnv(path.resolve(BACKEND_DIR, '.env'));
 
 const env = (key: string, fallback: string): string => process.env[key] ?? fallback;
 
 export const config = {
-  port: Number(env('PORT', '4000')),
-  dbPath: path.resolve(process.cwd(), env('DB_PATH', '../database/app.sqlite')),
-  uploadDir: path.resolve(process.cwd(), env('UPLOAD_DIR', '../database/uploads')),
+  // API_PORT is used when the API runs inside server.js, where PORT belongs to the website.
+  port: Number(env('API_PORT', env('PORT', '4000'))),
+  // Bind address. server.js passes 127.0.0.1 so the API is only reachable through the website.
+  host: env('API_HOST', ''),
+  dbPath: path.resolve(BACKEND_DIR, env('DB_PATH', '../database/app.sqlite')),
+  uploadDir: path.resolve(BACKEND_DIR, env('UPLOAD_DIR', '../database/uploads')),
   schemaPath: path.resolve(__dirname, '..', '..', 'database', 'schema.sql'),
   seedPath: path.resolve(__dirname, '..', '..', 'database', 'seed', 'content.json'),
   corsOrigin: env('CORS_ORIGIN', 'http://localhost:3000').split(',').map((s) => s.trim()),
