@@ -1,13 +1,13 @@
 ---
 title: Contact and getting started
-url: /company#contact
+url: /contact
 ---
 
 # Contact and getting started
 
 ## How to start a project
 
-1. Send a brief — use "Start a project" on the site, the contact page at /company#contact, or leave your details right here in the chat.
+1. Request a quote at /quote (the "Start a project" button), use the contact page at /contact, or leave your details right here in the chat.
 2. We reply within one working day and set up a short Discover call, scheduled in your time zone.
 3. You get the scope, a fixed price and the timeline in writing, and sign them off before any build starts.
 

@@ -1,6 +1,7 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { AdminGuard } from '../admin/admin.guard';
+import { Perm } from '../admin/permissions';
 import { clientIp, RateLimitGuard } from '../common/rate-limit.guard';
 import { Row } from '../database/database.service';
 import { CHAT_CONFIG } from './chat.config';
@@ -24,7 +25,7 @@ export class ChatController {
   /** Greeting, starter prompts and the "what do you need" options. Cheap to call on mount. */
   @Get('config')
   config() {
-    return { ...CHAT_CONFIG, needs: this.knowledge.needs() };
+    return { ...CHAT_CONFIG, needs: this.knowledge.projectTypes() };
   }
 
   /** Turns a conversation into a real enquiry. Matches the contact form's limit. */
@@ -49,6 +50,7 @@ export class ChatController {
 /** Admin: recent conversations and their transcripts. */
 @Controller('admin/chat')
 @UseGuards(AdminGuard)
+@Perm('chat')
 export class ChatAdminController {
   constructor(private readonly chat: ChatService) {}
 

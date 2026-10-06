@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Header, HttpCode, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { AdminGuard } from '../admin/admin.guard';
+import { Perm } from '../admin/permissions';
 import { RateLimitGuard } from '../common/rate-limit.guard';
 import { NewsletterService } from './newsletter.service';
 
@@ -18,6 +19,7 @@ export class NewsletterController {
 
 @Controller('admin/subscribers')
 @UseGuards(AdminGuard)
+@Perm('subscribers')
 export class NewsletterAdminController {
   constructor(private readonly news: NewsletterService) {}
 

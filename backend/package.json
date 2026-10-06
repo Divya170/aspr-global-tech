@@ -8,7 +8,9 @@
     "start": "nest start",
     "dev": "nest start --watch",
     "start:prod": "NODE_ENV=production node dist/main",
-    "db:reset": "node scripts/reset-db.js"
+    "db:reset": "node scripts/reset-db.js",
+    "test": "nest build && node --test test/*.test.mjs",
+    "admin:create": "node scripts/create-admin.js"
   },
   "dependencies": {
     "@google/genai": "^2.26.0",
@@ -17,6 +19,7 @@
     "@nestjs/platform-express": "^11.0.0",
     "better-sqlite3": "^11.8.0",
     "multer": "^2.0.0",
+    "nodemailer": "^7.0.13",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
@@ -26,6 +29,7 @@
     "@types/express": "^5.0.0",
     "@types/multer": "^1.4.12",
     "@types/node": "^22.10.0",
+    "@types/nodemailer": "^8.0.2",
     "typescript": "^5.7.0"
   },
   "engines": {

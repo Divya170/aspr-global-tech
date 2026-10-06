@@ -29,7 +29,7 @@ export interface KbDoc {
   /** Stable id, e.g. `company/about` or `services/seo`. */
   name: string;
   title: string;
-  /** Site link this doc describes, e.g. `/#services` or `/company#faq`. */
+  /** Site link this doc describes, e.g. `/services` or `/faq`. */
   url: string;
   content: string;
   /** Lowercased content, cached so scoring never re-lowercases per term. */
@@ -145,6 +145,6 @@ export class KbStore {
 
   /** Best-matching page link, used by the fallback message. */
   bestUrl(query: string): string {
-    return this.search(query, 1)[0]?.url ?? '/#services';
+    return this.search(query, 1)[0]?.url ?? '/services';
   }
 }

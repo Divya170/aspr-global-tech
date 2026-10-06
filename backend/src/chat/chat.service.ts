@@ -5,7 +5,7 @@ import { assertValid } from '../common/errors';
 import { str } from '../common/rules';
 import { config } from '../config';
 import { DatabaseService, parseJson, Row } from '../database/database.service';
-import { EnquiriesService } from '../enquiries/enquiries.service';
+import { LeadsService } from '../leads/leads.service';
 import { GeminiService, GeminiTurn } from './gemini.service';
 import { KnowledgeService } from './knowledge.service';
 
@@ -35,7 +35,7 @@ export class ChatService implements OnModuleInit, OnModuleDestroy {
     private readonly db: DatabaseService,
     private readonly gemini: GeminiService,
     private readonly knowledge: KnowledgeService,
-    private readonly enquiries: EnquiriesService,
+    private readonly leads: LeadsService,
   ) {}
 
   /** Anonymous transcripts are not kept forever: expired sessions (and their messages) are swept hourly. */
@@ -179,9 +179,9 @@ export class ChatService implements OnModuleInit, OnModuleDestroy {
   }
 
   /**
-   * Turns a chat conversation into a real enquiry. The brief-form service does the work, so
-   * chat leads get the same validation and reference number and land in /admin beside every
-   * other enquiry, with the visitor's chat questions attached for context.
+   * Turns a chat conversation into a real lead. The leads service does the work, so chat
+   * leads get the same validation, inquiry ID, notifications and emails as the quote form,
+   * with the visitor's chat questions attached for context.
    */
   captureLead(body: Row, meta: { ip?: string; userAgent?: string }) {
     const sessionId = str(body.sessionId).slice(0, 64);
@@ -194,12 +194,12 @@ export class ChatService implements OnModuleInit, OnModuleDestroy {
       : [];
     const message = asked.length ? `${brief}\n\n— Sent from the site chat. Questions asked:\n${asked.map((q) => `• ${q}`).join('\n')}` : `${brief}\n\n— Sent from the site chat.`;
 
-    const result = this.enquiries.create({
-      source: 'chat',
-      needs: [str(body.need) || 'Not sure yet'],
-      name: body.name, email: body.email, phone: body.phone, company: body.company || '',
-      contactMethod: 'Email', budget: '', timeline: '', message: message.slice(0, 5000),
-    }, [], meta) as Row;
+    const types: string[] = this.knowledge.projectTypes();
+    const need = str(body.need);
+    const result = this.leads.create({
+      projectType: types.includes(need) ? need : 'Other',
+      name: body.name, email: body.email, phone: body.phone, company: body.company || '', message: message.slice(0, 5000),
+    }, 'chat', [], meta) as Row;
 
     if (session) {
       try {

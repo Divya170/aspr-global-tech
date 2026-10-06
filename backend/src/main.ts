@@ -2,7 +2,9 @@ import 'reflect-metadata';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import type { NextFunction, Request, Response } from 'express';
 import { AppModule } from './app.module';
+import { AllExceptionsFilter } from './common/exception.filter';
 import { config } from './config';
 
 /**
@@ -10,28 +12,33 @@ import { config } from './config';
  * which handles shutdown signals itself and passes `shutdownHooks: false`.
  */
 export async function bootstrap({ shutdownHooks = true } = {}): Promise<NestExpressApplication> {
-  const defaultSecrets =
-    config.adminPassword === 'change-me-aspr' ||
-    ['dev-only-secret-change-me', 'replace-with-a-long-random-string'].includes(config.adminTokenSecret);
-  if (process.env.NODE_ENV === 'production' && defaultSecrets) {
-    Logger.error('Refusing to start: set ADMIN_PASSWORD and ADMIN_TOKEN_SECRET in .env.', 'Bootstrap');
-    process.exit(1);
-  }
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, { logger: config.isProd ? ['log', 'warn', 'error'] : undefined });
+  app.disable('x-powered-by');
   if (config.trustProxy) app.set('trust proxy', 1);
   app.setGlobalPrefix('api');
-  app.enableCors({ origin: config.corsOrigin, credentials: false, methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'] });
-  app.use((_req: unknown, res: { setHeader: (k: string, v: string) => void }, next: () => void) => {
+  app.useGlobalFilters(new AllExceptionsFilter());
+  app.useBodyParser('json', { limit: '256kb' });
+  app.enableCors({ origin: config.corsOrigin, credentials: true, methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'] });
+  app.use((req: Request, res: Response, next: NextFunction) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('Cross-Origin-Resource-Policy', 'same-origin');
+    // JSON never needs to run scripts or load anything; media responses set their own policy.
+    if (!req.path.startsWith('/api/media/')) res.setHeader('Content-Security-Policy', "default-src 'none'; frame-ancestors 'none'");
+    if (req.path.startsWith('/api/admin')) res.setHeader('Cache-Control', 'no-store');
     next();
   });
   if (shutdownHooks) app.enableShutdownHooks();
   if (config.host) await app.listen(config.port, config.host);
   else await app.listen(config.port);
   Logger.log(`ASPR API listening on http://${config.host || 'localhost'}:${config.port}/api`, 'Bootstrap');
-  if (config.adminPassword === 'change-me-aspr') Logger.warn('ADMIN_PASSWORD is the default — set it in .env before going live.', 'Bootstrap');
   return app;
 }
 
-if (require.main === module) bootstrap();
+if (require.main === module) {
+  bootstrap().catch((e) => {
+    Logger.error((e as Error).message, 'Bootstrap');
+    process.exit(1);
+  });
+}

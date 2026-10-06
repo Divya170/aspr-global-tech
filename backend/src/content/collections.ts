@@ -4,7 +4,14 @@
  *  - validation for admin create/update
  *  - the public read endpoints and the admin dashboard's generated forms
  */
-export type FieldType = 'text' | 'textarea' | 'number' | 'boolean' | 'list' | 'blocks' | 'select' | 'image' | 'ref';
+export type FieldType =
+  | 'text' | 'textarea' | 'number' | 'boolean' | 'list' | 'blocks' | 'select' | 'image' | 'ref'
+  /** [label, text] rows, e.g. FAQ question/answer or process step/description */
+  | 'pairs'
+  /** [{ src, alt }] images and videos */
+  | 'gallery'
+  /** many-to-many link through a join table (no column of its own) */
+  | 'refs';
 
 export interface FieldDef {
   key: string;
@@ -15,10 +22,17 @@ export interface FieldDef {
   nullable?: boolean;
   options?: (string | number)[];
   ref?: { collection: string; labelKey: string };
+  /** refs: join table, this collection's id column, the other collection's id column */
+  through?: { table: string; own: string; other: string };
+  /** pairs: labels for the two inputs */
+  pairLabels?: [string, string];
   pattern?: RegExp;
   patternHint?: string;
   help?: string;
   max?: number;
+  min?: number;
+  /** admin form grouping */
+  section?: string;
 }
 
 export interface CollectionDef {
@@ -30,6 +44,8 @@ export interface CollectionDef {
   search: string[]; // columns searched by ?q=
   filters: string[]; // api keys filterable by exact value (?pillar=Build)
   orderBy: string;
+  /** Path on the public site for an item, used for "view on site" links. */
+  publicPath?: string;
 }
 
 const f = (key: string, type: FieldType, label: string, extra: Partial<FieldDef> = {}): FieldDef => ({
@@ -40,28 +56,112 @@ const f = (key: string, type: FieldType, label: string, extra: Partial<FieldDef>
   ...extra,
 });
 const common = [
-  f('sort', 'number', 'Sort order', { help: 'Lower numbers show first' }),
-  f('active', 'boolean', 'Published', { help: 'Unpublished items are hidden from the website' }),
+  f('sort', 'number', 'Sort order', { help: 'Lower numbers show first', section: 'Publishing' }),
+  f('active', 'boolean', 'Published', { help: 'Unpublished items are hidden from the website', section: 'Publishing' }),
 ];
 const media = [
-  f('img', 'image', 'Image path', { nullable: true, help: 'e.g. /assets/ecommerce.png — leave empty to show the placeholder' }),
-  f('alt', 'text', 'Image alt text'),
-  f('pos', 'text', 'Image focal point', { help: 'CSS object-position, e.g. "center 40%"' }),
+  f('img', 'image', 'Image', { nullable: true, help: 'Upload in Media, or a path such as /assets/ecommerce.png', section: 'Image' }),
+  f('alt', 'text', 'Image alt text', { max: 200, help: 'Describe the image for screen readers', section: 'Image' }),
+  f('pos', 'text', 'Image focal point', { help: 'CSS object-position, e.g. "center 40%"', section: 'Image' }),
+];
+const seo = [
+  f('seoTitle', 'text', 'SEO title', { max: 70, help: 'Leave empty to use the name. Around 60 characters.', section: 'SEO' }),
+  f('seoDescription', 'textarea', 'SEO description', { max: 170, help: 'Shown in search results. Around 155 characters.', section: 'SEO' }),
 ];
 const PILLARS = ['Build', 'Brand', 'Grow'];
 const SLUG = { pattern: /^[a-z0-9]+(?:-[a-z0-9]+)*$/, patternHint: 'lowercase letters, numbers and dashes' };
+/** Icon names the website knows how to draw (lucide icon set). */
+export const ICONS = ['globe', 'box', 'layout-dashboard', 'cpu', 'smartphone', 'pen-tool', 'workflow', 'palette', 'bot', 'gamepad-2',
+  'clapperboard', 'search', 'code', 'layers', 'shopping-cart', 'database', 'cloud', 'sparkles', 'receipt', 'users', 'package', 'landmark',
+  'shield-check', 'rocket', 'zap', 'line-chart'];
+export const TECH_GROUPS = ['frontend', 'backend', 'database', 'mobile', '3d', 'infrastructure', 'design', 'platforms'];
 
 export const COLLECTIONS: CollectionDef[] = [
   {
-    name: 'services', table: 'services', label: 'Services', titleKey: 'name', orderBy: 'sort, id',
-    search: ['name', 'line'], filters: ['pillar'],
+    name: 'services', table: 'services', label: 'Services', titleKey: 'name', orderBy: 'sort, id', publicPath: '/services/:slug',
+    search: ['name', 'line', 'tagline'], filters: ['pillar'],
     fields: [
-      f('num', 'text', 'Number', { required: true, max: 4 }),
       f('name', 'text', 'Name', { required: true, max: 80 }),
+      f('slug', 'text', 'URL slug', { required: true, max: 80, ...SLUG, help: 'The page lives at /services/<slug>' }),
+      f('num', 'text', 'Number', { required: true, max: 4 }),
       f('pillar', 'select', 'Pillar', { required: true, options: PILLARS }),
-      f('line', 'textarea', 'One-line description', { max: 240 }),
-      f('icon', 'text', 'Material icon', { help: 'Material Symbols name, e.g. language' }),
-      ...media, ...common,
+      f('icon', 'select', 'Icon', { required: true, options: ICONS }),
+      f('line', 'textarea', 'Short description', { max: 240, help: 'One sentence for cards and menus' }),
+      f('tagline', 'text', 'Page headline', { max: 160, section: 'Detail page' }),
+      f('intro', 'textarea', 'Introduction', { max: 1200, section: 'Detail page' }),
+      f('outcomes', 'pairs', 'Highlights', { pairLabels: ['Value', 'Label'], help: 'Short facts shown under the headline, e.g. "Mobile" / "fallbacks for every device"', section: 'Detail page' }),
+      f('deliverables', 'list', 'What we build', { help: 'One per line', section: 'Detail page' }),
+      f('idealFor', 'list', 'Ideal for', { help: 'One per line', section: 'Detail page' }),
+      f('process', 'pairs', 'Process', { pairLabels: ['Step', 'Description'], section: 'Detail page' }),
+      f('timeline', 'text', 'Typical timeline', { max: 120, section: 'Detail page' }),
+      f('budget', 'text', 'Typical budget', { max: 200, section: 'Detail page' }),
+      f('addOns', 'list', 'Add-ons', { help: 'One per line', section: 'Detail page' }),
+      f('technologies', 'refs', 'Technologies', { ref: { collection: 'technologies', labelKey: 'name' }, through: { table: 'service_technologies', own: 'service_id', other: 'technology_id' }, section: 'Detail page' }),
+      f('faqs', 'pairs', 'FAQs', { pairLabels: ['Question', 'Answer'], section: 'Detail page' }),
+      ...media, ...seo, ...common,
+    ],
+  },
+  {
+    name: 'projects', table: 'projects', label: 'Portfolio', titleKey: 'title', orderBy: 'sort, id', publicPath: '/portfolio/:slug',
+    search: ['title', 'client', 'summary'], filters: ['categoryId', 'featured', 'caseStudy'],
+    fields: [
+      f('title', 'text', 'Project title', { required: true, max: 140 }),
+      f('slug', 'text', 'URL slug', { required: true, max: 100, ...SLUG, help: 'The case study lives at /portfolio/<slug>' }),
+      f('client', 'text', 'Client', { max: 140, help: 'Only name a client who has agreed to it' }),
+      f('categoryId', 'ref', 'Category', { required: true, ref: { collection: 'project-categories', labelKey: 'name' } }),
+      f('year', 'number', 'Year', { nullable: true, min: 2000, max: 2100 }),
+      f('summary', 'textarea', 'Short description', { max: 300, help: 'One or two sentences for the portfolio card' }),
+      f('technologies', 'refs', 'Technologies', { ref: { collection: 'technologies', labelKey: 'name' }, through: { table: 'project_technologies', own: 'project_id', other: 'technology_id' } }),
+      f('services', 'refs', 'Services', { ref: { collection: 'services', labelKey: 'name' }, through: { table: 'project_services', own: 'project_id', other: 'service_id' }, help: 'Shown as example work on these service pages' }),
+      f('coverImage', 'image', 'Cover image', { nullable: true, section: 'Media' }),
+      f('coverAlt', 'text', 'Cover alt text', { max: 200, section: 'Media' }),
+      f('coverPos', 'text', 'Cover focal point', { help: 'CSS object-position, e.g. "center top"', section: 'Media' }),
+      f('gallery', 'gallery', 'Gallery', { help: 'Large screenshots or videos for the case study', section: 'Media' }),
+      f('videoUrl', 'text', 'Video URL', { max: 500, pattern: /^(\/api\/media\/[\w.-]+|https:\/\/(www\.)?(youtube\.com|youtu\.be|vimeo\.com)\/\S+)?$/, patternHint: 'an uploaded video (/api/media/…) or a YouTube or Vimeo link', help: 'Optional. An uploaded video (/api/media/…) or a YouTube/Vimeo link', section: 'Media' }),
+      f('liveUrl', 'text', 'Live site URL', { max: 500, pattern: /^(https?:\/\/\S+)?$/, patternHint: 'a full https:// address', section: 'Media' }),
+      f('caseStudy', 'boolean', 'Has a case study page', { help: 'Turn on once overview, challenge and solution are written', section: 'Case study' }),
+      f('overview', 'textarea', 'Project overview', { max: 3000, section: 'Case study' }),
+      f('challenge', 'textarea', 'Challenge', { max: 3000, section: 'Case study' }),
+      f('solution', 'textarea', 'Solution', { max: 3000, section: 'Case study' }),
+      f('features', 'list', 'Key features', { help: 'One per line', section: 'Case study' }),
+      f('process', 'pairs', 'Development process', { pairLabels: ['Stage', 'What happened'], section: 'Case study' }),
+      f('results', 'list', 'Results', { help: 'Only real, measurable results. One per line.', section: 'Case study' }),
+      f('featured', 'boolean', 'Feature on the home page', { section: 'Publishing' }),
+      ...seo, ...common,
+    ],
+  },
+  {
+    name: 'project-categories', table: 'project_categories', label: 'Portfolio categories', titleKey: 'name', orderBy: 'sort, id',
+    search: ['name'], filters: [],
+    fields: [
+      f('name', 'text', 'Name', { required: true, max: 40 }),
+      f('slug', 'text', 'Filter slug', { required: true, max: 40, ...SLUG }),
+      ...common,
+    ],
+  },
+  {
+    name: 'technologies', table: 'technologies', label: 'Technologies', titleKey: 'name', orderBy: 'grp, sort, id',
+    search: ['name'], filters: ['grp'],
+    fields: [
+      f('name', 'text', 'Name', { required: true, max: 40 }),
+      f('grp', 'select', 'Group', { required: true, options: TECH_GROUPS }),
+      ...common,
+    ],
+  },
+  {
+    name: 'testimonials', table: 'testimonials', label: 'Testimonials', titleKey: 'clientName', orderBy: 'sort, id',
+    search: ['client_name', 'company', 'body'], filters: ['featured'],
+    fields: [
+      f('clientName', 'text', 'Client name', { required: true, max: 120 }),
+      f('company', 'text', 'Company', { max: 120 }),
+      f('position', 'text', 'Position', { max: 120 }),
+      f('body', 'textarea', 'Testimonial', { required: true, max: 1200, help: "The client's own words, unedited apart from typos" }),
+      f('image', 'image', 'Photo', { nullable: true }),
+      f('rating', 'number', 'Rating (1–5)', { nullable: true, min: 1, max: 5, help: 'Only if the client gave one' }),
+      f('projectId', 'ref', 'Related project', { nullable: true, ref: { collection: 'projects', labelKey: 'title' } }),
+      f('consent', 'boolean', 'Client approved publishing', { help: 'Required before the testimonial can be published' }),
+      f('featured', 'boolean', 'Feature on the home page'),
+      ...common,
     ],
   },
   {
@@ -70,7 +170,7 @@ export const COLLECTIONS: CollectionDef[] = [
     fields: [
       f('name', 'text', 'Name', { required: true, max: 80 }),
       f('tag', 'text', 'Tagline', { max: 120 }),
-      f('icon', 'text', 'Material icon'),
+      f('icon', 'text', 'Icon', { help: 'Icon name, e.g. receipt' }),
       ...media, ...common,
     ],
   },
@@ -81,18 +181,6 @@ export const COLLECTIONS: CollectionDef[] = [
       f('name', 'text', 'Industry', { required: true, max: 60 }),
       f('problem', 'textarea', 'The problem', { max: 240 }),
       f('builds', 'list', 'What we build', { help: 'One per line' }),
-      ...media, ...common,
-    ],
-  },
-  {
-    name: 'work', table: 'work_items', label: 'Work', titleKey: 'client', orderBy: 'sort, id',
-    search: ['client', 'outcome'], filters: ['pillar', 'featured'],
-    fields: [
-      f('client', 'text', 'Client', { required: true, max: 120 }),
-      f('pillar', 'select', 'Pillar', { required: true, options: PILLARS }),
-      f('scope', 'list', 'Scope', { help: 'One per line' }),
-      f('outcome', 'textarea', 'Outcome', { max: 400 }),
-      f('featured', 'boolean', 'Show on home page'),
       ...media, ...common,
     ],
   },
@@ -119,7 +207,7 @@ export const COLLECTIONS: CollectionDef[] = [
     ],
   },
   {
-    name: 'articles', table: 'articles', label: 'Insights', titleKey: 'title', orderBy: 'sort, id',
+    name: 'articles', table: 'articles', label: 'Insights', titleKey: 'title', orderBy: 'sort, id', publicPath: '/insights/:slug',
     search: ['title', 'author', 'blocks'], filters: ['category'],
     fields: [
       f('slug', 'text', 'URL slug', { required: true, max: 120, ...SLUG }),
@@ -144,26 +232,21 @@ export const COLLECTIONS: CollectionDef[] = [
       f('slug', 'text', 'Link id', { required: true, max: 60, ...SLUG }),
       f('groupId', 'ref', 'Group', { required: true, ref: { collection: 'faq-groups', labelKey: 'title' } }),
       f('question', 'text', 'Question', { required: true, max: 200 }),
-      f('answer', 'textarea', 'Answer', { nullable: true, max: 2000, help: 'Leave empty to show "[Answer required from ASPR]"' }),
+      f('answer', 'textarea', 'Answer', { nullable: true, max: 2000, help: 'Questions without an answer are hidden on the website' }),
       f('featured', 'number', 'Home page position', { help: '1–4 shows it in the home page FAQ; 0 hides it there' }),
       ...common,
     ],
   },
   {
-    name: 'packages', table: 'packages', label: 'Packages', titleKey: 'name', orderBy: 'sort, id',
-    search: ['name', 'outcome'], filters: [],
+    name: 'pages', table: 'pages', label: 'Pages', titleKey: 'title', orderBy: 'sort, id', publicPath: '/:slug',
+    search: ['title', 'blocks'], filters: [],
     fields: [
-      f('name', 'text', 'Name', { required: true, max: 60 }),
-      f('services', 'list', 'Matching needs', { help: 'Exact labels from "Needs", one per line' }),
-      f('outcome', 'textarea', 'Outcome', { max: 240 }),
-      f('price', 'text', 'Pricing note', { max: 120 }),
+      f('title', 'text', 'Title', { required: true, max: 120 }),
+      f('slug', 'text', 'URL slug', { required: true, max: 80, ...SLUG }),
+      f('summary', 'textarea', 'Summary', { max: 300, help: 'Used as the search-result description' }),
+      f('blocks', 'blocks', 'Body'),
       ...common,
     ],
-  },
-  {
-    name: 'needs', table: 'needs', label: 'Brief needs', titleKey: 'label', orderBy: 'sort, id',
-    search: ['label'], filters: [],
-    fields: [f('label', 'text', 'Label', { required: true, max: 40 }), f('icon', 'text', 'Material icon'), ...common],
   },
 ];
 
@@ -174,7 +257,7 @@ export function getCollection(name: string): CollectionDef | undefined {
 /** JSON-safe description for the admin UI. */
 export function describeCollections() {
   return COLLECTIONS.map((c) => ({
-    name: c.name, label: c.label, titleKey: c.titleKey, filters: c.filters,
-    fields: c.fields.map(({ pattern, column, ...rest }) => ({ ...rest, pattern: pattern ? pattern.source : undefined })),
+    name: c.name, label: c.label, titleKey: c.titleKey, filters: c.filters, publicPath: c.publicPath,
+    fields: c.fields.map(({ pattern, column, through, ...rest }) => ({ ...rest, pattern: pattern ? pattern.source : undefined })),
   }));
 }

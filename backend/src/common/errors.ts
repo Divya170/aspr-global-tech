@@ -11,3 +11,8 @@ export class ValidationFailed extends BadRequestException {
 export function assertValid(errors: Errors, message?: string): void {
   if (Object.keys(errors).length) throw new ValidationFailed(errors, message);
 }
+
+/** Throws a 400 with field errors. Typed `never` so TypeScript narrows after `if (...) fail(...)`. */
+export function fail(errors: Errors, message?: string): never {
+  throw new ValidationFailed(errors, message);
+}

@@ -1,6 +1,6 @@
 ---
 title: About ASPR Global Tech
-url: /company#about
+url: /about
 ---
 
 # About ASPR Global Tech

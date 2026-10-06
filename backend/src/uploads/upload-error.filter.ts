@@ -11,7 +11,7 @@ export class UploadErrorFilter implements ExceptionFilter {
     const body = exception.getResponse() as any;
     const msg = typeof body === 'string' ? body : body?.message;
     if (status === 413 || /too large|too many files|unexpected field/i.test(String(msg))) {
-      const text = /too many|unexpected/i.test(String(msg)) ? `Attach up to ${config.maxFiles} files.` : 'Each file must be 10 MB or smaller.';
+      const text = /too many|unexpected/i.test(String(msg)) ? `Attach up to ${config.maxFiles} files.` : `Each file must be ${Math.round(config.maxFileBytes / 1048576)} MB or smaller.`;
       res.status(400).json({ statusCode: 400, message: text, errors: { files: text } });
       return;
     }

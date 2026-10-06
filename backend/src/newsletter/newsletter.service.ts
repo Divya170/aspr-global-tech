@@ -3,7 +3,7 @@ import { randomBytes } from 'crypto';
 import { assertValid } from '../common/errors';
 import { checkEmail, Errors, str } from '../common/rules';
 import { DatabaseService, Row } from '../database/database.service';
-import { toCsv } from '../enquiries/enquiries.service';
+import { toCsv } from '../common/csv';
 
 @Injectable()
 export class NewsletterService {
