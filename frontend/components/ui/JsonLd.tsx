@@ -1,0 +1,7 @@
+/**
+ * Structured data. Data blocks never execute, so CSP doesn't apply and no nonce is needed.
+ * `<` is escaped so content can never close the script tag.
+ */
+export function JsonLd({ data }: { data: object }) {
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, '\\u003c') }} />;
+}

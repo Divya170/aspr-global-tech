@@ -7,7 +7,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { getChatConfig, getChatMessages, renderMarkdown, streamChat, submitChatLead } from '@/lib/chat';
 import { COUNTRIES, findCountry, fullPhone, guessCountry, phoneError } from '@/lib/countries';
-import { emailError } from '@/lib/rules';
+import { emailError } from '@/lib/validate';
 
 const ROYAL = '#1A4AD8', INK = '#111F38', NAVY = '#16233F', MUTED = '#5A6380', LINE = '#E3E8F2', SOFT = '#F5F7FB';
 const DEFAULT_GREETING = "Hi! 👋 I'm the ASPR assistant. Ask me about our services, prices, how we work — or tell me what you'd like to build.";

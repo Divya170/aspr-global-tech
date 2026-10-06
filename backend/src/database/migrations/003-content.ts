@@ -286,7 +286,7 @@ export function up(db: DatabaseService): void {
   save('heardFrom', ['Google search', 'Social media', 'Referral from a friend or client', 'AI assistant (ChatGPT, Gemini…)', 'Saw our work', 'Other']);
   save('hero', {
     eyebrow: 'Software studio · Websites · 3D · Apps',
-    headline: 'We build websites, 3D experiences & software that make businesses stand out.',
+    headline: 'We build websites, *3D experiences* & software that make businesses stand out.',
     sub: 'ASPR Global Tech designs and engineers premium websites, web applications and custom software, built around how your business works and made to perform.',
   });
   for (const key of ['serviceDetails', 'heroStrip', 'proof', 'showTestimonials', 'contactMethods']) db.run('DELETE FROM settings WHERE key = ?', [key]);

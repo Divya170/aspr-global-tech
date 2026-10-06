@@ -12,8 +12,7 @@
     "start:separate": "concurrently -n api,web -c blue,green \"npm --prefix backend run start:prod\" \"npm --prefix frontend run start\"",
     "db:reset": "npm --prefix backend run db:reset",
     "package": "git archive --format=zip -o aspr-global-tech.zip HEAD",
-    "views": "python3 tools/prepare_templates.py design tools/templates && rm -f frontend/app/pseudo.css && python3 tools/dc2jsx.py tools/templates/home.dc.html HomeView frontend/components/views/HomeView.jsx frontend/app/pseudo.css && python3 tools/dc2jsx.py tools/templates/company.dc.html CompanyView frontend/components/views/CompanyView.jsx frontend/app/pseudo.css",
-    "seed:build": "node tools/build-seed.mjs"
+    "test": "npm --prefix backend test"
   },
   "devDependencies": {
     "concurrently": "^9.1.0"
