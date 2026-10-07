@@ -352,7 +352,8 @@ export class ContentService {
   article(slug: string): Row {
     const a = this.bySlug('articles', slug);
     const more = this.articles().filter((x) => x.slug !== a.slug).slice(0, 3);
-    return { ...a, more };
+    const standfirst = ((a.blocks as Row[]).find((b) => b.type === 'standfirst') || {}).text || '';
+    return { ...a, standfirst, more };
   }
 
   page(slug: string): Row {

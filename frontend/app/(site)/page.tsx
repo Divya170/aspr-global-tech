@@ -66,7 +66,7 @@ export default async function HomePage() {
         <Container>
           <div className="max-w-[46rem]">
             {hero.eyebrow && (
-              <p className="eyebrow mb-6 inline-flex animate-fade-up items-center gap-2 rounded-full border border-line-strong bg-white/[0.03] px-3 py-1.5 backdrop-blur">
+              <p className="eyebrow mb-6 inline-flex max-w-full animate-fade-up items-center gap-2 rounded-full border border-line-strong bg-white/[0.03] px-3 py-1.5 text-[0.68rem] tracking-[0.1em] backdrop-blur sm:text-xs sm:tracking-[0.16em]">
                 <span aria-hidden="true" className="size-1.5 rounded-full bg-signal shadow-[0_0_10px_var(--color-signal)]" />{hero.eyebrow}
               </p>
             )}

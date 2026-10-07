@@ -1,4 +1,4 @@
-import ChatWidget from '@/components/chat/ChatWidget';
+import { ChatWidget } from '@/components/chat/ChatWidget';
 import { Footer } from '@/components/layout/Footer';
 import { Navbar } from '@/components/layout/Navbar';
 import { JsonLd } from '@/components/ui/JsonLd';

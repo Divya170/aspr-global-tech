@@ -26,7 +26,7 @@ export async function request<T = unknown>(path: string, init: RequestInit & { j
   try { data = text ? JSON.parse(text) : null; } catch { data = { message: text }; }
   if (!res.ok) {
     const msg = (data && (Array.isArray(data.message) ? data.message[0] : data.message)) || `Request failed (${res.status})`;
-    throw new ApiError(res.status >= 500 ? 'Something went wrong. Please try again.' : res.status === 429 ? msg : msg, res.status, data);
+    throw new ApiError(res.status >= 500 ? 'Something went wrong. Please try again.' : msg, res.status, data);
   }
   return data as T;
 }

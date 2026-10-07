@@ -1,6 +1,7 @@
 import type { DatabaseService } from '../database.service';
 import * as platform from './002-platform';
 import * as content from './003-content';
+import * as copy from './004-copy';
 
 export interface Migration { id: string; up: (db: DatabaseService) => void }
 
@@ -11,4 +12,5 @@ export interface Migration { id: string; up: (db: DatabaseService) => void }
 export const MIGRATIONS: Migration[] = [
   { id: '002-platform', up: platform.up },
   { id: '003-content', up: content.up },
+  { id: '004-copy', up: copy.up },
 ];

@@ -38,15 +38,16 @@ Hostinger offers two ways to run this, depending on the plan.
    - Build command: `npm run build`
    - Start command: `npm start`
 4. **Environment variables**: add the keys from [.env.example](.env.example). The ones that must be set:
-   - `ADMIN_PASSWORD`, `ADMIN_TOKEN_SECRET`. The app refuses to start with the defaults. Generate the secret with `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"`.
+   - `ADMIN_EMAIL` and `ADMIN_PASSWORD` (12+ characters). On first start the API creates the first super admin account from these, and refuses to start without a strong password. After that, people and passwords are managed in the admin (Team / Account); changing the env values later has no effect.
    - `DB_PATH` and `UPLOAD_DIR`: absolute paths **outside** the app folder, e.g. `/home/u123456789/aspr-data/app.sqlite` and `/home/u123456789/aspr-data/uploads`. The home path is shown in hPanel → File Manager or over SSH (`echo $HOME`).
-   - `NEXT_PUBLIC_SITE_URL=https://yourdomain.com`
+   - `NEXT_PUBLIC_SITE_URL=https://yourdomain.com` (also used for links in emails)
    - `TRUST_PROXY=true`
-   - `GEMINI_API_KEY` (optional, enables the AI chat)
+   - Email: `SMTP_HOST=smtp.hostinger.com`, `SMTP_PORT=465`, `SMTP_USER` / `SMTP_PASS` (a mailbox created in hPanel → Emails), `MAIL_FROM`, and optionally `LEADS_NOTIFY_TO`. Without `SMTP_HOST` nothing is sent; emails are only recorded in the outbox (visible under Settings in the admin).
+   - Optional: `GEMINI_API_KEY` (AI chat), `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` (cookieless analytics; rebuild after changing).
 
    Do **not** set `PORT`; Hostinger assigns it.
 5. Deploy, then open `https://yourdomain.com/api/health`. It should return `{"ok":true,…}`.
-6. Log in at `https://yourdomain.com/admin` with `ADMIN_PASSWORD`.
+6. Sign in at `https://yourdomain.com/admin` with `ADMIN_EMAIL` / `ADMIN_PASSWORD`, then change the password under Account and add your team under Team.
 
 To update: push to GitHub (or upload a new zip) and redeploy. Your data in `DB_PATH` stays as it is.
 
@@ -64,7 +65,7 @@ sudo npm install -g pm2
 git clone https://github.com/Divya170/aspr-global-tech.git ~/aspr-global-tech
 cd ~/aspr-global-tech
 mkdir -p ~/aspr-data
-cp .env.example .env        # edit: secrets, DB_PATH=/home/<user>/aspr-data/app.sqlite, UPLOAD_DIR=…, site URL
+cp .env.example .env        # edit: ADMIN_EMAIL/ADMIN_PASSWORD, DB_PATH=/home/<user>/aspr-data/app.sqlite, UPLOAD_DIR=…, site URL, SMTP
 
 # 3. Build and run
 npm install
@@ -90,12 +91,29 @@ cd ~/aspr-global-tech && git pull && npm install && npm run build && pm2 restart
 
 ## Before go-live checklist
 
-- [ ] `ADMIN_PASSWORD` is strong, and `ADMIN_TOKEN_SECRET` is a long random string
+- [ ] `ADMIN_PASSWORD` is strong; after first sign-in it was changed under Account, and each team member has their own account with the right role
 - [ ] `DB_PATH` / `UPLOAD_DIR` point outside the app folder
 - [ ] `NEXT_PUBLIC_SITE_URL` is the real domain (it is fixed at build time, so rebuild after changing it)
-- [ ] HTTPS is on (hPanel → SSL, or certbot on a VPS)
-- [ ] `/api/health` returns ok, and a test brief from the contact page shows up in `/admin`
+- [ ] HTTPS is on (hPanel → SSL, or certbot on a VPS). Admin session cookies are `Secure`, so the admin only works over HTTPS in production
+- [ ] SMTP is set and a test quote request produces both emails (Settings → Email delivery shows "sent")
+- [ ] `/api/health` returns ok, and a test request from `/quote` shows up under Leads in `/admin`
+- [ ] Portfolio: real projects published (old work items were imported as unpublished drafts), testimonials only with client approval, stats in Settings confirmed
+- [ ] Privacy Policy and Terms reviewed (Content → Pages); they are drafts based on how the site handles data
 - [ ] Backups: copy the `aspr-data` folder regularly (Hostinger's daily backups cover the home directory)
+
+## Upgrading an existing installation
+
+The database upgrades itself: on start the API applies any pending migrations (each in a transaction, recorded in `schema_migrations`). Existing leads, applications, subscribers and content are kept. **Back up `aspr-data` before deploying an upgrade.**
+
+## Locked out?
+
+If nobody can sign in (e.g. email is not configured yet so password reset can't send), run on the server, with the same `.env`:
+
+```bash
+npm --prefix backend run admin:create -- you@example.com "Your Name"
+```
+
+It creates a super admin, or resets and unlocks an existing account, and prints a temporary password.
 
 ## Notes
 

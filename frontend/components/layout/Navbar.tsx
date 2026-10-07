@@ -108,9 +108,11 @@ export function Navbar({ services }: { services: ServiceCard[] }) {
         </ul>
 
         <div className="flex items-center gap-2">
-          <Magnetic className="hidden sm:inline-flex">
-            <ButtonLink href="/quote" size="sm" arrow onClick={() => track('CTA Click', { location: 'navbar' })}>Start a Project</ButtonLink>
-          </Magnetic>
+          <span className="hidden sm:block">
+            <Magnetic>
+              <ButtonLink href="/quote" size="sm" arrow onClick={() => track('CTA Click', { location: 'navbar' })}>Start a Project</ButtonLink>
+            </Magnetic>
+          </span>
           <button
             ref={toggleRef} type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="mobile-menu"
             aria-label={open ? 'Close menu' : 'Open menu'}
