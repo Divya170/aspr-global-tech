@@ -12,6 +12,8 @@ export interface ListQuery {
   page?: number;
   pageSize?: number;
   includeInactive?: boolean;
+  /** Admin lists only: 'true' published, 'false' drafts. */
+  active?: string;
   filters?: Record<string, string>;
 }
 
@@ -37,6 +39,7 @@ export class ContentService {
     const where: string[] = [];
     const params: unknown[] = [];
     if (!query.includeInactive) where.push('active = 1');
+    else if (query.active === 'true' || query.active === 'false') where.push(`active = ${query.active === 'true' ? 1 : 0}`);
     if (query.q && query.q.trim()) {
       const like = `%${query.q.trim().toLowerCase()}%`;
       where.push('(' + def.search.map((c) => `LOWER(COALESCE(${c}, '')) LIKE ?`).join(' OR ') + ')');

@@ -12,7 +12,7 @@ export class OpsController {
 
   @Get('notifications')
   list(@Req() req: Request) {
-    return this.notifications.forUser(req.user!.id);
+    return this.notifications.forUser(req.user!);
   }
 
   @Post('notifications/read')
@@ -20,7 +20,7 @@ export class OpsController {
   read(@Body() body: { ids?: unknown }, @Req() req: Request) {
     if (body?.ids === 'all') this.notifications.markAllRead(req.user!.id);
     else this.notifications.markRead(req.user!.id, Array.isArray(body?.ids) ? body.ids.map(Number) : []);
-    return this.notifications.forUser(req.user!.id);
+    return this.notifications.forUser(req.user!);
   }
 
   @Get('activity')

@@ -34,6 +34,10 @@ export class ApplicationsAdminController {
   @Get()
   list(@Query() q: AppListParams) { return this.apps.list(q); }
 
+  /** Roles (open or closed) for the pipeline's role filter; managers have no content access. */
+  @Get('roles')
+  roles() { return this.apps.roles(); }
+
   @Get('export.csv')
   @Header('Content-Type', 'text/csv; charset=utf-8')
   @Header('Content-Disposition', 'attachment; filename="aspr-applications.csv"')

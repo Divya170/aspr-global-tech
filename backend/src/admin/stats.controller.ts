@@ -1,10 +1,11 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import type { Request } from 'express';
 import { DatabaseService } from '../database/database.service';
 import { STATUS_LABELS } from '../leads/leads.service';
 import { MailService } from '../mail/mail.service';
 import { ActivityService } from '../ops/activity.service';
 import { AdminGuard } from './admin.guard';
-import { Perm } from './permissions';
+import { can, Perm } from './permissions';
 
 const OPEN = "('qualified','proposal-sent','negotiation')";
 
@@ -16,7 +17,8 @@ export class StatsController {
 
   @Get()
   @Perm('dashboard')
-  stats() {
+  stats(@Req() req: Request) {
+    const leadAccess = can(req.user, 'leads');
     const n = (sql: string, p: unknown[] = []) => this.db.get<{ n: number }>(sql, p)!.n;
     const leads = "FROM enquiries WHERE status <> 'spam'";
     const won = n(`SELECT COUNT(*) AS n ${leads} AND status = 'won'`);
@@ -55,9 +57,10 @@ export class StatsController {
       byStatus: this.db.all<{ status: string; count: number }>(`SELECT status, COUNT(*) AS count FROM enquiries GROUP BY status`)
         .map((r) => ({ ...r, label: STATUS_LABELS[r.status] || r.status })),
       bySource: this.db.all(`SELECT source, COUNT(*) AS count ${leads} GROUP BY source ORDER BY count DESC`),
-      recentLeads: this.db.all(`SELECT id, ref_no AS refNo, name, company, project_type AS projectType, status, created_at AS createdAt
+      // Names and companies only for people who work leads.
+      recentLeads: !leadAccess ? [] : this.db.all(`SELECT id, ref_no AS refNo, name, company, project_type AS projectType, status, created_at AS createdAt
         ${leads} ORDER BY id DESC LIMIT 6`).map((r) => ({ ...r, statusLabel: STATUS_LABELS[r.status] })),
-      recentActivity: this.activity.list({ pageSize: 10 }).items,
+      recentActivity: can(req.user, 'activity') ? this.activity.list({ pageSize: 10 }).items : [],
       email: { enabled: this.mail.enabled, failed: n("SELECT COUNT(*) AS n FROM email_outbox WHERE status = 'failed'") },
     };
   }

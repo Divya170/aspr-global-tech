@@ -20,8 +20,8 @@ export class ContentAdminController {
   @Get('content/:collection')
   @Perm('content')
   list(@Param('collection') collection: string, @Query() query: Record<string, string>) {
-    const { q, page, pageSize, ...filters } = query;
-    return this.content.list(collection, { q, page: Number(page), pageSize: Number(pageSize) || 50, includeInactive: true, filters });
+    const { q, page, pageSize, active, ...filters } = query;
+    return this.content.list(collection, { q, page: Number(page), pageSize: Number(pageSize) || 50, includeInactive: true, active, filters });
   }
 
   @Get('content/:collection/:id')

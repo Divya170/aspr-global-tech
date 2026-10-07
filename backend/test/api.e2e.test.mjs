@@ -206,6 +206,29 @@ describe('roles and lead management', () => {
     assert.equal((await m.get('/admin/users')).status, 403);
   });
 
+  test('editors get no lead notifications or lead names on the dashboard', async () => {
+    const ed = client();
+    await ed.login('editor@example.com', 'blue-lantern-forty-2');
+    const n = await ed.get('/admin/notifications');
+    assert.equal(n.status, 200);
+    assert.ok(n.body.items.every((x) => !['lead', 'contact'].includes(x.type)));
+    const s = await ed.get('/admin/stats');
+    assert.deepEqual(s.body.recentLeads, []);
+  });
+
+  test('managers can list roles for the applications filter', async () => {
+    const m = client();
+    await m.login('manager@example.com', 'quiet-harbor-ninety-7');
+    const r = await m.get('/admin/applications/roles');
+    assert.equal(r.status, 200);
+    assert.ok(r.body.length >= 1 && 'title' in r.body[0]);
+  });
+
+  test('admin content lists filter by published state', async () => {
+    const drafts = await admin.get('/admin/content/services?active=false');
+    assert.ok(drafts.body.items.length >= 1 && drafts.body.items.every((x) => x.active === false));
+  });
+
   test('status change, assignment and notes are recorded in the activity log', async () => {
     const list = await admin.get('/admin/leads?q=client@example.com');
     const id = list.body.items[0].id;

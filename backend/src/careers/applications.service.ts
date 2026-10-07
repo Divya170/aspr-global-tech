@@ -74,6 +74,10 @@ export class ApplicationsService {
     return { refNo, role: role.title, attachments: files.length, message: 'Application received. We look at the work first and reply within one working day.' };
   }
 
+  roles() {
+    return this.db.all('SELECT id, title, active FROM roles ORDER BY sort, id').map((r) => ({ id: r.id, title: r.title, open: !!r.active }));
+  }
+
   private map(r: Row): Row {
     return { id: r.id, refNo: r.ref_no, roleId: r.role_id, roleTitle: r.role_title, name: r.name, email: r.email, phone: r.phone,
       portfolio: r.portfolio, message: r.message, status: r.status, notes: r.notes, attachmentCount: r.attachment_count ?? undefined,
