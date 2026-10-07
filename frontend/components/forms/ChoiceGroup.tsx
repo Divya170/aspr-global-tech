@@ -22,7 +22,8 @@ export function ChoiceGroup({ id, legend, options, value, onChange, hint, error,
 
   return (
     <fieldset
-      className={`min-w-0 ${className}`} aria-describedby={describedBy(id, hint, error)}
+      // radiogroup role: lets the group carry aria-required / aria-invalid, which plain fieldsets can't.
+      role="radiogroup" className={`min-w-0 ${className}`} aria-describedby={describedBy(id, hint, error)}
       aria-invalid={error ? true : undefined} aria-required={optional ? undefined : true}
     >
       <legend className={`mb-3 text-sm font-medium text-text ${legendClass}`}>
@@ -50,7 +51,7 @@ export function ChoiceGroup({ id, legend, options, value, onChange, hint, error,
                 className="sr-only"
               />
               {!chip && (
-                <span aria-hidden="true" className={`grid size-5 shrink-0 place-items-center rounded-full border transition-colors ${checked ? 'border-brand-soft bg-brand text-white' : 'border-line-strong'}`}>
+                <span aria-hidden="true" className={`grid size-5 shrink-0 place-items-center rounded-full border transition-colors ${checked ? 'border-brand-soft bg-brand-strong text-white' : 'border-line-strong'}`}>
                   {checked && <Check size={12} strokeWidth={3} />}
                 </span>
               )}

@@ -1,7 +1,8 @@
-import { ChatWidget } from '@/components/chat/ChatWidget';
+import { ChatLauncher } from '@/components/chat/ChatLauncher';
 import { Footer } from '@/components/layout/Footer';
 import { Navbar } from '@/components/layout/Navbar';
 import { JsonLd } from '@/components/ui/JsonLd';
+import { PointerEffects } from '@/components/ui/PointerEffects';
 import { api } from '@/lib/api';
 import { DEFAULT_DESCRIPTION, SITE_URL } from '@/lib/site';
 import type { Site } from '@/lib/types';
@@ -22,7 +23,8 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <Navbar services={site.services} />
       <main id="main" className="flex-1">{children}</main>
       <Footer site={site} />
-      <ChatWidget />
+      <ChatLauncher />
+      <PointerEffects />
     </div>
   );
 }

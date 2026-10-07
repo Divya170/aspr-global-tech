@@ -13,7 +13,7 @@ export const metadata = pageMeta({
 });
 
 const NEXT_STEPS = [
-  { t: 'We review your request', d: 'A senior member of the team reads every brief. No bots, no call centre.' },
+  { t: 'We review your request', d: 'A person on the team reads every request, including any files you attach.' },
   { t: 'We reply within one working day', d: 'With questions, first ideas or a suggested time for a short call.' },
   { t: 'Written scope and fixed quote', d: 'Features, timeline and price agreed in writing before any work starts.' },
 ];

@@ -25,6 +25,9 @@ const nextConfig = {
   // The repo root holds the production server.js and its own lockfile.
   outputFileTracingRoot: path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'),
   poweredByHeader: false,
+  // Always put <title>/<meta> in <head>: some link-preview scrapers aren't on Next's bot list and
+  // would miss streamed metadata. Our metadata is cheap, so blocking on it costs nothing.
+  htmlLimitedBots: /.*/,
   compress: true,
   images: {
     formats: ['image/avif', 'image/webp'],

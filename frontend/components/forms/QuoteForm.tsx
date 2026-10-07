@@ -167,7 +167,7 @@ export function QuoteForm({ options, initialType = '' }: { options: QuoteOptions
             const done = i < step, current = i === step;
             const inner = (
               <>
-                <span aria-hidden="true" className={`grid size-6 shrink-0 place-items-center rounded-full border font-mono text-[0.7rem] ${current ? 'border-brand-soft bg-brand text-white' : done ? 'border-brand-soft/50 text-brand-soft' : 'border-line-strong text-subtle'}`}>
+                <span aria-hidden="true" className={`grid size-6 shrink-0 place-items-center rounded-full border font-mono text-[0.7rem] ${current ? 'border-brand-soft bg-brand-strong text-white' : done ? 'border-brand-soft/50 text-brand-soft' : 'border-line-strong text-subtle'}`}>
                   {done ? <Check size={12} strokeWidth={3} /> : i + 1}
                 </span>
                 <span className={`hidden truncate text-xs sm:block ${current ? 'text-text' : 'text-subtle'}`}>{x.short}</span>

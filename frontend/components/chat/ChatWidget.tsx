@@ -50,8 +50,8 @@ function LeadField({ id, label, error, optional, children }: { id: string; label
   );
 }
 
-export function ChatWidget() {
-  const [open, setOpen] = useState(false);
+export function ChatWidget({ initialOpen = false }: { initialOpen?: boolean }) {
+  const [open, setOpen] = useState(initialOpen);
   const [greeting, setGreeting] = useState(DEFAULT_GREETING);
   const [starters, setStarters] = useState<string[]>([]);
   const [needs, setNeeds] = useState<string[]>([]);
@@ -286,7 +286,7 @@ export function ChatWidget() {
                 <div className={[
                   'break-words px-3.5 py-2.5 text-[0.9rem] leading-relaxed',
                   m.role === 'user'
-                    ? 'rounded-2xl rounded-br-md bg-brand text-white'
+                    ? 'rounded-2xl rounded-br-md bg-brand-strong text-white'
                     : m.error
                       ? 'rounded-2xl rounded-bl-md border border-danger/40 bg-danger/10 text-text'
                       : `rounded-2xl rounded-bl-md border border-line bg-surface-2 text-muted ${MD}`,
@@ -383,7 +383,7 @@ export function ChatWidget() {
                 </button>
               ) : (
                 <button type="button" onClick={submitDraft} disabled={!draft.trim()} aria-label="Send"
-                  className="grid size-11 shrink-0 place-items-center rounded-xl bg-brand text-white transition-colors hover:bg-brand-strong disabled:bg-white/[0.06] disabled:text-subtle">
+                  className="grid size-11 shrink-0 place-items-center rounded-xl bg-brand-strong text-white transition-colors hover:bg-brand-strong disabled:bg-white/[0.06] disabled:text-subtle">
                   <ArrowUp aria-hidden="true" size={19} strokeWidth={2.2} />
                 </button>
               )}

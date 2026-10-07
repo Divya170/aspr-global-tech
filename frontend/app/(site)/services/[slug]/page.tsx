@@ -158,15 +158,15 @@ export default async function ServicePage({ params }: Params) {
                   <h3 className="eyebrow text-subtle!">Typical timeline &amp; budget</h3>
                   <dl className="mt-6 space-y-6">
                     {s.timeline && (
-                      <div className="flex gap-4">
-                        <Clock aria-hidden="true" size={20} className="mt-0.5 shrink-0 text-brand-soft" />
-                        <div><dt className="text-sm text-muted">Timeline</dt><dd className="mt-1 text-lg font-medium text-text">{s.timeline}</dd></div>
+                      <div>
+                        <dt className="flex items-center gap-2 text-sm text-muted"><Clock aria-hidden="true" size={18} className="shrink-0 text-brand-soft" />Timeline</dt>
+                        <dd className="mt-1 pl-[26px] text-lg font-medium text-text">{s.timeline}</dd>
                       </div>
                     )}
                     {s.budget && (
-                      <div className="flex gap-4">
-                        <Wallet aria-hidden="true" size={20} className="mt-0.5 shrink-0 text-brand-soft" />
-                        <div><dt className="text-sm text-muted">Budget</dt><dd className="mt-1 text-lg font-medium leading-snug text-text">{s.budget}</dd></div>
+                      <div>
+                        <dt className="flex items-center gap-2 text-sm text-muted"><Wallet aria-hidden="true" size={18} className="shrink-0 text-brand-soft" />Budget</dt>
+                        <dd className="mt-1 pl-[26px] text-lg font-medium leading-snug text-text">{s.budget}</dd>
                       </div>
                     )}
                   </dl>

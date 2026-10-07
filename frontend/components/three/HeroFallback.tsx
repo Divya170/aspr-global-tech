@@ -14,7 +14,7 @@ export function HeroFallback() {
       <div className="absolute left-1/2 top-[46%] size-[min(74vw,600px)] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-brand/20 [transform:translate(-50%,-50%)_rotateX(74deg)_rotateZ(20deg)]" />
 
       {/* website panel */}
-      <div className="hero-float absolute left-[28%] top-[6%] hidden w-[34%] max-w-[420px] rounded-2xl border border-brand-soft/30 bg-surface/80 p-3 shadow-[0_30px_80px_-30px_rgb(65_112_255/0.6)] backdrop-blur-sm [transform:rotateY(22deg)_rotateX(4deg)] md:block">
+      <div className="hero-float absolute left-[28%] top-[6%] hidden w-[34%] max-w-[420px] rounded-2xl border border-brand-soft/30 bg-surface/80 p-3 shadow-[0_30px_80px_-30px_rgb(65_112_255/0.6)] [transform:rotateY(22deg)_rotateX(4deg)] md:block">
         <div className="mb-3 flex gap-1.5"><i className="size-2 rounded-full bg-danger/80" /><i className="size-2 rounded-full bg-warning/80" /><i className="size-2 rounded-full bg-success/80" /></div>
         <div className="space-y-2 p-2">
           {line('55%', 'h-3 bg-white/70')}{line('40%', 'h-3 bg-white/60')}{line('70%')}
@@ -23,7 +23,7 @@ export function HeroFallback() {
       </div>
 
       {/* dashboard panel */}
-      <div className="hero-float absolute right-[3%] top-[36%] hidden w-[33%] max-w-[400px] rounded-2xl border border-accent/30 bg-surface/80 p-4 shadow-[0_30px_80px_-30px_rgb(139_92_246/0.6)] backdrop-blur-sm [animation-delay:-3s] [transform:rotateY(-24deg)] md:block">
+      <div className="hero-float absolute right-[3%] top-[36%] hidden w-[33%] max-w-[400px] rounded-2xl border border-accent/30 bg-surface/80 p-4 shadow-[0_30px_80px_-30px_rgb(139_92_246/0.6)] [animation-delay:-3s] [transform:rotateY(-24deg)] md:block">
         <div className="grid grid-cols-3 gap-2">
           {['bg-brand', 'bg-accent', 'bg-signal'].map((c) => <div key={c} className="rounded-lg bg-white/5 p-2">{line('60%')}<span className={`mt-2 block h-1.5 w-8 rounded-full ${c}`} /></div>)}
         </div>

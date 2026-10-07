@@ -2,6 +2,9 @@ import type { MetadataRoute } from 'next';
 import { api, ApiUnavailable } from '@/lib/api';
 import { SITE_URL } from '@/lib/site';
 
+// Built per request (and cached via the API data cache), never at build time when the API isn't running.
+export const dynamic = 'force-dynamic';
+
 type Entry = { slug: string; updatedAt: string };
 type SitemapData = { services: Entry[]; projects: Entry[]; articles: Entry[]; pages: Entry[] };
 

@@ -37,7 +37,7 @@ export function NewsletterForm() {
           className="min-w-0 flex-1 bg-transparent px-4 text-sm text-text placeholder:text-subtle focus:outline-none"
         />
         <button type="submit" disabled={state === 'sending'} aria-label="Subscribe"
-          className="grid size-9 shrink-0 place-items-center rounded-full bg-brand text-white transition-colors hover:bg-brand-strong disabled:opacity-60">
+          className="grid size-9 shrink-0 place-items-center rounded-full bg-brand-strong text-white transition-colors hover:bg-brand-strong disabled:opacity-60">
           <ArrowRight size={16} aria-hidden="true" />
         </button>
       </div>

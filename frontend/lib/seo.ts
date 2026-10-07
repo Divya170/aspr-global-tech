@@ -8,7 +8,8 @@ export function pageMeta({ title, description = DEFAULT_DESCRIPTION, path, image
   // Pages without their own image fall back to the generated default card (app/opengraph-image.tsx).
   const images = [{ url: image || '/opengraph-image' }];
   return {
-    title,
+    // Omit rather than set undefined: an explicit undefined would replace the layout's default title.
+    ...(title && { title }),
     description,
     alternates: { canonical: path },
     openGraph: { type: 'website', url: path, siteName: SITE_NAME, title: title || SITE_NAME, description, images },

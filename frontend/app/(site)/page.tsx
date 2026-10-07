@@ -70,8 +70,8 @@ export default async function HomePage() {
                 <span aria-hidden="true" className="size-1.5 rounded-full bg-signal shadow-[0_0_10px_var(--color-signal)]" />{hero.eyebrow}
               </p>
             )}
-            <h1 id="hero-title" className="text-display-xl animate-fade-up [animation-delay:80ms]"><Emphasis text={hero.headline} /></h1>
-            {hero.sub && <p className="text-lead mt-7 max-w-xl animate-fade-up [animation-delay:160ms]">{hero.sub}</p>}
+            <h1 id="hero-title" className="text-display-xl"><Emphasis text={hero.headline} /></h1>
+            {hero.sub && <p className="text-lead mt-7 max-w-xl">{hero.sub}</p>}
             <div className="mt-10 flex animate-fade-up flex-wrap gap-3 [animation-delay:240ms]">
               <Magnetic><ButtonLink href="/quote" size="lg" arrow>Start a Project</ButtonLink></Magnetic>
               <ButtonLink href={site.hasProjects ? '/portfolio' : '/services'} size="lg" variant="secondary">{site.hasProjects ? 'View Our Work' : 'Explore Services'}</ButtonLink>

@@ -47,7 +47,7 @@ export function ProcessTimeline({ steps, detailed = false }: { steps: Step[]; de
               {!right && <StepBody s={s} on={on} detailed={detailed} align="right" />}
             </div>
             <div className="relative flex justify-center">
-              <span className={`relative z-10 grid size-11 place-items-center rounded-full border font-mono text-sm transition-all duration-700 ${on ? 'border-brand bg-brand text-white shadow-[0_0_30px_rgb(65_112_255/0.6)]' : 'border-line-strong bg-bg text-subtle'}`}>
+              <span className={`relative z-10 grid size-11 place-items-center rounded-full border font-mono text-sm transition-all duration-700 ${on ? 'border-brand bg-brand-strong text-white shadow-[0_0_30px_rgb(65_112_255/0.6)]' : 'border-line-strong bg-bg text-subtle'}`}>
                 {s.num}
               </span>
             </div>
@@ -62,7 +62,7 @@ export function ProcessTimeline({ steps, detailed = false }: { steps: Step[]; de
 
 function StepBody({ s, on, detailed, align }: { s: Step; on: boolean; detailed: boolean; align: 'left' | 'right' }) {
   return (
-    <div className={`pt-1.5 transition-opacity duration-700 ${on ? 'opacity-100' : 'opacity-55'} ${align === 'right' ? 'sm:text-right' : ''}`}>
+    <div className={`pt-1.5 transition-opacity duration-700 ${on ? 'opacity-100' : 'opacity-80'} ${align === 'right' ? 'sm:text-right' : ''}`}>
       <h3 className="text-xl font-semibold uppercase tracking-wide text-text sm:text-2xl">{s.title}</h3>
       <p className="mt-2 leading-relaxed text-muted">{s.description}</p>
       {detailed && s.outputs && s.outputs.length > 0 && (

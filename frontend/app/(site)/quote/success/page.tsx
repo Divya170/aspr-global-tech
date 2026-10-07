@@ -15,7 +15,7 @@ const REF_RE = /^ASPR-\d{4}-[A-Z0-9]{4,8}$/;
 
 const NEXT = [
   { t: 'Confirmation email', d: 'A copy of your request is on its way to your inbox. Check spam if it has not arrived in a few minutes.' },
-  { t: 'We review it', d: 'A senior member of the team reads your brief and any files you attached.' },
+  { t: 'We review it', d: 'Someone from the team reads your brief and any files you attached.' },
   { t: 'Reply within one working day', d: 'With questions, first ideas or a suggested time for a short call.' },
   { t: 'Written scope and fixed quote', d: 'Features, timeline and price, agreed in writing before any work starts.' },
 ];
