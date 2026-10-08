@@ -1,6 +1,12 @@
 import Image from 'next/image';
-import { Check, Clock, Wallet } from 'lucide-react';
+import { Clock, Wallet } from 'lucide-react';
 import type { Metadata } from 'next';
+import { DeliverableTiles } from '@/components/interactive/DeliverableTiles';
+import { stepIcon } from '@/components/pages/services/icons';
+import { IdealRows } from '@/components/pages/services/IdealRows';
+import { ProductBento } from '@/components/pages/services/ProductBento';
+import { StepFlow } from '@/components/pages/services/StepFlow';
+import { TechCloud } from '@/components/pages/services/TechCloud';
 import { CTASection } from '@/components/sections/CTASection';
 import { PageHero } from '@/components/sections/PageHero';
 import { PortfolioCard } from '@/components/sections/PortfolioCard';
@@ -91,20 +97,23 @@ export default async function ServicePage({ params }: Params) {
               {s.intro && <p className="mt-5 text-xl leading-relaxed text-text sm:text-2xl sm:leading-relaxed">{s.intro}</p>}
             </Reveal>
             {s.img && (
-              <Reveal delay={80} className="lg:col-span-6">
-                <div className="panel relative aspect-[4/3] overflow-hidden bg-surface-2">
+              <Reveal delay={80} className="svx-shot lg:col-span-6">
+                <div className="panel relative aspect-[4/3] overflow-hidden border-line-strong bg-surface-2">
                   <Image src={s.img} alt={s.alt || s.name} fill priority sizes="(min-width: 1024px) 40vw, 100vw"
                     className="object-cover" style={{ objectPosition: s.pos || 'center' }} />
+                  <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-bg/50 via-transparent to-transparent" />
                 </div>
+                <span aria-hidden="true" className="svx-shot-badge"><Icon name={s.icon} size={26} /></span>
               </Reveal>
             )}
           </div>
           {s.outcomes.length > 0 && (
-            <dl className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-3">
+            <dl className="svx-outcomes mt-14" style={{ '--n': s.outcomes.length } as React.CSSProperties}>
+              <i aria-hidden="true" /><i aria-hidden="true" />
               {s.outcomes.map(([v, k], i) => (
-                <Reveal key={k} delay={i * 70} className="flex flex-col-reverse bg-bg-2 px-6 py-8">
-                  <dt className="mt-2 text-sm text-muted">{k}</dt>
-                  <dd className="font-display text-4xl font-semibold tracking-tight text-text sm:text-5xl">{v}</dd>
+                <Reveal key={k} delay={i * 70} className="svx-outcome flex flex-col-reverse">
+                  <dt className="mt-3 text-sm text-muted">{k}</dt>
+                  <dd className="svx-outcome-v">{v}</dd>
                 </Reveal>
               ))}
             </dl>
@@ -117,14 +126,7 @@ export default async function ServicePage({ params }: Params) {
         <Section labelledBy="build-title" className="border-t border-line">
           <Container>
             <SectionHeading id="build-title" eyebrow="What we build" title="What's included" lead="Every project is scoped to you, but these are the pieces we typically design and deliver." />
-            <ul className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {s.deliverables.map((d, i) => (
-                <Reveal as="li" key={d} delay={(i % 4) * 60} className="panel flex gap-3 p-5">
-                  <span className="grid size-7 shrink-0 place-items-center rounded-full border border-brand/30 bg-brand/10 text-brand-soft"><Check aria-hidden="true" size={14} strokeWidth={2.2} /></span>
-                  <span className="pt-0.5 text-[0.95rem] leading-snug text-text">{d}</span>
-                </Reveal>
-              ))}
-            </ul>
+            <div className="mt-14"><DeliverableTiles items={s.deliverables} /></div>
             {s.addOns.length > 0 && (
               <Reveal className="mt-10 flex flex-wrap items-center gap-2">
                 <span className="mr-2 text-sm text-subtle">Optional add-ons:</span>
@@ -142,35 +144,28 @@ export default async function ServicePage({ params }: Params) {
             <div className={hasPlan ? 'lg:col-span-7' : ''}>
               <SectionHeading id="ideal-title" eyebrow="Ideal for" title="Who this is for" />
               {s.idealFor.length > 0 && (
-                <ul className="mt-10 divide-y divide-line border-y border-line">
-                  {s.idealFor.map((x, i) => (
-                    <Reveal as="li" key={x} delay={i * 50} className="flex gap-4 py-5">
-                      <span className="pt-0.5 font-mono text-xs text-subtle">0{i + 1}</span>
-                      <span className="text-lg leading-snug text-text">{x}</span>
-                    </Reveal>
-                  ))}
-                </ul>
+                <div className="mt-10"><IdealRows items={s.idealFor} /></div>
               )}
             </div>
             {hasPlan && (
               <Reveal delay={80} className="lg:col-span-5 lg:pt-10">
-                <div className="panel p-7 sm:p-8">
-                  <h3 className="eyebrow text-subtle!">Typical timeline &amp; budget</h3>
-                  <dl className="mt-6 space-y-6">
+                <div className="svx-glass p-4 sm:p-5 lg:sticky lg:top-28">
+                  <h3 className="eyebrow px-3.5 pt-3 text-subtle!">Typical timeline &amp; budget</h3>
+                  <dl className="mt-4 space-y-1">
                     {s.timeline && (
-                      <div>
-                        <dt className="flex items-center gap-2 text-sm text-muted"><Clock aria-hidden="true" size={18} className="shrink-0 text-brand-soft" />Timeline</dt>
-                        <dd className="mt-1 pl-[26px] text-lg font-medium text-text">{s.timeline}</dd>
+                      <div className="svx-plan-row">
+                        <dt className="text-sm text-muted"><span aria-hidden="true" className="svx-plan-ico"><Clock size={20} /></span>Timeline</dt>
+                        <dd className="mt-1 font-display text-2xl font-semibold tracking-tight text-text">{s.timeline}</dd>
                       </div>
                     )}
                     {s.budget && (
-                      <div>
-                        <dt className="flex items-center gap-2 text-sm text-muted"><Wallet aria-hidden="true" size={18} className="shrink-0 text-brand-soft" />Budget</dt>
-                        <dd className="mt-1 pl-[26px] text-lg font-medium leading-snug text-text">{s.budget}</dd>
+                      <div className="svx-plan-row">
+                        <dt className="text-sm text-muted"><span aria-hidden="true" className="svx-plan-ico"><Wallet size={20} /></span>Budget</dt>
+                        <dd className="mt-1 text-lg font-medium leading-snug text-text">{s.budget}</dd>
                       </div>
                     )}
                   </dl>
-                  <p className="mt-7 border-t border-line pt-5 text-sm leading-relaxed text-subtle">Guide figures only. You get a fixed, written quote after the discovery call.</p>
+                  <p className="mx-3.5 mb-2 mt-4 border-t border-line pt-5 text-sm leading-relaxed text-subtle">Guide figures only. You get a fixed, written quote after the discovery call.</p>
                 </div>
               </Reveal>
             )}
@@ -184,16 +179,9 @@ export default async function ServicePage({ params }: Params) {
           <Container>
             <SectionHeading id="svc-process-title" eyebrow="Development process" title="How we deliver it"
               action={<ButtonLink href="/process" variant="secondary" arrow>Our full process</ButtonLink>} />
-            <ol className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {s.process.map(([t, d], i) => (
-                <Reveal as="li" key={t} delay={i * 70} className="relative border-t border-line-strong pt-6">
-                  <span aria-hidden="true" className="absolute -top-px left-0 h-px w-12 bg-gradient-to-r from-brand to-accent" />
-                  <span className="font-mono text-xs text-brand-soft">Step {String(i + 1).padStart(2, '0')}</span>
-                  <h3 className="mt-3 text-xl font-semibold text-text">{t}</h3>
-                  <p className="mt-2 leading-relaxed text-muted">{d}</p>
-                </Reveal>
-              ))}
-            </ol>
+            <div className="mt-14">
+              <StepFlow items={s.process.map(([t, d], i) => ({ icon: stepIcon(t, i), label: `Step ${String(i + 1).padStart(2, '0')}`, t, d }))} />
+            </div>
           </Container>
         </Section>
       )}
@@ -205,14 +193,10 @@ export default async function ServicePage({ params }: Params) {
             <div className="lg:col-span-5">
               <SectionHeading id="svc-tech-title" eyebrow="Technologies" title="Tools we use" lead="Chosen for the project, not the trend." />
             </div>
-            <Reveal className="lg:col-span-7 lg:pt-12">
-              <ul className="flex flex-wrap gap-2.5">
-                {s.technologies.map((t) => (
-                  <li key={t.id} className="rounded-lg border border-line bg-white/[0.02] px-3.5 py-2 text-sm text-text">{t.name}</li>
-                ))}
-              </ul>
+            <div className="lg:col-span-7 lg:pt-12">
+              <div className="panel svx-stack p-5 sm:p-7"><TechCloud items={s.technologies} /></div>
               <ButtonLink href="/technologies" variant="link" arrow className="mt-8">See our full stack</ButtonLink>
-            </Reveal>
+            </div>
           </Container>
         </Section>
       )}
@@ -236,25 +220,7 @@ export default async function ServicePage({ params }: Params) {
           <Container>
             <SectionHeading id="products-title" eyebrow="Ready-made products" title="Start from a proven base"
               lead="Ready-made systems we adapt to how your business works. Faster to launch than a build from scratch, and still yours to extend." />
-            <div className="mt-14 grid gap-4 md:grid-cols-2">
-              {s.products.map((p, i) => (
-                <Reveal key={p.name} delay={(i % 2) * 70} className="panel flex h-full flex-col p-7">
-                  <div className="flex items-center gap-4">
-                    <span className="grid size-11 shrink-0 place-items-center rounded-xl border border-line-strong bg-gradient-to-br from-brand/20 to-accent/10 text-brand-soft"><Icon name={p.icon} size={20} /></span>
-                    <div>
-                      <h3 className="text-lg font-semibold text-text">{p.name}</h3>
-                      {p.tag && <p className="text-sm text-muted">{p.tag}</p>}
-                    </div>
-                  </div>
-                  {p.features && p.features.length > 0 && (
-                    <ul className="mt-6 flex-1 space-y-2.5 text-[0.95rem] text-muted">
-                      {p.features.map((f) => <li key={f} className="flex gap-2.5"><Check aria-hidden="true" size={16} className="mt-1 shrink-0 text-success" />{f}</li>)}
-                    </ul>
-                  )}
-                  {p.bestFor && <p className="mt-6 border-t border-line pt-4 text-sm text-subtle"><span className="text-muted">Best for:</span> {p.bestFor}</p>}
-                </Reveal>
-              ))}
-            </div>
+            <div className="mt-14"><ProductBento products={s.products} /></div>
           </Container>
         </Section>
       )}

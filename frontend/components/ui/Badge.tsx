@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 export function Badge({ children, tone = 'default', className = '' }: { children: ReactNode; tone?: 'default' | 'brand' | 'accent'; className?: string }) {
   const tones = {
-    default: 'border-line-strong bg-white/[0.03] text-muted',
+    default: 'fx-chip border-line-strong bg-white/[0.03] text-muted',
     brand: 'border-brand/30 bg-brand/10 text-brand-soft',
     accent: 'border-accent/30 bg-accent/10 text-accent-soft',
   };

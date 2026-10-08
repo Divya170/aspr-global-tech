@@ -5,10 +5,12 @@ import { PageHero } from '@/components/sections/PageHero';
 import { ButtonLink } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
 import { JsonLd } from '@/components/ui/JsonLd';
+import { SpotlightCard } from '@/components/ui/SpotlightCard';
 import { api } from '@/lib/api';
 import { pageMeta } from '@/lib/seo';
 import { SITE_URL } from '@/lib/site';
 import type { Site } from '@/lib/types';
+import '@/components/pages/forms/forms.css';
 
 export const metadata = pageMeta({
   title: 'Contact',
@@ -16,6 +18,7 @@ export const metadata = pageMeta({
   path: '/contact',
 });
 
+/** Contact: the form in a glowing glass panel, with a sticky aside of direct-contact cards and a quote shortcut. */
 export default async function ContactPage() {
   const site = await api<Site>('/site');
   const s = site.settings;
@@ -30,23 +33,40 @@ export default async function ContactPage() {
 
       <Container className="pb-24 sm:pb-32">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-14">
-          <div className="panel self-start p-5 sm:p-8 lg:p-10">
-            <h2 className="sr-only">Send us a message</h2>
-            <ContactForm options={{ projectTypes: s.projectTypes, budgets: s.budgets, timelines: s.timelines, heardFrom: s.heardFrom }} />
+          <div className="relative isolate self-start">
+            <div aria-hidden="true" className="fm-halo" />
+            <div className="panel fx-border-live fm-live relative bg-surface/70 p-5 shadow-[0_40px_100px_-50px_rgb(65_112_255/0.55)] sm:p-8 lg:p-10">
+              <h2 className="sr-only">Send us a message</h2>
+              <ContactForm options={{ projectTypes: s.projectTypes, budgets: s.budgets, timelines: s.timelines, heardFrom: s.heardFrom }} />
+            </div>
           </div>
 
-          <aside aria-labelledby="contact-direct-title" className="space-y-6 lg:sticky lg:top-28 lg:self-start">
+          <aside aria-labelledby="contact-direct-title" className="space-y-8 lg:sticky lg:top-28 lg:self-start">
             <div>
               <h2 id="contact-direct-title" className="font-sans text-base font-semibold tracking-normal text-text">Reach us directly</h2>
               <p className="mt-1.5 text-sm text-muted">Whichever is easiest for you.</p>
-              <DirectContact company={s.company} full className="mt-4" />
+              <DirectContact company={s.company} full className="mt-5" />
             </div>
-            <div className="rounded-xl border border-line-strong bg-white/[0.02] p-5">
-              <ClipboardList aria-hidden="true" size={20} strokeWidth={1.7} className="text-accent-soft" />
-              <h2 className="mt-3 font-sans text-base font-semibold tracking-normal text-text">Prefer a structured quote?</h2>
-              <p className="mt-1.5 text-sm leading-relaxed text-muted">Four short steps covering project type, budget and timeline. Ideal if you already know what you need.</p>
-              <ButtonLink href="/quote" variant="link" arrow className="mt-3">Request a Quote</ButtonLink>
-            </div>
+            <SpotlightCard className="fx-border group overflow-hidden rounded-2xl border border-accent/25 bg-[linear-gradient(150deg,rgb(139_92_246/0.14),rgb(65_112_255/0.06)_55%,rgb(255_255_255/0.015))] p-6">
+              <div aria-hidden="true" className="pointer-events-none absolute -right-14 -top-16 size-44 rounded-full bg-[radial-gradient(closest-side,rgb(139_92_246/0.35),transparent)] blur-2xl" />
+              <div className="relative flex items-center justify-between gap-4">
+                <span aria-hidden="true" className="fx-icon grid size-11 place-items-center rounded-xl border border-accent/30 bg-accent/12 text-accent-soft">
+                  <ClipboardList size={20} strokeWidth={1.7} />
+                </span>
+                {/* Decorative echo of the four-step wizard */}
+                <span aria-hidden="true" className="flex items-center">
+                  {[0, 1, 2, 3].map((i) => (
+                    <span key={i} className="flex items-center">
+                      {i > 0 && <span className="h-px w-4 bg-gradient-to-r from-brand-soft/50 to-accent/50" />}
+                      <span className={`grid size-5 place-items-center rounded-full border font-mono text-[0.6rem] ${i === 0 ? 'border-transparent bg-brand-strong text-white shadow-[0_0_14px_rgb(65_112_255/0.8)]' : 'border-line-strong bg-bg/60 text-subtle'}`}>{i + 1}</span>
+                    </span>
+                  ))}
+                </span>
+              </div>
+              <h2 className="relative mt-5 font-sans text-base font-semibold tracking-normal text-text">Prefer a structured quote?</h2>
+              <p className="relative mt-1.5 text-sm leading-relaxed text-muted">Four short steps covering project type, budget and timeline. Ideal if you already know what you need.</p>
+              <ButtonLink href="/quote" variant="link" arrow className="relative mt-4">Request a Quote</ButtonLink>
+            </SpotlightCard>
           </aside>
         </div>
       </Container>

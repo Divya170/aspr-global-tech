@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from 'next';
-import { Geist, Geist_Mono, Sora } from 'next/font/google';
+import { Geist, Geist_Mono, Schibsted_Grotesk } from 'next/font/google';
 import { headers } from 'next/headers';
 import Script from 'next/script';
 import { DEFAULT_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/site';
 import './globals.css';
+import './effects.css';
 
-const sora = Sora({ subsets: ['latin'], weight: ['500', '600', '700'], variable: '--font-sora', display: 'swap' });
+const display = Schibsted_Grotesk({ subsets: ['latin'], weight: ['600', '700'], variable: '--font-schibsted', display: 'swap' });
 const geist = Geist({ subsets: ['latin'], variable: '--font-geist', display: 'swap' });
 const geistMono = Geist_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-geist-mono', display: 'swap' });
 
@@ -29,7 +30,7 @@ const PLAUSIBLE_SRC = process.env.NEXT_PUBLIC_PLAUSIBLE_SRC || 'https://plausibl
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const nonce = (await headers()).get('x-nonce') || undefined;
   return (
-    <html lang="en" className={`${sora.variable} ${geist.variable} ${geistMono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${display.variable} ${geist.variable} ${geistMono.variable}`} suppressHydrationWarning>
       <body className="min-h-dvh">
         {children}
         {PLAUSIBLE_DOMAIN && (

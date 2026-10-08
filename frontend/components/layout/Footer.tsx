@@ -21,9 +21,10 @@ export function Footer({ site }: { site: Site }) {
   ].filter(Boolean) as { href: string; label: string; icon: typeof Instagram }[];
 
   return (
-    <footer className="relative mt-auto border-t border-line bg-bg-2">
+    <footer className="relative mt-auto overflow-hidden border-t border-line bg-bg-2">
+      <div aria-hidden="true" className="fx-aurora opacity-40"><i /><i /><i /></div>
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand/50 to-transparent" />
-      <Container className="grid gap-12 py-16 lg:grid-cols-12 lg:py-20">
+      <Container className="relative grid gap-12 py-16 lg:grid-cols-12 lg:py-20">
         <div className="lg:col-span-4">
           <Logo />
           <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted">
@@ -35,14 +36,14 @@ export function Footer({ site }: { site: Site }) {
         <nav aria-label="Company" className="lg:col-span-2">
           <h2 className="eyebrow mb-5 text-subtle!">Company</h2>
           <ul className="space-y-3 text-sm">
-            {company.map((l) => <li key={l.href}><Link href={l.href} className="text-muted transition-colors hover:text-text">{l.label}</Link></li>)}
+            {company.map((l) => <li key={l.href}><Link href={l.href} className="fx-link text-muted transition-colors hover:text-text">{l.label}</Link></li>)}
           </ul>
         </nav>
 
         <nav aria-label="Services" className="lg:col-span-3">
           <h2 className="eyebrow mb-5 text-subtle!">Services</h2>
           <ul className="space-y-3 text-sm">
-            {site.services.map((s) => <li key={s.slug}><Link href={`/services/${s.slug}`} className="text-muted transition-colors hover:text-text">{s.name}</Link></li>)}
+            {site.services.map((s) => <li key={s.slug}><Link href={`/services/${s.slug}`} className="fx-link text-muted transition-colors hover:text-text">{s.name}</Link></li>)}
           </ul>
         </nav>
 
@@ -59,7 +60,7 @@ export function Footer({ site }: { site: Site }) {
               {socials.map(({ href, label, icon: I }) => (
                 <li key={label}>
                   <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
-                    className="grid size-10 place-items-center rounded-full border border-line text-muted transition-colors hover:border-brand/40 hover:text-text">
+                    className="grid size-10 place-items-center rounded-full border border-line text-muted transition-all duration-300 hover:-translate-y-1 hover:border-transparent hover:bg-brand-strong hover:text-white hover:shadow-[0_10px_24px_-8px_rgb(65_112_255/0.8)]">
                     <I size={17} aria-hidden="true" />
                   </a>
                 </li>
@@ -68,7 +69,8 @@ export function Footer({ site }: { site: Site }) {
           )}
         </div>
       </Container>
-      <div className="border-t border-line">
+      <div aria-hidden="true" className="fx-watermark pointer-events-none relative -mb-[0.12em] select-none text-center text-[clamp(4rem,19vw,17rem)]">ASPR</div>
+      <div className="relative border-t border-line">
         <Container className="flex flex-col gap-3 py-6 text-xs text-subtle sm:flex-row sm:items-center sm:justify-between">
           <p>© {year} ASPR Global Tech. All rights reserved.</p>
           <ul className="flex gap-6">

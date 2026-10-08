@@ -1,12 +1,12 @@
 import { FileSignature, MessagesSquare, MonitorSmartphone } from 'lucide-react';
+import { ServiceBento } from '@/components/pages/services/ServiceBento';
+import { StepFlow } from '@/components/pages/services/StepFlow';
 import { CTASection } from '@/components/sections/CTASection';
 import { PageHero } from '@/components/sections/PageHero';
 import { ProcessTimeline } from '@/components/sections/ProcessTimeline';
-import { ServiceCard } from '@/components/sections/ServiceCard';
 import { ButtonLink } from '@/components/ui/Button';
 import { Container, Section } from '@/components/ui/Container';
 import { Magnetic } from '@/components/ui/Magnetic';
-import { Reveal } from '@/components/ui/Reveal';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { api } from '@/lib/api';
 import { pageMeta } from '@/lib/seo';
@@ -44,11 +44,7 @@ export default async function ServicesPage() {
       <Section labelledBy="all-services-title" className="pt-0 sm:pt-4">
         <Container>
           <h2 id="all-services-title" className="sr-only">All services</h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {services.map((svc, i) => (
-              <Reveal key={svc.slug} delay={(i % 4) * 70}><ServiceCard service={svc} features={features.get(svc.slug)} /></Reveal>
-            ))}
-          </div>
+          <ServiceBento services={services} features={features} />
         </Container>
       </Section>
 
@@ -56,18 +52,9 @@ export default async function ServicesPage() {
         <Container>
           <SectionHeading id="engage-title" eyebrow="How engagements work" title="Agreed in writing, built in the open"
             lead="Every project, large or small, starts the same way." />
-          <ol className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-3">
-            {ENGAGEMENT.map(({ icon: I, t, d }, i) => (
-              <Reveal as="li" key={t} delay={i * 70} className="flex flex-col bg-bg-2 p-7 sm:p-8">
-                <div className="flex items-center justify-between">
-                  <span className="grid size-11 place-items-center rounded-xl border border-line-strong text-brand-soft"><I aria-hidden="true" size={20} strokeWidth={1.7} /></span>
-                  <span className="font-mono text-xs text-subtle">0{i + 1}</span>
-                </div>
-                <h3 className="mt-7 text-lg font-semibold text-text">{t}</h3>
-                <p className="mt-2 text-[0.95rem] leading-relaxed text-muted">{d}</p>
-              </Reveal>
-            ))}
-          </ol>
+          <div className="mt-14">
+            <StepFlow cycle={3200} items={ENGAGEMENT.map(({ icon: I, t, d }) => ({ icon: <I size={20} strokeWidth={1.7} />, t, d }))} />
+          </div>
         </Container>
       </Section>
 

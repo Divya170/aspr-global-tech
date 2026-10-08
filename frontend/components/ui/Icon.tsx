@@ -1,5 +1,5 @@
 import {
-  Bot, Box, Clapperboard, Cloud, Code2, Cpu, Database, Gamepad2, Globe, Landmark, Layers, LayoutDashboard, LineChart, Package,
+  Bot, Box, Clapperboard, FolderKanban, Handshake, Headphones, LayoutTemplate, Cloud, Code2, Cpu, Database, Gamepad2, Globe, Landmark, Layers, LayoutDashboard, LineChart, Package,
   Palette, PenTool, Receipt, Rocket, Search, ShieldCheck, ShoppingCart, Smartphone, Sparkles, Users, Workflow, Zap, type LucideIcon,
 } from 'lucide-react';
 
@@ -9,6 +9,7 @@ const ICONS: Record<string, LucideIcon> = {
   palette: Palette, bot: Bot, 'gamepad-2': Gamepad2, clapperboard: Clapperboard, search: Search, code: Code2, layers: Layers,
   'shopping-cart': ShoppingCart, database: Database, cloud: Cloud, sparkles: Sparkles, receipt: Receipt, users: Users, package: Package,
   landmark: Landmark, 'shield-check': ShieldCheck, rocket: Rocket, zap: Zap, 'line-chart': LineChart,
+  'folder-kanban': FolderKanban, handshake: Handshake, headphones: Headphones, 'layout-template': LayoutTemplate,
   // v1 product icon names
   receipt_long: Receipt, groups: Users, inventory_2: Package, account_balance: Landmark,
 };

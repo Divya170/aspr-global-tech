@@ -4,7 +4,7 @@ import type { Testimonial } from '@/lib/types';
 
 export function TestimonialCard({ t }: { t: Testimonial }) {
   return (
-    <figure className="panel flex h-full flex-col p-7">
+    <figure className="panel fx-border fx-lift flex h-full flex-col p-7">
       {t.rating && (
         <div className="mb-5 flex gap-0.5" role="img" aria-label={`Rated ${t.rating} out of 5`}>
           {Array.from({ length: 5 }, (_, i) => <Star key={i} aria-hidden="true" size={15} className={i < t.rating! ? 'fill-warning text-warning' : 'text-line-strong'} />)}

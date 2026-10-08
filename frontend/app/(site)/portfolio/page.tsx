@@ -1,13 +1,13 @@
 import { Suspense } from 'react';
-import Link from 'next/link';
-import { ArrowUpRight, FileSearch, MessagesSquare, Video } from 'lucide-react';
+import { FileSearch, MessagesSquare, Video } from 'lucide-react';
+import { CycleTiles } from '@/components/pages/content/CycleTiles';
+import { ServiceBento } from '@/components/pages/content/ServiceBento';
 import { CTASection } from '@/components/sections/CTASection';
 import { PageHero } from '@/components/sections/PageHero';
 import { PortfolioCard } from '@/components/sections/PortfolioCard';
 import { PortfolioGrid } from '@/components/sections/PortfolioGrid';
 import { ButtonLink } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
-import { Icon } from '@/components/ui/Icon';
 import { Magnetic } from '@/components/ui/Magnetic';
 import { Reveal } from '@/components/ui/Reveal';
 import { api } from '@/lib/api';
@@ -46,13 +46,14 @@ export default async function PortfolioPage() {
       {empty ? (
         <section aria-labelledby="empty-title" className="pb-8">
           <Container>
-            <div className="panel relative overflow-hidden px-6 py-12 sm:px-12 sm:py-16">
-              <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_100%_0%,rgb(139_92_246/0.14),transparent_60%)]" />
-              <div className="relative grid gap-12 lg:grid-cols-12">
-                <div className="lg:col-span-6">
-                  <p className="eyebrow">In progress</p>
-                  <h2 id="empty-title" className="text-heading mt-4">Case studies are being prepared</h2>
-                  <p className="text-lead mt-5">
+            <div className="grid gap-4 lg:grid-cols-12">
+              <Reveal className="ct-prep lg:col-span-7">
+                <div aria-hidden="true" className="fx-aurora opacity-70"><i /><i /><i /></div>
+                <div aria-hidden="true" className="bg-grid absolute inset-0 opacity-80" />
+                <div className="relative px-6 pb-40 pt-10 sm:px-10 sm:pb-52 sm:pt-12">
+                  <p className="eyebrow inline-flex items-center gap-3"><span aria-hidden="true" className="ct-live-dot" />In progress</p>
+                  <h2 id="empty-title" className="text-heading mt-4 sm:text-[2.6rem] sm:leading-[1.08]">Case studies are being prepared</h2>
+                  <p className="text-lead mt-5 max-w-xl">
                     We only publish projects once each client has approved what we show. While those write-ups are being finalised,
                     we are happy to walk you through work relevant to your project on a short call.
                   </p>
@@ -61,37 +62,21 @@ export default async function PortfolioPage() {
                     <ButtonLink href="/quote" size="lg" variant="secondary">Start Your Project</ButtonLink>
                   </div>
                 </div>
-                <ul className="space-y-6 lg:col-span-5 lg:col-start-8">
-                  {WALKTHROUGH.map(({ icon: I, t, d }) => (
-                    <li key={t} className="flex gap-4">
-                      <span className="grid size-10 shrink-0 place-items-center rounded-lg border border-line-strong text-brand-soft"><I aria-hidden="true" size={19} strokeWidth={1.7} /></span>
-                      <div>
-                        <h3 className="font-sans text-base font-semibold tracking-normal text-text">{t}</h3>
-                        <p className="mt-1.5 text-sm leading-relaxed text-muted">{d}</p>
-                      </div>
-                    </li>
+                {/* Case-study cards "in the works": skeletons peeking up from the bottom edge. */}
+                <div aria-hidden="true" className="ct-skel">
+                  {[0, 1, 2].map((i) => (
+                    <div key={i} className="ct-skel-card" style={{ '--i': i, '--y': `${[18, 0, 30][i]}px` } as React.CSSProperties}><i /><i /><i /></div>
                   ))}
-                </ul>
-              </div>
+                  <span className="ct-skel-bar"><span /></span>
+                </div>
+              </Reveal>
+              <CycleTiles className="lg:col-span-5 lg:grid-rows-3" items={WALKTHROUGH.map(({ icon: I, t, d }) => ({ icon: <I size={20} strokeWidth={1.7} />, t, d }))} />
             </div>
 
             {site.services.length > 0 && (
               <div className="mt-20">
-                <h2 className="eyebrow">What we build</h2>
-                <ul className="mt-6 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
-                  {site.services.map((s, i) => (
-                    <Reveal as="li" key={s.slug} delay={(i % 4) * 50} className="bg-bg">
-                      <Link href={`/services/${s.slug}`} className="group flex h-full items-start gap-4 p-5 transition-colors hover:bg-surface sm:p-6">
-                        <span className="text-brand-soft"><Icon name={s.icon} size={20} /></span>
-                        <span className="flex-1">
-                          <span className="block font-medium text-text">{s.name}</span>
-                          <span className="mt-1 block text-sm leading-relaxed text-muted">{s.line}</span>
-                        </span>
-                        <ArrowUpRight aria-hidden="true" size={16} className="mt-1 shrink-0 text-subtle transition-colors group-hover:text-brand-soft" />
-                      </Link>
-                    </Reveal>
-                  ))}
-                </ul>
+                <h2 className="eyebrow eyebrow-line">What we build</h2>
+                <div className="mt-6"><ServiceBento services={site.services} /></div>
               </div>
             )}
           </Container>

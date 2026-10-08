@@ -1,10 +1,12 @@
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2, Code2, Headphones, LayoutTemplate, Rocket, ShieldCheck, Smartphone } from 'lucide-react';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { FeatureCards } from '@/components/interactive/FeatureCards';
+import { StatBand } from '@/components/interactive/StatBand';
+import { TechExplorer } from '@/components/interactive/TechExplorer';
+import { ServiceBento } from '@/components/pages/services/ServiceBento';
 import { CTASection } from '@/components/sections/CTASection';
 import { PortfolioCard } from '@/components/sections/PortfolioCard';
 import { ProcessTimeline } from '@/components/sections/ProcessTimeline';
-import { ServiceCard } from '@/components/sections/ServiceCard';
-import { TechGrid } from '@/components/sections/TechGrid';
 import { TestimonialCard } from '@/components/sections/TestimonialCard';
 import { HeroVisual } from '@/components/three/HeroVisual';
 import { Accordion } from '@/components/ui/Accordion';
@@ -27,12 +29,12 @@ export const metadata = pageMeta({
 
 /** What every project gets, regardless of size. Qualitative commitments, not statistics. */
 const PRINCIPLES = [
-  { icon: LayoutTemplate, t: 'Custom-built, never templated', d: 'Designed and engineered around your business, your users and your brand.' },
-  { icon: Code2, t: 'Modern, maintainable code', d: 'Current frameworks, typed code and documentation your next developer will thank you for.' },
-  { icon: Smartphone, t: 'Responsive by default', d: 'Designed for phones first and tested on real devices before launch.' },
-  { icon: ShieldCheck, t: 'Secure and fast', d: 'Security headers, validated inputs and performance budgets on every build.' },
-  { icon: Rocket, t: 'Business-focused', d: 'Every feature is tied to a goal: more enquiries, less admin, faster decisions.' },
-  { icon: Headphones, t: 'Support after launch', d: 'A named contact, fixes after go-live and an optional care plan.' },
+  { icon: 'layout-template', t: 'Custom-built, never templated', d: 'Designed and engineered around your business, your users and your brand.' },
+  { icon: 'code', t: 'Modern, maintainable code', d: 'Current frameworks, typed code and documentation your next developer will thank you for.' },
+  { icon: 'smartphone', t: 'Responsive by default', d: 'Designed for phones first and tested on real devices before launch.' },
+  { icon: 'shield-check', t: 'Secure and fast', d: 'Security headers, validated inputs and performance budgets on every build.' },
+  { icon: 'rocket', t: 'Business-focused', d: 'Every feature is tied to a goal: more enquiries, less admin, faster decisions.' },
+  { icon: 'headphones', t: 'Support after launch', d: 'A named contact, fixes after go-live and an optional care plan.' },
 ];
 
 export default async function HomePage() {
@@ -40,11 +42,11 @@ export default async function HomePage() {
   const s = site.settings;
   const hero = s.hero || { eyebrow: '', headline: 'We build digital experiences that move businesses forward.', sub: '' };
   const stats = [
-    s.stats?.projects && { v: `${s.stats.projects}+`, k: 'Projects delivered' },
-    s.stats?.clients && { v: `${s.stats.clients}+`, k: 'Clients served' },
-    s.stats?.specialistsMin && { v: `${s.stats.specialistsMin}–${s.stats.specialistsMax}`, k: 'Specialists in-house' },
-    { v: String(home.services.length), k: 'Core services' },
-  ].filter(Boolean) as { v: string; k: string }[];
+    s.stats?.projects && { value: `${s.stats.projects}+`, label: 'Projects delivered', icon: 'folder-kanban' },
+    s.stats?.clients && { value: `${s.stats.clients}+`, label: 'Clients served', icon: 'handshake' },
+    s.stats?.specialistsMin && { value: `${s.stats.specialistsMin}–${s.stats.specialistsMax}`, label: 'Specialists in-house', icon: 'users' },
+    { value: String(home.services.length), label: 'Core services', icon: 'layers' },
+  ].filter(Boolean) as { value: string; label: string; icon: string }[];
 
   return (
     <>
@@ -87,27 +89,8 @@ export default async function HomePage() {
       <section aria-labelledby="trust-title" className="relative border-y border-line bg-bg-2/60 py-16 sm:py-20">
         <Container>
           <h2 id="trust-title" className="sr-only">Why businesses work with ASPR</h2>
-          {stats.length > 0 && (
-            <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line lg:grid-cols-4">
-              {stats.map((x, i) => (
-                <Reveal key={x.k} delay={i * 70} className="bg-bg-2 px-6 py-8">
-                  <dt className="text-sm text-muted">{x.k}</dt>
-                  <dd className="mt-2 font-display text-4xl font-semibold tracking-tight text-text sm:text-5xl">{x.v}</dd>
-                </Reveal>
-              ))}
-            </dl>
-          )}
-          <ul className="mt-12 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-            {PRINCIPLES.map(({ icon: I, t, d }, i) => (
-              <Reveal as="li" key={t} delay={i * 50} className="flex gap-4">
-                <span className="grid size-10 shrink-0 place-items-center rounded-lg border border-line-strong text-brand-soft"><I aria-hidden="true" size={19} strokeWidth={1.7} /></span>
-                <div>
-                  <h3 className="font-sans text-base font-semibold tracking-normal text-text">{t}</h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-muted">{d}</p>
-                </div>
-              </Reveal>
-            ))}
-          </ul>
+          {stats.length > 0 && <StatBand stats={stats} />}
+          <FeatureCards items={PRINCIPLES} className="mt-10" />
         </Container>
       </section>
 
@@ -120,9 +103,7 @@ export default async function HomePage() {
             lead="Eight disciplines under one roof, so your website, software and brand are designed and engineered by the same team."
             action={<ButtonLink href="/services" variant="secondary" arrow>All services</ButtonLink>}
           />
-          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {home.services.map((svc, i) => <Reveal key={svc.slug} delay={(i % 4) * 70}><ServiceCard service={svc} /></Reveal>)}
-          </div>
+          <div className="mt-14"><ServiceBento services={home.services} features={new Map()} /></div>
         </Container>
       </Section>
 
@@ -159,7 +140,7 @@ export default async function HomePage() {
             title="Modern tools, chosen for the job"
             lead="We pick proven technology that fits the project, the budget and the team who will maintain it."
             action={<ButtonLink href="/technologies" variant="secondary" arrow>Our stack</ButtonLink>} />
-          <div className="mt-14"><TechGrid technologies={home.technologies} groups={['frontend', 'backend', 'database', '3d', 'mobile', 'infrastructure']} /></div>
+          <div className="mt-14"><TechExplorer technologies={home.technologies} groups={['frontend', 'backend', 'database', '3d', 'mobile', 'infrastructure']} /></div>
         </Container>
       </Section>
 

@@ -1,6 +1,7 @@
 import { Fragment, type ReactNode } from 'react';
-import { CheckCircle2, Info } from 'lucide-react';
+import { Check, Lightbulb, Quote, Zap } from 'lucide-react';
 import type { Block } from '@/lib/types';
+import '@/components/pages/content/content.css';
 
 /** One item per non-empty line. */
 const lines = (text: string) => text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
@@ -17,27 +18,32 @@ function linkify(text: string): ReactNode {
 
 export const blockId = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
 
+/** The h2 blocks as table-of-contents entries (same ids the headings get below). */
+export const headings = (blocks: Block[]) =>
+  blocks.filter((b) => b.type === 'h2' && (b.text || '').trim()).map((b) => ({ id: blockId(b.text.trim()), label: b.text.trim() }));
+
 /**
- * Renders CMS content blocks (articles, legal pages) as long-form text. Wrap in `.prose-aspr`
- * is applied here so callers only choose the width.
+ * Renders CMS content blocks (articles, legal pages) as long-form text. `.prose-aspr` is applied
+ * here so callers only choose the width. `numbered` prefixes each h2 with 01, 02… (CSS counters,
+ * so the numbers stay out of the heading text).
  */
-export function Blocks({ blocks, className = '' }: { blocks: Block[]; className?: string }) {
+export function Blocks({ blocks, className = '', numbered = false }: { blocks: Block[]; className?: string; numbered?: boolean }) {
   return (
-    <div className={`prose-aspr ${className}`}>
+    <div className={`prose-aspr ct-prose ${numbered ? 'ct-numbered' : ''} ${className}`}>
       {blocks.map((b, i) => {
         const text = (b.text || '').trim();
         if (!text) return null;
         switch (b.type) {
           case 'standfirst':
-            return <p key={i} className="text-lg leading-relaxed text-text sm:text-xl">{linkify(text)}</p>;
+            return <p key={i} className="ct-lede text-lg leading-relaxed text-text sm:text-xl">{linkify(text)}</p>;
           case 'h2':
             return <h2 key={i} id={blockId(text)} className="scroll-mt-28">{text}</h2>;
           case 'quote':
-            return <blockquote key={i} className="my-10!">{linkify(text)}</blockquote>;
+            return <blockquote key={i} className="ct-quote my-12!"><Quote aria-hidden="true" className="ct-quote-mark" />{linkify(text)}</blockquote>;
           case 'takeaways':
             return (
-              <aside key={i} aria-label="Key takeaways" className="panel my-10! p-6 sm:p-8">
-                <p className="eyebrow">Key takeaways</p>
+              <aside key={i} aria-label="Key takeaways" className="ct-takeaways my-10! sm:p-9!">
+                <p className="eyebrow flex items-center gap-2"><Zap aria-hidden="true" size={15} />Key takeaways</p>
                 <ul className="mt-4">{lines(text).map((l, j) => <li key={j}>{linkify(l)}</li>)}</ul>
               </aside>
             );
@@ -45,10 +51,10 @@ export function Blocks({ blocks, className = '' }: { blocks: Block[]; className?
             return <ul key={i}>{lines(text).map((l, j) => <li key={j}>{linkify(l)}</li>)}</ul>;
           case 'checklist':
             return (
-              <ul key={i} className="space-y-3">
+              <ul key={i} className="ct-check">
                 {lines(text).map((l, j) => (
-                  <li key={j} className="flex gap-3 pl-0! before:hidden!">
-                    <CheckCircle2 aria-hidden="true" size={20} className="mt-1 shrink-0 text-success" />
+                  <li key={j}>
+                    <span aria-hidden="true" className="ct-check-icon"><Check size={15} strokeWidth={2.4} /></span>
                     <span>{linkify(l)}</span>
                   </li>
                 ))}
@@ -56,9 +62,9 @@ export function Blocks({ blocks, className = '' }: { blocks: Block[]; className?
             );
           case 'callout':
             return (
-              <aside key={i} className="my-10! flex gap-4 rounded-2xl border border-brand/30 bg-brand/[0.07] p-5 sm:p-6">
-                <Info aria-hidden="true" size={20} className="mt-1 shrink-0 text-brand-soft" />
-                <p className="text-text">{linkify(text)}</p>
+              <aside key={i} className="ct-callout my-10!">
+                <span aria-hidden="true" className="ct-callout-icon"><Lightbulb size={18} /></span>
+                <p className="self-center text-text">{linkify(text)}</p>
               </aside>
             );
           default:

@@ -11,7 +11,8 @@ export function CTASection({
   return (
     <section aria-labelledby="cta-title" className="relative py-20 sm:py-28">
       <Container>
-        <Reveal className="relative overflow-hidden rounded-[2rem] border border-line-strong bg-surface px-6 py-16 text-center sm:px-12 sm:py-20">
+        <Reveal className="fx-border-live relative isolate overflow-hidden rounded-[2rem] border border-line-strong bg-surface px-6 py-16 text-center sm:px-12 sm:py-20">
+          <div aria-hidden="true" className="fx-aurora"><i /><i /><i /></div>
           <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_70%_90%_at_50%_120%,rgb(65_112_255/0.35),transparent_60%),radial-gradient(ellipse_50%_60%_at_85%_-10%,rgb(139_92_246/0.25),transparent_60%)]" />
           <div aria-hidden="true" className="bg-grid absolute inset-0 opacity-60" />
           <div className="relative mx-auto max-w-2xl">

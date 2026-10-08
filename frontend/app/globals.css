@@ -29,7 +29,7 @@
   --color-warning: #fbbf24;
   --color-success: #34d399;
 
-  --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
@@ -78,6 +78,7 @@
     letter-spacing: -0.025em;
     text-wrap: balance;
   }
+  h3, h4 { letter-spacing: -0.015em; }
   p { text-wrap: pretty; }
   ::selection { background: rgb(65 112 255 / 0.45); color: #fff; }
   :focus-visible {
@@ -90,9 +91,9 @@
 
 @layer components {
   /* Display type scale: fluid, tight leading for big headlines. */
-  .text-display-xl { font-family: var(--font-display); font-weight: 600; font-size: clamp(2.4rem, 5.2vw, 4.6rem); line-height: 1.03; letter-spacing: -0.04em; }
-  .text-display { font-family: var(--font-display); font-weight: 600; font-size: clamp(2.1rem, 4.6vw, 3.9rem); line-height: 1.06; letter-spacing: -0.035em; }
-  .text-heading { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.12; letter-spacing: -0.03em; }
+  .text-display-xl { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.4rem, 5.2vw, 4.6rem); line-height: 1.05; letter-spacing: -0.03em; }
+  .text-display { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.1rem, 4.6vw, 3.9rem); line-height: 1.05; letter-spacing: -0.03em; }
+  .text-heading { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.1; letter-spacing: -0.025em; }
   .text-lead { font-size: clamp(1.05rem, 1.4vw, 1.25rem); line-height: 1.65; color: var(--color-muted); }
 
   .eyebrow {

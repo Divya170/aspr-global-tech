@@ -52,7 +52,7 @@ The browser only talks to its own origin: `/api/*` is proxied to the API, so the
 | `/privacy-policy`, `/terms` | Legal pages, editable in the admin (Content → Pages) |
 | `/sitemap.xml`, `/robots.txt`, `/opengraph-image` | SEO |
 
-Design system: dark tokens in `frontend/app/globals.css` (`bg-surface`, `text-muted`, `border-line`, `brand`, `accent`…), Sora for display type and Geist for text. Reusable components live in `frontend/components/ui` (Button, Badge, Accordion, Reveal, SectionHeading…), `components/sections` (PageHero, ServiceCard, PortfolioCard, TestimonialCard, ProcessTimeline, CTASection…) and `components/forms` (accessible form kit).
+Design system: dark tokens in `frontend/app/globals.css` (`bg-surface`, `text-muted`, `border-line`, `brand`, `accent`…), Schibsted Grotesk for display type and Geist for text. Reusable components live in `frontend/components/ui` (Button, Badge, Accordion, Reveal, SectionHeading…), `components/sections` (PageHero, ServiceCard, PortfolioCard, TestimonialCard, ProcessTimeline, CTASection…) and `components/forms` (accessible form kit).
 
 ### The 3D hero and performance
 

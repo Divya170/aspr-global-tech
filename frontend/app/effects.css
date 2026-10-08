@@ -1,0 +1,121 @@
+/*
+ * Shared visual effects used across the site. CSS only, GPU-friendly, and everything that
+ * moves stops for reduced-motion users. Content is never hidden behind an effect.
+ */
+
+:root { interpolate-size: allow-keywords; }
+
+/* ───────── Rotating gradient border ─────────
+   .fx-border: lights up and rotates on hover/focus (idle cards cost nothing).
+   .fx-border-live: always on (one or two hero elements per page at most). */
+@property --fx-angle { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+.fx-border, .fx-border-live { position: relative; }
+.fx-border::after, .fx-border-live::after {
+  content: ''; position: absolute; inset: 0; z-index: 2; border-radius: inherit; padding: 1px; pointer-events: none;
+  background: conic-gradient(from var(--fx-angle), transparent 0 55%, rgb(138 166 255 / 0.95) 68%, rgb(139 92 246 / 0.95) 78%, rgb(94 234 212 / 0.8) 86%, transparent 94% 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: fx-spin 4.5s linear infinite; animation-play-state: paused;
+}
+.fx-border::after { opacity: 0; transition: opacity 400ms ease; }
+.fx-border:hover::after, .fx-border:focus-within::after { opacity: 1; animation-play-state: running; }
+.fx-border-live::after { opacity: 0.85; animation-play-state: running; }
+@keyframes fx-spin { to { --fx-angle: 360deg; } }
+
+/* ───────── Shine sweep (buttons, chips) ───────── */
+.fx-shine { position: relative; overflow: hidden; isolation: isolate; }
+.fx-shine::before {
+  content: ''; position: absolute; inset: -2px auto -2px -60%; z-index: -1; width: 45%; pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgb(255 255 255 / 0.28), transparent);
+  transform: skewX(-18deg) translateX(0); transition: transform 0s;
+}
+.fx-shine:hover::before { transform: skewX(-18deg) translateX(420%); transition: transform 900ms var(--ease-out-expo); }
+
+/* ───────── Aurora (slow drifting colour light behind heroes and CTAs) ───────── */
+.fx-aurora { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.fx-aurora > i { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; will-change: transform; }
+.fx-aurora > i:nth-child(1) { width: 46vw; height: 46vw; max-width: 640px; max-height: 640px; left: -8%; top: -30%; background: #2f5bea; animation: fx-drift-a 18s ease-in-out infinite; }
+.fx-aurora > i:nth-child(2) { width: 38vw; height: 38vw; max-width: 520px; max-height: 520px; right: -6%; top: -20%; background: #8b5cf6; opacity: 0.38; animation: fx-drift-b 22s ease-in-out infinite; }
+.fx-aurora > i:nth-child(3) { width: 30vw; height: 30vw; max-width: 420px; max-height: 420px; left: 38%; top: 30%; background: #5eead4; opacity: 0.12; animation: fx-drift-a 26s ease-in-out infinite reverse; }
+@keyframes fx-drift-a { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(8%, 10%) scale(1.08); } }
+@keyframes fx-drift-b { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-10%, 8%) scale(0.94); } }
+
+/* ───────── Cursor spotlight on the engineering grid (driven by PointerEffects via data-spotlight) ───────── */
+.fx-grid-spot { position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgb(138 166 255 / 0.22) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(138 166 255 / 0.22) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(260px circle at var(--mx, -400px) var(--my, -400px), #000, transparent 70%);
+  -webkit-mask-image: radial-gradient(260px circle at var(--mx, -400px) var(--my, -400px), #000, transparent 70%); }
+
+/* ───────── Eyebrow with a growing accent line ───────── */
+.eyebrow-line { display: inline-flex; align-items: center; gap: 12px; }
+.eyebrow-line::before { content: ''; width: 28px; height: 1px; flex: 0 0 auto; background: linear-gradient(90deg, var(--color-brand-soft), var(--color-accent));
+  box-shadow: 0 0 10px rgb(138 166 255 / 0.8); }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .eyebrow-line::before { animation: fx-line linear both; animation-timeline: view(); animation-range: entry 10% entry 60%; }
+  }
+}
+@keyframes fx-line { from { width: 0; } to { width: 28px; } }
+
+/* ───────── Accordion: card rows, glow when open, height animates where supported ───────── */
+.fx-acc { border-radius: 1.1rem; border: 1px solid var(--color-line); background: rgb(255 255 255 / 0.02); transition: border-color 300ms ease, background 300ms ease, box-shadow 300ms ease; }
+.fx-acc:hover { border-color: var(--color-line-strong); }
+.fx-acc[open] { border-color: rgb(138 166 255 / 0.4); background: linear-gradient(160deg, rgb(65 112 255 / 0.1), rgb(255 255 255 / 0.02) 60%);
+  box-shadow: 0 18px 40px -24px rgb(65 112 255 / 0.7); }
+.fx-acc::details-content { block-size: 0; overflow: hidden; transition: block-size 450ms var(--ease-out-expo), content-visibility 450ms allow-discrete; }
+.fx-acc[open]::details-content { block-size: auto; }
+.fx-acc-icon { transition: transform 400ms var(--ease-out-expo), background 300ms ease, color 300ms ease, border-color 300ms ease; }
+.fx-acc[open] .fx-acc-icon { transform: rotate(45deg); background: var(--color-brand-strong); color: #fff; border-color: transparent; }
+.fx-acc-num { font-variant-numeric: tabular-nums; color: transparent; -webkit-text-stroke: 1px rgb(138 166 255 / 0.7); transition: color 300ms ease; }
+.fx-acc[open] .fx-acc-num { color: var(--color-brand-soft); -webkit-text-stroke-color: transparent; }
+
+/* ───────── Hover lift with glow (cards that aren't links to a big target) ───────── */
+.fx-lift { transition: transform 350ms var(--ease-out-expo), box-shadow 350ms ease, border-color 300ms ease, background 300ms ease; }
+.fx-lift:hover { transform: translateY(-5px); border-color: rgb(138 166 255 / 0.4); box-shadow: 0 24px 50px -28px rgb(65 112 255 / 0.8); }
+
+/* ───────── Icon chip that fills on hover of its .group ───────── */
+.fx-icon { transition: background 300ms ease, color 300ms ease, transform 400ms var(--ease-out-expo), border-color 300ms ease, box-shadow 300ms ease; }
+.group:hover .fx-icon { background: var(--color-brand-strong); color: #fff; border-color: transparent; transform: rotate(-8deg) scale(1.06); box-shadow: 0 12px 26px -10px rgb(65 112 255 / 0.85); }
+
+/* ───────── Interactive chips (technology names, add-ons, tags) ───────── */
+.fx-chip { transition: transform 220ms ease, border-color 220ms ease, background 220ms ease, color 220ms ease, box-shadow 220ms ease; }
+.fx-chip:hover { transform: translateY(-2px); border-color: rgb(138 166 255 / 0.5); background: rgb(65 112 255 / 0.14); color: var(--color-text); box-shadow: 0 10px 22px -14px rgb(65 112 255 / 0.9); }
+
+/* ───────── Big outlined watermark text (footer) ───────── */
+.fx-watermark { font-family: var(--font-display); font-weight: 700; line-height: 0.8; letter-spacing: -0.05em; white-space: nowrap; user-select: none;
+  color: transparent; -webkit-text-stroke: 1px rgb(138 166 255 / 0.16);
+  background: linear-gradient(180deg, rgb(138 166 255 / 0.1), transparent 75%); -webkit-background-clip: text; background-clip: text; }
+
+/* ───────── Glowing section divider ───────── */
+.fx-divider { position: relative; }
+.fx-divider::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgb(138 166 255 / 0.45), rgb(139 92 246 / 0.45), transparent); }
+
+/* ───────── Reading progress bar (articles, legal pages) ───────── */
+@supports (animation-timeline: scroll()) {
+  .fx-progress { position: fixed; left: 0; right: 0; top: 0; z-index: 70; height: 2px; transform-origin: 0 50%;
+    background: linear-gradient(90deg, var(--color-brand-soft), var(--color-accent), var(--color-signal));
+    animation: fx-progress linear both; animation-timeline: scroll(root); }
+}
+@supports not (animation-timeline: scroll()) { .fx-progress { display: none; } }
+@keyframes fx-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-border::after, .fx-border-live::after, .fx-aurora > i { animation: none !important; }
+  .fx-shine::before { display: none; }
+  .fx-acc::details-content { transition: none; }
+  .fx-lift:hover, .group:hover .fx-icon, .fx-chip:hover { transform: none; }
+}
+
+/* ───────── Link underlines ───────── */
+.fx-link { position: relative; }
+.fx-link::after { content: ''; position: absolute; left: 0; bottom: -3px; width: 100%; height: 1px; background: linear-gradient(90deg, var(--color-brand-soft), var(--color-accent));
+  transform: scaleX(0); transform-origin: left; transition: transform 300ms var(--ease-out-expo); }
+.fx-link:hover::after { transform: scaleX(1); }
+.fx-navlink::after { content: ''; position: absolute; left: 1rem; right: 1rem; bottom: 4px; height: 2px; border-radius: 2px;
+  background: linear-gradient(90deg, var(--color-brand-soft), var(--color-accent)); transform: scaleX(0); transition: transform 350ms var(--ease-out-expo); }
+.fx-navlink:hover::after, .fx-navlink.is-active::after { transform: scaleX(1); }
+.fx-navlink.is-active::after { box-shadow: 0 0 12px rgb(138 166 255 / 0.8); }

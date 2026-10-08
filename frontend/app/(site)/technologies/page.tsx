@@ -1,9 +1,9 @@
 import { Gauge, Puzzle, Users, Wrench } from 'lucide-react';
 import { CTASection } from '@/components/sections/CTASection';
 import { PageHero } from '@/components/sections/PageHero';
-import { TechGrid } from '@/components/sections/TechGrid';
+import { TechExplorer } from '@/components/interactive/TechExplorer';
+import { PrincipleCompass } from '@/components/pages/services/PrincipleCompass';
 import { Container, Section } from '@/components/ui/Container';
-import { Reveal } from '@/components/ui/Reveal';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { api } from '@/lib/api';
 import { pageMeta } from '@/lib/seo';
@@ -37,24 +37,16 @@ export default async function TechnologiesPage() {
         <Container>
           <SectionHeading id="stack-title" eyebrow="Our stack" title="What we work with"
             lead="Grouped by where it sits in a project. Not every project uses all of it, and we only add a tool when it earns its place." />
-          <div className="mt-14"><TechGrid technologies={technologies} /></div>
+          <div className="mt-14"><TechExplorer technologies={technologies} /></div>
         </Container>
       </Section>
 
       <Section labelledBy="choose-title" className="border-t border-line bg-bg-2/60">
         <Container>
           <SectionHeading id="choose-title" eyebrow="Principles" title="How we choose a stack" />
-          <ul className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
-            {PRINCIPLES.map(({ icon: I, t, d }, i) => (
-              <Reveal as="li" key={t} delay={(i % 2) * 70} className="flex gap-5 bg-bg-2 p-7 sm:p-8">
-                <span className="grid size-11 shrink-0 place-items-center rounded-xl border border-line-strong text-brand-soft"><I aria-hidden="true" size={20} strokeWidth={1.7} /></span>
-                <div>
-                  <h3 className="text-lg font-semibold text-text">{t}</h3>
-                  <p className="mt-2 text-[0.95rem] leading-relaxed text-muted">{d}</p>
-                </div>
-              </Reveal>
-            ))}
-          </ul>
+          <div className="mt-14">
+            <PrincipleCompass items={PRINCIPLES.map(({ icon: I, t, d }) => ({ icon: <I size={22} strokeWidth={1.7} />, t, d }))} />
+          </div>
         </Container>
       </Section>
 

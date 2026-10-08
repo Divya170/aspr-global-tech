@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { ArrowLeft, ArrowUpRight, CheckCircle2, TrendingUp } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, Check, TrendingUp } from 'lucide-react';
 import { CTASection } from '@/components/sections/CTASection';
 import { PortfolioCard } from '@/components/sections/PortfolioCard';
 import { TestimonialCard } from '@/components/sections/TestimonialCard';
@@ -17,6 +17,7 @@ import { api } from '@/lib/api';
 import { abs, pageMeta } from '@/lib/seo';
 import { SITE_NAME, SITE_URL } from '@/lib/site';
 import type { ProjectDetail } from '@/lib/types';
+import '@/components/pages/content/content.css';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -55,15 +56,17 @@ function embedUrl(url: string): string | null {
   return null;
 }
 
-/** Case-study section: label column + content column on desktop, stacked on mobile. */
+/** Case-study section: sticky label column (outlined number + heading) beside the content on desktop, stacked on mobile. */
 function Block({ id, label, title, children }: { id: string; label: string; title: string; children: ReactNode }) {
   return (
-    <section aria-labelledby={id} className="border-t border-line py-14 sm:py-20">
+    <section aria-labelledby={id} className="fx-divider py-14 sm:py-20">
       <Container>
         <Reveal className="grid gap-6 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-4">
-            <p className="eyebrow">{label}</p>
-            <h2 id={id} className="text-heading mt-3">{title}</h2>
+            <div className="lg:sticky lg:top-28">
+              <p className="ct-outline-n ct-cs-n">{label}</p>
+              <h2 id={id} className="text-heading mt-4">{title}</h2>
+            </div>
           </div>
           <div className="lg:col-span-8">{children}</div>
         </Reveal>
@@ -110,14 +113,18 @@ export default async function ProjectPage({ params }: Props) {
         ],
       }} />
 
+      <div aria-hidden="true" className="fx-progress" />
+
       {/* ─────────── Hero ─────────── */}
-      <section aria-labelledby="project-title" className="relative overflow-hidden pb-12 pt-32 sm:pt-40">
+      <section data-spotlight="" aria-labelledby="project-title" className="relative isolate overflow-hidden pb-12 pt-32 sm:pt-40">
+        <div aria-hidden="true" className="fx-aurora -z-10 opacity-60"><i /><i /><i /></div>
         <div aria-hidden="true" className="bg-grid absolute inset-0" />
+        <div aria-hidden="true" className="fx-grid-spot" />
         <div aria-hidden="true" className="absolute -top-40 left-1/2 h-[520px] w-[min(1100px,140vw)] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(65_112_255/0.22),rgb(139_92_246/0.1)_55%,transparent)]" />
         <Container className="relative">
           <div className="animate-fade-up">
-            <Link href={p.category ? `/portfolio?category=${p.category.slug}` : '/portfolio'} className="inline-flex min-h-11 items-center gap-1.5 text-sm text-muted transition-colors hover:text-text">
-              <ArrowLeft aria-hidden="true" size={15} />{p.category ? `${p.category.name} projects` : 'All projects'}
+            <Link href={p.category ? `/portfolio?category=${p.category.slug}` : '/portfolio'} className="group/back inline-flex min-h-11 items-center gap-1.5 text-sm text-muted transition-colors hover:text-text">
+              <ArrowLeft aria-hidden="true" size={15} className="transition-transform duration-300 group-hover/back:-translate-x-1" />{p.category ? `${p.category.name} projects` : 'All projects'}
             </Link>
             <div className="mt-6 flex flex-wrap items-center gap-3">
               {p.category && <Badge tone="brand">{p.category.name}</Badge>}
@@ -140,7 +147,7 @@ export default async function ProjectPage({ params }: Props) {
           </div>
 
           {p.coverImage && (
-            <div className="relative mt-12 aspect-[4/3] animate-fade-up overflow-hidden rounded-[var(--radius-card)] border border-line bg-surface-2 [animation-delay:120ms] sm:aspect-[16/9]">
+            <div className="relative mt-12 aspect-[4/3] animate-fade-up overflow-hidden rounded-[var(--radius-card)] border border-line-strong bg-surface-2 shadow-[0_40px_90px_-50px_rgb(65_112_255/0.9)] [animation-delay:120ms] sm:aspect-[16/9]">
               <Image
                 src={p.coverImage} alt={p.coverAlt || p.title} fill priority sizes="(min-width: 1280px) 1216px, 100vw"
                 className="object-cover" style={{ objectPosition: p.coverPos || 'center' }}
@@ -156,10 +163,10 @@ export default async function ProjectPage({ params }: Props) {
 
       {p.features.length > 0 && (
         <Block id="features" label={num()} title="Key features">
-          <ul className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
+          <ul className="grid gap-3 sm:grid-cols-2">
             {p.features.map((f) => (
-              <li key={f} className="flex gap-3 leading-relaxed text-muted">
-                <CheckCircle2 aria-hidden="true" size={19} className="mt-1 shrink-0 text-brand-soft" /><span>{f}</span>
+              <li key={f} className="ct-lift group flex gap-3 rounded-2xl border border-line bg-white/[0.02] p-4 leading-relaxed text-muted">
+                <span aria-hidden="true" className="ct-check-icon text-brand-soft! bg-brand/15!"><Check size={15} strokeWidth={2.4} /></span><span>{f}</span>
               </li>
             ))}
           </ul>
@@ -170,7 +177,7 @@ export default async function ProjectPage({ params }: Props) {
         <Block id="technologies" label={num()} title="Technologies">
           <ul className="flex flex-wrap gap-2">
             {p.technologies.map((t) => (
-              <li key={t.id} className="rounded-full border border-line-strong bg-white/[0.03] px-4 py-2 text-sm text-text">{t.name}</li>
+              <li key={t.id} className="fx-chip rounded-full border border-line-strong bg-white/[0.03] px-4 py-2 text-sm text-text">{t.name}</li>
             ))}
           </ul>
         </Block>
@@ -181,8 +188,8 @@ export default async function ProjectPage({ params }: Props) {
           {p.process.length > 0 ? (
             <ol className="space-y-px overflow-hidden rounded-2xl border border-line bg-line">
               {p.process.map(([t, d], i) => (
-                <li key={i} className="flex gap-5 bg-bg p-5 sm:p-6">
-                  <span className="font-mono text-xs text-brand-soft">{String(i + 1).padStart(2, '0')}</span>
+                <li key={i} className="group flex gap-5 bg-bg p-5 transition-colors duration-300 hover:bg-surface sm:p-6">
+                  <span className="ct-outline-n text-2xl transition-colors duration-300 group-hover:text-brand-soft">{String(i + 1).padStart(2, '0')}</span>
                   <div>
                     <h3 className="font-sans text-base font-semibold tracking-normal text-text">{t}</h3>
                     {d && <p className="mt-1.5 text-sm leading-relaxed text-muted">{d}</p>}
@@ -192,10 +199,10 @@ export default async function ProjectPage({ params }: Props) {
             </ol>
           ) : (
             <>
-              <ol className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-5">
+              <ol className="ct-flow" style={{ '--n': STANDARD_PROCESS.length } as React.CSSProperties}>
                 {STANDARD_PROCESS.map((s, i) => (
-                  <li key={s} className="flex items-center gap-3 bg-bg px-5 py-4 sm:flex-col sm:items-start sm:py-6">
-                    <span className="font-mono text-xs text-brand-soft">{String(i + 1).padStart(2, '0')}</span>
+                  <li key={s}>
+                    <span className="ct-flow-dot">{String(i + 1).padStart(2, '0')}</span>
                     <span className="font-medium text-text">{s}</span>
                   </li>
                 ))}
@@ -212,9 +219,9 @@ export default async function ProjectPage({ params }: Props) {
         <Block id="results" label={num()} title="Results">
           <ul className="grid gap-4 sm:grid-cols-2">
             {p.results.map((r) => (
-              <li key={r} className="panel flex gap-4 p-5 sm:p-6">
-                <TrendingUp aria-hidden="true" size={20} className="mt-0.5 shrink-0 text-success" />
-                <span className="leading-relaxed text-text">{r}</span>
+              <li key={r} className="panel ct-lift group flex gap-4 p-5 sm:p-6">
+                <span aria-hidden="true" className="grid size-10 shrink-0 place-items-center rounded-xl bg-success/12 text-success transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:-rotate-6 group-hover:scale-110"><TrendingUp size={19} /></span>
+                <span className="self-center leading-relaxed text-text">{r}</span>
               </li>
             ))}
           </ul>
@@ -222,10 +229,10 @@ export default async function ProjectPage({ params }: Props) {
       )}
 
       {(p.gallery.length > 0 || embed || selfHosted) && (
-        <section aria-labelledby="gallery-title" className="border-t border-line py-14 sm:py-20">
+        <section aria-labelledby="gallery-title" className="fx-divider py-14 sm:py-20">
           <Container>
-            <p className="eyebrow">{num()}</p>
-            <h2 id="gallery-title" className="text-heading mt-3">{p.gallery.length > 0 ? 'Gallery' : 'Video'}</h2>
+            <p className="ct-outline-n ct-cs-n">{num()}</p>
+            <h2 id="gallery-title" className="text-heading mt-4">{p.gallery.length > 0 ? 'Gallery' : 'Video'}</h2>
             <div className="mt-10 space-y-6 sm:space-y-8">
               {(embed || selfHosted) && (
                 <Reveal className="relative aspect-video overflow-hidden rounded-[var(--radius-card)] border border-line bg-surface-2">
@@ -274,9 +281,9 @@ export default async function ProjectPage({ params }: Props) {
                   {p.services.map((s) => (
                     <li key={s.slug}>
                       <Link href={`/services/${s.slug}`} className="group flex items-center gap-4 py-4">
-                        <span className="grid size-10 shrink-0 place-items-center rounded-lg border border-line-strong text-brand-soft"><Icon name={s.icon} size={19} /></span>
+                        <span className="fx-icon grid size-10 shrink-0 place-items-center rounded-lg border border-line-strong text-brand-soft"><Icon name={s.icon} size={19} /></span>
                         <span className="flex-1 font-medium text-text transition-colors group-hover:text-brand-soft">{s.name}</span>
-                        <ArrowUpRight aria-hidden="true" size={16} className="text-subtle transition-colors group-hover:text-brand-soft" />
+                        <ArrowUpRight aria-hidden="true" size={16} className="text-subtle transition-[color,transform] duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-brand-soft" />
                       </Link>
                     </li>
                   ))}

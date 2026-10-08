@@ -1,11 +1,15 @@
+import { CircleAlert } from 'lucide-react';
 import type { ReactNode } from 'react';
+import '@/components/pages/forms/forms.css';
 
-/** Shared control styling: calm, dark, 44px+ tap targets, brand focus ring, danger border on error. */
+/**
+ * Shared control styling: dark glass, 44px+ tap targets, glowing brand focus (.fm-control in
+ * forms.css), danger border on error.
+ */
 export function controlClass(invalid?: boolean, extra = '') {
   return [
-    'block w-full min-h-11 rounded-xl border bg-white/[0.03] px-4 text-base text-text placeholder:text-subtle sm:text-[0.95rem]',
-    'transition-[border-color,background-color,box-shadow] duration-200',
-    'hover:border-brand-soft/40 focus:outline-none focus-visible:outline-none focus:border-brand-soft focus:bg-white/[0.05] focus:ring-2 focus:ring-brand-soft/30',
+    'fm-control block w-full min-h-11 rounded-xl border bg-white/[0.03] px-4 text-base text-text placeholder:text-subtle sm:text-[0.95rem]',
+    'shadow-[inset_0_1px_0_rgb(255_255_255/0.03)] focus:outline-none focus-visible:outline-none',
     'disabled:cursor-not-allowed disabled:opacity-60',
     invalid ? 'border-danger' : 'border-line-strong',
     extra,
@@ -33,18 +37,24 @@ export interface FieldProps {
   children: ReactNode;
 }
 
-/** Label + control + hint + error. The control itself sets `aria-describedby={describedBy(…)}` and `aria-invalid`. */
+/**
+ * Label + control + hint + error. The control itself sets `aria-describedby={describedBy(…)}` and
+ * `aria-invalid`. The label lights up and a gradient line draws under the control while focused.
+ */
 export function Field({ id, label, hint, error, optional, className = '', aside, children }: FieldProps) {
   return (
-    <div className={className}>
+    <div className={`fm-field ${className}`}>
       <div className="mb-2 flex items-baseline justify-between gap-3">
-        <label htmlFor={id} className="text-sm font-medium text-text">
+        <label htmlFor={id} className="fm-label text-sm font-medium text-text">
           {label}
           {optional && <span className="ml-1.5 font-normal text-subtle">(optional)</span>}
         </label>
         {aside}
       </div>
-      {children}
+      <div className="fm-wrap">
+        {children}
+        <span aria-hidden="true" className="fm-line" />
+      </div>
       <FieldMessages id={id} hint={hint} error={error} />
     </div>
   );
@@ -55,8 +65,8 @@ export function FieldMessages({ id, hint, error }: { id: string; hint?: ReactNod
     <>
       {hint && <p id={hintId(id)} className="mt-2 text-xs leading-relaxed text-subtle">{hint}</p>}
       {error && (
-        <p id={errorId(id)} className="mt-2 flex items-start gap-1.5 text-sm text-danger">
-          <span aria-hidden="true" className="mt-[0.45rem] size-1.5 shrink-0 rounded-full bg-danger" />
+        <p id={errorId(id)} className="fm-err mt-2 flex items-start gap-1.5 text-sm text-danger">
+          <CircleAlert aria-hidden="true" size={15} strokeWidth={2} className="mt-[0.2rem] shrink-0" />
           {error}
         </p>
       )}

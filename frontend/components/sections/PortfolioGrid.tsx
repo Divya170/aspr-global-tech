@@ -36,19 +36,19 @@ export function PortfolioGrid({ categories, items }: { categories: Category[]; i
   return (
     <div>
       {cats.length > 1 && (
-        <div role="group" aria-label="Filter projects by category" className="-mx-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:px-0">
+        <div role="group" aria-label="Filter projects by category" className="-mx-4 overflow-x-auto px-4 pb-2 pt-1 sm:mx-0 sm:px-0">
           <div className="flex w-max gap-2 sm:w-auto sm:flex-wrap">
             {filters.map((f) => {
               const on = f.slug === active;
               return (
                 <button
                   key={f.slug || 'all'} type="button" aria-pressed={on} onClick={() => select(f.slug)}
-                  className={`inline-flex h-11 items-center gap-2 rounded-full border px-4 font-mono text-xs uppercase tracking-[0.14em] transition-colors duration-300 ${
-                    on ? 'border-brand/60 bg-brand/15 text-text' : 'border-line-strong bg-white/[0.02] text-muted hover:border-brand-soft/40 hover:text-text'
+                  className={`inline-flex h-11 items-center gap-2 rounded-full border px-4 font-mono text-xs uppercase tracking-[0.14em] transition-[color,background,border-color,box-shadow,transform] duration-300 ${
+                    on ? 'border-transparent bg-gradient-to-r from-brand-strong to-accent text-white shadow-[0_12px_30px_-12px_rgb(65_112_255/0.9)]' : 'border-line-strong bg-white/[0.02] text-muted hover:-translate-y-0.5 hover:border-brand-soft/40 hover:text-text'
                   }`}
                 >
                   {f.name}
-                  <span className={`tabular-nums ${on ? 'text-brand-soft' : 'text-subtle'}`}>{f.count}</span>
+                  <span className={`grid min-w-6 place-items-center rounded-full px-1.5 py-0.5 tabular-nums ${on ? 'bg-white/20 text-white' : 'bg-white/[0.05] text-subtle'}`}>{f.count}</span>
                 </button>
               );
             })}

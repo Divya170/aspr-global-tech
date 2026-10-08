@@ -1,9 +1,12 @@
 'use client';
 
-import { ArrowLeft, ArrowRight, Box, Check, Code2, Globe, LayoutDashboard, Palette, PenTool, Smartphone, Sparkles, Workflow, type LucideIcon } from 'lucide-react';
+import {
+  ArrowLeft, ArrowRight, AtSign, Box, Building2, CalendarClock, ClipboardList, Code2, FileText, Globe, Layers, LayoutDashboard, Megaphone, Palette, Paperclip,
+  PenLine, PenTool, Phone, Smartphone, Sparkles, UserRound, Wallet, Workflow, type LucideIcon,
+} from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from 'react';
 import { buttonClass } from '@/components/ui/Button';
 import { track } from '@/lib/analytics';
 import { ApiError, submitForm } from '@/lib/client';
@@ -45,6 +48,10 @@ const TYPE_HINTS: Record<string, { icon: LucideIcon; d: string }> = {
   'Other': { icon: Sparkles, d: 'Something else, or not sure yet' },
 };
 
+/** Decorative icons for the review rows and the contact-step controls. */
+const REVIEW_ICON: Record<string, LucideIcon> = { Project: Layers, Budget: Wallet, Timeline: CalendarClock, Details: FileText, Files: Paperclip };
+const ic = (I: LucideIcon) => <I size={17} strokeWidth={1.8} />;
+
 function validate(v: Values, keys: Key[], o: QuoteOptions): Errors {
   const e: Errors = {};
   for (const k of keys) {
@@ -59,6 +66,10 @@ function validate(v: Values, keys: Key[], o: QuoteOptions): Errors {
   return e;
 }
 
+/**
+ * Four-step quote wizard: a connected progress rail, steps that slide in from the direction of
+ * travel, tactile choice cards and a review card before sending. Errors focus the first problem.
+ */
 export function QuoteForm({ options, initialType = '' }: { options: QuoteOptions; initialType?: string }) {
   const router = useRouter();
   const [step, setStep] = useState(0);
@@ -73,6 +84,11 @@ export function QuoteForm({ options, initialType = '' }: { options: QuoteOptions
   const heading = useRef<HTMLHeadingElement>(null);
   /** What to focus after the next step change: the step heading, the error summary, or a field. */
   const pendingFocus = useRef<'heading' | 'summary' | Key | null>(null);
+  // Direction of the last step change, for the decorative slide-in. Empty until the step first
+  // changes, so the server-rendered step is never hidden by an entrance animation.
+  const [shownStep, setShownStep] = useState(step);
+  const [dir, setDir] = useState<'' | 'fwd' | 'back'>('');
+  if (shownStep !== step) { setShownStep(step); setDir(step > shownStep ? 'fwd' : 'back'); }
 
   const set = (k: keyof Values) => (val: string) => {
     setV((x) => ({ ...x, [k]: val }));
@@ -153,45 +169,54 @@ export function QuoteForm({ options, initialType = '' }: { options: QuoteOptions
 
   return (
     <form onSubmit={onSubmit} noValidate aria-labelledby="quote-step-title" className="relative scroll-mt-28">
-      {/* Progress */}
-      <div className="mb-8">
+      {/* Progress: connected rail; finished steps are buttons back to that step */}
+      <div className="mb-9">
         <div className="flex items-center justify-between gap-4">
           <p className="font-mono text-xs uppercase tracking-[0.16em] text-brand-soft">Step {step + 1} of {STEPS.length}</p>
-          <p className="text-xs text-subtle">{s.short}</p>
+          <p className="fm-stepchip text-xs text-muted">{s.short}</p>
         </div>
-        <div aria-hidden="true" className="mt-3 h-1 overflow-hidden rounded-full bg-white/[0.06]">
-          <div className="h-full rounded-full bg-gradient-to-r from-brand to-accent transition-[width] duration-500 ease-[var(--ease-out-expo)]" style={{ width: `${((step + 1) / STEPS.length) * 100}%` }} />
+        <div className="relative mt-5" style={{ '--n': STEPS.length, '--p': step / (STEPS.length - 1) } as CSSProperties}>
+          <div aria-hidden="true" className="fm-steps-track"><span /></div>
+          <ol aria-label="Quote steps" className="fm-steps">
+            {STEPS.map((x, i) => {
+              const done = i < step, current = i === step;
+              const inner = (
+                <>
+                  <span aria-hidden="true" className="fm-dot">
+                    {done ? (
+                      <svg viewBox="0 0 12 12" fill="none" className="fm-check fm-draw size-3">
+                        <path d="M2.4 6.3l2.3 2.3 4.9-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" pathLength={1} />
+                      </svg>
+                    ) : i + 1}
+                  </span>
+                  <span className={`fm-node-label hidden max-w-full truncate text-xs sm:block ${current ? 'font-medium text-text' : done ? 'text-muted' : 'text-subtle'}`}>{x.short}</span>
+                  <span className="sr-only">{`Step ${i + 1}: ${x.short}${done ? ' (done)' : current ? ' (current)' : ''}`}</span>
+                </>
+              );
+              return (
+                <li key={x.short} aria-current={current ? 'step' : undefined} className="min-w-0">
+                  {done ? (
+                    <button type="button" onClick={() => goTo(i)} className="fm-node is-done">{inner}</button>
+                  ) : (
+                    <span className={`fm-node ${current ? 'is-current' : ''}`}>{inner}</span>
+                  )}
+                </li>
+              );
+            })}
+          </ol>
         </div>
-        <ol aria-label="Quote steps" className="mt-4 grid grid-cols-4 gap-2">
-          {STEPS.map((x, i) => {
-            const done = i < step, current = i === step;
-            const inner = (
-              <>
-                <span aria-hidden="true" className={`grid size-6 shrink-0 place-items-center rounded-full border font-mono text-[0.7rem] ${current ? 'border-brand-soft bg-brand-strong text-white' : done ? 'border-brand-soft/50 text-brand-soft' : 'border-line-strong text-subtle'}`}>
-                  {done ? <Check size={12} strokeWidth={3} /> : i + 1}
-                </span>
-                <span className={`hidden truncate text-xs sm:block ${current ? 'text-text' : 'text-subtle'}`}>{x.short}</span>
-                <span className="sr-only">{`Step ${i + 1}: ${x.short}${done ? ' (done)' : current ? ' (current)' : ''}`}</span>
-              </>
-            );
-            return (
-              <li key={x.short} aria-current={current ? 'step' : undefined}>
-                {done ? (
-                  <button type="button" onClick={() => goTo(i)} className="flex min-h-11 w-full items-center gap-2 rounded-lg text-left transition-opacity hover:opacity-80">{inner}</button>
-                ) : (
-                  <span className="flex min-h-11 items-center gap-2">{inner}</span>
-                )}
-              </li>
-            );
-          })}
-        </ol>
       </div>
 
-      <div key={step} className="motion-safe:animate-[page-in_0.45s_var(--ease-out-expo)_both]">
-        <h2 id="quote-step-title" ref={heading} tabIndex={-1} className="font-display text-2xl font-semibold tracking-tight text-text focus:outline-none sm:text-[1.75rem]">
-          {s.title}
-        </h2>
-        <p className="mt-2 text-sm leading-relaxed text-muted sm:text-[0.95rem]">{s.lead}</p>
+      <div key={step} className={dir ? `fm-pane-${dir}` : ''}>
+        <div className="flex items-start gap-4 sm:gap-5">
+          <span aria-hidden="true" className="fm-bignum shrink-0 pt-0.5">{String(step + 1).padStart(2, '0')}</span>
+          <div className="min-w-0">
+            <h2 id="quote-step-title" ref={heading} tabIndex={-1} className="font-display text-2xl font-semibold tracking-tight text-text focus:outline-none sm:text-[1.75rem]">
+              {s.title}
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted sm:text-[0.95rem]">{s.lead}</p>
+          </div>
+        </div>
 
         {summary.length > 0 && <div className="mt-6"><ErrorSummary errors={summary} focusKey={summaryKey} /></div>}
 
@@ -220,32 +245,41 @@ export function QuoteForm({ options, initialType = '' }: { options: QuoteOptions
           {step === 3 && (
             <>
               <div className="grid gap-6 sm:grid-cols-2">
-                <TextInput id={domId('name')} label="Your name" value={v.name} onChange={set('name')} error={errors.name} autoComplete="name" />
-                <TextInput id={domId('email')} label="Email" type="email" inputMode="email" value={v.email} onChange={set('email')} error={errors.email} autoComplete="email" placeholder="you@company.com" />
-                <TextInput id={domId('phone')} label="Phone or WhatsApp" type="tel" inputMode="tel" value={v.phone} onChange={set('phone')} error={errors.phone} autoComplete="tel" optional placeholder="+1 555 010 2030" hint="Include your country code." />
-                <TextInput id={domId('company')} label="Company" value={v.company} onChange={set('company')} error={errors.company} autoComplete="organization" optional />
+                <TextInput id={domId('name')} label="Your name" value={v.name} onChange={set('name')} error={errors.name} autoComplete="name" icon={ic(UserRound)} />
+                <TextInput id={domId('email')} label="Email" type="email" inputMode="email" value={v.email} onChange={set('email')} error={errors.email} autoComplete="email" placeholder="you@company.com" icon={ic(AtSign)} />
+                <TextInput id={domId('phone')} label="Phone or WhatsApp" type="tel" inputMode="tel" value={v.phone} onChange={set('phone')} error={errors.phone} autoComplete="tel" optional placeholder="+1 555 010 2030" hint="Include your country code." icon={ic(Phone)} />
+                <TextInput id={domId('company')} label="Company" value={v.company} onChange={set('company')} error={errors.company} autoComplete="organization" optional icon={ic(Building2)} />
               </div>
-              <Select id={domId('heardFrom')} label="How did you hear about us?" options={options.heardFrom} value={v.heardFrom} onChange={set('heardFrom')} error={errors.heardFrom} optional placeholder="Choose one" />
+              <Select id={domId('heardFrom')} label="How did you hear about us?" options={options.heardFrom} value={v.heardFrom} onChange={set('heardFrom')} error={errors.heardFrom} optional placeholder="Choose one" icon={ic(Megaphone)} />
               <Honeypot value={website} onChange={setWebsite} />
 
-              <section aria-labelledby="quote-review-title" className="rounded-xl border border-line bg-white/[0.02] p-5">
-                <h3 id="quote-review-title" className="font-sans text-sm font-semibold tracking-normal text-text">Your request</h3>
-                <dl className="mt-3 divide-y divide-line text-sm">
+              <section aria-labelledby="quote-review-title" className="fm-review relative overflow-hidden rounded-2xl border border-brand-soft/25 p-4 shadow-[0_24px_60px_-40px_rgb(65_112_255/0.9)] sm:p-6">
+                <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-20 size-56 rounded-full bg-[radial-gradient(closest-side,rgb(139_92_246/0.22),transparent)] blur-xl" />
+                <div className="relative flex items-center gap-3">
+                  <span aria-hidden="true" className="grid size-9 place-items-center rounded-xl bg-gradient-to-br from-brand-strong to-[#5b3fd6] text-white shadow-[0_10px_24px_-10px_rgb(65_112_255/0.95)]">
+                    <ClipboardList size={17} strokeWidth={1.8} />
+                  </span>
+                  <h3 id="quote-review-title" className="font-sans text-sm font-semibold tracking-normal text-text">Your request</h3>
+                </div>
+                <dl className="relative mt-4 divide-y divide-line text-sm">
                   {([
                     ['Project', v.projectType, 0], ['Budget', v.budget, 1], ['Timeline', v.timeline, 1],
                     ['Details', v.message.trim() ? `${v.message.trim().slice(0, 140)}${v.message.trim().length > 140 ? '…' : ''}` : '', 2],
                     ['Files', files.length ? files.map((f) => `${f.name} (${formatBytes(f.size)})`).join(', ') : 'None', 2],
-                  ] as [string, string, number][]).map(([k, val, at]) => (
-                    <div key={k} className="flex items-start gap-3 py-2.5">
-                      <dt className="w-20 shrink-0 text-subtle">{k}</dt>
-                      <dd className="min-w-0 flex-1 break-words text-muted">{val || '—'}</dd>
-                      <dd className="shrink-0">
-                        <button type="button" onClick={() => goTo(at)} className="-my-2 inline-flex min-h-11 items-center rounded-md px-2 text-xs font-medium text-brand-soft hover:text-text">
-                          Edit<span className="sr-only"> {k.toLowerCase()}</span>
-                        </button>
-                      </dd>
-                    </div>
-                  ))}
+                  ] as [string, string, number][]).map(([k, val, at], i) => {
+                    const I = REVIEW_ICON[k];
+                    return (
+                      <div key={k} className="fm-review-row fm-rise flex items-start gap-3 px-1.5 py-2.5 sm:px-2" style={{ '--i': i + 4 } as CSSProperties}>
+                        <dt className="flex w-[5.25rem] shrink-0 items-center gap-2 text-subtle sm:w-28">{I && <I aria-hidden="true" size={15} strokeWidth={1.8} className="hidden shrink-0 text-brand-soft/80 sm:block" />}{k}</dt>
+                        <dd className="min-w-0 flex-1 break-words text-text/85">{val || '—'}</dd>
+                        <dd className="shrink-0">
+                          <button type="button" onClick={() => goTo(at)} className="-my-2 inline-flex min-h-11 items-center gap-1.5 rounded-full px-2.5 text-xs font-medium text-brand-soft transition-colors hover:bg-brand/12 hover:text-text">
+                            <PenLine aria-hidden="true" size={13} />Edit<span className="sr-only"> {k.toLowerCase()}</span>
+                          </button>
+                        </dd>
+                      </div>
+                    );
+                  })}
                 </dl>
               </section>
             </>
@@ -253,9 +287,9 @@ export function QuoteForm({ options, initialType = '' }: { options: QuoteOptions
         </div>
       </div>
 
-      {formError && <p role="alert" className="mt-6 rounded-xl border border-danger/50 bg-danger/[0.07] px-4 py-3 text-sm text-text">{formError}</p>}
+      {formError && <p role="alert" className="fm-sum fm-shake mt-6 px-5 py-3 text-sm text-text">{formError}</p>}
 
-      <div className="mt-9 flex flex-col-reverse gap-3 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+      <div className="fx-divider mt-10 flex flex-col-reverse gap-3 pt-6 sm:flex-row sm:items-center sm:justify-between">
         {step > 0 ? (
           <button type="button" onClick={() => goTo(step - 1)} className={buttonClass({ variant: 'ghost', size: 'lg', className: 'sm:-ml-4' })}>
             <ArrowLeft aria-hidden="true" size={17} />Back

@@ -1,7 +1,13 @@
+import { FeatureCards } from '@/components/interactive/FeatureCards';
+import { JourneyTimeline } from '@/components/interactive/JourneyTimeline';
+import { RolePills } from '@/components/interactive/RolePills';
+import { StatBand } from '@/components/interactive/StatBand';
+import { StepCards } from '@/components/interactive/StepCards';
+import { ValueRows } from '@/components/interactive/ValueRows';
+import { IndustryGrid } from '@/components/pages/about/IndustryGrid';
 import { CTASection } from '@/components/sections/CTASection';
 import { PageHero } from '@/components/sections/PageHero';
 import { TestimonialCard } from '@/components/sections/TestimonialCard';
-import { Badge } from '@/components/ui/Badge';
 import { ButtonLink } from '@/components/ui/Button';
 import { Container, Section } from '@/components/ui/Container';
 import { Reveal } from '@/components/ui/Reveal';
@@ -18,6 +24,9 @@ export const metadata = pageMeta({
 
 /** "ESTABLISHED" → "Established" for the facts list. */
 const label = (k: string) => k.charAt(0) + k.slice(1).toLowerCase();
+/** Facts with a number become count-up tiles; the rest are shown as pills. */
+const STAT_ICON: Record<string, string> = { PROJECTS: 'folder-kanban', CLIENTS: 'handshake', TEAM: 'users', SERVICES: 'layers' };
+const VALUE_ICONS = ['sparkles', 'shield-check', 'rocket', 'layers', 'zap', 'code'];
 
 export default async function AboutPage() {
   const [site, about] = await Promise.all([
@@ -57,25 +66,15 @@ export default async function AboutPage() {
                 design and build your project are the people you talk to, with no account managers in between.
               </p>
             </div>
-            {roles.length > 0 && (
-              <ul aria-label="Disciplines on the team" className="mt-8 flex flex-wrap gap-2">
-                {roles.map((r) => <li key={r}><Badge>{r}</Badge></li>)}
-              </ul>
-            )}
+            {roles.length > 0 && <div className="mt-8"><RolePills roles={roles} label="Disciplines on the team" /></div>}
           </Reveal>
           {facts.length > 0 && (
             <Reveal delay={80} className="lg:col-span-5">
-              <div className="panel p-7 sm:p-8">
-                <h3 className="eyebrow text-subtle!">Facts</h3>
-                <dl className="mt-4 divide-y divide-line">
-                  {facts.map((f) => (
-                    <div key={f.k} className="flex items-baseline justify-between gap-6 py-3.5">
-                      <dt className="text-sm text-muted">{label(f.k)}</dt>
-                      <dd className="text-right font-medium text-text">{f.v}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
+              <h3 className="eyebrow mb-4 text-subtle!">Facts</h3>
+              <StatBand
+                stats={facts.filter((f) => STAT_ICON[f.k.toUpperCase()]).map((f) => ({ value: f.v, label: label(f.k), icon: STAT_ICON[f.k.toUpperCase()] }))}
+                pills={facts.filter((f) => !STAT_ICON[f.k.toUpperCase()]).map((f) => ({ k: label(f.k), v: f.v }))}
+              />
             </Reveal>
           )}
         </Container>
@@ -99,15 +98,7 @@ export default async function AboutPage() {
         <Section labelledBy="why-title">
           <Container>
             <SectionHeading id="why-title" eyebrow="Why clients choose us" title="What working with us is like" />
-            <ol className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {why.map((w, i) => (
-                <Reveal as="li" key={w.t} delay={i * 70} className="panel flex flex-col p-7">
-                  <span className="font-mono text-xs text-brand-soft">{w.n}</span>
-                  <h3 className="mt-6 text-lg font-semibold text-text">{w.t}</h3>
-                  <p className="mt-2 text-[0.95rem] leading-relaxed text-muted">{w.d}</p>
-                </Reveal>
-              ))}
-            </ol>
+            <div className="mt-14"><StepCards items={why} label="Why clients choose us" /></div>
           </Container>
         </Section>
       )}
@@ -121,15 +112,7 @@ export default async function AboutPage() {
                 lead="Every project follows the same steps. Scope, price and timeline are written down before work starts, and you can check progress on a staging link any day." />
               <Reveal className="mt-8"><ButtonLink href="/process" variant="secondary" arrow>See the full process</ButtonLink></Reveal>
             </div>
-            <ol className="divide-y divide-line border-y border-line lg:col-span-7">
-              {about.steps.map((st, i) => (
-                <Reveal as="li" key={st.id} delay={i * 40} className="grid grid-cols-[2.5rem_1fr] gap-4 py-5 sm:grid-cols-[3rem_9rem_1fr]">
-                  <span className="pt-0.5 font-mono text-xs text-subtle">{st.num}</span>
-                  <h3 className="font-semibold text-text">{st.title}</h3>
-                  <p className="col-start-2 text-[0.95rem] leading-relaxed text-muted sm:col-start-3">{st.description}</p>
-                </Reveal>
-              ))}
-            </ol>
+            <div className="lg:col-span-7"><ValueRows items={about.steps.map((st) => ({ n: st.num, t: st.title, d: st.description }))} label="Our approach" /></div>
           </Container>
         </Section>
       )}
@@ -139,15 +122,7 @@ export default async function AboutPage() {
         <Section labelledBy="values-title" className="border-t border-line">
           <Container>
             <SectionHeading id="values-title" eyebrow="Development philosophy" title="What we hold ourselves to" />
-            <ul className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
-              {values.map((v, i) => (
-                <Reveal as="li" key={v.t} delay={(i % 3) * 60} className="bg-bg p-7 sm:p-8">
-                  <h3 className="text-lg font-semibold text-text">{v.t}</h3>
-                  <p className="mt-2 text-[0.95rem] leading-relaxed text-muted">{v.d}</p>
-                </Reveal>
-              ))}
-              {values.length % 3 !== 0 && <li aria-hidden="true" className="hidden bg-bg lg:block" style={{ gridColumn: `span ${3 - (values.length % 3)}` }} />}
-            </ul>
+            <FeatureCards className="mt-14" items={values.map((v, i) => ({ icon: VALUE_ICONS[i % VALUE_ICONS.length], t: v.t, d: v.d }))} />
           </Container>
         </Section>
       )}
@@ -158,19 +133,7 @@ export default async function AboutPage() {
           <Container>
             <SectionHeading id="industries-title" eyebrow="Industries" title="Problems we know well"
               lead="The details differ by industry. The underlying problem is usually information living in too many places." />
-            <ul className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {about.industries.map((ind, i) => (
-                <Reveal as="li" key={ind.id} delay={(i % 4) * 60} className="panel flex flex-col p-6">
-                  <h3 className="text-lg font-semibold text-text">{ind.name}</h3>
-                  <p className="mt-2 flex-1 text-[0.95rem] leading-relaxed text-muted">{ind.problem}</p>
-                  {ind.builds.length > 0 && (
-                    <div className="mt-5 flex flex-wrap gap-1.5">
-                      {ind.builds.map((b) => <Badge key={b}>{b}</Badge>)}
-                    </div>
-                  )}
-                </Reveal>
-              ))}
-            </ul>
+            <div className="mt-14"><IndustryGrid items={about.industries} /></div>
           </Container>
         </Section>
       )}
@@ -180,14 +143,7 @@ export default async function AboutPage() {
         <Section labelledBy="story-title" className="border-t border-line">
           <Container>
             <SectionHeading id="story-title" eyebrow="Our story" title="Where we are going" />
-            <ol className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
-              {timeline.map((t, i) => (
-                <Reveal as="li" key={t.k} delay={i * 60} className="bg-bg p-7">
-                  <p className="font-mono text-xs uppercase tracking-[0.14em] text-brand-soft">{t.k}</p>
-                  <p className="mt-4 text-lg leading-snug text-text">{t.t}</p>
-                </Reveal>
-              ))}
-            </ol>
+            <div className="mt-14"><JourneyTimeline items={timeline} /></div>
           </Container>
         </Section>
       )}

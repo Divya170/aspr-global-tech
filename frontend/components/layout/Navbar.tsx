@@ -20,6 +20,13 @@ export function Navbar({ services }: { services: ServiceCard[] }) {
   const megaRef = useRef<HTMLLIElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const linksRef = useRef<HTMLUListElement>(null);
+  // Hover pill that glides between desktop links; it fades in on first hover instead of sliding from the left.
+  const [hover, setHover] = useState({ x: 0, w: 0, on: false, glide: false });
+  const onHover = (e: React.MouseEvent<HTMLElement>) => {
+    const a = e.currentTarget.getBoundingClientRect(), b = linksRef.current!.getBoundingClientRect();
+    setHover((h) => ({ x: a.left - b.left, w: a.width, on: true, glide: h.on }));
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -64,14 +71,24 @@ export function Navbar({ services }: { services: ServiceCard[] }) {
   const active = (href: string) => pathname === href || pathname.startsWith(href + '/');
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-50 transition-[background,border-color,backdrop-filter] duration-500 ${scrolled || open ? 'border-b border-line bg-bg/75 backdrop-blur-xl' : 'border-b border-transparent'}`}>
+    <header className={`fixed inset-x-0 top-0 z-50 transition-[padding] duration-500 ${scrolled && !open ? 'lg:pt-3' : ''}`}>
+      {/* Bar background (phones, and the open menu). A sibling layer rather than classes on <header>:
+          a backdrop-filter on the header would become the containing block of the fixed mobile menu
+          and collapse it to zero height. */}
+      <span aria-hidden="true" className={`pointer-events-none absolute inset-0 -z-10 border-b border-line backdrop-blur-xl transition-opacity duration-500 ${open ? 'bg-bg/95 opacity-100' : `bg-bg/75 ${scrolled ? 'opacity-100 lg:opacity-0' : 'opacity-0'}`}`} />
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-[60] focus:rounded-lg focus:bg-brand-strong focus:px-4 focus:py-2 focus:text-white">Skip to content</a>
-      <nav aria-label="Main" className="mx-auto flex h-18 max-w-7xl items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
+      {/* Desktop: full-width bar at the top of the page that docks into a floating glass pill on scroll.
+          The glass is a sibling layer, not on <nav>, so the mega menu's own backdrop blur still sees the page. */}
+      <nav aria-label="Main" className={`relative isolate mx-auto flex h-18 max-w-7xl items-center justify-between gap-6 px-4 transition-[max-width,height,padding] duration-500 ease-[var(--ease-out-expo)] sm:px-6 lg:px-8 ${scrolled && !open ? 'lg:h-16 lg:max-w-6xl lg:pl-6 lg:pr-2.5' : ''}`}>
+        <span aria-hidden="true" className={`pointer-events-none absolute inset-0 -z-10 hidden rounded-full border border-line-strong bg-bg/70 shadow-[0_18px_50px_-20px_rgb(0_0_0/0.9),inset_0_1px_0_rgb(255_255_255/0.05)] backdrop-blur-xl transition-opacity duration-500 lg:block ${scrolled && !open ? 'opacity-100' : 'opacity-0'}`} />
         <Logo />
 
-        <ul className="hidden items-center gap-1 lg:flex">
+        <ul ref={linksRef} className="relative isolate hidden items-center gap-1 lg:flex" onMouseLeave={() => setHover((h) => ({ ...h, on: false, glide: false }))}>
+          <span aria-hidden="true"
+            className={`pointer-events-none absolute inset-y-0 left-0 -z-10 rounded-full bg-white/[0.06] ring-1 ring-inset ring-line-strong duration-300 ease-[var(--ease-out-expo)] ${hover.glide ? 'transition-[transform,width,opacity]' : 'transition-opacity'}`}
+            style={{ width: hover.w, transform: `translateX(${hover.x}px)`, opacity: hover.on ? 1 : 0 }} />
           {NAV.map((item) => item.href === '/services' ? (
-            <li key={item.href} ref={megaRef} className="relative" onMouseEnter={() => matchMedia('(pointer: fine)').matches && setMega(true)} onMouseLeave={() => setMega(false)}>
+            <li key={item.href} ref={megaRef} className="relative" onMouseEnter={(e) => { onHover(e); if (matchMedia('(pointer: fine)').matches) setMega(true); }} onMouseLeave={() => setMega(false)}>
               <button
                 type="button" aria-expanded={mega} aria-controls="mega-services" onClick={() => setMega((m) => !m)}
                 className={`flex items-center gap-1 rounded-full px-4 py-2 text-[0.95rem] transition-colors ${active(item.href) ? 'text-text' : 'text-muted hover:text-text'}`}
@@ -79,10 +96,12 @@ export function Navbar({ services }: { services: ServiceCard[] }) {
                 {item.label}<ChevronDown aria-hidden="true" size={15} className={`transition-transform ${mega ? 'rotate-180' : ''}`} />
               </button>
               <div id="mega-services" className={`absolute left-1/2 top-full w-[min(760px,calc(100vw-3rem))] -translate-x-1/2 pt-3 transition-all duration-300 ${mega ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-1 opacity-0'}`}>
-                <div className="panel grid grid-cols-2 gap-1 bg-surface/95 p-3 shadow-2xl shadow-black/50 backdrop-blur-xl">
-                  {services.map((s) => (
-                    <Link key={s.slug} href={`/services/${s.slug}`} className="group flex gap-3 rounded-xl p-3 transition-colors hover:bg-white/[0.04]">
-                      <span className="grid size-10 shrink-0 place-items-center rounded-lg border border-line bg-white/[0.03] text-brand-soft transition-colors group-hover:border-brand/40 group-hover:text-text">
+                <div className="panel relative grid grid-cols-2 gap-1 overflow-hidden bg-surface/95 p-3 shadow-2xl shadow-black/50 backdrop-blur-xl">
+                  <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-28 size-72 rounded-full bg-[radial-gradient(closest-side,rgb(65_112_255/0.22),transparent)]" />
+                  {services.map((s, i) => (
+                    <Link key={s.slug} href={`/services/${s.slug}`} style={{ transitionDelay: mega ? `0ms, ${i * 35}ms, ${i * 35}ms` : '0ms' }}
+                      className={`group relative flex gap-3 rounded-xl p-3 transition-[background-color,opacity,translate] duration-500 ease-[var(--ease-out-expo)] hover:bg-white/[0.05] ${mega ? 'translate-y-0 opacity-100' : 'translate-y-1.5 opacity-0'}`}>
+                      <span className="fx-icon grid size-10 shrink-0 place-items-center rounded-lg border border-line bg-white/[0.03] text-brand-soft">
                         <Icon name={s.icon} size={19} />
                       </span>
                       <span>
@@ -98,9 +117,9 @@ export function Navbar({ services }: { services: ServiceCard[] }) {
               </div>
             </li>
           ) : (
-            <li key={item.href}>
+            <li key={item.href} onMouseEnter={onHover}>
               <Link href={item.href} aria-current={active(item.href) ? 'page' : undefined}
-                className={`rounded-full px-4 py-2 text-[0.95rem] transition-colors ${active(item.href) ? 'text-text' : 'text-muted hover:text-text'}`}>
+                className={`fx-navlink relative rounded-full px-4 py-2 text-[0.95rem] transition-colors ${active(item.href) ? 'is-active text-text' : 'text-muted hover:text-text'}`}>
                 {item.label}
               </Link>
             </li>

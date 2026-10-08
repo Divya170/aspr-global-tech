@@ -1,9 +1,10 @@
-import { Check } from 'lucide-react';
+import { stageIcon } from '@/components/pages/services/icons';
+import { StageFlow } from '@/components/pages/services/StageFlow';
+import { StageOutputs } from '@/components/pages/services/StageOutputs';
 import { CTASection } from '@/components/sections/CTASection';
 import { PageHero } from '@/components/sections/PageHero';
 import { ProcessTimeline } from '@/components/sections/ProcessTimeline';
 import { Container, Section } from '@/components/ui/Container';
-import { Reveal } from '@/components/ui/Reveal';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { api } from '@/lib/api';
 import { pageMeta } from '@/lib/seo';
@@ -32,22 +33,10 @@ export default async function ProcessPage() {
         <Section labelledBy="stages-title" className="pt-0 sm:pt-4">
           <Container>
             <h2 id="stages-title" className="sr-only">The three stages</h2>
-            <ol className="grid gap-4 md:grid-cols-3">
-              {groups.map((g, i) => (
-                <Reveal as="li" key={g.stage} delay={i * 80} className="panel flex flex-col p-7 sm:p-8">
-                  <p className="font-mono text-xs uppercase tracking-[0.14em] text-subtle">{g.stageLabel || `Stage ${g.stage}`}</p>
-                  <h3 className="mt-5 font-display text-3xl font-semibold text-text">{g.verb}</h3>
-                  <p className="mt-3 flex-1 leading-relaxed text-muted">{g.sum}</p>
-                  {stepsIn(g.stage).length > 0 && (
-                    <ul className="mt-6 flex flex-wrap gap-2 border-t border-line pt-5">
-                      {stepsIn(g.stage).map((s) => (
-                        <li key={s.id} className="rounded-full border border-line-strong px-3 py-1 text-xs text-muted"><span className="font-mono text-subtle">{s.num}</span> {s.title}</li>
-                      ))}
-                    </ul>
-                  )}
-                </Reveal>
-              ))}
-            </ol>
+            <StageFlow stages={groups.map((g, i) => ({
+              key: g.stage, icon: stageIcon(i), label: g.stageLabel || `Stage ${g.stage}`, verb: g.verb, sum: g.sum,
+              steps: stepsIn(g.stage).map(({ id, num, title }) => ({ id, num, title })),
+            }))} />
           </Container>
         </Section>
       )}
@@ -66,19 +55,8 @@ export default async function ProcessPage() {
           <Container>
             <SectionHeading id="outputs-title" eyebrow="Deliverables" title="What you get at every stage"
               lead="Concrete outputs, not status meetings." />
-            <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-3">
-              {groups.map((g, i) => (
-                <Reveal key={g.stage} delay={i * 70} className="bg-bg-2 p-7 sm:p-8">
-                  <h3 className="eyebrow text-subtle!">{g.label || `Stage ${g.stage}`}</h3>
-                  <ul className="mt-6 space-y-3">
-                    {stepsIn(g.stage).flatMap((s) => s.outputs || []).map((o) => (
-                      <li key={o} className="flex gap-3 text-[0.95rem] leading-snug text-text">
-                        <Check aria-hidden="true" size={16} className="mt-0.5 shrink-0 text-success" />{o}
-                      </li>
-                    ))}
-                  </ul>
-                </Reveal>
-              ))}
+            <div className="mt-14">
+              <StageOutputs stages={groups.map((g) => ({ key: g.stage, label: g.label || `Stage ${g.stage}`, items: stepsIn(g.stage).flatMap((s) => s.outputs || []) }))} />
             </div>
           </Container>
         </Section>
