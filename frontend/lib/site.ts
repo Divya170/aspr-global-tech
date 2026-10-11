@@ -18,3 +18,9 @@ export const UPLOAD = {
   accept: '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.zip',
   ext: ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'png', 'jpg', 'jpeg', 'webp', 'zip'],
 };
+
+/**
+ * How the 300+ / 150+ figures must be qualified wherever they appear (main's wording): they are the
+ * team's track record across previous and current engagements, not the firm's (established March 2026).
+ */
+export const TEAM_RECORD_NOTE = 'Projects and clients: delivered by our team, across previous and current engagements. ASPR Global Tech was established in March 2026.';

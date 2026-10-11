@@ -30,7 +30,7 @@ function Stat({ s, run, i }: { s: StatItem; run: boolean; i: number }) {
 }
 
 /** Stat tiles that count up on first view, over slowly drifting colour orbs. */
-export function StatBand({ stats, pills = [], className = '' }: { stats: StatItem[]; pills?: { k: string; v: string }[]; className?: string }) {
+export function StatBand({ stats, pills = [], note, className = '' }: { stats: StatItem[]; pills?: { k: string; v: string }[]; note?: string; className?: string }) {
   const [ref, seen, armed] = useInView<HTMLDivElement>(0.25);
   return (
     <div ref={ref} className={`ix-band p-3 sm:p-4 ${seen ? 'is-seen' : ''} ${armed ? 'is-armed' : ''} ${className}`}>
@@ -47,6 +47,7 @@ export function StatBand({ stats, pills = [], className = '' }: { stats: StatIte
           ))}
         </dl>
       )}
+      {note && <p className="ix-note">{note}</p>}
     </div>
   );
 }

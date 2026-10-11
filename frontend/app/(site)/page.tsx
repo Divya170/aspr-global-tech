@@ -19,7 +19,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { api } from '@/lib/api';
 import { pageMeta } from '@/lib/seo';
-import { SITE_URL } from '@/lib/site';
+import { SITE_URL, TEAM_RECORD_NOTE } from '@/lib/site';
 import type { HomeData, Site } from '@/lib/types';
 
 export const metadata = pageMeta({
@@ -49,8 +49,8 @@ export default async function HomePage() {
   ].filter(Boolean) as { value: string; label: string; icon: string }[];
   // Hero proof badges only repeat what the site already states (admin stats, company hours); unset values are left out.
   const badges = [
-    s.stats?.projects && { icon: 'rocket', strong: `${s.stats.projects}+`, small: 'projects delivered' },
-    s.stats?.clients && { icon: 'handshake', strong: `${s.stats.clients}+`, small: 'clients served' },
+    s.stats?.projects && { icon: 'rocket', strong: `${s.stats.projects}+ projects`, small: 'delivered by our team, across previous and current engagements' },
+    s.stats?.clients && { icon: 'handshake', strong: `${s.stats.clients}+ clients`, small: 'served by our team, across previous and current engagements' },
     /US-hour calls on request/i.test(s.company.hours || '') && { icon: 'globe', strong: 'US-hour calls', small: 'on request' },
   ].filter(Boolean) as HeroBadge[];
 
@@ -94,7 +94,7 @@ export default async function HomePage() {
       <section aria-labelledby="trust-title" className="relative border-y border-line bg-bg-2/60 py-16 sm:py-20">
         <Container>
           <h2 id="trust-title" className="sr-only">Why businesses work with ASPR</h2>
-          {stats.length > 0 && <StatBand stats={stats} />}
+          {stats.length > 0 && <StatBand stats={stats} note={s.stats?.projects || s.stats?.clients ? TEAM_RECORD_NOTE : undefined} />}
           <FeatureCards items={PRINCIPLES} className="mt-10" />
         </Container>
       </section>

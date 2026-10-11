@@ -20,8 +20,8 @@ A father noticed his son didn't learn from books — he learned by making things
 - Established: March 2026
 - Team: 10–15 specialists (web engineers, app developers, game developers, designers, video editors, SEO, business systems)
 - Services: 8 (see /services)
-- Clients served: 150+
-- Projects delivered: 300+
+- Clients served by our team, across previous and current engagements: 150+ (not the firm's own track record; ASPR Global Tech was established in March 2026)
+- Projects delivered by our team, across previous and current engagements: 300+ (same note)
 - Studio: Mettupalayam, Tamil Nadu, India — serving clients worldwide, with a main focus on the US
 
 ## Leadership

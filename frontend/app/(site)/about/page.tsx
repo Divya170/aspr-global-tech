@@ -14,6 +14,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { api } from '@/lib/api';
 import { pageMeta } from '@/lib/seo';
+import { TEAM_RECORD_NOTE } from '@/lib/site';
 import type { Industry, Site, Step, Testimonial } from '@/lib/types';
 
 export const metadata = pageMeta({
@@ -74,6 +75,7 @@ export default async function AboutPage() {
               <StatBand
                 stats={facts.filter((f) => STAT_ICON[f.k.toUpperCase()]).map((f) => ({ value: f.v, label: label(f.k), icon: STAT_ICON[f.k.toUpperCase()] }))}
                 pills={facts.filter((f) => !STAT_ICON[f.k.toUpperCase()]).map((f) => ({ k: label(f.k), v: f.v }))}
+                note={facts.some((f) => ['CLIENTS', 'PROJECTS'].includes(f.k.toUpperCase())) ? TEAM_RECORD_NOTE : undefined}
               />
             </Reveal>
           )}
