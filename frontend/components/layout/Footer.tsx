@@ -92,7 +92,7 @@ export function Footer({ site }: { site: Site }) {
       <div aria-hidden="true" className="fx-watermark pointer-events-none relative -mb-[0.12em] select-none text-center text-[clamp(4rem,19vw,17rem)]">ASPR</div>
       <div className="relative border-t border-brand-soft/20">
         <Container size="xl" className="flex flex-col gap-3 py-6 text-[0.8125rem] sm:flex-row sm:items-center sm:justify-between">
-          <p>© {year} ASPR Global Tech. All rights reserved.</p>
+          <p>© {year} ASPR Global Tech. A registered partnership firm. Mettupalayam, Tamil Nadu, India.</p>
           <ul className="flex gap-6">
             <li><Link href="/privacy-policy" className="ft-link transition-colors hover:text-white">Privacy Policy</Link></li>
             <li><Link href="/terms" className="ft-link transition-colors hover:text-white">Terms &amp; Conditions</Link></li>

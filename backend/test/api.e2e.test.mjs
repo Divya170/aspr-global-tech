@@ -134,6 +134,13 @@ describe('public content', () => {
     assert.ok((await c.get('/content/products')).body.items.every((p) => p.img === null));
   });
 
+  test('copy carried from main: branding deliverables and where we are based', async () => {
+    const c = client();
+    assert.ok((await c.get('/services/branding-digital-design')).body.deliverables.includes('3 original logo concepts'));
+    const facts = (await c.get('/site')).body.settings.facts;
+    assert.equal(facts.find((f) => f.k === 'BASED IN').v, 'Mettupalayam, Tamil Nadu, India · Serving worldwide');
+  });
+
   test('responses carry security headers and no stack traces', async () => {
     const r = await client().get('/nope');
     assert.equal(r.status, 404);

@@ -11,6 +11,7 @@ const FAQ_FIXES: [string, string, string][] = [
   ['brand-only', 'Logo, graphics and video are services on their own.', 'Branding is a service on its own.'],
   ['alongside', 'say the app, the brand or SEO', 'say the app, the website or the brand'],
   ['tech', ' Unity for games;', ''],
+  ['tech', 'AI features such as chatbots, smart search and automation', 'AI features such as smart search and automation'],
 ];
 
 /**
@@ -56,7 +57,39 @@ const IMAGE_FIXES: ImageFix[] = [
   ['products', 'name', 'Finance & FinServ', '/assets/finance-dashboard.png', 'Finance dashboard with inflow and budget charts', null],
 ];
 
+/**
+ * Copy carried over from main where it is more specific and factual. Branding deliverables use
+ * main's serviceDetails["logo-design"] list (the service's own outcomes already promise three
+ * concepts and two rounds). Applied only while each list or fact is still the original.
+ */
+const BRANDING_LISTS: [column: 'deliverables' | 'ideal_for', from: string[], to: string[]][] = [
+  ['deliverables',
+    ['Brand discovery questionnaire', 'Original logo concepts', 'Colour palette and typography', 'Brand guidelines', 'Business cards and stationery',
+      'Social media kit and templates', 'Ad creatives and presentations', 'Print and web-ready files'],
+    ['Brand discovery questionnaire', '3 original logo concepts', 'Two rounds of refinements', 'Full colour, mono and icon versions',
+      'Colour palette and typography', 'Brand guidelines', 'Business cards and stationery', 'Social media kit and templates',
+      'Ad creatives and presentations', 'Print (PDF, EPS) and web (SVG, PNG) files']],
+  ['ideal_for',
+    ['New businesses and startups', 'Brands that look dated', 'Businesses preparing signage or packaging', 'Teams that need on-brand templates'],
+    ['New businesses and startups', 'Brands that look dated', 'Companies merging or rebranding', 'Businesses preparing signage or packaging',
+      'Teams that need on-brand templates']],
+];
+
 export function up(db: DatabaseService): void {
+  for (const [column, from, to] of BRANDING_LISTS) {
+    db.run(`UPDATE services SET ${column} = ?, updated_at = datetime('now') WHERE slug = 'branding-digital-design' AND ${column} = ?`,
+      [JSON.stringify(to), JSON.stringify(from)]);
+  }
+  // Where the firm is based, as in the About text, the privacy policy and main: Mettupalayam, Tamil Nadu.
+  const facts = db.get<{ value: string }>("SELECT value FROM settings WHERE key = 'facts'")?.value;
+  if (facts) {
+    const list = JSON.parse(facts) as { k: string; v: string }[];
+    const based = list.find((f) => f.k === 'BASED IN' && f.v === 'India · Serving worldwide');
+    if (based) {
+      based.v = 'Mettupalayam, Tamil Nadu, India · Serving worldwide';
+      db.run("UPDATE settings SET value = ?, updated_at = datetime('now') WHERE key = 'facts'", [JSON.stringify(list)]);
+    }
+  }
   for (const [table, key, value, img, alt, next] of IMAGE_FIXES) {
     db.run(`UPDATE ${table} SET img = ?, alt = ?, updated_at = datetime('now') WHERE ${key} = ? AND img = ? AND alt = ?`,
       [next ? next[0] : null, next ? next[1] : '', value, img, alt]);
