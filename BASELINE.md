@@ -162,3 +162,60 @@ Deferred by the owner and not touched: the 300+/150+ stats (including in `kb/com
 - Main's mission/vision wording and the careers line "Mettupalayam • Full-time • Internships" were not carried over (tone, or unverified).
 - The industry and product images removed by 005 can be re-added in the admin if real assets exist.
 - Deferred by the owner: the 300+/150+ stats, `components/three/`, the "8–16 weeks" lines, and the admin UI (Phase 3).
+
+# Phase 3 — launch readiness
+
+- **Date:** 2026-10-11 · Node v22.23.1 · npm 10.9.8 · production build, local API on a scratch SQLite DB
+
+## Commits
+`e3d7031` perf: start looping motion on first interaction, inline CSS, variable fonts · `305261d` fix: qualify 300+/150+ as the team's record, in main's wording · `b4c4e74` chore: remove the unused 3D hero and the three dependency · `af959bc` fix: brand identity takes 2–3 weeks; team chips match published services · `0618355` test: admin security checks with real requests · `c853cf7` feat: light identity for the admin UI · `b8daf6a` feat: refuse to start in production with missing critical settings · `cec8e96` docs: deploy prep for asprglobaltech.com and admin.asprglobaltech.com
+
+## Final checks
+| Command | Result |
+|---|---|
+| `npm --prefix frontend run typecheck` | PASS |
+| `npm --prefix frontend run build` | PASS (37/37 pages) |
+| `npm --prefix backend run build` | PASS |
+| `npm test` | PASS: 41 tests, 41 pass, 0 fail, 0 skipped |
+
+## Lighthouse (mobile, simulated throttling, median of 3 runs)
+| Page | Before Phase 3 | After Phase 3 (final build) | Target |
+|---|---|---|---|
+| Home | perf 44 · LCP 4.3 s · a11y 100 | **perf 86 · LCP 2.7 s · a11y 100** | perf ≥ 80 met; LCP ≤ 2.5 s not met (by 0.2 s) |
+| /services/website-development | perf 45 · LCP 4.8 s · a11y 100 | **perf 85 · LCP 3.2 s · a11y 100** | perf ≥ 80 met; LCP ≤ 2.5 s not met (by 0.7 s) |
+
+The cause was ~450 animation frames during load (orbits, glows, conic borders, marquees, hero timers, auto-cycling cards), each with style recalc, layerize and paint: about 8 s of main-thread work. Looping motion now waits for the first interaction, CSS is inlined (7 render-blocking requests to 0), fonts are variable, and the service overview text is no longer scroll-revealed. LCP is the text headline / overview paragraph on both pages; what is left is render delay after FCP (≈2 s) under 4× CPU and slow-4G simulation, mostly hydration of the shared client bundle (102 KB). The local machine was loaded (4 cores, load average 1.5–7), so single runs vary by about ±10 points.
+
+## Security (real requests; automated in backend/test/api.e2e.test.mjs → "admin security")
+| Check | Result |
+|---|---|
+| All 44 `/api/admin/*` route/method pairs reject anonymous requests | PASS (401/403) |
+| Roles enforced server-side per `permissions.ts` (editor, manager, admin; super_admin used for setup) | PASS |
+| Session cookie httpOnly + SameSite=Strict (dev) | PASS (existing test) |
+| Session cookie `__Host-` + Secure in production | PASS (dist/main with NODE_ENV=production; real login returned `__Host-aspr_session; HttpOnly; Secure; SameSite=Strict`) |
+| Login and forgot-password rate-limited | PASS (429) |
+| Reset tokens single-use and expire | PASS |
+| CSV exports (leads, applications, subscribers), media and attachment download need auth | PASS |
+| Uploads reject non-image types, renamed executables and oversized (9 MB) images | PASS |
+| Production refuses to start with a missing site URL, data paths or SMTP auth; weak first-admin password | PASS |
+
+## Site check
+- 24 public pages at 375 / 768 / 1440 (home, about, services, all 8 service pages, portfolio empty state, contact, quote, quote success, careers, faq, insights, an article, process, technologies, privacy, terms, 404): no layout breaks, no dark or violet styling left; the only dark bands are the intended navy stat/outcome bands and the footer.
+- Console: no errors on any page (the 404 page logs its own 404 response, as expected).
+- Forms: contact (ASPR-2026-99CG) and quote (ASPR-2026-8GZZ) submitted against the local API and both appear under Leads in the admin. Mail was not configured for that run (outbox status "skipped"). SMTP credentials were added later to the git-ignored backend/.env, and the SMTP login was verified (no email sent).
+- Keyboard-only: home, quote form and the mobile nav menu have a logical focus order with a visible focus ring on every stop (the footer newsletter input shows focus on its wrapper).
+- Admin: every page checked at 1440 and 768 after the light restyle.
+
+## npm audit
+| Package | Severity | Comes from | Affects production? |
+|---|---|---|---|
+| shell-quote (via concurrently) | critical | root devDependency `concurrently` (only `npm run dev`) | No |
+| nodemailer <= 10.0.5 | high (SMTP command injection via CRLF / `envelope.size`) | backend dependency `nodemailer@^7` | Yes, when SMTP is on. The app sets fixed envelopes and validates addresses, but upgrade to 10.x (major) before launch: needs your OK, since it changes a dependency version |
+| frontend | — | — | 0 vulnerabilities |
+
+## Left over
+- LCP target of 2.5 s: home 2.7 s, service page 3.2 s (perf targets met). The next step would be cutting the shared client bundle (hydration) or server-rendering more of the hero.
+- nodemailer major upgrade (above).
+- nginx config was not syntax-checked locally (nginx isn't installed here); `nginx -t` is step 7 in DEPLOY.md.
+- Pushing and opening the PR need GitHub credentials this terminal doesn't have (see the report).
+- The SMTP app password was shared in chat: rotate it after launch.
