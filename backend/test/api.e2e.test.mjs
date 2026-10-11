@@ -125,6 +125,15 @@ describe('public content', () => {
     assert.doesNotMatch(text, /graphics and video are services|or SEO —|Unity for games/);
   });
 
+  test('mockup images are labelled as mockups or removed', async () => {
+    const c = client();
+    assert.equal((await c.get('/services/mobile-app-development')).body.img, null);
+    assert.match((await c.get('/services/website-development')).body.alt, /^Illustrative mockup/);
+    const industries = (await c.get('/content/industries')).body.items;
+    assert.equal(industries.find((i) => i.name === 'Hospitality').img, null);
+    assert.ok((await c.get('/content/products')).body.items.every((p) => p.img === null));
+  });
+
   test('responses carry security headers and no stack traces', async () => {
     const r = await client().get('/nope');
     assert.equal(r.status, 404);
