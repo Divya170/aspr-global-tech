@@ -141,6 +141,16 @@ describe('public content', () => {
     assert.equal(facts.find((f) => f.k === 'BASED IN').v, 'Mettupalayam, Tamil Nadu, India · Serving worldwide');
   });
 
+  test('launch decisions: brand timeline and team chips', async () => {
+    const c = client();
+    const faqs = JSON.stringify((await c.get('/faqs')).body);
+    assert.match(faqs, /a brand identity 2–3 weeks/);
+    assert.doesNotMatch(faqs, /2–4 weeks/);
+    const roles = (await c.get('/site')).body.settings.teamRoles;
+    for (const r of ['Game developers', 'Video editors', 'SEO']) assert.ok(!roles.includes(r), r);
+    assert.ok(roles.includes('Web engineers'));
+  });
+
   test('responses carry security headers and no stack traces', async () => {
     const r = await client().get('/nope');
     assert.equal(r.status, 404);
