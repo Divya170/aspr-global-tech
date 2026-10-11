@@ -20,9 +20,9 @@ export function PortfolioCard({ project, priority = false, large = false }: { pr
               style={{ objectPosition: project.coverPos || 'center' }}
             />
           ) : (
-            <div aria-hidden="true" className="absolute inset-0 grid place-items-center bg-[radial-gradient(ellipse_80%_70%_at_20%_110%,rgb(65_112_255/0.32),transparent_60%),radial-gradient(ellipse_60%_60%_at_95%_0%,rgb(139_92_246/0.22),transparent_60%)]">
+            <div aria-hidden="true" className="absolute inset-0 grid place-items-center bg-[radial-gradient(ellipse_80%_70%_at_20%_110%,color-mix(in_srgb,var(--color-brand)_19%,transparent),transparent_60%),radial-gradient(ellipse_60%_60%_at_95%_0%,color-mix(in_srgb,var(--color-accent)_13%,transparent),transparent_60%)]">
               <div className="bg-grid absolute inset-0" />
-              <FolderKanban strokeWidth={1} className="relative size-24 text-brand-soft/30 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:-rotate-6 group-hover:scale-110" />
+              <FolderKanban strokeWidth={1} className="relative size-24 text-brand/30 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:-rotate-6 group-hover:scale-110" />
             </div>
           )}
           <div aria-hidden="true" className="ct-work-tint" />
@@ -32,8 +32,8 @@ export function PortfolioCard({ project, priority = false, large = false }: { pr
         </div>
         <div className="p-6">
           <div className="flex items-start justify-between gap-4">
-            <h3 className="text-lg font-semibold leading-snug text-text transition-colors group-hover:text-white sm:text-xl">{project.title}</h3>
-            <span className="grid size-10 shrink-0 place-items-center rounded-full border border-line-strong text-muted transition-all duration-300 group-hover:border-transparent group-hover:bg-brand-strong group-hover:text-white group-hover:shadow-[0_12px_28px_-12px_rgb(65_112_255/0.95)]">
+            <h3 className="text-lg font-semibold leading-snug text-text transition-colors group-hover:text-brand sm:text-xl">{project.title}</h3>
+            <span className="grid size-10 shrink-0 place-items-center rounded-full border border-line-strong text-muted transition-all duration-300 group-hover:border-transparent group-hover:bg-brand-strong group-hover:text-white group-hover:shadow-[0_12px_28px_-12px_color-mix(in_srgb,var(--color-brand)_57%,transparent)]">
               <ArrowUpRight aria-hidden="true" size={16} className="transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:rotate-45" />
             </span>
           </div>

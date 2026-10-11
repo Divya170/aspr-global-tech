@@ -20,12 +20,12 @@ export function DirectContact({ company: c, full = false, className = '' }: { co
       {rows.map(({ icon: I, label, value, href, external }) => {
         const body = (
           <>
-            <span aria-hidden="true" className="fx-icon grid size-10 shrink-0 place-items-center rounded-xl border border-line-strong bg-white/[0.04] text-brand-soft">
+            <span aria-hidden="true" className="fx-icon grid size-10 shrink-0 place-items-center rounded-xl border border-line-strong bg-surface text-brand">
               <I size={18} strokeWidth={1.7} />
             </span>
             <span className="min-w-0 flex-1">
               <span className="block font-mono text-[0.68rem] uppercase tracking-[0.14em] text-subtle">{label}</span>
-              <span className={`mt-0.5 block break-words text-sm ${href ? 'text-text group-hover:text-brand-soft' : 'leading-relaxed text-muted'} transition-colors`}>{value}</span>
+              <span className={`mt-0.5 block break-words text-sm ${href ? 'text-text group-hover:text-brand' : 'leading-relaxed text-muted'} transition-colors`}>{value}</span>
             </span>
           </>
         );
@@ -35,7 +35,7 @@ export function DirectContact({ company: c, full = false, className = '' }: { co
               <a href={href} {...(external && { target: '_blank', rel: 'noopener noreferrer' })}
                 className="fm-dc group flex min-h-16 items-center gap-3.5 rounded-2xl py-3 pl-3 pr-4">
                 {body}{external && <span className="sr-only"> (opens in a new tab)</span>}
-                <ArrowUpRight aria-hidden="true" size={17} className="fm-dc-arrow shrink-0 text-brand-soft" />
+                <ArrowUpRight aria-hidden="true" size={17} className="fm-dc-arrow shrink-0 text-brand" />
               </a>
             ) : (
               <div className="fm-dc flex items-start gap-3.5 rounded-2xl py-3 pl-3 pr-4">{body}</div>

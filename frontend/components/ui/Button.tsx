@@ -7,10 +7,10 @@ type Size = 'sm' | 'md' | 'lg';
 
 const base = 'group/btn fx-shine relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium transition-[background,color,border-color,box-shadow,transform] duration-300 ease-[var(--ease-out-expo)] disabled:pointer-events-none disabled:opacity-60 active:scale-[0.98]';
 const variants: Record<Variant, string> = {
-  primary: 'bg-brand-strong text-white shadow-[0_0_0_1px_rgb(255_255_255/0.12)_inset,0_10px_30px_-10px_rgb(65_112_255/0.8)] hover:bg-[#2449c9] hover:shadow-[0_0_0_1px_rgb(255_255_255/0.18)_inset,0_14px_40px_-10px_rgb(139_92_246/0.8)]',
-  secondary: 'fx-border border border-line-strong bg-white/[0.03] text-text hover:bg-white/[0.06]',
-  ghost: 'text-muted hover:bg-white/[0.05] hover:text-text',
-  link: 'text-brand-soft hover:text-text px-0! h-auto!',
+  primary: 'bg-brand text-white shadow-[0_10px_30px_-12px_color-mix(in_srgb,var(--color-brand)_55%,transparent)] hover:bg-brand-strong hover:shadow-[0_14px_36px_-12px_color-mix(in_srgb,var(--color-brand)_65%,transparent)]',
+  secondary: 'fx-border border border-line-strong bg-surface text-text hover:bg-surface-3',
+  ghost: 'text-muted hover:bg-surface-3 hover:text-text',
+  link: 'text-brand hover:text-navy px-0! h-auto!',
 };
 const sizes: Record<Size, string> = { sm: 'h-9 px-4 text-sm', md: 'h-11 px-5 text-[0.95rem]', lg: 'h-13 px-7 text-base' };
 

@@ -59,16 +59,16 @@ export default async function CareersPage() {
             <div className="mt-12 space-y-4">
               {roles.map((role, i) => <Reveal key={role.id} delay={Math.min(i, 4) * 40}><RoleCard role={role} /></Reveal>)}
               <div className="flex flex-col gap-3 rounded-2xl border border-dashed border-line-strong px-5 py-4 text-sm text-muted sm:flex-row sm:items-center sm:gap-4">
-                <span aria-hidden="true" className="grid size-9 shrink-0 place-items-center rounded-full bg-brand/15 text-brand-soft"><Mail size={16} /></span>
+                <span aria-hidden="true" className="grid size-9 shrink-0 place-items-center rounded-full bg-brand/15 text-brand"><Mail size={16} /></span>
                 <p>
-                  Don&apos;t see your role? Send your work to <a href={`mailto:${careersEmail}`} className="text-brand-soft underline underline-offset-4 hover:text-text">{careersEmail}</a>.
+                  Don&apos;t see your role? Send your work to <a href={`mailto:${careersEmail}`} className="text-brand underline underline-offset-4 hover:text-text">{careersEmail}</a>.
                 </p>
               </div>
             </div>
           ) : (
             <div className="ct-glass mt-12 flex flex-col gap-6 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
               <p className="max-w-xl leading-relaxed text-muted">
-                Send a short note and links to what you have built to <a href={`mailto:${careersEmail}`} className="text-brand-soft underline underline-offset-4 hover:text-text">{careersEmail}</a>. We will be in touch if a role opens that fits.
+                Send a short note and links to what you have built to <a href={`mailto:${careersEmail}`} className="text-brand underline underline-offset-4 hover:text-text">{careersEmail}</a>. We will be in touch if a role opens that fits.
               </p>
               <ButtonLink href={`mailto:${careersEmail}`} variant="secondary" arrow className="self-start sm:self-auto">Email us your work</ButtonLink>
             </div>

@@ -18,8 +18,8 @@ export function CopyButton({ value, label = 'Copy inquiry ID' }: { value: string
   return (
     <>
       <button type="button" onClick={copy}
-        className={`fx-shine group inline-flex min-h-11 items-center gap-2.5 rounded-full border py-1 pl-1.5 pr-4 text-sm font-medium text-text backdrop-blur transition-[border-color,background-color,box-shadow,transform] duration-300 active:scale-[0.97] ${done ? 'border-success/50 bg-success/10 shadow-[0_10px_30px_-14px_rgb(52_211_153/0.8)]' : 'border-line-strong bg-white/[0.04] hover:border-brand-soft/50 hover:bg-white/[0.07] hover:shadow-[0_12px_30px_-16px_rgb(65_112_255/0.9)]'}`}>
-        <span aria-hidden="true" className={`grid size-8 place-items-center rounded-full transition-colors duration-300 ${done ? 'bg-success/20 text-success' : 'bg-white/[0.06] text-brand-soft group-hover:bg-brand-strong group-hover:text-white'}`}>
+        className={`fx-shine group inline-flex min-h-11 items-center gap-2.5 rounded-full border py-1 pl-1.5 pr-4 text-sm font-medium text-text backdrop-blur transition-[border-color,background-color,box-shadow,transform] duration-300 active:scale-[0.97] ${done ? 'border-success/50 bg-success/10 shadow-[0_10px_30px_-14px_color-mix(in_srgb,var(--color-accent)_56%,transparent)]' : 'border-line-strong bg-surface hover:border-brand-soft/50 hover:bg-surface-3 hover:shadow-[0_12px_30px_-16px_color-mix(in_srgb,var(--color-brand)_54%,transparent)]'}`}>
+        <span aria-hidden="true" className={`grid size-8 place-items-center rounded-full transition-colors duration-300 ${done ? 'bg-success/20 text-success' : 'bg-surface-3 text-brand group-hover:bg-brand-strong group-hover:text-white'}`}>
           {done ? <Check size={15} strokeWidth={2.6} className="fm-pop" /> : <Copy size={15} />}
         </span>
         {done ? 'Copied' : label}

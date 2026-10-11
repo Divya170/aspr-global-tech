@@ -22,7 +22,7 @@ export function ProductBento({ products }: { products: ServiceDetail['products']
             <SpotlightCard className={`panel svx-product fx-border @container group relative flex h-full flex-col overflow-hidden p-7 sm:p-8 ${wide ? 'is-wide' : ''}`}>
               <span aria-hidden="true" className="svx-product-n">{String(i + 1).padStart(2, '0')}</span>
               <div className="flex items-center gap-4 pr-16">
-                <span className="fx-icon grid size-12 shrink-0 place-items-center rounded-xl border border-line-strong bg-gradient-to-br from-brand/20 to-accent/10 text-brand-soft"><Icon name={p.icon} size={22} /></span>
+                <span className="fx-icon grid size-12 shrink-0 place-items-center rounded-xl border border-line-strong bg-gradient-to-br from-brand/20 to-accent/10 text-brand"><Icon name={p.icon} size={22} /></span>
                 <div>
                   <h3 className="font-display text-xl font-semibold tracking-tight text-text">{p.name}</h3>
                   {p.tag && <p className="text-sm text-muted">{p.tag}</p>}

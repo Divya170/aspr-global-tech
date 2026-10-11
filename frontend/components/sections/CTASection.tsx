@@ -13,7 +13,7 @@ export function CTASection({
       <Container>
         <Reveal className="fx-border-live relative isolate overflow-hidden rounded-[2rem] border border-line-strong bg-surface px-6 py-16 text-center sm:px-12 sm:py-20">
           <div aria-hidden="true" className="fx-aurora"><i /><i /><i /></div>
-          <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_70%_90%_at_50%_120%,rgb(65_112_255/0.35),transparent_60%),radial-gradient(ellipse_50%_60%_at_85%_-10%,rgb(139_92_246/0.25),transparent_60%)]" />
+          <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_70%_90%_at_50%_120%,color-mix(in_srgb,var(--color-brand)_21%,transparent),transparent_60%),radial-gradient(ellipse_50%_60%_at_85%_-10%,color-mix(in_srgb,var(--color-accent)_15%,transparent),transparent_60%)]" />
           <div aria-hidden="true" className="bg-grid absolute inset-0 opacity-60" />
           <div className="relative mx-auto max-w-2xl">
             <h2 id="cta-title" className="text-display">{title}</h2>

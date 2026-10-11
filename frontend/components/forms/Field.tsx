@@ -8,8 +8,8 @@ import '@/components/pages/forms/forms.css';
  */
 export function controlClass(invalid?: boolean, extra = '') {
   return [
-    'fm-control block w-full min-h-11 rounded-xl border bg-white/[0.03] px-4 text-base text-text placeholder:text-subtle sm:text-[0.95rem]',
-    'shadow-[inset_0_1px_0_rgb(255_255_255/0.03)] focus:outline-none focus-visible:outline-none',
+    'fm-control block w-full min-h-11 rounded-xl border bg-surface px-4 text-base text-text placeholder:text-subtle sm:text-[0.95rem]',
+    'shadow-[inset_0_1px_0_color-mix(in_srgb,var(--color-surface)_3%,transparent)] focus:outline-none focus-visible:outline-none',
     'disabled:cursor-not-allowed disabled:opacity-60',
     invalid ? 'border-danger' : 'border-line-strong',
     extra,

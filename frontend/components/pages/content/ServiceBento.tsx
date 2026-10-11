@@ -29,7 +29,7 @@ export function ServiceBento({ services }: { services: ServiceCard[] }) {
               <span aria-hidden="true" className="ct-svc-num">{s.num}</span>
               {w && <span aria-hidden="true" className="ct-svc-orbit"><i /><i /><span><Icon name={s.icon} size={28} /></span></span>}
               <Link href={`/services/${s.slug}`} className="ct-svc-link rounded-[inherit]">
-                <span className="fx-icon grid size-12 place-items-center rounded-xl border border-line-strong bg-gradient-to-br from-brand/20 to-accent/10 text-brand-soft">
+                <span className="fx-icon grid size-12 place-items-center rounded-xl border border-line-strong bg-gradient-to-br from-brand/20 to-accent/10 text-brand">
                   <Icon name={s.icon} size={22} />
                 </span>
                 <span className="ct-svc-text">

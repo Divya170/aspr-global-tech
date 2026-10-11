@@ -46,7 +46,7 @@ export function RoleCard({ role }: { role: Role }) {
       <summary className="ct-role-head">
         <span aria-hidden="true" className="ct-role-icon max-sm:size-12!"><I size={24} strokeWidth={1.7} /></span>
         <div className="min-w-0 flex-1">
-          <h3 className="text-xl font-semibold text-text transition-colors group-hover:text-white sm:text-2xl">{role.title}</h3>
+          <h3 className="text-xl font-semibold text-text transition-colors group-hover:text-brand sm:text-2xl">{role.title}</h3>
           {role.meta.length > 0 && (
             <ul className="mt-3 flex flex-wrap gap-2" aria-label="Role details">
               {role.meta.map((m, j) => <li key={m}><Badge tone={j === 0 ? 'brand' : 'default'}>{m}</Badge></li>)}

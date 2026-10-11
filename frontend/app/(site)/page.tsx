@@ -60,7 +60,7 @@ export default async function HomePage() {
       {/* ─────────── Hero ─────────── */}
       <section aria-labelledby="hero-title" className="relative isolate flex min-h-[100svh] items-center overflow-hidden pb-16 pt-28">
         <div aria-hidden="true" className="bg-grid absolute inset-0 -z-20" />
-        <div aria-hidden="true" className="absolute inset-0 -z-20 bg-[radial-gradient(ellipse_60%_50%_at_70%_45%,rgb(65_112_255/0.18),transparent_70%),radial-gradient(ellipse_40%_40%_at_20%_80%,rgb(139_92_246/0.12),transparent_70%)]" />
+        <div aria-hidden="true" className="absolute inset-0 -z-20 bg-[radial-gradient(ellipse_60%_50%_at_70%_45%,color-mix(in_srgb,var(--color-brand)_11%,transparent),transparent_70%),radial-gradient(ellipse_40%_40%_at_20%_80%,color-mix(in_srgb,var(--color-accent)_7%,transparent),transparent_70%)]" />
         <div className="absolute inset-0 -z-10 opacity-90 md:left-[30%]"><HeroVisual /></div>
         <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-bg via-bg/70 to-transparent md:via-bg/40" />
         <div aria-hidden="true" className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-bg to-transparent" />
@@ -68,7 +68,7 @@ export default async function HomePage() {
         <Container>
           <div className="max-w-[46rem]">
             {hero.eyebrow && (
-              <p className="eyebrow mb-6 inline-flex max-w-full animate-fade-up items-center gap-2 rounded-full border border-line-strong bg-white/[0.03] px-3 py-1.5 text-[0.68rem] tracking-[0.1em] backdrop-blur sm:text-xs sm:tracking-[0.16em]">
+              <p className="eyebrow mb-6 inline-flex max-w-full animate-fade-up items-center gap-2 rounded-full border border-line-strong bg-surface px-3 py-1.5 text-[0.68rem] tracking-[0.1em] backdrop-blur sm:text-xs sm:tracking-[0.16em]">
                 <span aria-hidden="true" className="size-1.5 rounded-full bg-signal shadow-[0_0_10px_var(--color-signal)]" />{hero.eyebrow}
               </p>
             )}
@@ -123,7 +123,7 @@ export default async function HomePage() {
 
       {/* ─────────── Process ─────────── */}
       <Section labelledBy="process-title" className="border-t border-line">
-        <div aria-hidden="true" className="absolute inset-x-0 top-0 h-96 bg-[radial-gradient(ellipse_50%_100%_at_50%_0%,rgb(65_112_255/0.12),transparent)]" />
+        <div aria-hidden="true" className="absolute inset-x-0 top-0 h-96 bg-[radial-gradient(ellipse_50%_100%_at_50%_0%,color-mix(in_srgb,var(--color-brand)_7%,transparent),transparent)]" />
         <Container className="relative">
           <SectionHeading id="process-title" eyebrow="How we work" align="center"
             title="A clear process, from first call to long after launch"
@@ -166,7 +166,7 @@ export default async function HomePage() {
                 <p className="flex gap-2"><CheckCircle2 aria-hidden="true" size={18} className="shrink-0 text-success" />Free discovery call</p>
                 <p className="flex gap-2"><CheckCircle2 aria-hidden="true" size={18} className="shrink-0 text-success" />Fixed, written quote</p>
                 <p className="flex gap-2"><CheckCircle2 aria-hidden="true" size={18} className="shrink-0 text-success" />You own the code and accounts</p>
-                <Link href="/faq" className="mt-6 inline-flex items-center gap-1.5 font-medium text-brand-soft hover:text-text">All questions <ArrowRight aria-hidden="true" size={15} /></Link>
+                <Link href="/faq" className="mt-6 inline-flex items-center gap-1.5 font-medium text-brand hover:text-text">All questions <ArrowRight aria-hidden="true" size={15} /></Link>
               </Reveal>
             </div>
             <Reveal className="lg:col-span-8"><Accordion items={home.faqs.map((f) => ({ q: f.question, a: f.answer, id: `faq-${f.slug}` }))} /></Reveal>

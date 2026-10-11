@@ -25,7 +25,7 @@ export function Select({ id, label, value, onChange, options, placeholder = 'Cho
           <option value="">{placeholder}</option>
           {options.map((o) => <option key={o} value={o}>{o}</option>)}
         </select>
-        <span aria-hidden="true" className="fm-chev pointer-events-none absolute right-3 top-1/2 grid size-7 -translate-y-1/2 place-items-center rounded-lg bg-white/[0.04] text-subtle">
+        <span aria-hidden="true" className="fm-chev pointer-events-none absolute right-3 top-1/2 grid size-7 -translate-y-1/2 place-items-center rounded-lg bg-surface text-subtle">
           <ChevronDown size={16} />
         </span>
       </div>

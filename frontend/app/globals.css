@@ -31,6 +31,16 @@
   --color-warning: #9a5800;
   --color-success: #0a7c56;
 
+  /* Category tones (insight categories, technology groups). Dark enough for text on light surfaces. */
+  --color-tone-blue: #1a4ad8;
+  --color-tone-teal: #0b7468;
+  --color-tone-amber: #925400;
+  --color-tone-purple: #6b3fc4;
+  --color-tone-pink: #b0246a;
+  --color-tone-sky: #0a6a9e;
+  --color-tone-orange: #a8460b;
+  --color-tone-green: #0a7c56;
+
   --font-display: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;

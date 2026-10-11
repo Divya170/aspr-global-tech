@@ -60,7 +60,7 @@ export default async function ServicesPage() {
 
       {process.steps.length > 0 && (
         <Section labelledBy="process-title" className="border-t border-line">
-          <div aria-hidden="true" className="absolute inset-x-0 top-0 h-96 bg-[radial-gradient(ellipse_50%_100%_at_50%_0%,rgb(65_112_255/0.12),transparent)]" />
+          <div aria-hidden="true" className="absolute inset-x-0 top-0 h-96 bg-[radial-gradient(ellipse_50%_100%_at_50%_0%,color-mix(in_srgb,var(--color-brand)_7%,transparent),transparent)]" />
           <Container className="relative">
             <SectionHeading id="process-title" eyebrow="Process" align="center"
               title="The same clear process for every service"

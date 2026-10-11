@@ -23,7 +23,7 @@ export function FeaturedStory({ a }: { a: ArticleCard }) {
         <div aria-hidden="true" className="bg-grid absolute inset-0 opacity-70" />
         <div className="relative flex flex-col p-6 sm:p-10 md:col-span-7 lg:p-12">
           {a.category && <CategoryChip name={a.category} className="self-start" />}
-          <h2 className="text-heading mt-6 transition-colors duration-300 group-hover:text-white sm:text-[2.6rem] sm:leading-[1.08]">{a.title}</h2>
+          <h2 className="text-heading mt-6 transition-colors duration-300 group-hover:text-brand sm:text-[2.6rem] sm:leading-[1.08]">{a.title}</h2>
           {a.standfirst && <p className="text-lead mt-5 line-clamp-4 max-w-xl">{a.standfirst}</p>}
           <div className="mt-auto flex items-center justify-between gap-4 pt-10">
             <Meta a={a} />

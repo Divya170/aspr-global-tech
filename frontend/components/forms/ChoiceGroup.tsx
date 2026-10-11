@@ -34,7 +34,7 @@ export function ChoiceGroup({ id, legend, options, value, onChange, hint, error,
         {list.map((o, i) => {
           const checked = o.value === value;
           const radio = (
-            <span aria-hidden="true" className={`fm-radio grid shrink-0 place-items-center rounded-full border ${chip ? 'size-4.5' : 'size-5.5'} ${checked ? 'border-transparent bg-brand-strong text-white' : 'border-line-strong bg-white/[0.02]'}`}>
+            <span aria-hidden="true" className={`fm-radio grid shrink-0 place-items-center rounded-full border ${chip ? 'size-4.5' : 'size-5.5'} ${checked ? 'border-transparent bg-brand-strong text-white' : 'border-line-strong bg-surface'}`}>
               {checked && <Check size={chip ? 11 : 12} strokeWidth={3.2} className="fm-pop" />}
             </span>
           );
@@ -46,7 +46,7 @@ export function ChoiceGroup({ id, legend, options, value, onChange, hint, error,
                 'fm-choice fm-rise group relative flex cursor-pointer select-none border',
                 chip ? 'fm-chip min-h-12 items-center gap-2.5 rounded-full py-2 pl-3 pr-5 text-sm' : `min-h-16 rounded-2xl p-4 ${o.icon ? 'items-start gap-3.5 sm:min-h-36 sm:flex-col sm:gap-4 sm:p-5' : 'items-center gap-3'}`,
                 checked ? 'is-checked' : '',
-                checked ? 'bg-brand/12 text-text' : `${error ? 'border-danger/45' : 'border-line-strong'} bg-white/[0.03] text-muted hover:border-brand-soft/40 hover:bg-white/[0.05] hover:text-text`,
+                checked ? 'bg-brand/12 text-text' : `${error ? 'border-danger/45' : 'border-line-strong'} bg-surface text-muted hover:border-brand-soft/40 hover:bg-surface-3 hover:text-text`,
               ].join(' ')}
             >
               <input

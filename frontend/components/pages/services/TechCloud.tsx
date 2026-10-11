@@ -7,7 +7,7 @@ import './services.css';
 
 /** Accent per technology group (matches the stack explorer on /technologies). */
 const TONE: Record<string, string> = {
-  frontend: '#8aa6ff', backend: '#5eead4', database: '#fbbf24', mobile: '#b9a2ff', '3d': '#f9a8d4', infrastructure: '#7dd3fc', design: '#fdba74', platforms: '#6ee7b7',
+  frontend: 'var(--color-tone-blue)', backend: 'var(--color-tone-teal)', database: 'var(--color-tone-amber)', mobile: 'var(--color-tone-purple)', '3d': 'var(--color-tone-pink)', infrastructure: 'var(--color-tone-sky)', design: 'var(--color-tone-orange)', platforms: 'var(--color-tone-green)',
 };
 /** "Next.js" → "NE", "React Three Fiber" → "RT", "C#" → "C#". */
 const mono = (name: string) => {
@@ -23,7 +23,7 @@ export function TechCloud({ items }: { items: Technology[] }) {
     <ul ref={ref} onMouseLeave={() => setGroup(null)} className={`svx-tech ${group ? 'has-pick' : ''} ${seen ? 'is-seen' : ''} ${armed ? 'is-armed' : ''}`}>
       {items.map((t, i) => (
         <li
-          key={t.id} tabIndex={0} style={{ '--i': i, '--tone': TONE[t.group] || '#8aa6ff' } as CSSProperties}
+          key={t.id} tabIndex={0} style={{ '--i': i, '--tone': TONE[t.group] || 'var(--color-brand)' } as CSSProperties}
           className={`svx-chip ${group === t.group ? 'is-match' : ''}`}
           onMouseEnter={() => setGroup(t.group)} onFocus={() => setGroup(t.group)} onBlur={() => setGroup(null)}
         >

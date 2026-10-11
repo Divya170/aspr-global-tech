@@ -20,7 +20,7 @@ type Field = 'name' | 'email' | 'phone' | 'links' | 'message' | 'files';
 type Errors = Partial<Record<Field, string>>;
 
 const inputCls = (err?: string) =>
-  `fm-control block w-full rounded-xl border bg-white/[0.03] px-4 py-3 text-base text-text placeholder:text-subtle shadow-[inset_0_1px_0_rgb(255_255_255/0.03)] focus:outline-none focus-visible:outline-none min-h-12 ${
+  `fm-control block w-full rounded-xl border bg-surface px-4 py-3 text-base text-text placeholder:text-subtle shadow-[inset_0_1px_0_color-mix(in_srgb,var(--color-surface)_3%,transparent)] focus:outline-none focus-visible:outline-none min-h-12 ${
     err ? 'border-danger' : 'border-line-strong'
   }`;
 
@@ -124,7 +124,7 @@ export function ApplicationForm({ roleId, roleTitle }: { roleId: number; roleTit
 
   if (done) {
     return (
-      <div role="status" className="relative overflow-hidden rounded-2xl border border-success/30 bg-[linear-gradient(150deg,rgb(52_211_153/0.1),rgb(65_112_255/0.05)_60%,transparent)] p-6 sm:p-8">
+      <div role="status" className="relative overflow-hidden rounded-2xl border border-success/30 bg-[linear-gradient(150deg,color-mix(in_srgb,var(--color-accent)_7%,transparent),color-mix(in_srgb,var(--color-brand)_3%,transparent)_60%,transparent)] p-6 sm:p-8">
         <div className="flex flex-col items-start gap-5 sm:flex-row">
           <SuccessMark size="3.5rem" className="shrink-0" />
           <div>
@@ -223,7 +223,7 @@ export function ApplicationForm({ roleId, roleTitle }: { roleId: number; roleTit
                 className={`group flex min-h-12 items-center justify-center gap-3 rounded-2xl border border-dashed px-4 py-4 text-sm transition-colors ${
                   atLimit ? 'cursor-not-allowed border-line text-subtle' : `fm-drop ${errors.files ? 'border-danger text-text' : 'border-line-strong text-muted hover:border-brand-soft/50 hover:text-text'}`
                 } [input:focus-visible+&]:ring-2 [input:focus-visible+&]:ring-brand-soft/60`}>
-                <span aria-hidden="true" className="fm-drop-icon grid size-10 shrink-0 place-items-center rounded-xl border border-line-strong bg-white/[0.04] text-brand-soft">
+                <span aria-hidden="true" className="fm-drop-icon grid size-10 shrink-0 place-items-center rounded-xl border border-line-strong bg-surface text-brand">
                   {atLimit ? <Paperclip size={16} /> : <CloudUpload size={18} strokeWidth={1.8} />}
                 </span>
                 {files.length >= UPLOAD.maxFiles ? 'File limit reached' : 'Choose files'}
@@ -233,11 +233,11 @@ export function ApplicationForm({ roleId, roleTitle }: { roleId: number; roleTit
               {files.length > 0 && (
                 <ul className="mt-3 space-y-2" aria-label="Attached files">
                   {files.map((f, i) => (
-                    <li key={`${f.name}-${f.size}`} className="fm-file fm-err flex items-center gap-3 rounded-xl border border-line bg-white/[0.02] py-1 pl-1.5 pr-1 text-sm">
-                      <span aria-hidden="true" className="grid size-8 shrink-0 place-items-center rounded-lg bg-brand/12 text-brand-soft"><FileText size={15} /></span>
+                    <li key={`${f.name}-${f.size}`} className="fm-file fm-err flex items-center gap-3 rounded-xl border border-line bg-surface py-1 pl-1.5 pr-1 text-sm">
+                      <span aria-hidden="true" className="grid size-8 shrink-0 place-items-center rounded-lg bg-brand/12 text-brand"><FileText size={15} /></span>
                       <span className="min-w-0 flex-1 truncate text-text">{f.name}</span>
                       <span className="shrink-0 font-mono text-xs text-subtle">{mb(f.size)}</span>
-                      <button type="button" onClick={() => removeFile(i)} className="grid size-10 shrink-0 place-items-center rounded-md text-muted hover:bg-white/[0.05] hover:text-text" aria-label={`Remove ${f.name}`}>
+                      <button type="button" onClick={() => removeFile(i)} className="grid size-10 shrink-0 place-items-center rounded-md text-muted hover:bg-surface-3 hover:text-text" aria-label={`Remove ${f.name}`}>
                         <X aria-hidden="true" size={16} />
                       </button>
                     </li>
@@ -280,7 +280,7 @@ function Row({ label, htmlFor, error, errorId, hint, hintId, required, optional,
   return (
     <div className="fm-field">
       <label htmlFor={htmlFor} className="fm-label mb-2 block text-sm font-medium text-text">
-        {label}{required && <span aria-hidden="true" className="text-brand-soft"> *</span>}
+        {label}{required && <span aria-hidden="true" className="text-brand"> *</span>}
         {optional && <span className="font-normal text-subtle"> (optional)</span>}
       </label>
       <div className={`fm-wrap ${wrapClass}`}>

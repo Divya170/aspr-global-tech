@@ -50,9 +50,9 @@ export function Footer({ site }: { site: Site }) {
         <div className="lg:col-span-3">
           <h2 className="eyebrow mb-5 text-subtle!">Contact</h2>
           <ul className="space-y-4 text-sm text-muted">
-            <li><a href={`mailto:${c.email}`} className="flex gap-3 transition-colors hover:text-text"><Mail size={17} aria-hidden="true" className="mt-0.5 shrink-0 text-brand-soft" />{c.email}</a></li>
-            <li><a href={c.phoneHref} className="flex gap-3 transition-colors hover:text-text"><Phone size={17} aria-hidden="true" className="mt-0.5 shrink-0 text-brand-soft" />{c.phone}</a></li>
-            <li className="flex gap-3"><MapPin size={17} aria-hidden="true" className="mt-0.5 shrink-0 text-brand-soft" /><span>{c.address}</span></li>
+            <li><a href={`mailto:${c.email}`} className="flex gap-3 transition-colors hover:text-text"><Mail size={17} aria-hidden="true" className="mt-0.5 shrink-0 text-brand" />{c.email}</a></li>
+            <li><a href={c.phoneHref} className="flex gap-3 transition-colors hover:text-text"><Phone size={17} aria-hidden="true" className="mt-0.5 shrink-0 text-brand" />{c.phone}</a></li>
+            <li className="flex gap-3"><MapPin size={17} aria-hidden="true" className="mt-0.5 shrink-0 text-brand" /><span>{c.address}</span></li>
           </ul>
           <p className="mt-4 text-xs leading-relaxed text-subtle">{c.hours}</p>
           {socials.length > 0 && (
@@ -60,7 +60,7 @@ export function Footer({ site }: { site: Site }) {
               {socials.map(({ href, label, icon: I }) => (
                 <li key={label}>
                   <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
-                    className="grid size-10 place-items-center rounded-full border border-line text-muted transition-all duration-300 hover:-translate-y-1 hover:border-transparent hover:bg-brand-strong hover:text-white hover:shadow-[0_10px_24px_-8px_rgb(65_112_255/0.8)]">
+                    className="grid size-10 place-items-center rounded-full border border-line text-muted transition-all duration-300 hover:-translate-y-1 hover:border-transparent hover:bg-brand-strong hover:text-white hover:shadow-[0_10px_24px_-8px_color-mix(in_srgb,var(--color-brand)_48%,transparent)]">
                     <I size={17} aria-hidden="true" />
                   </a>
                 </li>

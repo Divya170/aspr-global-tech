@@ -16,7 +16,7 @@ export function StatusScreen({ code, title, lead, children, full = false }: { co
       <div aria-hidden="true" className="absolute inset-x-0 bottom-0 -z-10 h-56 bg-gradient-to-t from-bg to-transparent" />
       <Container className="relative text-center">
         <span aria-hidden="true" className="ct-code" style={{ '--len': code.length } as CSSProperties}>{code}</span>
-        <p className="ct-code-pill font-mono text-sm tracking-[0.3em] text-brand-soft"><span aria-hidden="true" className="ct-live-dot" />{code}</p>
+        <p className="ct-code-pill font-mono text-sm tracking-[0.3em] text-brand"><span aria-hidden="true" className="ct-live-dot" />{code}</p>
         <h1 className="text-display mt-6">{title}</h1>
         <p className="text-lead mx-auto mt-5 max-w-lg">{lead}</p>
         {children && <div className="mt-10 flex flex-wrap justify-center gap-3">{children}</div>}

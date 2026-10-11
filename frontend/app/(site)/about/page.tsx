@@ -82,7 +82,7 @@ export default async function AboutPage() {
 
       {/* ─────────── Mission ─────────── */}
       <section aria-labelledby="mission-title" className="relative border-y border-line bg-bg-2/60 py-20 sm:py-28">
-        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_50%_80%_at_50%_0%,rgb(65_112_255/0.1),transparent)]" />
+        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_50%_80%_at_50%_0%,color-mix(in_srgb,var(--color-brand)_6%,transparent),transparent)]" />
         <Container size="lg" className="relative">
           <Reveal className="text-center">
             <h2 id="mission-title" className="eyebrow">Our mission</h2>

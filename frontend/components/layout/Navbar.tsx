@@ -80,12 +80,12 @@ export function Navbar({ services }: { services: ServiceCard[] }) {
       {/* Desktop: full-width bar at the top of the page that docks into a floating glass pill on scroll.
           The glass is a sibling layer, not on <nav>, so the mega menu's own backdrop blur still sees the page. */}
       <nav aria-label="Main" className={`relative isolate mx-auto flex h-18 max-w-7xl items-center justify-between gap-6 px-4 transition-[max-width,height,padding] duration-500 ease-[var(--ease-out-expo)] sm:px-6 lg:px-8 ${scrolled && !open ? 'lg:h-16 lg:max-w-6xl lg:pl-6 lg:pr-2.5' : ''}`}>
-        <span aria-hidden="true" className={`pointer-events-none absolute inset-0 -z-10 hidden rounded-full border border-line-strong bg-bg/70 shadow-[0_18px_50px_-20px_rgb(0_0_0/0.9),inset_0_1px_0_rgb(255_255_255/0.05)] backdrop-blur-xl transition-opacity duration-500 lg:block ${scrolled && !open ? 'opacity-100' : 'opacity-0'}`} />
+        <span aria-hidden="true" className={`pointer-events-none absolute inset-0 -z-10 hidden rounded-full border border-line-strong bg-bg/70 shadow-[0_18px_50px_-20px_color-mix(in_srgb,var(--color-navy)_22%,transparent),inset_0_1px_0_color-mix(in_srgb,var(--color-surface)_5%,transparent)] backdrop-blur-xl transition-opacity duration-500 lg:block ${scrolled && !open ? 'opacity-100' : 'opacity-0'}`} />
         <Logo />
 
         <ul ref={linksRef} className="relative isolate hidden items-center gap-1 lg:flex" onMouseLeave={() => setHover((h) => ({ ...h, on: false, glide: false }))}>
           <span aria-hidden="true"
-            className={`pointer-events-none absolute inset-y-0 left-0 -z-10 rounded-full bg-white/[0.06] ring-1 ring-inset ring-line-strong duration-300 ease-[var(--ease-out-expo)] ${hover.glide ? 'transition-[transform,width,opacity]' : 'transition-opacity'}`}
+            className={`pointer-events-none absolute inset-y-0 left-0 -z-10 rounded-full bg-surface-3 ring-1 ring-inset ring-line-strong duration-300 ease-[var(--ease-out-expo)] ${hover.glide ? 'transition-[transform,width,opacity]' : 'transition-opacity'}`}
             style={{ width: hover.w, transform: `translateX(${hover.x}px)`, opacity: hover.on ? 1 : 0 }} />
           {NAV.map((item) => item.href === '/services' ? (
             <li key={item.href} ref={megaRef} className="relative" onMouseEnter={(e) => { onHover(e); if (matchMedia('(pointer: fine)').matches) setMega(true); }} onMouseLeave={() => setMega(false)}>
@@ -97,11 +97,11 @@ export function Navbar({ services }: { services: ServiceCard[] }) {
               </button>
               <div id="mega-services" className={`absolute left-1/2 top-full w-[min(760px,calc(100vw-3rem))] -translate-x-1/2 pt-3 transition-all duration-300 ${mega ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-1 opacity-0'}`}>
                 <div className="panel relative grid grid-cols-2 gap-1 overflow-hidden bg-surface/95 p-3 shadow-2xl shadow-black/50 backdrop-blur-xl">
-                  <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-28 size-72 rounded-full bg-[radial-gradient(closest-side,rgb(65_112_255/0.22),transparent)]" />
+                  <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-28 size-72 rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--color-brand)_13%,transparent),transparent)]" />
                   {services.map((s, i) => (
                     <Link key={s.slug} href={`/services/${s.slug}`} style={{ transitionDelay: mega ? `0ms, ${i * 35}ms, ${i * 35}ms` : '0ms' }}
-                      className={`group relative flex gap-3 rounded-xl p-3 transition-[background-color,opacity,translate] duration-500 ease-[var(--ease-out-expo)] hover:bg-white/[0.05] ${mega ? 'translate-y-0 opacity-100' : 'translate-y-1.5 opacity-0'}`}>
-                      <span className="fx-icon grid size-10 shrink-0 place-items-center rounded-lg border border-line bg-white/[0.03] text-brand-soft">
+                      className={`group relative flex gap-3 rounded-xl p-3 transition-[background-color,opacity,translate] duration-500 ease-[var(--ease-out-expo)] hover:bg-surface-3 ${mega ? 'translate-y-0 opacity-100' : 'translate-y-1.5 opacity-0'}`}>
+                      <span className="fx-icon grid size-10 shrink-0 place-items-center rounded-lg border border-line bg-surface text-brand">
                         <Icon name={s.icon} size={19} />
                       </span>
                       <span>
@@ -135,7 +135,7 @@ export function Navbar({ services }: { services: ServiceCard[] }) {
           <button
             ref={toggleRef} type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="mobile-menu"
             aria-label={open ? 'Close menu' : 'Open menu'}
-            className="grid size-11 place-items-center rounded-full border border-line-strong text-text transition-colors hover:bg-white/5 lg:hidden"
+            className="grid size-11 place-items-center rounded-full border border-line-strong text-text transition-colors hover:bg-surface-3 lg:hidden"
           >
             {open ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
           </button>
@@ -161,7 +161,7 @@ export function Navbar({ services }: { services: ServiceCard[] }) {
           <div className="mt-8 grid grid-cols-2 gap-2">
             {services.slice(0, 6).map((s) => (
               <Link key={s.slug} href={`/services/${s.slug}`} className="flex items-center gap-2 rounded-xl border border-line px-3 py-3 text-sm text-muted">
-                <Icon name={s.icon} size={16} className="shrink-0 text-brand-soft" /><span className="truncate">{s.name}</span>
+                <Icon name={s.icon} size={16} className="shrink-0 text-brand" /><span className="truncate">{s.name}</span>
               </Link>
             ))}
           </div>

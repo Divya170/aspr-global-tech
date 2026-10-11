@@ -38,7 +38,7 @@ export default async function QuotePage({ searchParams }: { searchParams: Promis
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-14">
           <div className="relative isolate">
             <div aria-hidden="true" className="fm-halo" />
-            <div className="panel fx-border-live fm-live relative bg-surface/70 p-5 shadow-[0_40px_100px_-50px_rgb(65_112_255/0.55)] sm:p-8 lg:p-10">
+            <div className="panel fx-border-live fm-live relative bg-surface/70 p-5 shadow-[0_40px_100px_-50px_color-mix(in_srgb,var(--color-brand)_33%,transparent)] sm:p-8 lg:p-10">
               <QuoteForm options={{ projectTypes: s.projectTypes, budgets: s.budgets, timelines: s.timelines, heardFrom: s.heardFrom }} initialType={initialType} />
             </div>
           </div>

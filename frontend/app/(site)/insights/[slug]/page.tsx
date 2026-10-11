@@ -75,7 +75,7 @@ export default async function ArticlePage({ params }: Props) {
               <h1 className="text-display mt-5">{a.title}</h1>
               {standfirst && <p className="text-lead mt-6">{standfirst}</p>}
               <p className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-line pt-6 text-sm text-muted">
-                <span aria-hidden="true" className="grid size-9 place-items-center rounded-full bg-gradient-to-br from-brand-strong to-accent font-mono text-[0.68rem] text-white shadow-[0_8px_20px_-8px_rgb(65_112_255/0.9)]">{initials}</span>
+                <span aria-hidden="true" className="grid size-9 place-items-center rounded-full bg-gradient-to-br from-brand to-brand-strong font-mono text-[0.68rem] text-white shadow-[0_8px_20px_-8px_color-mix(in_srgb,var(--color-brand)_54%,transparent)]">{initials}</span>
                 <span className="text-text">{author}</span>
                 {a.publishedAt && <><span aria-hidden="true" className="text-subtle">·</span><time dateTime={date}>{a.publishedAt}</time></>}
               </p>
@@ -110,7 +110,7 @@ export default async function ArticlePage({ params }: Props) {
                       {m.category ? <CategoryChip name={m.category} /> : <span />}
                       <span className="ct-go size-9!"><ArrowRight aria-hidden="true" size={16} /></span>
                     </span>
-                    <span className="mt-5 block font-display text-lg font-semibold leading-snug text-text transition-colors group-hover:text-white sm:text-xl">{m.title}</span>
+                    <span className="mt-5 block font-display text-lg font-semibold leading-snug text-text transition-colors group-hover:text-brand sm:text-xl">{m.title}</span>
                     <span className="mt-auto block pt-4 font-mono text-xs text-subtle">{[m.publishedAt, m.readTime].filter(Boolean).join(' · ')}</span>
                   </Link>
                 </Reveal>

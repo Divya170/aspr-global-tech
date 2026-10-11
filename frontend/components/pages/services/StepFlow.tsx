@@ -35,7 +35,7 @@ export function StepFlow({ items, label, cycle = CYCLE }: { items: { icon?: Reac
           <span className="svx-node" aria-hidden="true" />
           <span className="svx-step-n" aria-hidden="true">{pad(i + 1)}</span>
           {it.icon && <span className="svx-step-icon" aria-hidden="true">{it.icon}</span>}
-          {it.label && <p className={`${it.icon ? 'mt-6' : ''} font-mono text-xs text-brand-soft`}>{it.label}</p>}
+          {it.label && <p className={`${it.icon ? 'mt-6' : ''} font-mono text-xs text-brand`}>{it.label}</p>}
           <h3 className={`svx-step-t ${it.label ? 'mt-3' : it.icon ? 'mt-6' : ''}`}>{it.t}</h3>
           <p className="svx-step-d">{it.d}</p>
         </li>

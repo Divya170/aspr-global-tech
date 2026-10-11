@@ -44,11 +44,11 @@ export function PortfolioGrid({ categories, items }: { categories: Category[]; i
                 <button
                   key={f.slug || 'all'} type="button" aria-pressed={on} onClick={() => select(f.slug)}
                   className={`inline-flex h-11 items-center gap-2 rounded-full border px-4 font-mono text-xs uppercase tracking-[0.14em] transition-[color,background,border-color,box-shadow,transform] duration-300 ${
-                    on ? 'border-transparent bg-gradient-to-r from-brand-strong to-accent text-white shadow-[0_12px_30px_-12px_rgb(65_112_255/0.9)]' : 'border-line-strong bg-white/[0.02] text-muted hover:-translate-y-0.5 hover:border-brand-soft/40 hover:text-text'
+                    on ? 'border-transparent bg-gradient-to-r from-brand to-brand-strong text-white shadow-[0_12px_30px_-12px_color-mix(in_srgb,var(--color-brand)_54%,transparent)]' : 'border-line-strong bg-surface text-muted hover:-translate-y-0.5 hover:border-brand-soft/40 hover:text-text'
                   }`}
                 >
                   {f.name}
-                  <span className={`grid min-w-6 place-items-center rounded-full px-1.5 py-0.5 tabular-nums ${on ? 'bg-white/20 text-white' : 'bg-white/[0.05] text-subtle'}`}>{f.count}</span>
+                  <span className={`grid min-w-6 place-items-center rounded-full px-1.5 py-0.5 tabular-nums ${on ? 'bg-white/20 text-white' : 'bg-surface-3 text-subtle'}`}>{f.count}</span>
                 </button>
               );
             })}

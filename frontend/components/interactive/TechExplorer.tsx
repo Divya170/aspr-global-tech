@@ -11,11 +11,16 @@ const CYCLE = 3200;
 const GROUP_ICON: Record<string, LucideIcon> = {
   frontend: Code2, backend: Server, database: Database, mobile: Smartphone, '3d': Box, infrastructure: Cloud, design: Palette, platforms: Layers,
 };
-/** Badge colours per group (background, text) on the dark theme. */
+/** Badge colours per group (background, text), from the tone tokens. */
 const TONE: Record<string, [string, string]> = {
-  frontend: ['rgb(65 112 255 / 0.18)', '#8aa6ff'], backend: ['rgb(94 234 212 / 0.14)', '#5eead4'], database: ['rgb(251 191 36 / 0.14)', '#fbbf24'],
-  mobile: ['rgb(139 92 246 / 0.18)', '#b9a2ff'], '3d': ['rgb(236 72 153 / 0.16)', '#f9a8d4'], infrastructure: ['rgb(56 189 248 / 0.15)', '#7dd3fc'],
-  design: ['rgb(251 146 60 / 0.15)', '#fdba74'], platforms: ['rgb(52 211 153 / 0.15)', '#6ee7b7'],
+  frontend: ['color-mix(in srgb, var(--color-tone-blue) 12%, transparent)', 'var(--color-tone-blue)'],
+  backend: ['color-mix(in srgb, var(--color-tone-teal) 12%, transparent)', 'var(--color-tone-teal)'],
+  database: ['color-mix(in srgb, var(--color-tone-amber) 12%, transparent)', 'var(--color-tone-amber)'],
+  mobile: ['color-mix(in srgb, var(--color-tone-purple) 12%, transparent)', 'var(--color-tone-purple)'],
+  '3d': ['color-mix(in srgb, var(--color-tone-pink) 12%, transparent)', 'var(--color-tone-pink)'],
+  infrastructure: ['color-mix(in srgb, var(--color-tone-sky) 12%, transparent)', 'var(--color-tone-sky)'],
+  design: ['color-mix(in srgb, var(--color-tone-orange) 12%, transparent)', 'var(--color-tone-orange)'],
+  platforms: ['color-mix(in srgb, var(--color-tone-green) 12%, transparent)', 'var(--color-tone-green)'],
 };
 const ORDER = Object.keys(TECH_GROUP_LABELS);
 

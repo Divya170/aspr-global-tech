@@ -19,7 +19,7 @@ export function TechGrid({ technologies, groups }: { technologies: Technology[];
           <h3 className="eyebrow text-subtle!">{TECH_GROUP_LABELS[g]}</h3>
           <ul className="mt-5 flex flex-wrap gap-2">
             {by.get(g)!.map((t) => (
-              <li key={t.id} className="rounded-lg border border-line bg-white/[0.02] px-3 py-1.5 text-sm text-text transition-colors hover:border-brand/40 hover:bg-brand/10">{t.name}</li>
+              <li key={t.id} className="rounded-lg border border-line bg-surface px-3 py-1.5 text-sm text-text transition-colors hover:border-brand/40 hover:bg-brand/10">{t.name}</li>
             ))}
           </ul>
         </Reveal>

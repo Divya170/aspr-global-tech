@@ -103,7 +103,7 @@ export function ContactForm({ options }: { options: ContactOptions }) {
           Thanks, {v.name.trim().split(/\s+/)[0]}. Message received.
         </h2>
         <p className="mx-auto mt-3 max-w-md text-muted">We reply to every inquiry within one working day. A confirmation is on its way to {v.email.trim()}.</p>
-        <div className="mx-auto mt-8 inline-flex max-w-full flex-col items-center gap-4 rounded-2xl border border-line-strong bg-white/[0.03] p-4 sm:flex-row sm:gap-6 sm:pl-5">
+        <div className="mx-auto mt-8 inline-flex max-w-full flex-col items-center gap-4 rounded-2xl border border-line-strong bg-surface p-4 sm:flex-row sm:gap-6 sm:pl-5">
           <div className="text-center sm:text-left">
             <p className="eyebrow">Inquiry ID</p>
             <p className="fm-id mt-2 break-all px-4 py-2 font-mono text-xl font-semibold text-text">#{refNo}</p>
@@ -111,7 +111,7 @@ export function ContactForm({ options }: { options: ContactOptions }) {
           <CopyButton value={refNo} />
         </div>
         <p className="mt-8 text-sm text-subtle">
-          Meanwhile, <Link href="/portfolio" className="text-brand-soft underline-offset-4 hover:underline">browse our work</Link> or read <Link href="/process" className="text-brand-soft underline-offset-4 hover:underline">how we work</Link>.
+          Meanwhile, <Link href="/portfolio" className="text-brand underline-offset-4 hover:underline">browse our work</Link> or read <Link href="/process" className="text-brand underline-offset-4 hover:underline">how we work</Link>.
         </p>
       </section>
     );

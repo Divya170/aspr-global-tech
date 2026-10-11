@@ -69,11 +69,11 @@ export function FileDrop({ id, label = 'Attachments', files, onChange, error, op
         onClick={(e) => { if (e.target === e.currentTarget) input.current?.click(); }}
         className={[
           'fm-drop flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed px-4 py-8 text-center sm:flex-row sm:gap-5 sm:px-6 sm:text-left',
-          over ? 'is-over border-brand-soft bg-brand/10' : shownError ? 'border-danger/70 bg-white/[0.02]' : 'border-line-strong bg-white/[0.02] hover:border-brand-soft/50',
+          over ? 'is-over border-brand-soft bg-brand/10' : shownError ? 'border-danger/70 bg-surface' : 'border-line-strong bg-surface hover:border-brand-soft/50',
         ].join(' ')}
       >
         <span aria-hidden="true" className="fm-drop-ring" />
-        <span aria-hidden="true" className="fm-drop-icon pointer-events-none grid size-12 shrink-0 place-items-center rounded-2xl border border-line-strong bg-white/[0.04] text-brand-soft shadow-[inset_0_1px_0_rgb(255_255_255/0.06)]">
+        <span aria-hidden="true" className="fm-drop-icon pointer-events-none grid size-12 shrink-0 place-items-center rounded-2xl border border-line-strong bg-surface text-brand shadow-[inset_0_1px_0_color-mix(in_srgb,var(--color-surface)_6%,transparent)]">
           <UploadCloud size={21} strokeWidth={1.7} />
         </span>
         <div className="min-w-0 flex-1 text-sm text-muted">
@@ -81,7 +81,7 @@ export function FileDrop({ id, label = 'Attachments', files, onChange, error, op
           <button
             id={id} type="button" onClick={() => input.current?.click()}
             aria-describedby={describedBy(id, hintText, shownError)}
-            className="inline-flex min-h-11 items-center gap-1.5 rounded-lg px-1 font-medium text-brand-soft underline-offset-4 hover:text-text hover:underline sm:min-h-0"
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-lg px-1 font-medium text-brand underline-offset-4 hover:text-text hover:underline sm:min-h-0"
           >
             <Paperclip aria-hidden="true" size={15} />choose files<span className="sr-only"> to attach</span>
           </button>
@@ -95,13 +95,13 @@ export function FileDrop({ id, label = 'Attachments', files, onChange, error, op
       {files.length > 0 && (
         <ul className="mt-3 space-y-2" aria-label="Attached files">
           {files.map((f, i) => (
-            <li key={`${f.name}-${f.size}`} className="fm-file fm-err flex items-center gap-3 rounded-xl border border-line bg-white/[0.02] py-1.5 pl-1.5 pr-1.5">
-              <span aria-hidden="true" className="grid size-9 shrink-0 place-items-center rounded-lg bg-brand/12 text-brand-soft"><FileText size={16} /></span>
+            <li key={`${f.name}-${f.size}`} className="fm-file fm-err flex items-center gap-3 rounded-xl border border-line bg-surface py-1.5 pl-1.5 pr-1.5">
+              <span aria-hidden="true" className="grid size-9 shrink-0 place-items-center rounded-lg bg-brand/12 text-brand"><FileText size={16} /></span>
               <span className="min-w-0 flex-1 truncate text-sm text-text">{f.name}</span>
               <span className="shrink-0 font-mono text-xs text-subtle">{formatBytes(f.size)}</span>
               <button
                 type="button" onClick={() => remove(i)} aria-label={`Remove ${f.name}`}
-                className="grid size-11 shrink-0 place-items-center rounded-lg text-subtle transition-colors hover:bg-white/[0.06] hover:text-text"
+                className="grid size-11 shrink-0 place-items-center rounded-lg text-subtle transition-colors hover:bg-surface-3 hover:text-text"
               >
                 <X aria-hidden="true" size={16} />
               </button>

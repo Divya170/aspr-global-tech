@@ -30,13 +30,13 @@ const plain = (md: string) => md.replace(/\*\*|__|`/g, '').replace(/\[([^\]]+)\]
 
 const MD = [
   '[&_p+p]:mt-2.5 [&_p+ul]:mt-2 [&_p+ol]:mt-2 [&_ul+p]:mt-2.5 [&_ol+p]:mt-2.5',
-  '[&_ul]:list-disc [&_ol]:list-decimal [&_ul]:pl-5 [&_ol]:pl-5 [&_li]:mt-1 [&_li]:marker:text-brand-soft',
-  '[&_a]:text-brand-soft [&_a]:underline [&_a]:underline-offset-2 [&_a:hover]:text-text',
-  '[&_strong]:font-semibold [&_strong]:text-text [&_code]:rounded [&_code]:bg-white/[0.08] [&_code]:px-1 [&_code]:font-mono [&_code]:text-[0.85em]',
+  '[&_ul]:list-disc [&_ol]:list-decimal [&_ul]:pl-5 [&_ol]:pl-5 [&_li]:mt-1 [&_li]:marker:text-brand',
+  '[&_a]:text-brand [&_a]:underline [&_a]:underline-offset-2 [&_a:hover]:text-text',
+  '[&_strong]:font-semibold [&_strong]:text-text [&_code]:rounded [&_code]:bg-surface-3 [&_code]:px-1 [&_code]:font-mono [&_code]:text-[0.85em]',
 ].join(' ');
 
 const inputCls = (bad?: boolean) =>
-  `block w-full min-h-11 rounded-xl border bg-white/[0.03] px-3.5 text-base text-text placeholder:text-subtle transition-colors focus:border-brand-soft focus:outline-none focus:ring-2 focus:ring-brand-soft/30 sm:text-sm ${bad ? 'border-danger' : 'border-line-strong'}`;
+  `block w-full min-h-11 rounded-xl border bg-surface px-3.5 text-base text-text placeholder:text-subtle transition-colors focus:border-brand-soft focus:outline-none focus:ring-2 focus:ring-brand-soft/30 sm:text-sm ${bad ? 'border-danger' : 'border-line-strong'}`;
 
 function LeadField({ id, label, error, optional, children }: { id: string; label: string; error?: string; optional?: boolean; children: ReactNode }) {
   return (
@@ -237,8 +237,8 @@ export function ChatWidget({ initialOpen = false }: { initialOpen?: boolean }) {
         aria-label={open ? 'Close the assistant' : 'Chat with the ASPR assistant'} aria-expanded={open} aria-controls={open ? `${uid}-panel` : undefined}
         className={[
           'fixed bottom-5 right-5 z-[80] grid size-14 place-items-center rounded-full text-white sm:bottom-6 sm:right-6',
-          'border border-white/15 shadow-[0_12px_32px_-8px_rgb(65_112_255/0.7)] transition-[background-color,transform,box-shadow] duration-300 ease-[var(--ease-out-expo)]',
-          'hover:-translate-y-0.5 hover:shadow-[0_16px_40px_-8px_rgb(139_92_246/0.7)] active:scale-95',
+          'border border-white/15 shadow-[0_12px_32px_-8px_color-mix(in_srgb,var(--color-brand)_42%,transparent)] transition-[background-color,transform,box-shadow] duration-300 ease-[var(--ease-out-expo)]',
+          'hover:-translate-y-0.5 hover:shadow-[0_16px_40px_-8px_color-mix(in_srgb,var(--color-accent)_42%,transparent)] active:scale-95',
           open ? 'max-sm:hidden bg-surface-3' : 'bg-brand hover:bg-brand-strong',
         ].join(' ')}
       >
@@ -252,12 +252,12 @@ export function ChatWidget({ initialOpen = false }: { initialOpen?: boolean }) {
           className={[
             'fixed inset-0 z-[90] flex flex-col overflow-hidden bg-surface text-text',
             'sm:inset-auto sm:bottom-24 sm:right-6 sm:h-[min(640px,calc(100dvh-8rem))] sm:w-[400px] sm:rounded-2xl sm:border sm:border-line-strong',
-            'sm:shadow-[0_30px_80px_-20px_rgb(0_0_0/0.8),0_0_0_1px_rgb(255_255_255/0.03)] motion-safe:animate-[page-in_0.35s_var(--ease-out-expo)_both]',
+            'sm:shadow-[0_30px_80px_-20px_color-mix(in_srgb,var(--color-navy)_20%,transparent),0_0_0_1px_color-mix(in_srgb,var(--color-surface)_3%,transparent)] motion-safe:animate-[page-in_0.35s_var(--ease-out-expo)_both]',
           ].join(' ')}
         >
           {/* Header */}
-          <header className="relative flex items-center gap-3 border-b border-line bg-[linear-gradient(120deg,rgb(65_112_255/0.18),rgb(139_92_246/0.08)_60%,transparent)] px-4 py-3.5 pt-[max(0.875rem,env(safe-area-inset-top))]">
-            <span aria-hidden="true" className="grid size-10 shrink-0 place-items-center rounded-xl border border-brand-soft/30 bg-brand/15 text-brand-soft">
+          <header className="relative flex items-center gap-3 border-b border-line bg-[linear-gradient(120deg,color-mix(in_srgb,var(--color-brand)_11%,transparent),color-mix(in_srgb,var(--color-accent)_5%,transparent)_60%,transparent)] px-4 py-3.5 pt-[max(0.875rem,env(safe-area-inset-top))]">
+            <span aria-hidden="true" className="grid size-10 shrink-0 place-items-center rounded-xl border border-brand-soft/30 bg-brand/15 text-brand">
               <Sparkles size={19} strokeWidth={1.8} />
             </span>
             <div className="min-w-0 flex-1">
@@ -267,11 +267,11 @@ export function ChatWidget({ initialOpen = false }: { initialOpen?: boolean }) {
               </p>
             </div>
             <button type="button" onClick={reset} title="Start a new conversation" aria-label="Start a new conversation"
-              className="grid size-11 place-items-center rounded-xl text-muted transition-colors hover:bg-white/[0.06] hover:text-text">
+              className="grid size-11 place-items-center rounded-xl text-muted transition-colors hover:bg-surface-3 hover:text-text">
               <RotateCcw aria-hidden="true" size={18} />
             </button>
             <button type="button" onClick={() => setOpen(false)} aria-label="Close the assistant"
-              className="grid size-11 place-items-center rounded-xl text-muted transition-colors hover:bg-white/[0.06] hover:text-text">
+              className="grid size-11 place-items-center rounded-xl text-muted transition-colors hover:bg-surface-3 hover:text-text">
               <X aria-hidden="true" size={20} />
             </button>
           </header>
@@ -309,7 +309,7 @@ export function ChatWidget({ initialOpen = false }: { initialOpen?: boolean }) {
                 {starters.map((s) => (
                   <li key={s}>
                     <button type="button" onClick={() => send(s)}
-                      className="min-h-10 rounded-full border border-line-strong bg-white/[0.03] px-3.5 py-2 text-left text-[0.8rem] font-medium text-text transition-colors hover:border-brand-soft/50 hover:bg-white/[0.06]">
+                      className="min-h-10 rounded-full border border-line-strong bg-surface px-3.5 py-2 text-left text-[0.8rem] font-medium text-text transition-colors hover:border-brand-soft/50 hover:bg-surface-3">
                       {s}
                     </button>
                   </li>
@@ -319,7 +319,7 @@ export function ChatWidget({ initialOpen = false }: { initialOpen?: boolean }) {
 
             {!showLead && !leadRef && !loading && messages.length > 2 && (
               <button type="button" onClick={() => setShowLead(true)}
-                className="inline-flex min-h-10 items-center self-start rounded-full border border-brand-soft/30 bg-brand/15 px-4 text-[0.8rem] font-semibold text-brand-soft transition-colors hover:bg-brand/25 hover:text-text">
+                className="inline-flex min-h-10 items-center self-start rounded-full border border-brand-soft/30 bg-brand/15 px-4 text-[0.8rem] font-semibold text-brand transition-colors hover:bg-brand/25 hover:text-text">
                 Talk to the team →
               </button>
             )}
@@ -374,22 +374,22 @@ export function ChatWidget({ initialOpen = false }: { initialOpen?: boolean }) {
               <textarea
                 id={`${uid}-input`} ref={input} value={draft} onChange={(e) => setDraft(e.target.value)} onKeyDown={onKey} rows={1} maxLength={1000}
                 disabled={loading} placeholder="Ask about services, prices, timelines…"
-                className="max-h-28 min-h-11 flex-1 resize-none rounded-xl border border-line-strong bg-white/[0.03] px-3.5 py-2.5 text-base leading-snug text-text placeholder:text-subtle transition-colors focus:border-brand-soft focus:outline-none focus:ring-2 focus:ring-brand-soft/30 disabled:opacity-60 sm:text-sm"
+                className="max-h-28 min-h-11 flex-1 resize-none rounded-xl border border-line-strong bg-surface px-3.5 py-2.5 text-base leading-snug text-text placeholder:text-subtle transition-colors focus:border-brand-soft focus:outline-none focus:ring-2 focus:ring-brand-soft/30 disabled:opacity-60 sm:text-sm"
               />
               {loading ? (
                 <button type="button" onClick={stop} aria-label="Stop the answer"
-                  className="grid size-11 shrink-0 place-items-center rounded-xl border border-line-strong text-text transition-colors hover:bg-white/[0.06]">
+                  className="grid size-11 shrink-0 place-items-center rounded-xl border border-line-strong text-text transition-colors hover:bg-surface-3">
                   <Square aria-hidden="true" size={15} fill="currentColor" />
                 </button>
               ) : (
                 <button type="button" onClick={submitDraft} disabled={!draft.trim()} aria-label="Send"
-                  className="grid size-11 shrink-0 place-items-center rounded-xl bg-brand-strong text-white transition-colors hover:bg-brand-strong disabled:bg-white/[0.06] disabled:text-subtle">
+                  className="grid size-11 shrink-0 place-items-center rounded-xl bg-brand-strong text-white transition-colors hover:bg-brand-strong disabled:bg-surface-3 disabled:text-subtle">
                   <ArrowUp aria-hidden="true" size={19} strokeWidth={2.2} />
                 </button>
               )}
             </div>
             <p className="mt-2 px-0.5 text-[0.7rem] leading-snug text-subtle">
-              AI answers from our site content and may be incomplete. For an exact quote, <Link href="/quote" onClick={() => setOpen(false)} className="text-brand-soft underline-offset-2 hover:underline">send a brief</Link>.
+              AI answers from our site content and may be incomplete. For an exact quote, <Link href="/quote" onClick={() => setOpen(false)} className="text-brand underline-offset-2 hover:underline">send a brief</Link>.
             </p>
           </div>
         </section>

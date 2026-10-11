@@ -172,7 +172,7 @@ export function QuoteForm({ options, initialType = '' }: { options: QuoteOptions
       {/* Progress: connected rail; finished steps are buttons back to that step */}
       <div className="mb-9">
         <div className="flex items-center justify-between gap-4">
-          <p className="font-mono text-xs uppercase tracking-[0.16em] text-brand-soft">Step {step + 1} of {STEPS.length}</p>
+          <p className="font-mono text-xs uppercase tracking-[0.16em] text-brand">Step {step + 1} of {STEPS.length}</p>
           <p className="fm-stepchip text-xs text-muted">{s.short}</p>
         </div>
         <div className="relative mt-5" style={{ '--n': STEPS.length, '--p': step / (STEPS.length - 1) } as CSSProperties}>
@@ -253,10 +253,10 @@ export function QuoteForm({ options, initialType = '' }: { options: QuoteOptions
               <Select id={domId('heardFrom')} label="How did you hear about us?" options={options.heardFrom} value={v.heardFrom} onChange={set('heardFrom')} error={errors.heardFrom} optional placeholder="Choose one" icon={ic(Megaphone)} />
               <Honeypot value={website} onChange={setWebsite} />
 
-              <section aria-labelledby="quote-review-title" className="fm-review relative overflow-hidden rounded-2xl border border-brand-soft/25 p-4 shadow-[0_24px_60px_-40px_rgb(65_112_255/0.9)] sm:p-6">
-                <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-20 size-56 rounded-full bg-[radial-gradient(closest-side,rgb(139_92_246/0.22),transparent)] blur-xl" />
+              <section aria-labelledby="quote-review-title" className="fm-review relative overflow-hidden rounded-2xl border border-brand-soft/25 p-4 shadow-[0_24px_60px_-40px_color-mix(in_srgb,var(--color-brand)_54%,transparent)] sm:p-6">
+                <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-20 size-56 rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--color-accent)_13%,transparent),transparent)] blur-xl" />
                 <div className="relative flex items-center gap-3">
-                  <span aria-hidden="true" className="grid size-9 place-items-center rounded-xl bg-gradient-to-br from-brand-strong to-[#5b3fd6] text-white shadow-[0_10px_24px_-10px_rgb(65_112_255/0.95)]">
+                  <span aria-hidden="true" className="grid size-9 place-items-center rounded-xl bg-gradient-to-br from-brand-strong to-brand text-white shadow-[0_10px_24px_-10px_color-mix(in_srgb,var(--color-brand)_57%,transparent)]">
                     <ClipboardList size={17} strokeWidth={1.8} />
                   </span>
                   <h3 id="quote-review-title" className="font-sans text-sm font-semibold tracking-normal text-text">Your request</h3>
@@ -270,10 +270,10 @@ export function QuoteForm({ options, initialType = '' }: { options: QuoteOptions
                     const I = REVIEW_ICON[k];
                     return (
                       <div key={k} className="fm-review-row fm-rise flex items-start gap-3 px-1.5 py-2.5 sm:px-2" style={{ '--i': i + 4 } as CSSProperties}>
-                        <dt className="flex w-[5.25rem] shrink-0 items-center gap-2 text-subtle sm:w-28">{I && <I aria-hidden="true" size={15} strokeWidth={1.8} className="hidden shrink-0 text-brand-soft/80 sm:block" />}{k}</dt>
+                        <dt className="flex w-[5.25rem] shrink-0 items-center gap-2 text-subtle sm:w-28">{I && <I aria-hidden="true" size={15} strokeWidth={1.8} className="hidden shrink-0 text-brand/80 sm:block" />}{k}</dt>
                         <dd className="min-w-0 flex-1 break-words text-text/85">{val || '—'}</dd>
                         <dd className="shrink-0">
-                          <button type="button" onClick={() => goTo(at)} className="-my-2 inline-flex min-h-11 items-center gap-1.5 rounded-full px-2.5 text-xs font-medium text-brand-soft transition-colors hover:bg-brand/12 hover:text-text">
+                          <button type="button" onClick={() => goTo(at)} className="-my-2 inline-flex min-h-11 items-center gap-1.5 rounded-full px-2.5 text-xs font-medium text-brand transition-colors hover:bg-brand/12 hover:text-text">
                             <PenLine aria-hidden="true" size={13} />Edit<span className="sr-only"> {k.toLowerCase()}</span>
                           </button>
                         </dd>

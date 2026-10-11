@@ -43,7 +43,7 @@ export function ChatLauncher() {
     <button
       type="button" onClick={() => setMode('open')} aria-label="Chat with the ASPR assistant"
       // Matches the full widget's launcher so nothing moves when it takes over.
-      className="fixed bottom-5 right-5 z-[80] grid size-14 place-items-center rounded-full border border-white/15 bg-brand text-white shadow-[0_12px_32px_-8px_rgb(65_112_255/0.7)] transition-[background-color,transform,box-shadow] duration-300 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:bg-brand-strong hover:shadow-[0_16px_40px_-8px_rgb(139_92_246/0.7)] active:scale-95 sm:bottom-6 sm:right-6"
+      className="fixed bottom-5 right-5 z-[80] grid size-14 place-items-center rounded-full border border-white/15 bg-brand text-white shadow-[0_12px_32px_-8px_color-mix(in_srgb,var(--color-brand)_42%,transparent)] transition-[background-color,transform,box-shadow] duration-300 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:bg-brand-strong hover:shadow-[0_16px_40px_-8px_color-mix(in_srgb,var(--color-accent)_42%,transparent)] active:scale-95 sm:bottom-6 sm:right-6"
     >
       <MessageCircle aria-hidden="true" size={25} strokeWidth={1.9} />
       <span aria-hidden="true" className="absolute right-1 top-1 size-3 rounded-full border-2 border-bg bg-signal" />

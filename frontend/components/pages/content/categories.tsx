@@ -4,14 +4,14 @@ import './content.css';
 
 /** Insight categories → icon and accent colour. New categories fall back to the brand blue. */
 const CATEGORIES: Record<string, { icon: LucideIcon; color: string }> = {
-  Build: { icon: Code2, color: '#8aa6ff' },
-  Brand: { icon: Palette, color: '#f9a8d4' },
-  Grow: { icon: TrendingUp, color: '#5eead4' },
-  Process: { icon: Workflow, color: '#b9a2ff' },
-  Studio: { icon: Users, color: '#fcd34d' },
+  Build: { icon: Code2, color: 'var(--color-tone-blue)' },
+  Brand: { icon: Palette, color: 'var(--color-tone-pink)' },
+  Grow: { icon: TrendingUp, color: 'var(--color-tone-teal)' },
+  Process: { icon: Workflow, color: 'var(--color-tone-purple)' },
+  Studio: { icon: Users, color: 'var(--color-tone-amber)' },
 };
 
-export const category = (name?: string | null) => CATEGORIES[name || ''] || { icon: BookOpen, color: '#8aa6ff' };
+export const category = (name?: string | null) => CATEGORIES[name || ''] || { icon: BookOpen, color: 'var(--color-brand)' };
 
 /** Sets the --c accent colour for a category. */
 export const catStyle = (name?: string | null) => ({ '--c': category(name).color }) as CSSProperties;

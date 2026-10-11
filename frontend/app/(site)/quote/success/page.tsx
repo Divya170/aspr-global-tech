@@ -31,7 +31,7 @@ export default async function QuoteSuccessPage({ searchParams }: { searchParams:
     <section aria-labelledby="success-title" className="relative overflow-hidden pb-24 pt-36 sm:pb-32 sm:pt-44">
       <div aria-hidden="true" className="fx-aurora opacity-40"><i /><i /><i /></div>
       <div aria-hidden="true" className="bg-grid absolute inset-0" />
-      <div aria-hidden="true" className="absolute -top-40 left-1/2 h-[520px] w-[min(1100px,140vw)] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(52_211_153/0.16),rgb(65_112_255/0.12)_55%,transparent)]" />
+      <div aria-hidden="true" className="absolute -top-40 left-1/2 h-[520px] w-[min(1100px,140vw)] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--color-accent)_11%,transparent),color-mix(in_srgb,var(--color-brand)_7%,transparent)_55%,transparent)]" />
       <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-bg to-transparent" />
       <Container size="md" className="relative">
         <div className="animate-fade-up">
@@ -40,8 +40,8 @@ export default async function QuoteSuccessPage({ searchParams }: { searchParams:
           <p className="text-lead mt-5 max-w-2xl">We reply to every inquiry within one working day, usually much sooner.</p>
 
           {refNo && (
-            <div className="panel fx-border-live fm-live relative mt-10 flex flex-col gap-6 overflow-hidden bg-surface/70 p-6 shadow-[0_40px_90px_-50px_rgb(65_112_255/0.7)] sm:flex-row sm:items-center sm:justify-between sm:p-8">
-              <div aria-hidden="true" className="pointer-events-none absolute -left-20 -top-24 size-64 rounded-full bg-[radial-gradient(closest-side,rgb(65_112_255/0.22),transparent)] blur-2xl" />
+            <div className="panel fx-border-live fm-live relative mt-10 flex flex-col gap-6 overflow-hidden bg-surface/70 p-6 shadow-[0_40px_90px_-50px_color-mix(in_srgb,var(--color-brand)_42%,transparent)] sm:flex-row sm:items-center sm:justify-between sm:p-8">
+              <div aria-hidden="true" className="pointer-events-none absolute -left-20 -top-24 size-64 rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--color-brand)_13%,transparent),transparent)] blur-2xl" />
               <div className="relative min-w-0">
                 <p className="eyebrow eyebrow-line">Your inquiry ID</p>
                 <p className="fm-id mt-3 inline-block max-w-full break-all px-4 py-2.5 font-mono text-2xl font-semibold tracking-tight text-text sm:text-3xl">

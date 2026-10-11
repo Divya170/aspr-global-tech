@@ -11,7 +11,7 @@ export function SuccessMark({ size = '4.5rem', className = '' }: { size?: string
         {Array.from({ length: 8 }, (_, k) => <i key={k} style={{ '--k': k, '--c': COLORS[k % COLORS.length] } as CSSProperties} />)}
       </span>
       <svg viewBox="0 0 72 72" fill="none">
-        <circle className="fm-disc" cx="36" cy="36" r="30" fill="rgb(52 211 153 / 0.1)" />
+        <circle className="fm-disc" cx="36" cy="36" r="30" fill="color-mix(in srgb, var(--color-accent) 18%, transparent)" />
         <circle className="fm-ring" cx="36" cy="36" r="33" stroke="var(--color-success)" strokeOpacity="0.55" strokeWidth="1.5" pathLength={1} transform="rotate(-90 36 36)" />
         <path className="fm-tick" d="M24 37.5l8 8L48.5 28" stroke="var(--color-success)" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" pathLength={1} />
       </svg>

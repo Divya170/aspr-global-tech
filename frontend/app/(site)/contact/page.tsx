@@ -35,7 +35,7 @@ export default async function ContactPage() {
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-14">
           <div className="relative isolate self-start">
             <div aria-hidden="true" className="fm-halo" />
-            <div className="panel fx-border-live fm-live relative bg-surface/70 p-5 shadow-[0_40px_100px_-50px_rgb(65_112_255/0.55)] sm:p-8 lg:p-10">
+            <div className="panel fx-border-live fm-live relative bg-surface/70 p-5 shadow-[0_40px_100px_-50px_color-mix(in_srgb,var(--color-brand)_33%,transparent)] sm:p-8 lg:p-10">
               <h2 className="sr-only">Send us a message</h2>
               <ContactForm options={{ projectTypes: s.projectTypes, budgets: s.budgets, timelines: s.timelines, heardFrom: s.heardFrom }} />
             </div>
@@ -47,10 +47,10 @@ export default async function ContactPage() {
               <p className="mt-1.5 text-sm text-muted">Whichever is easiest for you.</p>
               <DirectContact company={s.company} full className="mt-5" />
             </div>
-            <SpotlightCard className="fx-border group overflow-hidden rounded-2xl border border-accent/25 bg-[linear-gradient(150deg,rgb(139_92_246/0.14),rgb(65_112_255/0.06)_55%,rgb(255_255_255/0.015))] p-6">
-              <div aria-hidden="true" className="pointer-events-none absolute -right-14 -top-16 size-44 rounded-full bg-[radial-gradient(closest-side,rgb(139_92_246/0.35),transparent)] blur-2xl" />
+            <SpotlightCard className="fx-border group overflow-hidden rounded-2xl border border-accent/25 bg-[linear-gradient(150deg,color-mix(in_srgb,var(--color-accent)_8%,transparent),color-mix(in_srgb,var(--color-brand)_4%,transparent)_55%,color-mix(in_srgb,var(--color-surface)_2%,transparent))] p-6">
+              <div aria-hidden="true" className="pointer-events-none absolute -right-14 -top-16 size-44 rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--color-accent)_21%,transparent),transparent)] blur-2xl" />
               <div className="relative flex items-center justify-between gap-4">
-                <span aria-hidden="true" className="fx-icon grid size-11 place-items-center rounded-xl border border-accent/30 bg-accent/12 text-accent-soft">
+                <span aria-hidden="true" className="fx-icon grid size-11 place-items-center rounded-xl border border-accent/30 bg-accent/12 text-success">
                   <ClipboardList size={20} strokeWidth={1.7} />
                 </span>
                 {/* Decorative echo of the four-step wizard */}
@@ -58,7 +58,7 @@ export default async function ContactPage() {
                   {[0, 1, 2, 3].map((i) => (
                     <span key={i} className="flex items-center">
                       {i > 0 && <span className="h-px w-4 bg-gradient-to-r from-brand-soft/50 to-accent/50" />}
-                      <span className={`grid size-5 place-items-center rounded-full border font-mono text-[0.6rem] ${i === 0 ? 'border-transparent bg-brand-strong text-white shadow-[0_0_14px_rgb(65_112_255/0.8)]' : 'border-line-strong bg-bg/60 text-subtle'}`}>{i + 1}</span>
+                      <span className={`grid size-5 place-items-center rounded-full border font-mono text-[0.6rem] ${i === 0 ? 'border-transparent bg-brand-strong text-white shadow-[0_0_14px_color-mix(in_srgb,var(--color-brand)_48%,transparent)]' : 'border-line-strong bg-bg/60 text-subtle'}`}>{i + 1}</span>
                     </span>
                   ))}
                 </span>

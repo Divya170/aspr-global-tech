@@ -38,7 +38,7 @@ export default async function TermsPage() {
           <aside className="ct-glass mt-16 flex flex-col gap-4 p-6 text-sm leading-relaxed text-muted sm:flex-row sm:items-center sm:gap-5 sm:p-7">
             <span aria-hidden="true" className="ct-tile-icon"><Mail size={20} /></span>
             <p>
-              Questions about these terms? Email <a className="text-brand-soft underline underline-offset-4 hover:text-text" href={`mailto:${email}`}>{email}</a> or use our <Link className="text-brand-soft underline underline-offset-4 hover:text-text" href="/contact">contact page</Link>.
+              Questions about these terms? Email <a className="text-brand underline underline-offset-4 hover:text-text" href={`mailto:${email}`}>{email}</a> or use our <Link className="text-brand underline underline-offset-4 hover:text-text" href="/contact">contact page</Link>.
             </p>
           </aside>
         </div>
