@@ -1,13 +1,13 @@
 import type { Metadata, Viewport } from 'next';
-import { Geist, Geist_Mono, Schibsted_Grotesk } from 'next/font/google';
+import { Geist_Mono, Plus_Jakarta_Sans } from 'next/font/google';
 import { headers } from 'next/headers';
 import Script from 'next/script';
 import { DEFAULT_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/site';
 import './globals.css';
 import './effects.css';
 
-const display = Schibsted_Grotesk({ subsets: ['latin'], weight: ['600', '700'], variable: '--font-schibsted', display: 'swap' });
-const geist = Geist({ subsets: ['latin'], variable: '--font-geist', display: 'swap' });
+// Main's identity font, used for both display and body text.
+const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], weight: ['400', '500', '600', '700', '800'], variable: '--font-jakarta', display: 'swap' });
 const geistMono = Geist_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-geist-mono', display: 'swap' });
 
 export const metadata: Metadata = {
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   formatDetection: { telephone: false },
 };
 
-export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#05070d', colorScheme: 'dark' };
+export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#f5f7fb', colorScheme: 'light' };
 
 const PLAUSIBLE_DOMAIN = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
 const PLAUSIBLE_SRC = process.env.NEXT_PUBLIC_PLAUSIBLE_SRC || 'https://plausible.io/js/script.tagged-events.js';
@@ -30,7 +30,7 @@ const PLAUSIBLE_SRC = process.env.NEXT_PUBLIC_PLAUSIBLE_SRC || 'https://plausibl
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const nonce = (await headers()).get('x-nonce') || undefined;
   return (
-    <html lang="en" className={`${display.variable} ${geist.variable} ${geistMono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${jakarta.variable} ${geistMono.variable}`} suppressHydrationWarning>
       <body className="min-h-dvh">
         {children}
         {PLAUSIBLE_DOMAIN && (
