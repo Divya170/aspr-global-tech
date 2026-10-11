@@ -60,7 +60,7 @@ export function SubscribersPage() {
     </div>
   );
   const columns: Column<Subscriber>[] = [
-    { key: 'email', header: 'Email', cell: (s) => <a href={`mailto:${s.email}`} className="text-text hover:text-brand-soft">{s.email}</a> },
+    { key: 'email', header: 'Email', cell: (s) => <a href={`mailto:${s.email}`} className="text-text hover:text-brand">{s.email}</a> },
     { key: 'status', header: 'Status', cell: (s) => <StatusPill tone={s.status === 'active' ? 'success' : 'neutral'}>{s.status === 'active' ? 'Subscribed' : 'Unsubscribed'}</StatusPill> },
     { key: 'source', header: 'Signed up from', headerClassName: 'hidden sm:table-cell', className: 'hidden sm:table-cell text-muted', cell: (s) => s.source || '—' },
     { key: 'date', header: 'Joined', className: 'whitespace-nowrap text-muted', cell: (s) => formatDate(s.createdAt) },

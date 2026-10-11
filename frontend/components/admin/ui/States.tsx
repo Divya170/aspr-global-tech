@@ -6,7 +6,7 @@ import { AButton } from './Button';
 export function EmptyState({ title, children, icon, action, className = '' }: { title: string; children?: ReactNode; icon?: ReactNode; action?: ReactNode; className?: string }) {
   return (
     <div className={`flex flex-col items-center justify-center px-6 py-14 text-center ${className}`}>
-      <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-white/[0.03] text-subtle">{icon ?? <Inbox size={20} aria-hidden="true" />}</div>
+      <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-surface text-subtle">{icon ?? <Inbox size={20} aria-hidden="true" />}</div>
       <p className="font-medium text-text">{title}</p>
       {children && <div className="mt-1 max-w-sm text-sm text-muted">{children}</div>}
       {action && <div className="mt-4">{action}</div>}
@@ -39,7 +39,7 @@ export function NoAccess({ className = '' }: { className?: string }) {
 }
 
 export function Skeleton({ className = '' }: { className?: string }) {
-  return <div aria-hidden="true" className={`animate-pulse rounded-md bg-white/[0.06] ${className}`} />;
+  return <div aria-hidden="true" className={`animate-pulse rounded-md bg-surface-3 ${className}`} />;
 }
 
 /** Placeholder rows for tables and lists. */

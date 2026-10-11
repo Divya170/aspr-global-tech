@@ -34,7 +34,7 @@ export function ChatPage() {
                     return (
                       <li key={s.visitorId}>
                         <button type="button" onClick={() => setF({ session: s.visitorId })} aria-current={active ? 'true' : undefined}
-                          className={`block w-full border-b border-line/60 px-4 py-3 text-left transition-colors ${active ? 'bg-brand/10' : 'hover:bg-white/[0.03]'}`}>
+                          className={`block w-full border-b border-line/60 px-4 py-3 text-left transition-colors ${active ? 'bg-brand/10' : 'hover:bg-surface'}`}>
                           <div className="flex items-center justify-between gap-2">
                             <span className="truncate text-sm text-text">{s.sourcePath || 'Unknown page'}</span>
                             <span className="shrink-0 text-xs text-subtle">{timeAgo(s.lastMessageAt)}</span>
@@ -67,7 +67,7 @@ function Transcript({ sessionId, session, onBack }: { sessionId: string; session
   return (
     <div className="flex h-full flex-col">
       <div className="flex items-center gap-2 border-b border-line px-4 py-2.5">
-        <button type="button" onClick={onBack} className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-muted hover:bg-white/[0.06] hover:text-text md:hidden" aria-label="Back to conversations">
+        <button type="button" onClick={onBack} className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-muted hover:bg-surface-3 hover:text-text md:hidden" aria-label="Back to conversations">
           <ArrowLeft size={16} aria-hidden="true" />
         </button>
         <div className="min-w-0 flex-1">
@@ -75,7 +75,7 @@ function Transcript({ sessionId, session, onBack }: { sessionId: string; session
           <p className="truncate text-xs text-subtle">{session ? `Started ${formatDateTime(session.createdAt)} on ${session.sourcePath || 'an unknown page'}` : sessionId}</p>
         </div>
         {session?.enquiryRef && can('leads') && (
-          <Link href={`/admin/leads?q=${encodeURIComponent(session.enquiryRef)}&status=all`} className="text-xs text-brand-soft hover:text-text">Open lead</Link>
+          <Link href={`/admin/leads?q=${encodeURIComponent(session.enquiryRef)}&status=all`} className="text-xs text-brand hover:text-text">Open lead</Link>
         )}
       </div>
       <div className="flex-1 overflow-y-auto p-4">
@@ -88,7 +88,7 @@ function Transcript({ sessionId, session, onBack }: { sessionId: string; session
                 const user = m.role === 'user';
                 return (
                   <li key={i} className={`flex gap-2.5 ${user ? 'flex-row-reverse' : ''}`}>
-                    <span aria-hidden="true" className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${user ? 'bg-brand/20 text-brand-soft' : 'bg-accent/15 text-accent-soft'}`}>
+                    <span aria-hidden="true" className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${user ? 'bg-brand/20 text-brand' : 'bg-accent/15 text-accent-soft'}`}>
                       {user ? <User size={14} /> : <Bot size={14} />}
                     </span>
                     <div className={`max-w-[85%] min-w-0 ${user ? 'text-right' : ''}`}>

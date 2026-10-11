@@ -43,7 +43,7 @@ export function AccountPage() {
           <CardHeader id="profile" title="Profile" />
           <div className="p-4">
             <div className="mb-4 flex items-center gap-3">
-              <span aria-hidden="true" className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-brand to-accent text-base font-semibold text-white">{initials(user.name)}</span>
+              <span aria-hidden="true" className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-brand to-brand-strong text-base font-semibold text-white">{initials(user.name)}</span>
               <div><p className="font-medium text-text">{user.name}</p><p className="text-sm text-muted">{user.email}</p></div>
             </div>
             <DefinitionList items={[

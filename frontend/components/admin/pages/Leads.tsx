@@ -56,7 +56,7 @@ export function LeadsPage() {
   const columns: Column<Lead>[] = [
     { key: 'name', header: 'Lead', sort: { desc: 'name' }, cell: (l) => (
       <div className="min-w-0">
-        <Link href={`/admin/leads/${l.id}`} className="font-medium text-text hover:text-brand-soft">{l.name}</Link>
+        <Link href={`/admin/leads/${l.id}`} className="font-medium text-text hover:text-brand">{l.name}</Link>
         <p className="truncate text-xs text-subtle">{l.refNo}{l.company ? ` · ${l.company}` : ''}</p>
       </div>
     ) },
@@ -147,7 +147,7 @@ export function LeadsPage() {
                 onSort={(v) => setF({ sort: v === 'newest' ? '' : v })}
                 onRowClick={(l) => router.push(`/admin/leads/${l.id}`)}
                 mobileCard={(l) => (
-                  <Link href={`/admin/leads/${l.id}`} className="block px-4 py-3 hover:bg-white/[0.03]">
+                  <Link href={`/admin/leads/${l.id}`} className="block px-4 py-3 hover:bg-surface">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
                         <p className="truncate font-medium text-text">{l.name}</p>

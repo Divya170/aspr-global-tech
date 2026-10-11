@@ -57,7 +57,7 @@ export function Dashboard() {
               ? <><strong className="font-medium">Email sending is off — set SMTP_HOST.</strong> <span className="text-muted">New leads are saved, but no one is emailed about them and clients get no confirmation.</span></>
               : <><strong className="font-medium">{data.email.failed} email{data.email.failed === 1 ? '' : 's'} failed to send.</strong> <span className="text-muted">Check the SMTP settings and the delivery log.</span></>}
           </div>
-          {can('settings') && <Link href="/admin/settings?tab=email" className="shrink-0 text-brand-soft hover:text-text">Delivery log</Link>}
+          {can('settings') && <Link href="/admin/settings?tab=email" className="shrink-0 text-brand hover:text-text">Delivery log</Link>}
         </div>
       )}
 
@@ -90,14 +90,14 @@ export function Dashboard() {
         <Card aria-labelledby="by-status">
           <CardHeader id="by-status" title="Status breakdown" description="Every lead, including spam" />
           <div className="p-4">
-            <HorizontalBars label="Leads by status" color="#8aa6ff"
+            <HorizontalBars label="Leads by status" color="var(--color-brand)"
               items={[...data.byStatus].sort((a, b) => b.count - a.count).map((s) => ({ key: s.status, label: s.label, value: s.count }))}
               renderLabel={(i) => <StatusPill tone={leadStatus(i.key).tone}>{i.label}</StatusPill>} emptyText="No leads yet." />
           </div>
         </Card>
 
         {leadsHref && <Card className="lg:col-span-2" aria-labelledby="recent-leads">
-          <CardHeader id="recent-leads" title="Recent leads" actions={leadsHref && <Link href="/admin/leads" className="inline-flex items-center gap-1 text-xs text-brand-soft hover:text-text">All leads <ArrowRight size={13} aria-hidden="true" /></Link>} />
+          <CardHeader id="recent-leads" title="Recent leads" actions={leadsHref && <Link href="/admin/leads" className="inline-flex items-center gap-1 text-xs text-brand hover:text-text">All leads <ArrowRight size={13} aria-hidden="true" /></Link>} />
           {data.recentLeads.length === 0 ? (
             <p className="px-4 py-10 text-center text-sm text-muted">No leads yet. They appear here as soon as someone sends the quote or contact form.</p>
           ) : (
@@ -116,7 +116,7 @@ export function Dashboard() {
                   {data.recentLeads.map((l) => (
                     <tr key={l.id} className="border-b border-line/60 last:border-0">
                       <td className="px-4 py-2.5">
-                        {leadsHref ? <Link href={`/admin/leads/${l.id}`} className="font-medium text-text hover:text-brand-soft">{l.name}</Link> : <span className="font-medium">{l.name}</span>}
+                        {leadsHref ? <Link href={`/admin/leads/${l.id}`} className="font-medium text-text hover:text-brand">{l.name}</Link> : <span className="font-medium">{l.name}</span>}
                         <span className="block text-xs text-subtle">{l.refNo}{l.company ? ` · ${l.company}` : ''}</span>
                       </td>
                       <td className="hidden px-4 py-2.5 text-muted sm:table-cell">{l.projectType || '—'}</td>
@@ -132,7 +132,7 @@ export function Dashboard() {
       </div>
 
       <Card className="mt-4" aria-labelledby="recent-activity">
-        <CardHeader id="recent-activity" title="Recent activity" actions={can('activity') && <Link href="/admin/activity" className="inline-flex items-center gap-1 text-xs text-brand-soft hover:text-text">Full log <ArrowRight size={13} aria-hidden="true" /></Link>} />
+        <CardHeader id="recent-activity" title="Recent activity" actions={can('activity') && <Link href="/admin/activity" className="inline-flex items-center gap-1 text-xs text-brand hover:text-text">Full log <ArrowRight size={13} aria-hidden="true" /></Link>} />
         {data.recentActivity.length === 0 ? (
           <p className="px-4 py-8 text-center text-sm text-muted">Nothing yet.</p>
         ) : (

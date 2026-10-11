@@ -18,9 +18,9 @@ export function AuthCard({ title, lead, children, footer }: { title: string; lea
       <div className="relative w-full max-w-[400px]">
         <div className="mb-7 flex justify-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/assets/aspr-logo-white.png" alt="ASPR Global Tech" width={140} height={40} className="h-9 w-auto" />
+          <img src="/assets/aspr-logo.png" alt="ASPR Global Tech" width={140} height={65} className="h-10 w-auto" />
         </div>
-        <div className="rounded-2xl border border-line-strong bg-surface/90 p-6 shadow-2xl shadow-black/50 backdrop-blur sm:p-7">
+        <div className="rounded-2xl border border-line-strong bg-surface/90 p-6 shadow-2xl shadow-navy/16 backdrop-blur sm:p-7">
           <h1 className="text-lg font-semibold text-text">{title}</h1>
           {lead && <p className="mt-1 text-sm text-muted">{lead}</p>}
           <div className="mt-5">{children}</div>
@@ -103,7 +103,7 @@ export function LoginForm() {
         <TextField id="login-email" label="Email" type="email" autoComplete="username" inputMode="email" value={email} onChange={(e) => setEmail(e.target.value)} error={fields.email} required autoFocus />
         <PasswordInput id="login-password" label="Password" value={password} onChange={setPassword} error={fields.password} autoComplete="current-password" />
         <div className="flex justify-end">
-          <Link href="/admin/forgot-password" className="text-sm text-brand-soft hover:text-text">Forgot password?</Link>
+          <Link href="/admin/forgot-password" className="text-sm text-brand hover:text-text">Forgot password?</Link>
         </div>
         <AButton type="submit" variant="primary" className="w-full" loading={busy}>Sign in</AButton>
       </form>
@@ -184,7 +184,7 @@ export function ResetForm() {
   if (!token) {
     return (
       <AuthCard title="Reset link missing" footer={<Link href="/admin/login" className="hover:text-text">← Back to sign in</Link>}>
-        <FormAlert>This page needs the link from your reset email. <Link href="/admin/forgot-password" className="text-brand-soft underline">Request a new link</Link>.</FormAlert>
+        <FormAlert>This page needs the link from your reset email. <Link href="/admin/forgot-password" className="text-brand underline">Request a new link</Link>.</FormAlert>
       </AuthCard>
     );
   }
@@ -197,7 +197,7 @@ export function ResetForm() {
         </>
       ) : (
         <>
-          {error && <FormAlert>{error} {fields.token && <Link href="/admin/forgot-password" className="text-brand-soft underline">Request a new link</Link>}</FormAlert>}
+          {error && <FormAlert>{error} {fields.token && <Link href="/admin/forgot-password" className="text-brand underline">Request a new link</Link>}</FormAlert>}
           <form onSubmit={submit} noValidate className="space-y-4">
             <PasswordInput id="reset-new" label="New password" value={password} onChange={setPassword} error={fields.newPassword} autoComplete="new-password" hint="12 characters or more. A short sentence works well." />
             <PasswordInput id="reset-confirm" label="Confirm new password" value={confirm} onChange={setConfirm} error={fields.confirm} autoComplete="new-password" />

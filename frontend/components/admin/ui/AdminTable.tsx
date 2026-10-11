@@ -66,7 +66,7 @@ export function AdminTable<T>({ caption, columns, rows, rowKey, sort, onSort, on
                 onKeyDown={onRowClick ? key(row) : undefined}
                 tabIndex={onRowClick ? 0 : undefined}
                 aria-label={onRowClick && rowLabel ? rowLabel(row) : undefined}
-                className={`border-b border-line/70 last:border-0 transition-colors ${onRowClick ? 'cursor-pointer hover:bg-white/[0.03] focus-visible:bg-white/[0.04]' : ''} ${rowClassName?.(row) ?? ''}`}>
+                className={`border-b border-line/70 last:border-0 transition-colors ${onRowClick ? 'cursor-pointer hover:bg-surface focus-visible:bg-surface' : ''} ${rowClassName?.(row) ?? ''}`}>
                 {columns.map((c) => <td key={c.key} className={`px-4 py-3 align-middle ${c.className ?? ''}`}>{c.cell(row)}</td>)}
               </tr>
             ))}

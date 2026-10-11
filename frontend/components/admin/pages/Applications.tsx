@@ -54,7 +54,7 @@ export function ApplicationsPage() {
 
   const columns: Column<Application>[] = [
     { key: 'name', header: 'Applicant', sort: { desc: 'name' }, cell: (a) => (
-      <div><button type="button" onClick={() => setF({ open: String(a.id), page: f.page })} className="font-medium text-text hover:text-brand-soft">{a.name}</button>
+      <div><button type="button" onClick={() => setF({ open: String(a.id), page: f.page })} className="font-medium text-text hover:text-brand">{a.name}</button>
         <p className="text-xs text-subtle">{a.refNo} · {a.email}</p></div>
     ) },
     { key: 'role', header: 'Role', cell: (a) => <span className="text-muted">{a.roleTitle}</span> },
@@ -99,7 +99,7 @@ export function ApplicationsPage() {
                 sort={f.sort || 'newest'} onSort={(v) => setF({ sort: v === 'newest' ? '' : v })}
                 onRowClick={(a) => setF({ open: String(a.id), page: f.page })} rowLabel={(a) => `Open application from ${a.name}`}
                 mobileCard={(a) => (
-                  <button type="button" onClick={() => setF({ open: String(a.id), page: f.page })} className="block w-full px-4 py-3 text-left hover:bg-white/[0.03]">
+                  <button type="button" onClick={() => setF({ open: String(a.id), page: f.page })} className="block w-full px-4 py-3 text-left hover:bg-surface">
                     <div className="flex items-start justify-between gap-3">
                       <p className="min-w-0 truncate font-medium text-text">{a.name}</p>
                       <StatusPill tone={applicationStatus(a.status).tone}>{applicationStatus(a.status).label}</StatusPill>
@@ -168,13 +168,13 @@ function ApplicationDrawer({ id, canDelete, onClose, onChanged, onDeleted }: {
           <div className="space-y-5">
             <div className="flex flex-wrap gap-2">
               <a href={`mailto:${a.email}`} className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-brand px-3 text-[0.8125rem] font-medium text-white hover:bg-brand-strong"><Mail size={14} aria-hidden="true" />Email</a>
-              {a.phone && <a href={`tel:${a.phone.replace(/[^\d+]/g, '')}`} className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-line-strong px-3 text-[0.8125rem] text-text hover:bg-white/[0.06]"><Phone size={14} aria-hidden="true" />Call</a>}
+              {a.phone && <a href={`tel:${a.phone.replace(/[^\d+]/g, '')}`} className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-line-strong px-3 text-[0.8125rem] text-text hover:bg-surface-3"><Phone size={14} aria-hidden="true" />Call</a>}
             </div>
             <SelectField label="Status" value={a.status} disabled={statusBusy} onChange={(e) => setStatus(e.target.value as ApplicationStatus)}>
               {APPLICATION_STATUSES.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
             </SelectField>
             <DefinitionList items={[
-              { term: 'Email', value: <a className="text-brand-soft hover:text-text" href={`mailto:${a.email}`}>{a.email}</a> },
+              { term: 'Email', value: <a className="text-brand hover:text-text" href={`mailto:${a.email}`}>{a.email}</a> },
               { term: 'Phone', value: a.phone },
               { term: 'Role', value: a.roleTitle },
               { term: 'Received', value: formatDateTime(a.createdAt) },
@@ -183,7 +183,7 @@ function ApplicationDrawer({ id, canDelete, onClose, onChanged, onDeleted }: {
               <h3 className="mb-1.5 text-xs text-subtle">Work links</h3>
               {links.length ? (
                 <ul className="space-y-1">
-                  {links.map((l) => <li key={l}><a href={linkHref(l)} target="_blank" rel="noopener noreferrer nofollow" className="inline-flex max-w-full items-center gap-1 break-all text-sm text-brand-soft hover:text-text">{l}<ExternalLink size={12} aria-hidden="true" className="shrink-0" /></a></li>)}
+                  {links.map((l) => <li key={l}><a href={linkHref(l)} target="_blank" rel="noopener noreferrer nofollow" className="inline-flex max-w-full items-center gap-1 break-all text-sm text-brand hover:text-text">{l}<ExternalLink size={12} aria-hidden="true" className="shrink-0" /></a></li>)}
                 </ul>
               ) : <p className="text-sm text-subtle">No links given.</p>}
             </div>

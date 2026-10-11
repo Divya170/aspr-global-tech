@@ -33,7 +33,7 @@ export function ActivityPage() {
     { key: 'actor', header: 'Who', className: 'whitespace-nowrap', cell: (a) => <span className={a.userId ? 'text-text' : 'text-subtle'}>{a.actor}</span> },
     { key: 'what', header: 'What happened', cell: (a) => {
       const href = entityHref(a.entity, a.entityId, user.permissions);
-      return <span className="break-words text-muted">{href ? <Link href={href} className="text-text hover:text-brand-soft hover:underline">{a.summary}</Link> : a.summary}</span>;
+      return <span className="break-words text-muted">{href ? <Link href={href} className="text-text hover:text-brand hover:underline">{a.summary}</Link> : a.summary}</span>;
     } },
     { key: 'action', header: 'Action', headerClassName: 'hidden lg:table-cell', className: 'hidden lg:table-cell', cell: (a) => <code className="font-mono text-xs text-subtle">{a.action}</code> },
   ];
@@ -61,7 +61,7 @@ export function ActivityPage() {
                   const href = entityHref(a.entity, a.entityId, user.permissions);
                   return (
                     <div className="px-4 py-3 text-sm">
-                      <p className="break-words text-text">{href ? <Link href={href} className="hover:text-brand-soft">{a.summary}</Link> : a.summary}</p>
+                      <p className="break-words text-text">{href ? <Link href={href} className="hover:text-brand">{a.summary}</Link> : a.summary}</p>
                       <p className="mt-0.5 text-xs text-subtle">{a.actor} · {timeAgo(a.createdAt)}</p>
                     </div>
                   );

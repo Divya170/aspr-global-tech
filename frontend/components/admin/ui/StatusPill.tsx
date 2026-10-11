@@ -2,8 +2,8 @@ import type { ReactNode } from 'react';
 import type { Tone } from '@/lib/admin/constants';
 
 const tones: Record<Tone, string> = {
-  neutral: 'border-line-strong bg-white/[0.04] text-muted',
-  brand: 'border-brand/35 bg-brand/12 text-brand-soft',
+  neutral: 'border-line-strong bg-surface text-muted',
+  brand: 'border-brand/35 bg-brand/12 text-brand',
   accent: 'border-accent/35 bg-accent/12 text-accent-soft',
   signal: 'border-signal/30 bg-signal/10 text-signal',
   success: 'border-success/30 bg-success/10 text-success',

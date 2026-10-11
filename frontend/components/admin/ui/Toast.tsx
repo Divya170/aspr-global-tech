@@ -19,7 +19,7 @@ const ICONS = { success: CheckCircle2, error: AlertTriangle, info: Info };
 const STYLES: Record<Kind, string> = {
   success: 'border-success/30 [&_svg.k]:text-success',
   error: 'border-danger/40 [&_svg.k]:text-danger',
-  info: 'border-brand/35 [&_svg.k]:text-brand-soft',
+  info: 'border-brand/35 [&_svg.k]:text-brand',
 };
 
 /** Transient messages. Errors are announced assertively and stay longer. */
@@ -53,7 +53,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 function ToastView({ t, onClose }: { t: ToastItem; onClose: () => void }) {
   const I = ICONS[t.kind];
   return (
-    <div className={`pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-xl border bg-surface-2 px-4 py-3 text-sm text-text shadow-xl shadow-black/50 animate-page-in ${STYLES[t.kind]}`}>
+    <div className={`pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-xl border bg-surface-2 px-4 py-3 text-sm text-text shadow-xl shadow-navy/16 animate-page-in ${STYLES[t.kind]}`}>
       <I aria-hidden="true" size={18} className="k mt-px shrink-0" />
       <p className="min-w-0 flex-1">{t.message}</p>
       <button type="button" onClick={onClose} aria-label="Dismiss" className="-mr-1 rounded text-subtle hover:text-text"><X size={16} aria-hidden="true" /></button>

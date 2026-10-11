@@ -139,14 +139,14 @@ function ListView({ schema }: { schema: CollectionSchema }) {
 
   const columns: Column<ContentItem>[] = [
     ...(imageKey ? [{ key: 'img', header: <span className="sr-only">Image</span>, className: 'w-16', cell: (i: ContentItem) => (
-      <div className="h-10 w-14 overflow-hidden rounded-md border border-line bg-white/[0.03]">
+      <div className="h-10 w-14 overflow-hidden rounded-md border border-line bg-surface">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         {i[imageKey] ? <img src={String(i[imageKey])} alt="" loading="lazy" className="h-full w-full object-cover" /> : <span className="flex h-full items-center justify-center text-subtle"><ImageIcon size={14} aria-hidden="true" /></span>}
       </div>
     ) }] : []),
     { key: 'title', header: fields.get(schema.titleKey)?.label ?? 'Title', cell: (i) => (
       <div className="min-w-0 max-w-md">
-        <Link href={`/admin/content/${schema.name}/${i.id}`} className="font-medium text-text hover:text-brand-soft">{title(i)}</Link>
+        <Link href={`/admin/content/${schema.name}/${i.id}`} className="font-medium text-text hover:text-brand">{title(i)}</Link>
         {subKey && i[subKey] ? <p className="truncate text-xs text-subtle">{String(i[subKey])}</p> : null}
         <p className="mt-0.5 flex flex-wrap gap-1">
           {filterFields.map((fd) => { const l = valueLabel(fd, i); return l ? <span key={fd.key} className="rounded border border-line px-1.5 text-[0.7rem] text-muted">{l}</span> : null; })}
@@ -168,8 +168,8 @@ function ListView({ schema }: { schema: CollectionSchema }) {
       const url = i.active ? publicUrl(schema, i) : null;
       return (
         <div className="flex items-center justify-end gap-0.5">
-          {url && <a href={url} target="_blank" rel="noopener noreferrer" aria-label={`View “${title(i)}” on the website`} title="View on site" className="inline-flex h-7 w-7 items-center justify-center rounded-lg text-muted hover:bg-white/[0.07] hover:text-text"><ExternalLink size={14} aria-hidden="true" /></a>}
-          <Link href={`/admin/content/${schema.name}/${i.id}`} aria-label={`Edit “${title(i)}”`} title="Edit" className="inline-flex h-7 w-7 items-center justify-center rounded-lg text-muted hover:bg-white/[0.07] hover:text-text"><Pencil size={14} aria-hidden="true" /></Link>
+          {url && <a href={url} target="_blank" rel="noopener noreferrer" aria-label={`View “${title(i)}” on the website`} title="View on site" className="inline-flex h-7 w-7 items-center justify-center rounded-lg text-muted hover:bg-surface-3 hover:text-text"><ExternalLink size={14} aria-hidden="true" /></a>}
+          <Link href={`/admin/content/${schema.name}/${i.id}`} aria-label={`Edit “${title(i)}”`} title="Edit" className="inline-flex h-7 w-7 items-center justify-center rounded-lg text-muted hover:bg-surface-3 hover:text-text"><Pencil size={14} aria-hidden="true" /></Link>
           <IconButton size="sm" label={`Delete “${title(i)}”`} onClick={() => setToDelete(i)} className="hover:!text-danger"><Trash2 size={14} aria-hidden="true" /></IconButton>
         </div>
       );
@@ -212,7 +212,7 @@ function ListView({ schema }: { schema: CollectionSchema }) {
                 mobileCard={(i) => (
                   <div className="flex items-center gap-3 px-4 py-3">
                     {imageKey && (
-                      <div className="h-12 w-16 shrink-0 overflow-hidden rounded-md border border-line bg-white/[0.03]">
+                      <div className="h-12 w-16 shrink-0 overflow-hidden rounded-md border border-line bg-surface">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         {i[imageKey] ? <img src={String(i[imageKey])} alt="" loading="lazy" className="h-full w-full object-cover" /> : null}
                       </div>

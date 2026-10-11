@@ -79,7 +79,7 @@ export function Modal({ open, onClose, title, description, children, footer, siz
   return (
     <Portal>
       <div className="fixed inset-0 z-[80] flex items-end justify-center p-0 sm:items-center sm:p-6">
-        <div className="absolute inset-0 bg-[#02040a]/75 backdrop-blur-[2px]" onClick={onClose} aria-hidden="true" />
+        <div className="absolute inset-0 bg-navy/40 backdrop-blur-[2px]" onClick={onClose} aria-hidden="true" />
         <div
           ref={panel}
           role={role}
@@ -87,7 +87,7 @@ export function Modal({ open, onClose, title, description, children, footer, siz
           aria-labelledby={titleId}
           aria-describedby={description ? descId : undefined}
           tabIndex={-1}
-          className={`relative flex max-h-[92dvh] w-full ${width} flex-col overflow-hidden rounded-t-2xl border border-line-strong bg-surface shadow-2xl shadow-black/60 outline-none sm:rounded-2xl`}
+          className={`relative flex max-h-[92dvh] w-full ${width} flex-col overflow-hidden rounded-t-2xl border border-line-strong bg-surface shadow-2xl shadow-navy/20 outline-none sm:rounded-2xl`}
         >
           <div className="flex items-start gap-3 border-b border-line px-5 py-4">
             <div className="min-w-0 flex-1">

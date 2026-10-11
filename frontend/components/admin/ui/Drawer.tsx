@@ -25,14 +25,14 @@ export function Drawer({ open, onClose, title, subtitle, children, footer, side 
   return (
     <Portal>
       <div className="fixed inset-0 z-[70]">
-        <div className="absolute inset-0 bg-[#02040a]/70 backdrop-blur-[2px]" onClick={onClose} aria-hidden="true" />
+        <div className="absolute inset-0 bg-navy/40 backdrop-blur-[2px]" onClick={onClose} aria-hidden="true" />
         <div
           ref={panel}
           role="dialog"
           aria-modal="true"
           aria-labelledby={titleId}
           tabIndex={-1}
-          className={`absolute inset-y-0 ${side === 'right' ? 'right-0 border-l' : 'left-0 border-r'} flex w-full ${width} flex-col border-line-strong bg-surface shadow-2xl shadow-black/60 outline-none`}
+          className={`absolute inset-y-0 ${side === 'right' ? 'right-0 border-l' : 'left-0 border-r'} flex w-full ${width} flex-col border-line-strong bg-surface shadow-2xl shadow-navy/20 outline-none`}
         >
           <div className="flex items-start gap-3 border-b border-line px-5 py-4">
             <div className="min-w-0 flex-1">

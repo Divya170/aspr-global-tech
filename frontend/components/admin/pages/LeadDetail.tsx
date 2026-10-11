@@ -147,7 +147,7 @@ export function LeadDetail({ id }: { id: number }) {
           <a href={`mailto:${lead.email}?subject=${encodeURIComponent(`Your enquiry ${lead.refNo}`)}`} className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-brand px-4 text-sm font-medium text-white hover:bg-brand-strong">
             <Mail size={15} aria-hidden="true" /> Reply by email
           </a>
-          {lead.phone && <a href={`tel:${lead.phone.replace(/[^\d+]/g, '')}`} className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-line-strong px-4 text-sm text-text hover:bg-white/[0.06]"><Phone size={15} aria-hidden="true" /> Call</a>}
+          {lead.phone && <a href={`tel:${lead.phone.replace(/[^\d+]/g, '')}`} className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-line-strong px-4 text-sm text-text hover:bg-surface-3"><Phone size={15} aria-hidden="true" /> Call</a>}
         </div>
       </header>
 
@@ -157,8 +157,8 @@ export function LeadDetail({ id }: { id: number }) {
             <CardHeader id="lead-contact" title="Contact & project" />
             <div className="p-4">
               <DefinitionList items={[
-                { term: 'Email', value: <a href={`mailto:${lead.email}`} className="text-brand-soft hover:text-text">{lead.email}</a> },
-                { term: 'Phone', value: lead.phone && <a href={`tel:${lead.phone.replace(/[^\d+]/g, '')}`} className="text-brand-soft hover:text-text">{lead.phone}</a> },
+                { term: 'Email', value: <a href={`mailto:${lead.email}`} className="text-brand hover:text-text">{lead.email}</a> },
+                { term: 'Phone', value: lead.phone && <a href={`tel:${lead.phone.replace(/[^\d+]/g, '')}`} className="text-brand hover:text-text">{lead.phone}</a> },
                 { term: 'Company', value: lead.company },
                 { term: 'Project type', value: lead.needs.length > 1 ? lead.needs.join(', ') : lead.projectType },
                 { term: 'Budget', value: lead.budget },

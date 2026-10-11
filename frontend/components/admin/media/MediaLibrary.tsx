@@ -74,7 +74,7 @@ export function UploadProgress({ rows, onDismiss }: { rows: UploadRow[]; onDismi
             {(r.error || r.done) && <IconButton size="sm" label="Dismiss" onClick={() => onDismiss(r.key)}><X size={14} aria-hidden="true" /></IconButton>}
           </div>
           {r.error ? <p role="alert" className="mt-1 text-xs text-danger">{r.error}</p> : (
-            <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-white/[0.06]" role="progressbar" aria-label={`Uploading ${r.name}`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(r.progress * 100)}>
+            <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-surface-3" role="progressbar" aria-label={`Uploading ${r.name}`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(r.progress * 100)}>
               <div className={`h-1 rounded-full transition-[width] ${r.done ? 'bg-success' : 'bg-brand'}`} style={{ width: `${Math.max(3, r.progress * 100)}%` }} />
             </div>
           )}
@@ -90,9 +90,9 @@ function Dropzone({ onFiles, accept = ACCEPT, hint }: { onFiles: (f: File[]) => 
   const drop = (e: DragEvent) => { e.preventDefault(); setOver(false); const fs = [...e.dataTransfer.files]; if (fs.length) onFiles(fs); };
   return (
     <div onDragOver={(e) => { e.preventDefault(); setOver(true); }} onDragLeave={() => setOver(false)} onDrop={drop}
-      className={`flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed px-4 py-6 text-center transition-colors ${over ? 'border-brand-soft bg-brand/10' : 'border-line-strong bg-white/[0.015]'}`}>
-      <UploadCloud size={22} aria-hidden="true" className="text-brand-soft" />
-      <p className="text-sm text-text">Drag files here, or <button type="button" onClick={() => input.current?.click()} className="font-medium text-brand-soft underline-offset-2 hover:underline">browse</button></p>
+      className={`flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed px-4 py-6 text-center transition-colors ${over ? 'border-brand-soft bg-brand/10' : 'border-line-strong bg-surface'}`}>
+      <UploadCloud size={22} aria-hidden="true" className="text-brand" />
+      <p className="text-sm text-text">Drag files here, or <button type="button" onClick={() => input.current?.click()} className="font-medium text-brand underline-offset-2 hover:underline">browse</button></p>
       <p className="text-xs text-subtle">{hint}</p>
       <input ref={input} type="file" multiple accept={accept} className="sr-only" tabIndex={-1} aria-hidden="true"
         onChange={(e) => { const fs = [...(e.target.files || [])]; e.target.value = ''; if (fs.length) onFiles(fs); }} />
@@ -102,9 +102,9 @@ function Dropzone({ onFiles, accept = ACCEPT, hint }: { onFiles: (f: File[]) => 
 
 function Thumb({ m }: { m: MediaItem }) {
   return m.kind === 'video' ? (
-    <div className="relative h-full w-full bg-black">
+    <div className="relative h-full w-full bg-navy">
       <video src={m.url} muted preload="metadata" className="h-full w-full object-cover" />
-      <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded bg-black/70 px-1.5 py-0.5 text-[0.65rem] text-white"><Film size={11} aria-hidden="true" />Video</span>
+      <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded bg-navy/35 px-1.5 py-0.5 text-[0.65rem] text-white"><Film size={11} aria-hidden="true" />Video</span>
     </div>
   ) : (
     // eslint-disable-next-line @next/next/no-img-element

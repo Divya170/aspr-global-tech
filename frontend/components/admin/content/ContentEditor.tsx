@@ -164,7 +164,7 @@ function EditorForm({ schema, item }: { schema: CollectionSchema; item: ContentI
           </h1>
         </div>
         <div className="flex flex-wrap gap-2">
-          {url && <a href={url} target="_blank" rel="noopener noreferrer" className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-line-strong px-3 text-sm text-text hover:bg-white/[0.06]">View on site <ExternalLink size={14} aria-hidden="true" /></a>}
+          {url && <a href={url} target="_blank" rel="noopener noreferrer" className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-line-strong px-3 text-sm text-text hover:bg-surface-3">View on site <ExternalLink size={14} aria-hidden="true" /></a>}
           {!isNew && <AButton variant="danger-ghost" onClick={() => setConfirmDelete(true)} icon={<Trash2 size={15} aria-hidden="true" />}>Delete</AButton>}
         </div>
       </header>
@@ -203,7 +203,7 @@ function EditorForm({ schema, item }: { schema: CollectionSchema; item: ContentI
             <Card key={s.name} aria-labelledby={`section-${slugify(s.name)}`} className="scroll-mt-20">
               <div className="border-b border-line px-4 py-3">
                 <h2 id={`section-${slugify(s.name)}`} className="scroll-mt-20 text-sm font-semibold text-text">{s.name}</h2>
-                {help[s.name] && <p className="mt-1 flex gap-1.5 text-xs leading-relaxed text-muted"><Info size={13} aria-hidden="true" className="mt-0.5 shrink-0 text-brand-soft" />{help[s.name]}</p>}
+                {help[s.name] && <p className="mt-1 flex gap-1.5 text-xs leading-relaxed text-muted"><Info size={13} aria-hidden="true" className="mt-0.5 shrink-0 text-brand" />{help[s.name]}</p>}
               </div>
               <div className="grid gap-x-4 gap-y-5 p-4 sm:grid-cols-2">
                 {s.fields.map((f) => (

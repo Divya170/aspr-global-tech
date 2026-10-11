@@ -7,9 +7,9 @@ type Size = 'xs' | 'sm' | 'md';
 
 const base = 'inline-flex shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-lg font-medium transition-colors duration-150 disabled:pointer-events-none disabled:opacity-50';
 const variants: Record<Variant, string> = {
-  primary: 'bg-brand-strong text-white hover:bg-brand-strong shadow-[0_0_0_1px_rgb(255_255_255/0.1)_inset]',
-  secondary: 'border border-line-strong bg-white/[0.03] text-text hover:border-brand-soft/40 hover:bg-white/[0.07]',
-  ghost: 'text-muted hover:bg-white/[0.06] hover:text-text',
+  primary: 'bg-brand text-white hover:bg-brand-strong shadow-[0_0_0_1px_color-mix(in_srgb,var(--color-navy)_6%,transparent)_inset]',
+  secondary: 'border border-line-strong bg-surface text-text hover:border-brand-soft/40 hover:bg-surface-3',
+  ghost: 'text-muted hover:bg-surface-3 hover:text-text',
   danger: 'bg-danger/90 text-white hover:bg-danger',
   'danger-ghost': 'text-danger hover:bg-danger/10',
 };
@@ -36,7 +36,7 @@ export function ALink({ variant, size, className, icon, children, ...rest }: Com
 export function IconButton({ label, children, className = '', size = 'md', ...rest }: { label: string; children: ReactNode; className?: string; size?: 'sm' | 'md' } & Omit<ComponentProps<'button'>, 'className' | 'children'>) {
   const dim = size === 'sm' ? 'h-7 w-7' : 'h-9 w-9';
   return (
-    <button type="button" aria-label={label} title={label} className={`inline-flex ${dim} shrink-0 items-center justify-center rounded-lg text-muted transition-colors hover:bg-white/[0.07] hover:text-text disabled:pointer-events-none disabled:opacity-40 ${className}`} {...rest}>
+    <button type="button" aria-label={label} title={label} className={`inline-flex ${dim} shrink-0 items-center justify-center rounded-lg text-muted transition-colors hover:bg-surface-3 hover:text-text disabled:pointer-events-none disabled:opacity-40 ${className}`} {...rest}>
       {children}
     </button>
   );

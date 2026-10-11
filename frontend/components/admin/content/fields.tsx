@@ -139,9 +139,9 @@ function PairsEditor({ field, value, onChange, error }: WidgetProps<string[][]>)
 function MediaPreview({ src, alt = '', className = '' }: { src: string; alt?: string; className?: string }) {
   const [broken, setBroken] = useState(false);
   useEffect(() => setBroken(false), [src]);
-  if (!src) return <div className={`flex items-center justify-center bg-white/[0.03] text-subtle ${className}`}><ImageIcon size={22} aria-hidden="true" /></div>;
+  if (!src) return <div className={`flex items-center justify-center bg-surface text-subtle ${className}`}><ImageIcon size={22} aria-hidden="true" /></div>;
   if (broken) return <div className={`flex items-center justify-center bg-danger/10 px-2 text-center text-xs text-danger ${className}`}>Can&apos;t load this file</div>;
-  if (isVideoSrc(src)) return <video src={src} muted controls preload="metadata" className={`bg-black object-contain ${className}`} onError={() => setBroken(true)} />;
+  if (isVideoSrc(src)) return <video src={src} muted controls preload="metadata" className={`bg-navy object-contain ${className}`} onError={() => setBroken(true)} />;
   // eslint-disable-next-line @next/next/no-img-element
   return <img src={src} alt={alt} className={`object-cover ${className}`} onError={() => setBroken(true)} />;
 }
@@ -278,7 +278,7 @@ function RefsPicker({ field, value, onChange, error }: WidgetProps<number[]>) {
               {selected.map((i) => (
                 <li key={i.id}>
                   <button type="button" onClick={() => toggle(i.id)} aria-label={`Remove ${refLabel(i, key)}`}
-                    className="inline-flex items-center gap-1 rounded-full border border-brand/35 bg-brand/12 px-2 py-0.5 text-xs text-brand-soft hover:border-danger/40 hover:text-danger">
+                    className="inline-flex items-center gap-1 rounded-full border border-brand/35 bg-brand/12 px-2 py-0.5 text-xs text-brand hover:border-danger/40 hover:text-danger">
                     {refLabel(i, key)} <X size={11} aria-hidden="true" />
                   </button>
                 </li>
@@ -292,7 +292,7 @@ function RefsPicker({ field, value, onChange, error }: WidgetProps<number[]>) {
           )}
           <div className="grid max-h-56 grid-cols-1 gap-x-4 gap-y-1 overflow-y-auto p-2.5 sm:grid-cols-2 lg:grid-cols-3">
             {shown.map((i) => (
-              <label key={i.id} className="flex cursor-pointer items-center gap-2 rounded px-1 py-0.5 text-sm text-text hover:bg-white/[0.04]">
+              <label key={i.id} className="flex cursor-pointer items-center gap-2 rounded px-1 py-0.5 text-sm text-text hover:bg-surface">
                 <input type="checkbox" checked={value.includes(i.id)} onChange={() => toggle(i.id)} className="h-4 w-4 accent-[var(--color-brand)]" />
                 <span className="truncate">{refLabel(i, key)}</span>
               </label>

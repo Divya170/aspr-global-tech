@@ -64,7 +64,7 @@ function Note({ tone = 'info', children }: { tone?: 'info' | 'warning'; children
   const I = tone === 'info' ? Info : AlertTriangle;
   return (
     <p className={`flex gap-2 rounded-lg border px-3 py-2 text-xs leading-relaxed text-text ${tone === 'info' ? 'border-brand/25 bg-brand/[0.06]' : 'border-warning/30 bg-warning/[0.07]'}`}>
-      <I size={14} aria-hidden="true" className={`mt-px shrink-0 ${tone === 'info' ? 'text-brand-soft' : 'text-warning'}`} />{children}
+      <I size={14} aria-hidden="true" className={`mt-px shrink-0 ${tone === 'info' ? 'text-brand' : 'text-warning'}`} />{children}
     </p>
   );
 }

@@ -4,11 +4,12 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { formatNumber, monthLong, monthShort } from '@/lib/admin/format';
 
 /*
- * Small dependency-free charts for the dashboard. Palette (validated for the dark surface #0b1020,
- * lightness band, CVD and normal-vision separation): series 1 = brand #4170ff, series 2 = #1fa18c.
+ * Small dependency-free charts for the dashboard, on the light surface. Series 1 = brand blue,
+ * series 2 = the teal tone (both ≥ 4.5:1 on white and distinct in hue and lightness for CVD).
+ * Colours are CSS variables, applied through style so SVG resolves them.
  * Text always uses text tokens; identity comes from the swatch next to it.
  */
-const SERIES = ['#4170ff', '#1fa18c'] as const;
+const SERIES = ['var(--color-brand)', 'var(--color-tone-teal)'] as const;
 
 function useWidth<T extends HTMLElement>() {
   const ref = useRef<T>(null);
@@ -71,7 +72,7 @@ export function LeadsByMonthChart({ data }: { data: { month: string; total: numb
     const h = pad.top + innerH - yTop;
     const r = Math.min(4, h, barW / 2);
     const d = `M${x},${pad.top + innerH} V${yTop + r} Q${x},${yTop} ${x + r},${yTop} H${x + barW - r} Q${x + barW},${yTop} ${x + barW},${yTop + r} V${pad.top + innerH} Z`;
-    return <path d={d} fill={color} />;
+    return <path d={d} style={{ fill: color }} />;
   };
 
   return (
@@ -82,8 +83,8 @@ export function LeadsByMonthChart({ data }: { data: { month: string; total: numb
           <svg width={width} height={height} role="img" aria-label={`Column chart of leads per month. ${formatNumber(totalAll)} leads and ${formatNumber(wonAll)} won over the last 12 months.`}>
             {ticks.map((t) => (
               <g key={t}>
-                <line x1={pad.left} x2={width - pad.right} y1={y(t)} y2={y(t)} stroke="rgb(148 163 255 / 0.1)" strokeWidth={1} />
-                <text x={pad.left - 8} y={y(t)} dy="0.32em" textAnchor="end" fontSize={11} fill="#7d86a0" className="tabular-nums">{formatNumber(t)}</text>
+                <line x1={pad.left} x2={width - pad.right} y1={y(t)} y2={y(t)} style={{ stroke: 'var(--color-line)' }} strokeWidth={1} />
+                <text x={pad.left - 8} y={y(t)} dy="0.32em" textAnchor="end" fontSize={11} style={{ fill: 'var(--color-subtle)' }} className="tabular-nums">{formatNumber(t)}</text>
               </g>
             ))}
             {data.map((d, i) => {
@@ -91,11 +92,11 @@ export function LeadsByMonthChart({ data }: { data: { month: string; total: numb
               const cx = x0 + band / 2;
               return (
                 <g key={d.month}>
-                  {hover === i && <rect x={x0 + 1} y={pad.top} width={band - 2} height={innerH} fill="rgb(255 255 255 / 0.035)" rx={4} />}
+                  {hover === i && <rect x={x0 + 1} y={pad.top} width={band - 2} height={innerH} style={{ fill: 'var(--color-surface-3)' }} rx={4} />}
                   {column(cx - barW - 1, d.total, SERIES[0])}
                   {column(cx + 1, d.won, SERIES[1])}
                   {(!narrow || i % 2 === 1) && (
-                    <text x={cx} y={height - 8} textAnchor="middle" fontSize={11} fill="#7d86a0">{monthShort(d.month)}</text>
+                    <text x={cx} y={height - 8} textAnchor="middle" fontSize={11} style={{ fill: 'var(--color-subtle)' }}>{monthShort(d.month)}</text>
                   )}
                   <rect x={x0} y={pad.top} width={band} height={innerH + pad.bottom} fill="transparent" onMouseEnter={() => setHover(i)} />
                 </g>
@@ -104,7 +105,7 @@ export function LeadsByMonthChart({ data }: { data: { month: string; total: numb
           </svg>
         )}
         {hover !== null && data[hover] && width > 0 && (
-          <div aria-hidden="true" className="pointer-events-none absolute z-10 min-w-36 rounded-lg border border-line-strong bg-surface-3 px-3 py-2 text-xs shadow-xl shadow-black/50"
+          <div aria-hidden="true" className="pointer-events-none absolute z-10 min-w-36 rounded-lg border border-line-strong bg-surface-3 px-3 py-2 text-xs shadow-xl shadow-navy/16"
             style={{ left: Math.min(Math.max(pad.left + hover * band + band / 2 - 72, 0), width - 150), top: 0 }}>
             <p className="mb-1 font-medium text-text">{monthLong(data[hover].month)}</p>
             <p className="flex items-center justify-between gap-4 text-muted"><span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-[2px]" style={{ background: SERIES[0] }} />All leads</span><span className="tabular-nums text-text">{data[hover].total}</span></p>
@@ -143,7 +144,7 @@ export function HorizontalBars({ items, label, color = SERIES[0], renderLabel, e
               <span className="min-w-0 truncate text-text">{renderLabel ? renderLabel(i) : i.label}</span>
               <span className="shrink-0 tabular-nums text-muted"><span className="text-text">{formatNumber(i.value)}</span> · {pct}%</span>
             </div>
-            <div aria-hidden="true" className="h-2 rounded-full bg-white/[0.04]">
+            <div aria-hidden="true" className="h-2 rounded-full bg-surface">
               <div className="h-2 rounded-full" style={{ width: `${Math.max(2, (i.value / max) * 100)}%`, background: color }} />
             </div>
           </li>
