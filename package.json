@@ -4,7 +4,7 @@
   "private": true,
   "description": "ASPR Global Tech website — Next.js frontend, NestJS API, SQLite database",
   "scripts": {
-    "postinstall": "npm --prefix backend install --include=dev && npm --prefix frontend install --include=dev",
+    "postinstall": "npm --prefix backend ci --include=dev && npm --prefix frontend ci --include=dev",
     "install:all": "npm install",
     "dev": "concurrently -n api,web -c blue,green \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
     "build": "npm --prefix backend run build && npm --prefix frontend run build",
