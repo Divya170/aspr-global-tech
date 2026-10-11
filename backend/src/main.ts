@@ -5,13 +5,16 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import type { NextFunction, Request, Response } from 'express';
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './common/exception.filter';
-import { config } from './config';
+import { config, productionConfigProblems } from './config';
 
 /**
  * Starts the API. Runs directly (`node dist/main`) or is called by the root server.js,
  * which handles shutdown signals itself and passes `shutdownHooks: false`.
  */
 export async function bootstrap({ shutdownHooks = true } = {}): Promise<NestExpressApplication> {
+  const { errors, warnings } = productionConfigProblems();
+  for (const w of warnings) console.warn(`[Config] ${w}`);
+  if (errors.length) throw new Error(`Refusing to start in production:\n- ${errors.join('\n- ')}`);
   const app = await NestFactory.create<NestExpressApplication>(AppModule, { logger: config.isProd ? ['log', 'warn', 'error'] : undefined });
   app.disable('x-powered-by');
   if (config.trustProxy) app.set('trust proxy', 1);

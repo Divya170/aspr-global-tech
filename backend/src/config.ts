@@ -68,3 +68,25 @@ export const config = {
   maxImageBytes: 8 * 1024 * 1024,
   maxVideoBytes: 60 * 1024 * 1024,
 };
+
+/**
+ * Production start-up checks. Errors stop the process with a clear message; warnings are for
+ * optional features. (Sessions are random opaque tokens stored hashed, so there is no session
+ * secret to set. The first admin's password is checked separately when the account is created.)
+ */
+export function productionConfigProblems(): { errors: string[]; warnings: string[] } {
+  const errors: string[] = [];
+  const warnings: string[] = [];
+  if (!config.isProd) return { errors, warnings };
+  if (!/^https:\/\//.test(config.siteUrl) || /localhost|127\.0\.0\.1/.test(config.siteUrl)) {
+    errors.push(`SITE_URL / NEXT_PUBLIC_SITE_URL must be the public https URL (got "${config.siteUrl}").`);
+  }
+  for (const key of ['DB_PATH', 'UPLOAD_DIR']) {
+    const v = process.env[key];
+    if (!v || !path.isAbsolute(v)) errors.push(`${key} must be an absolute path outside the app folder, so redeploys never touch the data.`);
+  }
+  if (config.smtp.host && (!config.smtp.user || !config.smtp.pass)) errors.push('SMTP_HOST is set but SMTP_USER or SMTP_PASS is missing.');
+  if (!config.smtp.host) warnings.push('SMTP_HOST is not set: leads are saved but no email is sent (optional, strongly recommended).');
+  if (!process.env.GEMINI_API_KEY) warnings.push('GEMINI_API_KEY is not set: the chat assistant answers from the built-in knowledge base only (optional).');
+  return { errors, warnings };
+}
