@@ -9,7 +9,7 @@
    adds no per-frame style, layout or paint work while the page is loading. Entrance animations are
    not listed and run as before. */
 html:not(.fx-live) :is(.ct-code, .ct-live-dot::after, .ct-orbit > i, .ct-orbit::before, .ct-skel-bar > span, .ct-skel-card, .ct-skel-card > i, .ct-svc-orbit > i,
-  .ct-svc-orbit::before, .fm-node.is-current .fm-dot::after, .ft-strip-track, .fx-aurora > i, .fx-border-live::after, .hero-float, .hv-badge, .hv-chat,
+  .ct-svc-orbit::before, .fm-node.is-current .fm-dot::after, .ft-strip-track, .fx-aurora > i, .fx-border-live::after, .hv-badge, .hv-chat,
   .hv-glow, .hv-orbit, .hv-orbit b, .hv-typing i, .ix-jitem.is-next .ix-jcard, .ix-marquee-track, .ix-orb, .ix-ping, .ph-blob,
   .svx-feature-art > i, .svx-hub::before, .svx-outcomes > i, .svx-rings::before, .svx-shot-badge, .svx-tl-item.is-current .svx-tl-node::after) { animation-play-state: paused; }
 
