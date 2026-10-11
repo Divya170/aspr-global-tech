@@ -11,18 +11,28 @@ import './hero.css';
  * Both settle to a static state for reduced motion.
  */
 
-const WORDS = ['Websites', 'Mobile Apps', 'SaaS Platforms', 'AI Chatbots', 'Games', 'Brands'];
+/** Short hero label per published service slug. Only services the API returns as published are shown. */
+const WORD_FOR: Record<string, string> = {
+  'website-development': 'Websites', '3d-website-development': '3D Websites', 'web-application-development': 'Web Apps',
+  'custom-software-development': 'Custom Software', 'mobile-app-development': 'Mobile Apps', 'ui-ux-design': 'UI/UX Design',
+  'business-automation': 'Automation', 'branding-digital-design': 'Brands',
+};
+
+export interface HeroService { slug: string; icon: string }
+const wordsFor = (services: HeroService[]) => services.map((s) => WORD_FOR[s.slug]).filter(Boolean);
 
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/** "We build ___" with the word swapping every 2.2s. Screen readers get the whole list once. */
-export function RotatingWord() {
+/** "We build ___" with the word swapping every 2.2s, over the published services. Screen readers get the whole list once. */
+export function RotatingWord({ services }: { services: HeroService[] }) {
+  const WORDS = wordsFor(services);
   const [i, setI] = useState(0);
   useEffect(() => {
-    if (reducedMotion()) return;
+    if (reducedMotion() || WORDS.length < 2) return;
     const id = setInterval(() => setI((x) => (x + 1) % WORDS.length), 2200);
     return () => clearInterval(id);
-  }, []);
+  }, [WORDS.length]);
+  if (!WORDS.length) return null;
   return (
     <p className="hv-rot">
       <span aria-hidden="true">We build</span>
@@ -39,12 +49,12 @@ const CHAT = [
   { me: false, text: 'Typically 8–16 weeks. Want a fixed quote?' },
 ];
 
-const ORBIT = ['globe', 'smartphone', 'bot', 'gamepad-2', 'palette', 'search'];
-
 export interface HeroBadge { icon: string; strong: string; small: string }
 
 /** Decorative (aria-hidden); clicking the chat opens the real assistant, which has its own launcher. */
-export function HeroStage({ badges }: { badges: HeroBadge[] }) {
+export function HeroStage({ badges, services }: { badges: HeroBadge[]; services: HeroService[] }) {
+  // Orbit icons: one per published service (their CMS icons), at most eight.
+  const orbit = [...new Set(services.map((s) => s.icon))].slice(0, 8);
   const [n, setN] = useState(0);
   useEffect(() => {
     if (reducedMotion()) { setN(CHAT.length); return; }
@@ -58,8 +68,8 @@ export function HeroStage({ badges }: { badges: HeroBadge[] }) {
     <div className="hv" aria-hidden="true">
       <div className="hv-glow" />
       <div className="hv-orbit">
-        {ORBIT.map((ic, i) => (
-          <span key={ic} style={{ '--a': `${(360 / ORBIT.length) * i}deg` } as CSSProperties}><b><Icon name={ic} size={22} /></b></span>
+        {orbit.map((ic, i) => (
+          <span key={ic} style={{ '--a': `${(360 / orbit.length) * i}deg` } as CSSProperties}><b><Icon name={ic} size={22} /></b></span>
         ))}
       </div>
 

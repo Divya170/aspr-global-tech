@@ -76,7 +76,7 @@ export default async function HomePage() {
               </p>
             )}
             <h1 id="hero-title" className="text-display-xl lg:text-[clamp(2.6rem,4.3vw,4.1rem)]"><Emphasis text={hero.headline} /></h1>
-            <RotatingWord />
+            <RotatingWord services={site.services} />
             {hero.sub && <p className="text-lead mt-6 max-w-xl">{hero.sub}</p>}
             <div className="mt-10 flex animate-fade-up flex-wrap gap-3 [animation-delay:240ms]">
               <Magnetic><ButtonLink href="/quote" size="lg" arrow>Start a Project</ButtonLink></Magnetic>
@@ -86,7 +86,7 @@ export default async function HomePage() {
               {['Websites', '3D & WebGL', 'Web Apps', 'Custom Software', 'Mobile Apps'].map((x) => <li key={x}>{x}</li>)}
             </ul>
           </div>
-          <div className="hidden md:block"><HeroStage badges={badges} /></div>
+          <div className="hidden md:block"><HeroStage badges={badges} services={site.services} /></div>
         </Container>
       </section>
 
