@@ -93,6 +93,38 @@ describe('public content', () => {
     assert.deepEqual(r.body.items, []);
   });
 
+  // v1 content kept as drafts by migration 003: never public, still in the admin.
+  const DRAFT_SERVICES = ['ai-and-chatbot-solutions', 'game-development', 'graphics-design', 'video-editing', 'seo'];
+  const DRAFT_PROJECTS = ['retail-brand-coimbatore', 'clinic-group-tamil-nadu', 'manufacturer-mettupalayam', 'food-brand-tamil-nadu', 'education-group', 'indie-game-studio'];
+
+  test('draft services and projects are not in public lists', async () => {
+    const c = client();
+    const lists = [(await c.get('/services')).body, (await c.get('/site')).body.services, (await c.get('/pages/home')).body.services,
+      (await c.get('/content/services')).body.items];
+    for (const list of lists) for (const slug of DRAFT_SERVICES) assert.ok(!list.some((s) => s.slug === slug), `${slug} is public`);
+    const projects = JSON.stringify([(await c.get('/projects')).body, (await c.get('/pages/home')).body.projects]);
+    for (const slug of DRAFT_PROJECTS) assert.ok(!projects.includes(slug), `${slug} is public`);
+  });
+
+  test('draft slugs return 404', async () => {
+    const c = client();
+    for (const slug of DRAFT_SERVICES) assert.equal((await c.get(`/services/${slug}`)).status, 404, slug);
+    for (const slug of DRAFT_PROJECTS) assert.equal((await c.get(`/projects/${slug}`)).status, 404, slug);
+  });
+
+  test('drafts are not in the sitemap', async () => {
+    const r = await client().get('/pages/sitemap');
+    assert.equal(r.status, 200);
+    const slugs = [...r.body.services, ...r.body.projects].map((x) => x.slug);
+    for (const slug of [...DRAFT_SERVICES, ...DRAFT_PROJECTS]) assert.ok(!slugs.includes(slug), `${slug} in sitemap`);
+    assert.equal(r.body.services.length, 8);
+  });
+
+  test('public FAQs do not offer unpublished services', async () => {
+    const text = JSON.stringify((await client().get('/faqs')).body);
+    assert.doesNotMatch(text, /graphics and video are services|or SEO —|Unity for games/);
+  });
+
   test('responses carry security headers and no stack traces', async () => {
     const r = await client().get('/nope');
     assert.equal(r.status, 404);
@@ -227,6 +259,9 @@ describe('roles and lead management', () => {
   test('admin content lists filter by published state', async () => {
     const drafts = await admin.get('/admin/content/services?active=false');
     assert.ok(drafts.body.items.length >= 1 && drafts.body.items.every((x) => x.active === false));
+    const draftProjects = await admin.get('/admin/content/projects?active=false');
+    assert.equal(draftProjects.status, 200);
+    assert.ok(draftProjects.body.items.length >= 6 && draftProjects.body.items.every((x) => x.active === false));
   });
 
   test('status change, assignment and notes are recorded in the activity log', async () => {
