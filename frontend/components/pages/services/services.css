@@ -184,7 +184,7 @@
   transition: background 350ms ease, color 350ms ease, border-color 350ms ease, transform 500ms var(--ease-out-expo), box-shadow 350ms ease; }
 .svx-stage.is-active .svx-stage-icon { background: linear-gradient(135deg, var(--color-brand), var(--color-brand-strong)); border-color: transparent; color: #fff; transform: rotate(-8deg); box-shadow: 0 14px 30px -10px color-mix(in srgb, var(--color-accent) 42%, transparent); }
 .svx-stage-verb { transition: color 350ms ease; }
-.svx-stage.is-active .svx-stage-verb { background: linear-gradient(100deg, #fff 0%, var(--color-brand-soft) 50%, var(--color-accent-soft)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.svx-stage.is-active .svx-stage-verb { background: linear-gradient(100deg, var(--color-brand-strong), var(--color-brand) 50%, color-mix(in srgb, var(--color-brand) 70%, var(--color-accent))); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .svx-stage-chip { transition: border-color 300ms ease, background 300ms ease, color 300ms ease; transition-delay: calc(var(--j) * 70ms); }
 .svx-stage.is-active .svx-stage-chip { border-color: color-mix(in srgb, var(--color-brand-soft) 65%, transparent); background: color-mix(in srgb, var(--color-brand) 10%, transparent); color: var(--color-text); }
 .svx-stage-bar { position: absolute; left: 28px; right: 28px; bottom: 0; height: 2px; border-radius: 2px; overflow: hidden; }
@@ -214,7 +214,7 @@
 .svx-out-head { position: relative; display: flex; align-items: baseline; gap: 18px; }
 @media (min-width: 1024px) { .svx-out-head { position: sticky; top: 7rem; flex-direction: column; gap: 12px; grid-column: span 3 / span 3; align-self: start; } }
 .svx-out-num { font-family: var(--font-display); font-weight: 600; font-size: clamp(3rem, 6.5vw, 5.5rem); line-height: 0.95; letter-spacing: -0.05em; color: transparent;
-  -webkit-text-stroke: 1px color-mix(in srgb, var(--color-brand-soft) 58%, transparent); background: linear-gradient(120deg, #fff, var(--color-brand-soft) 45%, var(--color-accent)); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--color-brand-soft) 58%, transparent); background: linear-gradient(120deg, var(--color-brand-strong), var(--color-brand) 50%, color-mix(in srgb, var(--color-brand) 70%, var(--color-accent))); -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent; background-size: 0% 100%; background-repeat: no-repeat; transition: background-size 1200ms var(--ease-out-expo) 200ms; }
 .svx-out-row.is-seen .svx-out-num, .svx-out-row:not(.is-armed) .svx-out-num { background-size: 100% 100%; }
 .svx-out-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0 28px; }
@@ -283,7 +283,7 @@
   .is-right > .svx-tl-num { text-align: right; }
 }
 .svx-tl-item.is-on .svx-tl-num { background-image: linear-gradient(180deg, color-mix(in srgb, var(--color-brand-soft) 39%, transparent), color-mix(in srgb, var(--color-brand-soft) 5%, transparent) 80%); }
-.svx-tl-item.is-current .svx-tl-num { background-image: linear-gradient(120deg, #fff, var(--color-brand-soft) 45%, var(--color-accent)); filter: drop-shadow(0 0 22px color-mix(in srgb, var(--color-brand) 27%, transparent)); }
+.svx-tl-item.is-current .svx-tl-num { background-image: linear-gradient(120deg, var(--color-brand-strong), var(--color-brand) 50%, color-mix(in srgb, var(--color-brand) 70%, var(--color-accent))); filter: drop-shadow(0 0 22px color-mix(in srgb, var(--color-brand) 27%, transparent)); }
 .svx-tl.is-armed .svx-tl-item:not(.is-in) .svx-tl-card { opacity: 0; translate: 0 24px; }
 .svx-tl.is-armed .svx-tl-item:not(.is-in) .svx-tl-num { opacity: 0; translate: 0 24px; }
 @media (min-width: 640px) {
