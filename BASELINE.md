@@ -73,3 +73,59 @@ The feature site (production build, API with a scratch SQLite database) and main
 - **Hero chat script** is main's copy, including "Typically 8–16 weeks"; review the claim.
 - **Unused effect styles** with no remaining callers in the header (`.fx-navlink`) can be removed in a cleanup pass.
 - **npm audit** findings from Phase 0 are unchanged.
+
+# Phase 2 audit — content and assets (before any change)
+
+- **Date:** 2026-10-11 · scratch database reset with `npm --prefix backend run db:reset` (seed + migrations 002-platform, 003-content, 004-copy), API and production frontend running against it.
+
+## Content in the database
+
+| Kind | Published | Draft (hidden) |
+|---|---|---|
+| Services | 8: website-development, 3d-website-development, web-application-development, custom-software-development, mobile-app-development, ui-ux-design, business-automation, branding-digital-design | 5 (from 003): ai-and-chatbot-solutions, game-development, graphics-design, video-editing, seo |
+| Projects | 0 | 6 v1 work items: retail-brand-coimbatore (ecommerce.png), clinic-group-tamil-nadu (responsive-web.png), manufacturer-mettupalayam (inventory.png), food-brand-tamil-nadu (poster.png), education-group (seo-dashboard.png), indie-game-studio (game-ui.png) |
+| Products | 4: Billing Software, Employee Management, Inventory Management, Finance & FinServ | 0 |
+| Industries | 8: Retail, Healthcare, Education, Real Estate, Manufacturing, Logistics, Hospitality, Startups | 0 |
+| Articles | 6 | 0 |
+| Testimonials | 0 | 0 |
+
+`car-app.png`, `video-edit.png` and `logo-design.png` are image files, not projects. `settings.heroStrip` is already deleted by migration 003, so it has no images.
+
+## Images the public site renders
+
+- Every page: `aspr-logo.png` (header, 404) and `aspr-logo-white.png` (footer).
+- Service detail overview image, which is also that page's OG/JSON-LD image:
+  - website-development → responsive-web.png, alt "Responsive website on laptop, tablet and phone"
+  - mobile-app-development → shop-app.png, "Shopping app screens"
+  - web-application-development → ops-dashboard.png, "Operations SaaS dashboard"
+  - business-automation → inventory.png, "Inventory management dashboard"
+  - branding-digital-design → logo-design.png, "Logo concept sketches and applications"
+  - The other three published services have no image.
+- No other page renders a content image. Articles have none, portfolio has no published projects, and the industries (about) and products (service pages) render without images.
+- Industry and product image paths are returned by the public `/api/content/industries` and `/api/content/products` JSON, but no page renders them. The alt text includes "Café promotional poster" (Hospitality) and "Mobile game interface" (Education).
+
+## Draft leak checks (live)
+
+| Check | Result |
+|---|---|
+| Public API queries (`ContentService.list` adds `active = 1` for every public read; `bySlug` requires `active = 1`; query filters can only narrow results further) | OK |
+| `/api/services/<draft>` and `/api/projects/<draft>` | 404 for all 11 drafts |
+| `/services/<draft>` and `/portfolio/<draft>` pages | 404 for all, except `/services/graphics-design` → 308 to `/services/branding-digital-design` (existing v1-URL redirect in next.config.mjs, not a leak) |
+| `/sitemap.xml` | 27 URLs, no draft slug |
+| `/robots.txt` | Disallows /admin, /api, /internal; points at the sitemap |
+| site, home, about, services, projects, `/api/content/services?active=false`, `/api/projects?category=…` | No draft name or slug |
+| Rendered pages: home, about, services, portfolio, service details, insights, faq, process, careers, OG image | No draft name or slug |
+| Admin (`/api/admin/content/{services,projects}?active=false`, signed in) | All 5 draft services and 6 draft projects listed |
+
+## Text that presents unpublished services as current offerings
+
+1. **Home hero rotating line** (Phase 1): "…AI Chatbots, Games…". The orbit icons include bot, gamepad and search.
+2. **Chat assistant system prompt** (`backend/src/chat/gemini.service.ts`): "builds websites, mobile apps, SaaS platforms, AI chatbots and games, designs logos, graphics and video, and runs SEO… ten services".
+3. **Chat company note** (`backend/src/chat/kb/company/about.md`): "AI chatbots and games…", "Services: 10". The generated knowledge docs read only published rows, so they are fine.
+4. **FAQ "brand-only"**: "Logo, graphics and video are services on their own."
+5. **FAQ "alongside"**: "say the app, the brand or SEO".
+6. **FAQ "tech"**: "Unity for games".
+
+Not changed (these describe the team or are real roles, not offered services): the about/careers team chips (Game developers, Video editors, SEO), the careers roles (Video editor, Graphic designer), the article "What SEO cannot fix", and the 3D technology group listing Unity.
+
+Deferred by the owner and not touched: the 300+/150+ stats (including in `kb/company/about.md`), `components/three/`, the "Typically 8–16 weeks" chat line, and the admin UI.
