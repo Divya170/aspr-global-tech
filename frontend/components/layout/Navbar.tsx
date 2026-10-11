@@ -71,32 +71,30 @@ export function Navbar({ services }: { services: ServiceCard[] }) {
   const active = (href: string) => pathname === href || pathname.startsWith(href + '/');
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-50 transition-[padding] duration-500 ${scrolled && !open ? 'lg:pt-3' : ''}`}>
-      {/* Bar background (phones, and the open menu). A sibling layer rather than classes on <header>:
-          a backdrop-filter on the header would become the containing block of the fixed mobile menu
-          and collapse it to zero height. */}
-      <span aria-hidden="true" className={`pointer-events-none absolute inset-0 -z-10 border-b border-line backdrop-blur-xl transition-opacity duration-500 ${open ? 'bg-bg/95 opacity-100' : `bg-bg/75 ${scrolled ? 'opacity-100 lg:opacity-0' : 'opacity-0'}`}`} />
+    <header className="fixed inset-x-0 top-0 z-50">
+      {/* Bar background, as on main: pale page colour with a blur and a hairline border; a soft shadow
+          once the page scrolls. A sibling layer rather than classes on <header>: a backdrop-filter on
+          the header would become the containing block of the fixed mobile menu and collapse it to zero height. */}
+      <span aria-hidden="true" className={`pointer-events-none absolute inset-0 -z-10 border-b border-line backdrop-blur-[10px] transition-shadow duration-500 ${open ? 'bg-surface' : 'bg-bg/92'} ${scrolled ? 'shadow-[0_10px_30px_-24px_color-mix(in_srgb,var(--color-navy)_45%,transparent)]' : ''}`} />
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-[60] focus:rounded-lg focus:bg-brand-strong focus:px-4 focus:py-2 focus:text-white">Skip to content</a>
-      {/* Desktop: full-width bar at the top of the page that docks into a floating glass pill on scroll.
-          The glass is a sibling layer, not on <nav>, so the mega menu's own backdrop blur still sees the page. */}
-      <nav aria-label="Main" className={`relative isolate mx-auto flex h-18 max-w-7xl items-center justify-between gap-6 px-4 transition-[max-width,height,padding] duration-500 ease-[var(--ease-out-expo)] sm:px-6 lg:px-8 ${scrolled && !open ? 'lg:h-16 lg:max-w-6xl lg:pl-6 lg:pr-2.5' : ''}`}>
-        <span aria-hidden="true" className={`pointer-events-none absolute inset-0 -z-10 hidden rounded-full border border-line-strong bg-bg/70 shadow-[0_18px_50px_-20px_color-mix(in_srgb,var(--color-navy)_22%,transparent),inset_0_1px_0_color-mix(in_srgb,var(--color-surface)_5%,transparent)] backdrop-blur-xl transition-opacity duration-500 lg:block ${scrolled && !open ? 'opacity-100' : 'opacity-0'}`} />
+      {/* Main's header row: logo, bold links, brand CTA, aligned with the page container. */}
+      <nav aria-label="Main" className="relative isolate mx-auto flex h-18 max-w-7xl items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
         <Logo />
 
-        <ul ref={linksRef} className="relative isolate hidden items-center gap-1 lg:flex" onMouseLeave={() => setHover((h) => ({ ...h, on: false, glide: false }))}>
+        <ul ref={linksRef} className="relative isolate hidden items-center gap-1.5 lg:flex" onMouseLeave={() => setHover((h) => ({ ...h, on: false, glide: false }))}>
           <span aria-hidden="true"
-            className={`pointer-events-none absolute inset-y-0 left-0 -z-10 rounded-full bg-surface-3 ring-1 ring-inset ring-line-strong duration-300 ease-[var(--ease-out-expo)] ${hover.glide ? 'transition-[transform,width,opacity]' : 'transition-opacity'}`}
+            className={`pointer-events-none absolute inset-y-0 left-0 -z-10 rounded-xl bg-surface-3 duration-300 ease-[var(--ease-out-expo)] ${hover.glide ? 'transition-[transform,width,opacity]' : 'transition-opacity'}`}
             style={{ width: hover.w, transform: `translateX(${hover.x}px)`, opacity: hover.on ? 1 : 0 }} />
           {NAV.map((item) => item.href === '/services' ? (
             <li key={item.href} ref={megaRef} className="relative" onMouseEnter={(e) => { onHover(e); if (matchMedia('(pointer: fine)').matches) setMega(true); }} onMouseLeave={() => setMega(false)}>
               <button
                 type="button" aria-expanded={mega} aria-controls="mega-services" onClick={() => setMega((m) => !m)}
-                className={`flex items-center gap-1 rounded-full px-4 py-2 text-[0.95rem] transition-colors ${active(item.href) ? 'text-text' : 'text-muted hover:text-text'}`}
+                className={`flex items-center gap-1 rounded-xl px-4 py-2.5 text-[1.0625rem] font-bold transition-colors ${active(item.href) || mega ? 'text-brand' : 'text-text hover:text-brand'} ${active(item.href) ? 'bg-surface-3' : ''}`}
               >
                 {item.label}<ChevronDown aria-hidden="true" size={15} className={`transition-transform ${mega ? 'rotate-180' : ''}`} />
               </button>
               <div id="mega-services" className={`absolute left-1/2 top-full w-[min(760px,calc(100vw-3rem))] -translate-x-1/2 pt-3 transition-all duration-300 ${mega ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-1 opacity-0'}`}>
-                <div className="panel relative grid grid-cols-2 gap-1 overflow-hidden bg-surface/95 p-3 shadow-2xl shadow-black/50 backdrop-blur-xl">
+                <div className="panel relative grid grid-cols-2 gap-1 overflow-hidden p-3 shadow-[0_28px_60px_-24px_color-mix(in_srgb,var(--color-navy)_35%,transparent)]">
                   <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-28 size-72 rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--color-brand)_13%,transparent),transparent)]" />
                   {services.map((s, i) => (
                     <Link key={s.slug} href={`/services/${s.slug}`} style={{ transitionDelay: mega ? `0ms, ${i * 35}ms, ${i * 35}ms` : '0ms' }}
@@ -119,23 +117,24 @@ export function Navbar({ services }: { services: ServiceCard[] }) {
           ) : (
             <li key={item.href} onMouseEnter={onHover}>
               <Link href={item.href} aria-current={active(item.href) ? 'page' : undefined}
-                className={`fx-navlink relative rounded-full px-4 py-2 text-[0.95rem] transition-colors ${active(item.href) ? 'is-active text-text' : 'text-muted hover:text-text'}`}>
+                className={`relative block rounded-xl px-4 py-2.5 text-[1.0625rem] font-bold transition-colors ${active(item.href) ? 'bg-surface-3 text-brand' : 'text-text hover:text-brand'}`}>
                 {item.label}
               </Link>
             </li>
           ))}
         </ul>
 
-        <div className="flex items-center gap-2">
-          <span className="hidden sm:block">
-            <Magnetic>
-              <ButtonLink href="/quote" size="sm" arrow onClick={() => track('CTA Click', { location: 'navbar' })}>Start a Project</ButtonLink>
-            </Magnetic>
-          </span>
+        <div className="flex items-center gap-2.5">
+          <Magnetic>
+            <Link href="/quote" onClick={() => track('CTA Click', { location: 'navbar' })}
+              className="group/cta flex items-center gap-2 whitespace-nowrap rounded-[14px] bg-brand px-3.5 py-3 text-sm font-extrabold text-white shadow-[0_10px_24px_color-mix(in_srgb,var(--color-brand)_28%,transparent)] transition-colors hover:bg-brand-strong hover:text-white min-[481px]:px-6 min-[481px]:py-3.5 min-[481px]:text-[1.0625rem]">
+              Start a Project<span aria-hidden="true" className="hidden transition-transform group-hover/cta:translate-x-0.5 min-[481px]:inline">→</span>
+            </Link>
+          </Magnetic>
           <button
             ref={toggleRef} type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="mobile-menu"
             aria-label={open ? 'Close menu' : 'Open menu'}
-            className="grid size-11 place-items-center rounded-full border border-line-strong text-text transition-colors hover:bg-surface-3 lg:hidden"
+            className="grid size-[46px] place-items-center rounded-xl border border-line bg-surface text-text transition-colors hover:bg-surface-3 lg:hidden"
           >
             {open ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
           </button>
@@ -145,15 +144,15 @@ export function Navbar({ services }: { services: ServiceCard[] }) {
       {/* Mobile menu */}
       <div
         id="mobile-menu" ref={menuRef} role="dialog" aria-modal="true" aria-label="Menu" hidden={!open}
-        className="fixed inset-x-0 bottom-0 top-18 overflow-y-auto bg-bg/98 backdrop-blur-xl lg:hidden"
+        className="fixed inset-x-0 bottom-0 top-18 overflow-y-auto border-t border-line bg-surface lg:hidden"
       >
         <div className="flex min-h-full flex-col px-4 pb-10 pt-6 sm:px-6">
           <ul className="flex flex-col">
             {[{ label: 'Home', href: '/' }, ...NAV].map((item, i) => (
               <li key={item.href} className="animate-fade-up border-b border-line" style={{ animationDelay: `${i * 45}ms` }}>
                 <Link href={item.href} aria-current={pathname === item.href ? 'page' : undefined}
-                  className="flex items-center justify-between py-4 font-display text-3xl font-medium tracking-tight text-text">
-                  {item.label}<span aria-hidden="true" className="font-mono text-xs text-subtle">0{i + 1}</span>
+                  className={`flex items-center justify-between px-1 py-4 text-lg font-bold ${pathname === item.href ? 'text-brand' : 'text-text'}`}>
+                  {item.label}<span aria-hidden="true" className="text-brand">+</span>
                 </Link>
               </li>
             ))}

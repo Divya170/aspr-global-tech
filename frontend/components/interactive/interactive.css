@@ -25,7 +25,7 @@
 .ix-stat-num { margin-top: 18px; font-family: var(--font-display); font-weight: 600; font-size: clamp(2rem, 24cqi, 3.6rem); white-space: nowrap; letter-spacing: -0.04em; line-height: 1;
   font-variant-numeric: tabular-nums; background: linear-gradient(120deg, #fff 30%, var(--color-brand-soft)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .ix-stat-num .ix-plus { color: var(--color-accent); -webkit-text-fill-color: var(--color-accent); }
-.ix-stat-label { margin-top: 10px; color: color-mix(in srgb, var(--color-brand-soft) 45%, #fff); font-size: 0.95rem; font-weight: 500; }
+.ix-stat-label { margin-top: 10px; color: var(--color-on-navy); font-size: 0.95rem; font-weight: 500; }
 .ix-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
 .ix-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 15px 8px 10px; border-radius: 999px; background: color-mix(in srgb, var(--color-surface) 6%, transparent); border: 1px solid color-mix(in srgb, var(--color-brand-soft) 20%, transparent);
   font-size: 0.875rem; color: #fff; transition: background 200ms ease, border-color 200ms ease; }

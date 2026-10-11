@@ -119,3 +119,32 @@
   background: linear-gradient(90deg, var(--color-brand), var(--color-accent)); transform: scaleX(0); transition: transform 350ms var(--ease-out-expo); }
 .fx-navlink:hover::after, .fx-navlink.is-active::after { transform: scaleX(1); }
 .fx-navlink.is-active::after { box-shadow: 0 0 12px var(--color-brand-soft); }
+
+/* ───────── Footer (main's design on the navy band) ───────── */
+/* The brand-blue focus ring is too dark on navy; use the soft blue there. */
+.bg-navy :focus-visible, .ix-band :focus-visible, .svx-outcomes :focus-visible { outline-color: var(--color-brand-soft); }
+.ft-strip { overflow: hidden; padding: 18px 0; border-bottom: 1px solid color-mix(in srgb, var(--color-brand-soft) 16%, transparent);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--color-brand) 10%, transparent), color-mix(in srgb, var(--color-surface) 2%, transparent)); }
+.ft-strip-track { display: flex; width: max-content; animation: ft-marquee 42s linear infinite; }
+.ft-strip:hover .ft-strip-track { animation-play-state: paused; }
+.ft-strip-item { display: inline-flex; align-items: center; gap: 14px; margin-right: 44px; white-space: nowrap; cursor: default;
+  font-weight: 800; font-size: clamp(24px, 2.8vw, 38px); letter-spacing: -0.03em; color: #fff; transition: color 250ms ease; }
+.ft-strip-item.is-soft { color: var(--color-brand-soft); }
+.ft-strip-badge { display: grid; place-items: center; flex: 0 0 auto; width: 40px; height: 40px; border-radius: 12px; color: #fff;
+  background: linear-gradient(135deg, var(--color-brand), color-mix(in srgb, var(--color-brand) 75%, #fff));
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--color-brand) 45%, transparent); transition: transform 300ms ease; }
+.ft-strip-item.is-soft .ft-strip-badge { background: color-mix(in srgb, var(--color-brand-soft) 16%, transparent); color: var(--color-brand-soft); box-shadow: none; }
+.ft-strip-item:hover .ft-strip-badge { transform: rotate(-10deg) scale(1.08); }
+@keyframes ft-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.ft-link { position: relative; }
+.ft-link::after { content: ''; position: absolute; left: 0; bottom: -3px; width: 100%; height: 1.5px; background: var(--color-brand-soft);
+  transform: scaleX(0); transform-origin: left; transition: transform 220ms ease; }
+.ft-link:hover::after { transform: scaleX(1); }
+.ft-social { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; color: var(--color-on-navy);
+  background: color-mix(in srgb, var(--color-brand-soft) 10%, transparent); border: 1px solid color-mix(in srgb, var(--color-brand-soft) 20%, transparent);
+  transition: transform 200ms ease, background 200ms ease, color 200ms ease, border-color 200ms ease; }
+.ft-social:hover { transform: translateY(-3px); background: var(--color-brand); color: #fff; border-color: var(--color-brand); }
+@media (prefers-reduced-motion: reduce) {
+  .ft-strip-track { animation: none; }
+  .ft-social:hover, .ft-strip-item:hover .ft-strip-badge { transform: none; }
+}
