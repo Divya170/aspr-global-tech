@@ -36,6 +36,8 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['lucide-react'],
+    // Inline the (small) CSS into the HTML: no render-blocking stylesheet requests before first paint.
+    inlineCss: true,
   },
   // Browser calls go to same-origin /api/* and are proxied to the NestJS backend.
   async rewrites() {

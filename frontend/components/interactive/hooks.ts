@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useLive } from '@/lib/live';
 
 export const prefersReduced = () => typeof window !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -30,8 +31,9 @@ export function useInView<T extends Element>(threshold = 0.25) {
  */
 export function useCountUp(to: number, run: boolean, duration = 1400) {
   const [n, setN] = useState(to);
+  const live = useLive();
   useEffect(() => {
-    if (!run) return;
+    if (!run || !live) return;
     if (prefersReduced()) { setN(to); return; }
     let raf = 0;
     let start: number | undefined;
@@ -43,7 +45,7 @@ export function useCountUp(to: number, run: boolean, duration = 1400) {
     };
     raf = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf);
-  }, [to, run, duration]);
+  }, [to, run, live, duration]);
   return n;
 }
 
@@ -55,11 +57,12 @@ export function useCountUp(to: number, run: boolean, duration = 1400) {
 export function useAutoCycle(count: number, run: boolean, ms = 2800) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+  const live = useLive();
   useEffect(() => {
-    if (!run || paused || count < 2 || prefersReduced()) return;
+    if (!run || !live || paused || count < 2 || prefersReduced()) return;
     const id = setInterval(() => setActive((a) => (a + 1) % count), ms);
     return () => clearInterval(id);
-  }, [run, paused, count, ms]);
+  }, [run, paused, count, ms, live]);
   const pick = (i: number) => { setPaused(true); setActive(i); };
   const resume = () => setPaused(false);
   return { active, paused, pick, resume, setActive };

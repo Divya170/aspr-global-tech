@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { armLive } from '@/lib/live';
 
 /**
  * One document-level pointer listener for every cursor effect on the page:
@@ -10,6 +11,7 @@ import { useEffect } from 'react';
  */
 export function PointerEffects() {
   useEffect(() => {
+    armLive();
     if (!matchMedia('(pointer: fine)').matches) return;
     const still = matchMedia('(prefers-reduced-motion: reduce)');
     let card: HTMLElement | null = null;

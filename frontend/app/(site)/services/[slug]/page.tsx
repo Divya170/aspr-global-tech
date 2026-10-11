@@ -92,10 +92,11 @@ export default async function ServicePage({ params }: Params) {
       <Section labelledBy="overview-title" className="pt-0 sm:pt-4">
         <Container>
           <div className={`grid items-center gap-10 ${s.img ? 'lg:grid-cols-12 lg:gap-14' : ''}`}>
-            <Reveal className={s.img ? 'lg:col-span-6' : 'max-w-3xl'}>
+            {/* Near the top of the page and usually the LCP element, so it is not scroll-revealed. */}
+            <div className={s.img ? 'lg:col-span-6' : 'max-w-3xl'}>
               <h2 id="overview-title" className="eyebrow">Overview</h2>
               {s.intro && <p className="mt-5 text-xl leading-relaxed text-text sm:text-2xl sm:leading-relaxed">{s.intro}</p>}
-            </Reveal>
+            </div>
             {s.img && (
               <Reveal delay={80} className="svx-shot lg:col-span-6">
                 <div className="panel relative aspect-[4/3] overflow-hidden border-line-strong bg-surface-2">

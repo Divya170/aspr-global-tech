@@ -3,6 +3,7 @@
 import { useEffect, useState, type CSSProperties } from 'react';
 import { Bot, SendHorizontal } from 'lucide-react';
 import { Icon } from '@/components/ui/Icon';
+import { useLive } from '@/lib/live';
 import './hero.css';
 
 /*
@@ -27,11 +28,12 @@ const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)'
 export function RotatingWord({ services }: { services: HeroService[] }) {
   const WORDS = wordsFor(services);
   const [i, setI] = useState(0);
+  const live = useLive();
   useEffect(() => {
-    if (reducedMotion() || WORDS.length < 2) return;
+    if (!live || reducedMotion() || WORDS.length < 2) return;
     const id = setInterval(() => setI((x) => (x + 1) % WORDS.length), 2200);
     return () => clearInterval(id);
-  }, [WORDS.length]);
+  }, [live, WORDS.length]);
   if (!WORDS.length) return null;
   return (
     <p className="hv-rot">
@@ -55,12 +57,15 @@ export interface HeroBadge { icon: string; strong: string; small: string }
 export function HeroStage({ badges, services }: { badges: HeroBadge[]; services: HeroService[] }) {
   // Orbit icons: one per published service (their CMS icons), at most eight.
   const orbit = [...new Set(services.map((s) => s.icon))].slice(0, 8);
-  const [n, setN] = useState(0);
+  // Static (the full chat) until the visitor interacts; then the conversation plays on a loop.
+  const [n, setN] = useState(CHAT.length);
+  const live = useLive();
   useEffect(() => {
-    if (reducedMotion()) { setN(CHAT.length); return; }
+    if (!live || reducedMotion()) return;
+    setN(0);
     const id = setInterval(() => setN((x) => (x >= CHAT.length + 2 ? 0 : x + 1)), 1600);
     return () => clearInterval(id);
-  }, []);
+  }, [live]);
   const shown = CHAT.slice(0, Math.min(n, CHAT.length));
   const typing = n > 0 && n < CHAT.length && !CHAT[n].me;
 
