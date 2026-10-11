@@ -371,3 +371,90 @@ describe('roles and lead management', () => {
     assert.equal((await admin.del(`/admin/users/${me.id}`)).status, 400);
   });
 });
+
+// Last on purpose: the rate-limit test at the end locks this IP out of login.
+describe('admin security', () => {
+  const ADMIN_ROUTES = [
+    ['GET', '/admin/leads'], ['GET', '/admin/leads/facets'], ['GET', '/admin/leads/export.csv'], ['GET', '/admin/leads/1'],
+    ['PATCH', '/admin/leads/1'], ['POST', '/admin/leads/1/notes'], ['DELETE', '/admin/leads/1'],
+    ['GET', '/admin/applications'], ['GET', '/admin/applications/roles'], ['GET', '/admin/applications/export.csv'],
+    ['GET', '/admin/applications/1'], ['PATCH', '/admin/applications/1'], ['DELETE', '/admin/applications/1'],
+    ['GET', '/admin/subscribers'], ['GET', '/admin/subscribers/export.csv'], ['PATCH', '/admin/subscribers/1'], ['DELETE', '/admin/subscribers/1'],
+    ['GET', '/admin/chat/sessions'], ['GET', '/admin/chat/sessions/x/messages'],
+    ['GET', '/admin/media'], ['POST', '/admin/media'], ['DELETE', '/admin/media/1'],
+    ['GET', '/admin/stats'], ['GET', '/admin/stats/email'],
+    ['GET', '/admin/users'], ['GET', '/admin/users/options'], ['POST', '/admin/users'], ['PATCH', '/admin/users/1'], ['DELETE', '/admin/users/1'],
+    ['GET', '/admin/content/schema'], ['GET', '/admin/content/services'], ['GET', '/admin/content/services/1'], ['POST', '/admin/content/services'],
+    ['PATCH', '/admin/content/services/1'], ['DELETE', '/admin/content/services/1'],
+    ['GET', '/admin/settings'], ['PUT', '/admin/settings/hero'],
+    ['GET', '/admin/notifications'], ['POST', '/admin/notifications/read'], ['GET', '/admin/activity'],
+    ['GET', '/admin/attachments/1/download'], ['GET', '/admin/auth/me'], ['POST', '/admin/auth/logout'], ['POST', '/admin/auth/password'],
+  ];
+  const send = (c, [method, p]) => method === 'GET' ? c.get(p) : method === 'POST' ? c.post(p, {}) : method === 'PATCH' ? c.patch(p, {}) : method === 'DELETE' ? c.del(p) : c.call?.('PUT', p, {});
+
+  test('every admin route rejects anonymous requests', async () => {
+    const c = client();
+    for (const [method, p] of ADMIN_ROUTES) {
+      const res = method === 'PUT'
+        ? await fetch(BASE + p, { method: 'PUT', headers: { 'content-type': 'application/json' }, body: '{"value":1}' })
+        : await send(c, [method, p]);
+      assert.ok([401, 403].includes(res.status), `${method} ${p} answered ${res.status}`);
+    }
+  });
+
+  test('roles are enforced server-side', async () => {
+    const owner = client(); await owner.login('owner@example.com', 'correct-horse-battery');
+    await owner.post('/admin/users', { name: 'Ad Min', email: 'admin2@example.com', role: 'admin', password: 'amber-river-sixty-3' });
+    const ed = client(); await ed.login('editor@example.com', 'blue-lantern-forty-2');
+    const mg = client(); await mg.login('manager@example.com', 'quiet-harbor-ninety-7');
+    const ad = client(); await ad.login('admin2@example.com', 'amber-river-sixty-3');
+    for (const p of ['/admin/leads', '/admin/leads/export.csv', '/admin/applications', '/admin/subscribers', '/admin/subscribers/export.csv',
+      '/admin/chat/sessions', '/admin/users', '/admin/settings', '/admin/activity', '/admin/stats/email']) {
+      assert.equal((await ed.get(p)).status, 403, `editor GET ${p}`);
+    }
+    for (const p of ['/admin/content/services', '/admin/media']) assert.equal((await ed.get(p)).status, 200, `editor GET ${p}`);
+    for (const p of ['/admin/content/services', '/admin/media', '/admin/settings', '/admin/users']) assert.equal((await mg.get(p)).status, 403, `manager GET ${p}`);
+    assert.equal((await mg.get('/admin/leads')).status, 200);
+    assert.equal((await mg.del('/admin/leads/1')).status, 403);
+    for (const p of ['/admin/users', '/admin/settings', '/admin/leads', '/admin/content/services']) assert.equal((await ad.get(p)).status, 200, `admin GET ${p}`);
+  });
+
+  test('reset tokens are single-use and expire', async () => {
+    const Database = require('better-sqlite3');
+    const db = new Database(process.env.DB_PATH);
+    const c = client();
+    const tokenFor = async () => {
+      await c.post('/admin/auth/forgot', { email: 'editor@example.com' });
+      const row = db.prepare("SELECT text FROM email_outbox WHERE template = 'password-reset' ORDER BY id DESC LIMIT 1").get();
+      return row.text.match(/token=([A-Za-z0-9_-]+)/)[1];
+    };
+    const t1 = await tokenFor();
+    assert.equal((await c.post('/admin/auth/reset', { token: t1, newPassword: 'new-lantern-forty-3' })).status, 200);
+    assert.equal((await c.post('/admin/auth/reset', { token: t1, newPassword: 'other-lantern-forty-4' })).status, 400, 'second use');
+    const t2 = await tokenFor();
+    db.prepare("UPDATE password_resets SET expires_at = datetime('now', '-1 minute')").run();
+    assert.equal((await c.post('/admin/auth/reset', { token: t2, newPassword: 'late-lantern-forty-5' })).status, 400, 'expired');
+    db.close();
+  });
+
+  test('media uploads reject fakes, wrong types and oversized images', async () => {
+    const ed = client(); await ed.login('editor@example.com', 'new-lantern-forty-3');
+    const up = (name, buf, type) => { const f = new FormData(); f.append('file', new Blob([buf], { type }), name); return ed.post('/admin/media', undefined, { form: f }); };
+    const PNG = Buffer.from('89504e470d0a1a0a0000000d49484452000000010000000108060000001f15c4890000000d4944415478da63f8ffff3f0005fe02fea7d6a4b10000000049454e44ae426082', 'hex');
+    assert.equal((await up('ok.png', PNG, 'image/png')).status, 201);
+    assert.equal((await up('fake.png', Buffer.from('MZ\x90\x00not an image'), 'image/png')).status, 400);
+    assert.equal((await up('notes.txt', Buffer.from('hello'), 'text/plain')).status, 400);
+    const big = Buffer.concat([PNG, Buffer.alloc(9 * 1024 * 1024)]);
+    assert.equal((await up('big.png', big, 'image/png')).status, 400);
+  });
+
+  test('forgot-password and login are rate-limited', async () => {
+    const c = client();
+    let forgot = 0;
+    for (let i = 0; i < 60 && forgot !== 429; i++) forgot = (await c.post('/admin/auth/forgot', { email: `nobody${i}@example.com` })).status;
+    assert.equal(forgot, 429);
+    let login = 0;
+    for (let i = 0; i < 120 && login !== 429; i++) login = (await c.post('/admin/auth/login', { email: `nobody${i}@example.com`, password: 'x' })).status;
+    assert.equal(login, 429);
+  });
+});
