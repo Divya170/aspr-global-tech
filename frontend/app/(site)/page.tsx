@@ -8,7 +8,7 @@ import { CTASection } from '@/components/sections/CTASection';
 import { PortfolioCard } from '@/components/sections/PortfolioCard';
 import { ProcessTimeline } from '@/components/sections/ProcessTimeline';
 import { TestimonialCard } from '@/components/sections/TestimonialCard';
-import { HeroVisual } from '@/components/three/HeroVisual';
+import { HeroStage, RotatingWord, type HeroBadge } from '@/components/sections/HeroStage';
 import { Accordion } from '@/components/ui/Accordion';
 import { ButtonLink } from '@/components/ui/Button';
 import { Container, Section } from '@/components/ui/Container';
@@ -47,6 +47,12 @@ export default async function HomePage() {
     s.stats?.specialistsMin && { value: `${s.stats.specialistsMin}–${s.stats.specialistsMax}`, label: 'Specialists in-house', icon: 'users' },
     { value: String(home.services.length), label: 'Core services', icon: 'layers' },
   ].filter(Boolean) as { value: string; label: string; icon: string }[];
+  // Hero proof badges only repeat what the site already states (admin stats, company hours); unset values are left out.
+  const badges = [
+    s.stats?.projects && { icon: 'rocket', strong: `${s.stats.projects}+`, small: 'projects delivered' },
+    s.stats?.clients && { icon: 'handshake', strong: `${s.stats.clients}+`, small: 'clients served' },
+    /US-hour calls on request/i.test(s.company.hours || '') && { icon: 'globe', strong: 'US-hour calls', small: 'on request' },
+  ].filter(Boolean) as HeroBadge[];
 
   return (
     <>
@@ -58,22 +64,20 @@ export default async function HomePage() {
       )}
 
       {/* ─────────── Hero ─────────── */}
-      <section aria-labelledby="hero-title" className="relative isolate flex min-h-[100svh] items-center overflow-hidden pb-16 pt-28">
+      <section aria-labelledby="hero-title" className="relative isolate flex items-center overflow-hidden pb-16 pt-28 lg:min-h-[100svh]">
         <div aria-hidden="true" className="bg-grid absolute inset-0 -z-20" />
         <div aria-hidden="true" className="absolute inset-0 -z-20 bg-[radial-gradient(ellipse_60%_50%_at_70%_45%,color-mix(in_srgb,var(--color-brand)_11%,transparent),transparent_70%),radial-gradient(ellipse_40%_40%_at_20%_80%,color-mix(in_srgb,var(--color-accent)_7%,transparent),transparent_70%)]" />
-        <div className="absolute inset-0 -z-10 opacity-90 md:left-[30%]"><HeroVisual /></div>
-        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-bg via-bg/70 to-transparent md:via-bg/40" />
-        <div aria-hidden="true" className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-bg to-transparent" />
 
-        <Container>
+        <Container className="grid items-center gap-x-10 gap-y-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
           <div className="max-w-[46rem]">
             {hero.eyebrow && (
               <p className="eyebrow mb-6 inline-flex max-w-full animate-fade-up items-center gap-2 rounded-full border border-line-strong bg-surface px-3 py-1.5 text-[0.68rem] tracking-[0.1em] backdrop-blur sm:text-xs sm:tracking-[0.16em]">
                 <span aria-hidden="true" className="size-1.5 rounded-full bg-signal shadow-[0_0_10px_var(--color-signal)]" />{hero.eyebrow}
               </p>
             )}
-            <h1 id="hero-title" className="text-display-xl"><Emphasis text={hero.headline} /></h1>
-            {hero.sub && <p className="text-lead mt-7 max-w-xl">{hero.sub}</p>}
+            <h1 id="hero-title" className="text-display-xl lg:text-[clamp(2.6rem,4.3vw,4.1rem)]"><Emphasis text={hero.headline} /></h1>
+            <RotatingWord />
+            {hero.sub && <p className="text-lead mt-6 max-w-xl">{hero.sub}</p>}
             <div className="mt-10 flex animate-fade-up flex-wrap gap-3 [animation-delay:240ms]">
               <Magnetic><ButtonLink href="/quote" size="lg" arrow>Start a Project</ButtonLink></Magnetic>
               <ButtonLink href={site.hasProjects ? '/portfolio' : '/services'} size="lg" variant="secondary">{site.hasProjects ? 'View Our Work' : 'Explore Services'}</ButtonLink>
@@ -82,6 +86,7 @@ export default async function HomePage() {
               {['Websites', '3D & WebGL', 'Web Apps', 'Custom Software', 'Mobile Apps'].map((x) => <li key={x}>{x}</li>)}
             </ul>
           </div>
+          <div className="hidden md:block"><HeroStage badges={badges} /></div>
         </Container>
       </section>
 
