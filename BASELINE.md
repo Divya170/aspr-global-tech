@@ -129,3 +129,36 @@ The feature site (production build, API with a scratch SQLite database) and main
 Not changed (these describe the team or are real roles, not offered services): the about/careers team chips (Game developers, Video editors, SEO), the careers roles (Video editor, Graphic designer), the article "What SEO cannot fix", and the 3D technology group listing Unity.
 
 Deferred by the owner and not touched: the 300+/150+ stats (including in `kb/company/about.md`), `components/three/`, the "Typically 8–16 weeks" chat line, and the admin UI.
+
+# Phase 2 — results
+
+## Commits
+`8765980` docs: Phase 2 content audit · `100b668` fix: keep unpublished projects and services off the public site · `1781f4c` fix: stop mockup images reading as client work · `65122c8` fix: hero lists only services we publish · `b7486ba` feat: carry main's richer copy into the platform site · `46a49f6` perf: compress portfolio and service images · `d2a7643` chore: remove unused assets
+
+## Final checks (run after the last code commit)
+| Command | Result |
+|---|---|
+| `npm --prefix frontend run typecheck` | PASS |
+| `npm --prefix frontend run build` | PASS (37/37 pages) |
+| `npm --prefix backend run build` | PASS |
+| `npm test` | PASS: 35 tests, 35 pass, 0 fail, 0 skipped (29 before Phase 2 + 6 new) |
+
+## Images
+`frontend/public/assets` went from 11.32 MB to 3.75 MB (same names and format), and coding.png and icons.png (1.5 MB) were removed. Per-file sizes are in the perf commit.
+
+## Lighthouse (mobile, local production build)
+| Page | Before | After |
+|---|---|---|
+| Home | perf 36–37, a11y 100, LCP 5.6–5.9 s | not run (stopped at the owner's request) |
+| /services/website-development | perf 29, a11y 100, LCP 7.0–8.6 s | not run |
+
+## Not run
+- The 375/768/1440 screenshot check of the Phase 2 pages (stopped at the owner's request). Phase 1's full check covered the layouts; Phase 2 changed only content, hero words and icons, the footer line and image bytes.
+
+## Left over
+- "After" Lighthouse numbers and the Phase 2 screenshot pass.
+- FAQ "how-long" says a brand identity takes 2–4 weeks; the branding service says 2–3 weeks. The owner needs to pick one.
+- `settings.teamRoles` still lists Game developers, Video editors and SEO as team skills (About and Careers).
+- Main's mission/vision wording and the careers line "Mettupalayam • Full-time • Internships" were not carried over (tone, or unverified).
+- The industry and product images removed by 005 can be re-added in the admin if real assets exist.
+- Deferred by the owner: the 300+/150+ stats, `components/three/`, the "8–16 weeks" lines, and the admin UI (Phase 3).
