@@ -1,0 +1,343 @@
+/*
+ * Content pages: portfolio, insights and articles, FAQ, careers, legal pages and status screens.
+ * Scroll-spy rails, story bento, role cards, walkthrough tiles, service bento, article blocks and
+ * the giant status numeral. Transforms/opacity only; entrance states apply only after mount
+ * (.is-armed) and everything settles to a static, fully visible state for reduced motion.
+ */
+
+/* ───────── Shared bits ───────── */
+.ct-live-dot { position: relative; display: inline-block; flex: 0 0 auto; width: 8px; height: 8px; border-radius: 50%; background: var(--color-signal); box-shadow: 0 0 10px var(--color-signal); }
+.ct-live-dot::after { content: ''; position: absolute; inset: -1px; border-radius: 50%; border: 1.5px solid var(--color-signal); animation: ct-ping 1.8s cubic-bezier(0, 0, .2, 1) infinite; }
+@keyframes ct-ping { 0% { transform: scale(1); opacity: .8; } 100% { transform: scale(2.8); opacity: 0; } }
+@keyframes ct-spin { to { transform: rotate(360deg); } }
+@keyframes ct-fill { from { width: 0; } to { width: 100%; } }
+@keyframes ct-shimmer { from { background-position: 160% 0; } to { background-position: -60% 0; } }
+@keyframes ct-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
+
+/* Glass panel with a gradient hairline border. */
+.ct-glass { position: relative; border-radius: 1.4rem; background: linear-gradient(160deg, color-mix(in srgb, var(--color-brand) 7%, var(--color-surface)), var(--color-surface) 45%, color-mix(in srgb, var(--color-accent) 4%, var(--color-surface)));
+  box-shadow: 0 30px 70px -44px color-mix(in srgb, var(--color-brand) 48%, transparent); }
+.ct-glass::before, .ct-role::before, .ct-takeaways::before, .ct-callout::before, .ct-feature::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
+  background: linear-gradient(150deg, color-mix(in srgb, var(--color-brand-soft) 78%, var(--color-surface)), color-mix(in srgb, var(--color-accent) 18%, var(--color-surface)) 40%, var(--color-surface) 70%, color-mix(in srgb, var(--color-accent) 24%, var(--color-surface)));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+
+/* Outlined numerals (group headers, case-study sections). */
+.ct-outline-n { font-family: var(--font-display); font-weight: 600; line-height: 1; letter-spacing: -0.04em; font-variant-numeric: tabular-nums;
+  color: transparent; -webkit-text-stroke: 1.2px color-mix(in srgb, var(--color-brand-soft) 84%, transparent); }
+
+/* Gradient icon tile that fills when its .group is hovered (or its role/tile is open/active). */
+.ct-tile-icon { display: grid; place-items: center; flex: 0 0 auto; width: 48px; height: 48px; border-radius: 14px; color: var(--color-brand);
+  border: 1px solid var(--color-line-strong); background: linear-gradient(135deg, color-mix(in srgb, var(--color-brand) 11%, transparent), color-mix(in srgb, var(--color-accent) 5%, transparent));
+  transition: background 300ms ease, color 300ms ease, border-color 300ms ease, transform 450ms var(--ease-out-expo), box-shadow 300ms ease; }
+.group:hover .ct-tile-icon { background: linear-gradient(135deg, var(--color-brand), var(--color-brand-strong)); color: #fff; border-color: transparent;
+  transform: rotate(-8deg) scale(1.05); box-shadow: 0 14px 30px -12px color-mix(in srgb, var(--color-brand) 54%, transparent); }
+
+/* ───────── Scroll-spy navigation (FAQ topics, article and legal "on this page") ───────── */
+.ct-spy { position: relative; }
+.ct-spy-title { margin-bottom: 16px; color: var(--color-subtle); }
+.ct-spy-body { position: relative; }
+.ct-spy-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.ct-spy-rail { position: absolute; left: 15px; top: 22px; bottom: 22px; width: 2px; border-radius: 2px; background: var(--color-line-strong); overflow: hidden; }
+.ct-spy-rail > span { display: block; width: 100%; height: 0; border-radius: 2px; background: linear-gradient(180deg, var(--color-brand), var(--color-accent));
+  box-shadow: 0 0 10px var(--color-brand-soft); transition: height 600ms var(--ease-out-expo); }
+.ct-spy-link { position: relative; display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 8px 12px 8px 0; border-radius: 12px;
+  color: var(--color-muted); font-size: 0.9rem; line-height: 1.35; transition: color 250ms ease, background 300ms ease; }
+.ct-spy-link:hover { color: var(--color-text); background: var(--color-surface-3); }
+.ct-spy-dot { position: relative; z-index: 1; flex: 0 0 32px; display: grid; place-items: center; align-self: stretch; }
+.ct-spy-dot::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--color-bg); border: 2px solid var(--color-line-strong);
+  transition: background 300ms ease, border-color 300ms ease, box-shadow 300ms ease, transform 400ms var(--ease-out-expo); }
+.ct-spy-n { flex: 0 0 auto; font-family: var(--font-mono); font-size: 0.68rem; color: var(--color-subtle); transition: color 300ms ease; }
+.ct-spy-label { flex: 1; min-width: 0; }
+.ct-spy-count { flex: 0 0 auto; margin-left: auto; min-width: 26px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--color-line); text-align: center;
+  font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-subtle); transition: background 300ms ease, color 300ms ease, border-color 300ms ease; }
+.ct-spy .is-past .ct-spy-dot::before { border-color: var(--color-brand); background: var(--color-brand-soft); }
+.ct-spy .is-active > .ct-spy-link { color: var(--color-text); background: linear-gradient(90deg, color-mix(in srgb, var(--color-brand) 11%, transparent), color-mix(in srgb, var(--color-accent) 4%, transparent) 70%, transparent); }
+.ct-spy .is-active .ct-spy-dot::before { border-color: var(--color-brand); background: var(--color-brand-strong); transform: scale(1.25);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-brand) 13%, transparent), 0 0 14px var(--color-brand-soft); }
+.ct-spy .is-active .ct-spy-n { color: var(--color-brand); }
+.ct-spy .is-active .ct-spy-count { background: var(--color-brand-strong); border-color: transparent; color: #fff; }
+.ct-spy-bar { display: none; }
+
+/* Below lg the FAQ topics become a sticky strip of chips with a progress line. */
+@media (max-width: 1023px) {
+  .ct-spy--chips { display: flex; flex-wrap: wrap; align-items: center; column-gap: 14px; }
+  .ct-spy--chips .ct-spy-title { flex: 0 0 auto; margin: 0; }
+  .ct-spy--chips .ct-spy-body { flex: 1 1 0; min-width: 0; }
+  .ct-spy--chips .ct-spy-rail, .ct-spy--chips .ct-spy-dot { display: none; }
+  .ct-spy--chips .ct-spy-list { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 32px 2px 2px; margin: -2px;
+    mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent); -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent); }
+  .ct-spy--chips .ct-spy-list::-webkit-scrollbar { display: none; }
+  .ct-spy--chips .ct-spy-link { white-space: nowrap; min-height: 40px; padding: 0 6px 0 14px; border-radius: 999px; border: 1px solid var(--color-line-strong); background: var(--color-surface); }
+  .ct-spy--chips .is-active > .ct-spy-link { background: var(--color-brand-strong); border-color: transparent; color: #fff; box-shadow: 0 10px 26px -12px color-mix(in srgb, var(--color-brand) 54%, transparent); }
+  .ct-spy--chips .is-active .ct-spy-count { background: var(--color-surface); }
+  .ct-spy--chips .ct-spy-bar { display: block; flex: 0 0 100%; height: 2px; margin-top: 10px; border-radius: 2px; background: color-mix(in srgb, var(--color-navy) 7%, transparent); overflow: hidden; }
+  .ct-spy--chips .ct-spy-bar > span { display: block; height: 100%; width: 0; border-radius: 2px; background: linear-gradient(90deg, var(--color-brand), var(--color-accent), var(--color-signal));
+    transition: width 600ms var(--ease-out-expo); }
+}
+
+/* ───────── FAQ group header ───────── */
+.ct-faq-head { display: flex; align-items: center; gap: 16px; }
+.ct-faq-head .ct-tile-icon { width: 52px; height: 52px; border-radius: 16px; }
+.ct-faq-group:hover .ct-faq-head .ct-tile-icon { transform: rotate(-8deg) scale(1.04); }
+.ct-faq-rule { height: 1px; margin-top: 22px; background: linear-gradient(90deg, color-mix(in srgb, var(--color-brand-soft) 65%, transparent), color-mix(in srgb, var(--color-accent) 18%, transparent) 40%, transparent); }
+
+/* ───────── Insights: category chip ───────── */
+.ct-cat { --c: var(--color-brand); display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 4px; border-radius: 999px; white-space: nowrap;
+  font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em; color: var(--c);
+  background: color-mix(in oklab, var(--c) 11%, transparent); border: 1px solid color-mix(in oklab, var(--c) 32%, transparent); }
+.ct-cat > svg { width: 20px; height: 20px; padding: 4px; border-radius: 50%; background: color-mix(in oklab, var(--c) 20%, transparent); }
+
+/* ───────── Insights: featured story (white card with a faint brand/mint wash) ───────── */
+.ct-feature { --c: var(--color-brand); position: relative; isolation: isolate; overflow: hidden; border-radius: 1.75rem; border: 1px solid var(--color-line);
+  background: linear-gradient(135deg, var(--color-surface) 0%, color-mix(in srgb, var(--color-brand) 5%, var(--color-surface)) 55%, color-mix(in srgb, var(--color-accent) 8%, var(--color-surface)) 100%);
+  transition: translate 500ms var(--ease-out-expo), box-shadow 500ms ease; }
+.ct-feature::before { z-index: 3; }
+.ct-feature:hover { translate: 0 -4px; box-shadow: 0 40px 80px -40px color-mix(in srgb, var(--color-brand) 45%, transparent); }
+.ct-feature-art { position: relative; overflow: hidden; display: grid; place-items: center; min-height: 15rem; }
+.ct-feature-art::before { content: ''; position: absolute; inset: 0; background: radial-gradient(closest-side, color-mix(in oklab, var(--c) 30%, transparent), transparent); opacity: 0.7; }
+
+/* Orbit emblem: rotating dashed ring, orbiting dots and a gradient icon tile. */
+.ct-orbit { --c: var(--color-brand-soft); position: relative; width: min(19rem, 78%); aspect-ratio: 1; display: grid; place-items: center; }
+.ct-orbit::before, .ct-orbit::after { content: ''; position: absolute; border-radius: 50%; pointer-events: none; }
+.ct-orbit::before { inset: 0; border: 1px dashed color-mix(in oklab, var(--c) 40%, transparent); animation: ct-spin 48s linear infinite; }
+.ct-orbit::after { inset: 19%; border: 1px solid color-mix(in srgb, var(--color-accent) 17%, transparent); box-shadow: inset 0 0 50px color-mix(in srgb, var(--color-brand) 11%, transparent); }
+.ct-orbit > i { position: absolute; inset: 0; border-radius: 50%; animation: ct-spin 16s linear infinite; }
+.ct-orbit > i::before { content: ''; position: absolute; top: -4px; left: calc(50% - 4px); width: 8px; height: 8px; border-radius: 50%; background: var(--c); box-shadow: 0 0 14px var(--c); }
+.ct-orbit > i:nth-of-type(2) { inset: 19%; animation-duration: 11s; animation-direction: reverse; }
+.ct-orbit > i:nth-of-type(2)::before { background: var(--color-signal); box-shadow: 0 0 14px var(--color-signal); }
+.ct-emblem { position: relative; z-index: 1; display: grid; place-items: center; width: 40%; aspect-ratio: 1; border-radius: 28%; color: #fff;
+  background: linear-gradient(135deg, var(--color-brand), var(--color-brand-strong)); box-shadow: 0 26px 60px -18px color-mix(in srgb, var(--color-brand) 54%, transparent), inset 0 1px 0 color-mix(in srgb, var(--color-surface) 25%, transparent);
+  transform: rotate(-8deg); transition: transform 700ms var(--ease-out-expo); }
+.ct-emblem > svg { width: 44%; height: 44%; }
+.group:hover .ct-emblem { transform: rotate(4deg) scale(1.06); }
+
+/* "Read" arrow chip that slides on hover. */
+.ct-go { display: grid; place-items: center; flex: 0 0 auto; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--color-line-strong); color: var(--color-muted);
+  transition: background 300ms ease, color 300ms ease, border-color 300ms ease, box-shadow 300ms ease; }
+.ct-go > svg { transition: transform 450ms var(--ease-out-expo); }
+.group:hover .ct-go { background: var(--color-brand-strong); border-color: transparent; color: #fff; box-shadow: 0 12px 28px -12px color-mix(in srgb, var(--color-brand) 57%, transparent); }
+.group:hover .ct-go > svg { transform: translateX(3px); }
+
+/* ───────── Insights: story cards ───────── */
+.ct-story { --c: var(--color-brand-soft); position: relative; height: 100%; overflow: hidden; border-radius: var(--radius-card); border: 1px solid var(--color-line);
+  background: linear-gradient(180deg, var(--color-surface), var(--color-surface));
+  transition: translate 450ms var(--ease-out-expo), border-color 300ms ease, box-shadow 450ms ease; }
+.ct-story::after { content: ''; position: absolute; left: 0; right: 0; top: 0; z-index: 2; height: 2px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--c), transparent); transform: scaleX(0); transition: transform 600ms var(--ease-out-expo); }
+.ct-story:hover, .ct-story:focus-within { translate: 0 -6px; border-color: color-mix(in oklab, var(--c) 38%, transparent);
+  box-shadow: 0 30px 60px -34px color-mix(in oklab, var(--c) 75%, transparent); }
+.ct-story:hover::after, .ct-story:focus-within::after { transform: scaleX(1); }
+.ct-story-icon { display: grid; place-items: center; flex: 0 0 auto; width: 42px; height: 42px; border-radius: 13px; color: var(--c);
+  background: color-mix(in oklab, var(--c) 12%, transparent); border: 1px solid color-mix(in oklab, var(--c) 22%, transparent);
+  transition: transform 450ms var(--ease-out-expo), background 300ms ease, color 300ms ease; }
+.ct-story:hover .ct-story-icon { transform: rotate(-10deg) scale(1.08); background: var(--c); color: #fff; }
+.ct-story-mark { position: absolute; right: -28px; bottom: -34px; width: 190px; height: 190px; color: var(--c); opacity: 0.06; pointer-events: none;
+  transition: transform 900ms var(--ease-out-expo), opacity 400ms ease; }
+.ct-story:hover .ct-story-mark { transform: translate(-10px, -10px) rotate(-8deg); opacity: 0.12; }
+.ct-story--wide .ct-story-mark { width: 260px; height: 260px; right: -20px; bottom: -50px; }
+
+/* ───────── Article and legal page blocks ───────── */
+.ct-prose { counter-reset: ct-h2; }
+.ct-prose ul li::before { width: 0.42em; height: 0.42em; top: 0.75em; border-radius: 2px; transform: rotate(45deg);
+  background: linear-gradient(135deg, var(--color-brand-soft), var(--color-accent)); box-shadow: 0 0 8px color-mix(in srgb, var(--color-brand-soft) 65%, transparent); }
+.ct-prose h2 { margin-top: 2.4em; }
+.ct-numbered h2::before { counter-increment: ct-h2; display: block; width: fit-content; margin-bottom: 0.7rem; padding-right: 46px;
+  font-family: var(--font-mono); font-size: 0.75rem; font-weight: 400; letter-spacing: 0.16em; color: var(--color-brand);
+  background: linear-gradient(90deg, var(--color-brand), transparent) no-repeat right center / 34px 1px;
+  content: counter(ct-h2, decimal-leading-zero); content: counter(ct-h2, decimal-leading-zero) / ''; }
+.ct-lede { position: relative; padding-left: 1.25rem; }
+.ct-lede::before { content: ''; position: absolute; left: 0; top: 0.35em; bottom: 0.35em; width: 2px; border-radius: 2px; background: linear-gradient(180deg, var(--color-brand), var(--color-accent)); }
+
+.ct-takeaways { position: relative; padding: 28px; border-radius: 1.4rem; counter-reset: ct-tk;
+  background: linear-gradient(150deg, color-mix(in srgb, var(--color-brand) 8%, var(--color-surface)), var(--color-surface) 50%, color-mix(in srgb, var(--color-accent) 6%, var(--color-surface))); box-shadow: 0 30px 70px -46px color-mix(in srgb, var(--color-brand) 54%, transparent); }
+.ct-takeaways ul li { counter-increment: ct-tk; padding-left: 2.6em; margin-top: 0.9em; color: var(--color-text); }
+.ct-takeaways ul li::before { content: counter(ct-tk); content: counter(ct-tk) / ''; top: 0.15em; width: 1.75em; height: 1.75em; transform: none; border-radius: 50%; display: grid; place-items: center;
+  background: color-mix(in srgb, var(--color-brand-soft) 21%, transparent); box-shadow: none; color: var(--color-brand); font-family: var(--font-mono); font-size: 0.75rem; line-height: 1; }
+
+.ct-check { position: relative; overflow: hidden; padding: 6px; border-radius: 1.25rem; border: 1px solid color-mix(in srgb, var(--color-accent) 11%, transparent);
+  background: linear-gradient(160deg, color-mix(in srgb, var(--color-accent) 4%, var(--color-surface)), var(--color-surface) 55%); }
+.ct-prose .ct-check li { position: relative; display: flex; gap: 14px; align-items: flex-start; margin: 0; padding: 11px 14px; border-radius: 0.9rem; overflow: hidden; transition: background 300ms ease; }
+.ct-prose .ct-check li::before { display: none; }
+.ct-prose .ct-check li + li { margin-top: 2px; }
+.ct-check li:hover { background: color-mix(in srgb, var(--color-accent) 5%, transparent); }
+.ct-check-icon { display: grid; place-items: center; flex: 0 0 auto; width: 26px; height: 26px; margin-top: 2px; border-radius: 8px; color: var(--color-signal); background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  transition: transform 400ms var(--ease-out-expo), background 300ms ease, color 300ms ease; }
+.ct-check li:hover .ct-check-icon { transform: rotate(-8deg) scale(1.08); background: var(--color-signal); color: var(--color-navy); }
+
+.ct-callout { position: relative; display: flex; gap: 16px; padding: 22px 24px; border-radius: 1.25rem;
+  background: linear-gradient(150deg, color-mix(in srgb, var(--color-brand) 8%, var(--color-surface)), var(--color-surface) 60%); box-shadow: 0 24px 60px -40px color-mix(in srgb, var(--color-brand) 54%, transparent); }
+.ct-callout-icon { display: grid; place-items: center; flex: 0 0 auto; width: 38px; height: 38px; border-radius: 12px; color: #fff;
+  background: linear-gradient(135deg, var(--color-brand), var(--color-brand-strong)); box-shadow: 0 12px 26px -10px color-mix(in srgb, var(--color-brand) 54%, transparent); }
+
+.ct-prose blockquote.ct-quote { position: relative; border: 0; padding: 26px 0 26px 30px; font-size: clamp(1.3rem, 2.2vw, 1.6rem); line-height: 1.45; letter-spacing: -0.02em; }
+.ct-quote::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 3px; background: linear-gradient(180deg, var(--color-brand), var(--color-accent), transparent); }
+.ct-quote-mark { position: absolute; left: 22px; top: -14px; width: 46px; height: 46px; color: var(--color-brand-soft); opacity: 0.5; }
+
+/* ───────── Careers: role cards (native <details>) ───────── */
+.ct-role { position: relative; border-radius: 1.5rem; border: 1px solid var(--color-line); background: linear-gradient(180deg, var(--color-surface), var(--color-surface));
+  transition: border-color 300ms ease, box-shadow 450ms ease, background 400ms ease; }
+.ct-role::before { opacity: 0; transition: opacity 400ms ease; }
+.ct-role:hover { border-color: var(--color-line-strong); box-shadow: 0 26px 56px -34px color-mix(in srgb, var(--color-brand) 45%, transparent); }
+.ct-role[open] { border-color: transparent; background: linear-gradient(165deg, color-mix(in srgb, var(--color-brand) 6%, var(--color-surface)), var(--color-surface) 40%, color-mix(in srgb, var(--color-accent) 3%, var(--color-surface)));
+  box-shadow: 0 34px 80px -44px color-mix(in srgb, var(--color-brand) 57%, transparent); }
+.ct-role[open]::before { opacity: 1; }
+.ct-role::details-content { block-size: 0; overflow: hidden; transition: block-size 550ms var(--ease-out-expo), content-visibility 550ms allow-discrete; }
+.ct-role[open]::details-content { block-size: auto; }
+.ct-role-head { display: flex; align-items: flex-start; gap: 18px; padding: 22px; border-radius: 1.5rem; cursor: pointer; list-style: none; }
+.ct-role-icon { display: grid; place-items: center; flex: 0 0 auto; width: 56px; height: 56px; border-radius: 17px; color: var(--color-brand);
+  border: 1px solid var(--color-line-strong); background: linear-gradient(135deg, color-mix(in srgb, var(--color-brand) 11%, transparent), color-mix(in srgb, var(--color-accent) 5%, transparent));
+  transition: background 300ms ease, color 300ms ease, border-color 300ms ease, transform 500ms var(--ease-out-expo), box-shadow 300ms ease; }
+.ct-role:hover .ct-role-icon, .ct-role[open] .ct-role-icon { background: linear-gradient(135deg, var(--color-brand), var(--color-brand-strong)); color: #fff; border-color: transparent;
+  transform: rotate(-8deg); box-shadow: 0 14px 30px -12px color-mix(in srgb, var(--color-brand) 54%, transparent); }
+.ct-role-teaser { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; max-width: 46rem; margin-top: 12px;
+  color: var(--color-muted); font-size: 0.95rem; line-height: 1.6; }
+.ct-role[open] .ct-role-teaser { display: none; }
+.ct-role-cta { display: inline-flex; align-items: center; gap: 10px; flex: 0 0 auto; height: 44px; padding: 0 5px; border-radius: 999px; border: 1px solid var(--color-line-strong);
+  background: var(--color-surface); color: var(--color-text); font-size: 0.9rem; font-weight: 500; white-space: nowrap;
+  transition: background 300ms ease, border-color 300ms ease, box-shadow 300ms ease; }
+@media (min-width: 640px) { .ct-role-cta { padding-left: 16px; } .ct-role-head { padding: 26px 28px; gap: 22px; } }
+.ct-role-cta-icon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--color-surface);
+  transition: transform 450ms var(--ease-out-expo), background 300ms ease, color 300ms ease; }
+.ct-role:hover .ct-role-cta { background: var(--color-brand-strong); border-color: transparent; box-shadow: 0 12px 30px -12px color-mix(in srgb, var(--color-brand) 57%, transparent); color: #fff; }
+.ct-role:hover .ct-role-cta-icon { background: var(--color-surface-3); transform: rotate(90deg); }
+.ct-role[open] .ct-role-cta-icon { transform: rotate(45deg); background: #fff; color: var(--color-brand-strong); }
+.ct-role-body { position: relative; padding: 4px 22px 26px; }
+@media (min-width: 640px) { .ct-role-body { padding: 4px 28px 30px; } }
+.ct-role-body::before { content: ''; display: block; height: 1px; margin-bottom: 28px; background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--color-brand-soft) 58%, transparent), color-mix(in srgb, var(--color-accent) 24%, transparent), transparent); }
+.ct-point { display: flex; gap: 14px; padding: 16px; border-radius: 1rem; border: 1px solid var(--color-line); background: var(--color-surface); transition: border-color 300ms ease, background 300ms ease; }
+.ct-point:hover { border-color: color-mix(in srgb, var(--color-brand-soft) 46%, transparent); background: color-mix(in srgb, var(--color-brand) 4%, transparent); }
+.ct-point-icon { display: grid; place-items: center; flex: 0 0 auto; width: 32px; height: 32px; border-radius: 10px; color: var(--color-brand); background: color-mix(in srgb, var(--color-brand-soft) 17%, transparent); }
+.ct-apply { padding: 22px; }
+@media (min-width: 640px) { .ct-apply { padding: 30px; } }
+.ct-apply-icon { display: grid; place-items: center; flex: 0 0 auto; width: 44px; height: 44px; border-radius: 13px; color: #fff;
+  background: linear-gradient(135deg, var(--color-brand), var(--color-brand-strong)); box-shadow: 0 14px 30px -12px color-mix(in srgb, var(--color-brand) 54%, transparent); }
+
+/* ───────── Careers: team band ───────── */
+.ct-band { position: relative; overflow: hidden; isolation: isolate; }
+.ct-band::after { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(ellipse 40% 140% at 0% 50%, color-mix(in srgb, var(--color-brand) 10%, transparent), transparent 70%), radial-gradient(ellipse 30% 140% at 100% 50%, color-mix(in srgb, var(--color-accent) 7%, transparent), transparent 70%); }
+
+/* ───────── Portfolio: "in progress" tile with peeking skeleton cards ───────── */
+.ct-prep { position: relative; isolation: isolate; overflow: hidden; border-radius: 1.75rem; border: 1px solid var(--color-line-strong);
+  background: linear-gradient(140deg, var(--color-surface) 0%, color-mix(in srgb, var(--color-brand) 6%, var(--color-surface)) 55%, color-mix(in srgb, var(--color-accent) 7%, var(--color-surface)) 100%); }
+.ct-skel { position: absolute; left: 24px; right: 24px; bottom: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; pointer-events: none; }
+@media (min-width: 640px) { .ct-skel { left: 40px; right: 40px; gap: 16px; } }
+.ct-skel-card { padding: 10px; border-radius: 16px 16px 0 0; border: 1px solid var(--color-line-strong); border-bottom: 0; background: var(--color-surface);
+  box-shadow: 0 -20px 50px -30px color-mix(in srgb, var(--color-brand) 48%, transparent); translate: 0 var(--y, 0); animation: ct-float 7s ease-in-out infinite; animation-delay: calc(var(--i) * -2.2s); }
+.ct-skel-card > i { display: block; border-radius: 8px; background: linear-gradient(100deg, color-mix(in srgb, var(--color-navy) 5%, transparent) 30%, color-mix(in srgb, var(--color-navy) 13%, transparent) 50%, color-mix(in srgb, var(--color-navy) 5%, transparent) 70%);
+  background-size: 250% 100%; animation: ct-shimmer 2.4s linear infinite; }
+.ct-skel-card > i:nth-child(1) { aspect-ratio: 16 / 10; background-color: color-mix(in srgb, var(--color-brand) 5%, transparent); }
+.ct-skel-card > i:nth-child(2) { height: 9px; width: 78%; margin-top: 12px; }
+.ct-skel-card > i:nth-child(3) { height: 9px; width: 52%; margin-top: 8px; margin-bottom: 18px; }
+.ct-skel-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: color-mix(in srgb, var(--color-navy) 7%, transparent); }
+.ct-skel-bar > span { display: block; height: 100%; width: 62%; background: linear-gradient(90deg, var(--color-brand), var(--color-accent), var(--color-signal)); box-shadow: 0 0 12px var(--color-brand-soft);
+  animation: ct-grow 5s var(--ease-out-expo) infinite; }
+@keyframes ct-grow { 0% { width: 8%; } 70%, 100% { width: 86%; } }
+
+/* ───────── Portfolio: walkthrough tiles (take turns in the spotlight) ───────── */
+.ct-walk { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.ct-walk-item { --mx: 50%; --my: 50%; position: relative; overflow: hidden; outline: none; display: flex; align-items: center; gap: 16px; padding: 22px 22px 28px; border-radius: 1.4rem;
+  border: 1px solid var(--color-line); background: var(--color-surface);
+  transition: background 400ms ease, border-color 400ms ease, box-shadow 400ms ease, opacity 600ms ease, translate 700ms var(--ease-out-expo); }
+.is-armed .ct-walk-item { opacity: 0; translate: 28px 0; }
+.is-seen .ct-walk-item { opacity: 1; translate: 0 0; transition-delay: 0ms, 0ms, 0ms, calc(var(--i) * 130ms), calc(var(--i) * 130ms); }
+.ct-walk-item:focus-visible { box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-soft) 78%, transparent); }
+.ct-walk-item.is-active { border-color: color-mix(in srgb, var(--color-brand-soft) 65%, transparent); background: linear-gradient(150deg, color-mix(in srgb, var(--color-brand) 19%, var(--color-surface)), var(--color-surface) 70%);
+  box-shadow: 0 24px 50px -24px color-mix(in srgb, var(--color-brand) 45%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--color-brand-soft) 16%, transparent); }
+.ct-walk-glow { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 300ms ease;
+  background: radial-gradient(240px circle at var(--mx) var(--my), color-mix(in srgb, var(--color-brand-soft) 26%, transparent), transparent 60%); }
+.ct-walk-item:hover .ct-walk-glow { opacity: 1; }
+.ct-walk-item > :not(.ct-walk-glow, .ct-walk-bar) { position: relative; }
+.ct-walk-item .ct-tile-icon { transition: background 350ms ease, color 350ms ease, border-color 350ms ease, transform 500ms var(--ease-out-expo), box-shadow 350ms ease; }
+.ct-walk-item.is-active .ct-tile-icon { background: linear-gradient(135deg, var(--color-brand), var(--color-brand-strong)); color: #fff; border-color: transparent;
+  transform: rotate(-8deg) scale(1.05); box-shadow: 0 14px 30px -12px color-mix(in srgb, var(--color-brand) 54%, transparent); }
+.ct-walk-n { position: absolute; right: 18px; top: 14px; font-family: var(--font-mono); font-size: 0.68rem; color: var(--color-subtle); transition: color 300ms ease; }
+.ct-walk-item.is-active .ct-walk-n { color: var(--color-brand); }
+.ct-walk-bar { position: absolute; left: 22px; right: 22px; bottom: 12px; height: 2px; border-radius: 2px; background: color-mix(in srgb, var(--color-navy) 6%, transparent); overflow: hidden; }
+.ct-walk-bar > span { display: block; height: 100%; width: 0; border-radius: 2px; background: linear-gradient(90deg, var(--color-brand), var(--color-signal)); }
+.ct-walk-item.is-active .ct-walk-bar > span { animation: ct-fill var(--cycle, 3200ms) linear forwards; }
+.ct-walk.is-paused .ct-walk-item.is-active .ct-walk-bar > span { animation: none; width: 100%; }
+
+/* ───────── Portfolio: services bento ───────── */
+.ct-svc { position: relative; height: 100%; overflow: hidden; border-radius: var(--radius-card); border: 1px solid var(--color-line);
+  background: linear-gradient(180deg, var(--color-surface), var(--color-surface)); transition: translate 450ms var(--ease-out-expo), box-shadow 450ms ease, border-color 300ms ease; }
+.ct-svc:hover { translate: 0 -5px; border-color: var(--color-line-strong); box-shadow: 0 28px 56px -32px color-mix(in srgb, var(--color-brand) 51%, transparent); }
+.ct-svc--wide { background: linear-gradient(140deg, color-mix(in srgb, var(--color-brand) 10%, var(--color-surface)), var(--color-surface) 55%, color-mix(in srgb, var(--color-accent) 6%, var(--color-surface))); border-color: var(--color-line-strong); }
+.ct-svc-link { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; padding: 24px; }
+.ct-svc-num { position: absolute; right: 14px; bottom: -18px; font-family: var(--font-display); font-weight: 600; font-size: 6.5rem; line-height: 1; letter-spacing: -0.05em; pointer-events: none;
+  color: transparent; -webkit-text-stroke: 1px color-mix(in srgb, var(--color-brand-soft) 13%, transparent); transition: transform 700ms var(--ease-out-expo), -webkit-text-stroke-color 400ms ease; }
+.ct-svc:hover .ct-svc-num { transform: translateY(-8px); -webkit-text-stroke-color: color-mix(in srgb, var(--color-brand-soft) 42%, transparent); }
+.ct-svc-text { display: block; margin-top: 28px; flex: 1; }
+.ct-svc-arrow { position: absolute; right: 22px; top: 26px; color: var(--color-subtle); transition: transform 450ms var(--ease-out-expo), color 300ms ease; }
+.ct-svc:hover .ct-svc-arrow { color: var(--color-brand); transform: translate(3px, -3px); }
+.ct-svc-orbit { display: none; }
+@media (min-width: 640px) {
+  .ct-svc--wide .ct-svc-link { padding: 28px 30px; padding-right: 13rem; }
+  .ct-svc--wide .ct-svc-num { right: 12.5rem; bottom: -22px; font-size: 7.5rem; }
+  .ct-svc-orbit { --c: var(--color-brand-soft); position: absolute; right: 26px; top: 50%; display: grid; place-items: center; width: 150px; height: 150px; margin-top: -75px; pointer-events: none;
+    transition: transform 900ms var(--ease-out-expo); }
+  .ct-svc-orbit::before, .ct-svc-orbit::after { content: ''; position: absolute; border-radius: 50%; }
+  .ct-svc-orbit::before { inset: 0; border: 1px dashed color-mix(in srgb, var(--color-brand-soft) 39%, transparent); animation: ct-spin 40s linear infinite; }
+  .ct-svc-orbit::after { inset: 24px; border: 1px solid color-mix(in srgb, var(--color-accent) 15%, transparent); }
+  .ct-svc-orbit > i { position: absolute; inset: 0; animation: ct-spin 12s linear infinite; }
+  .ct-svc-orbit > i::before { content: ''; position: absolute; top: -3px; left: calc(50% - 3px); width: 6px; height: 6px; border-radius: 50%; background: var(--color-brand-soft); box-shadow: 0 0 12px var(--color-brand-soft); }
+  .ct-svc-orbit > i:nth-of-type(2) { inset: 24px; animation-duration: 8s; animation-direction: reverse; }
+  .ct-svc-orbit > i:nth-of-type(2)::before { background: var(--color-signal); box-shadow: 0 0 12px var(--color-signal); }
+  .ct-svc-orbit > span { position: relative; z-index: 1; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 20px; color: #fff;
+    background: linear-gradient(135deg, var(--color-brand), var(--color-brand-strong)); box-shadow: 0 20px 44px -14px color-mix(in srgb, var(--color-brand) 54%, transparent); transform: rotate(-8deg); transition: transform 700ms var(--ease-out-expo); }
+  .ct-svc:hover .ct-svc-orbit { transform: scale(1.06); }
+  .ct-svc:hover .ct-svc-orbit > span { transform: rotate(6deg); }
+}
+
+/* ───────── Portfolio cards (populated grid, home, service pages) ───────── */
+.ct-work-sheen { position: absolute; inset: 0; pointer-events: none; transform: translateX(-110%);
+  background: linear-gradient(110deg, transparent 35%, color-mix(in srgb, var(--color-surface) 22%, transparent) 50%, transparent 65%); }
+.group:hover .ct-work-sheen { transform: translateX(110%); transition: transform 1100ms var(--ease-out-expo); }
+.ct-work-tint { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 500ms ease;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--color-brand) 17%, transparent), transparent 55%, color-mix(in srgb, var(--color-accent) 13%, transparent)); mix-blend-mode: screen; }
+.group:hover .ct-work-tint { opacity: 1; }
+
+/* ───────── Case study: sticky section labels, stepper, tiles ───────── */
+.ct-cs-n { display: block; font-size: clamp(3rem, 6vw, 4.5rem); }
+.ct-flow { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+@media (min-width: 640px) { .ct-flow { grid-template-columns: repeat(var(--n, 5), minmax(0, 1fr)); gap: 0; } }
+.ct-flow > li { position: relative; display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--color-line); background: var(--color-surface);
+  transition: border-color 300ms ease, background 300ms ease; }
+.ct-flow > li:hover { border-color: color-mix(in srgb, var(--color-brand-soft) 52%, transparent); background: color-mix(in srgb, var(--color-brand) 5%, transparent); }
+@media (min-width: 640px) {
+  .ct-flow > li { flex-direction: column; align-items: flex-start; gap: 14px; padding: 0 12px 0 0; border: 0; background: none; }
+  .ct-flow > li:hover { background: none; }
+  .ct-flow > li::before { content: ''; position: absolute; left: 14px; right: 0; top: 13px; height: 2px; background: linear-gradient(90deg, color-mix(in srgb, var(--color-brand-soft) 72%, transparent), color-mix(in srgb, var(--color-accent) 15%, transparent)); }
+  .ct-flow > li:last-child::before { display: none; }
+}
+.ct-flow-dot { position: relative; z-index: 1; display: grid; place-items: center; flex: 0 0 auto; width: 28px; height: 28px; border-radius: 50%; font-family: var(--font-mono); font-size: 0.66rem;
+  color: #fff; background: linear-gradient(135deg, var(--color-brand), var(--color-brand-strong)); box-shadow: 0 0 0 4px var(--color-bg), 0 0 16px color-mix(in srgb, var(--color-brand) 36%, transparent);
+  transition: transform 400ms var(--ease-out-expo); }
+.ct-flow > li:hover .ct-flow-dot { transform: scale(1.15); }
+.ct-lift { transition: translate 400ms var(--ease-out-expo), border-color 300ms ease, background 300ms ease, box-shadow 400ms ease; }
+.ct-lift:hover { translate: 0 -4px; border-color: color-mix(in srgb, var(--color-brand-soft) 52%, transparent); box-shadow: 0 22px 44px -28px color-mix(in srgb, var(--color-brand) 51%, transparent); }
+
+/* ───────── Status screens (404 / error): giant outlined numeral ───────── */
+.ct-code { display: block; margin: 0 auto -0.3em; width: fit-content; user-select: none; pointer-events: none; white-space: nowrap;
+  font-family: var(--font-display); font-weight: 700; line-height: 0.85; letter-spacing: -0.06em;
+  font-size: clamp(5rem, min(calc(128vw / var(--len, 3)), calc(60rem / var(--len, 3))), 20rem);
+  color: transparent; -webkit-text-stroke: 1.5px color-mix(in srgb, var(--color-brand-soft) 52%, transparent);
+  background: linear-gradient(100deg, transparent 35%, color-mix(in srgb, var(--color-brand-soft) 72%, transparent) 46%, color-mix(in srgb, var(--color-accent) 30%, transparent) 54%, transparent 65%), linear-gradient(180deg, color-mix(in srgb, var(--color-brand-soft) 21%, transparent), transparent 85%);
+  background-size: 260% 100%, 100% 100%; background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text;
+  animation: ct-sweep 7s ease-in-out infinite, ct-float 9s ease-in-out infinite;
+  mask-image: linear-gradient(180deg, #000 40%, transparent 98%); -webkit-mask-image: linear-gradient(180deg, #000 40%, transparent 98%); }
+@keyframes ct-sweep { 0% { background-position: 130% 0, 0 0; } 60%, 100% { background-position: -30% 0, 0 0; } }
+.ct-code-pill { display: inline-flex; align-items: center; gap: 10px; padding: 7px 16px 7px 13px; border-radius: 999px; border: 1px solid var(--color-line-strong);
+  background: var(--color-surface); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+
+/* ───────── Reduced motion: final state, no movement ───────── */
+@media (prefers-reduced-motion: reduce) {
+  .ct-live-dot::after, .ct-orbit::before, .ct-orbit > i, .ct-svc-orbit::before, .ct-svc-orbit > i, .ct-skel-card, .ct-skel-card > i, .ct-skel-bar > span, .ct-code { animation: none !important; }
+  .ct-walk-item { opacity: 1 !important; translate: 0 0 !important; transition: none !important; }
+  .ct-walk-item.is-active .ct-walk-bar > span { animation: none; width: 100%; }
+  .ct-feature:hover, .ct-story:hover, .ct-story:focus-within, .ct-svc:hover, .ct-lift:hover { translate: 0 0; }
+  .ct-role::details-content { transition: none; }
+  .group:hover .ct-work-sheen { transform: translateX(-110%); transition: none; }
+}

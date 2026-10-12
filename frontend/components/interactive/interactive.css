@@ -1,0 +1,230 @@
+/*
+ * Interactive sections, adapted from the v1 design (main branch) to its light identity:
+ * auto-playing step cards, count-up stat band, stack explorer, value rows, deliverable tiles,
+ * feature cards, journey timeline. Everything settles to a static state for reduced motion.
+ */
+
+/* ───────── Stat band (count-up numbers over drifting orbs): a navy band with light text, as on main ───────── */
+.ix-band { position: relative; overflow: hidden; isolation: isolate; border-radius: 1.75rem; border: 1px solid var(--color-navy);
+  background: linear-gradient(135deg, var(--color-navy) 0%, color-mix(in srgb, var(--color-navy) 82%, var(--color-brand)) 55%, var(--color-navy) 100%); color: #fff; }
+.ix-orb { position: absolute; z-index: -1; border-radius: 50%; filter: blur(70px); pointer-events: none; }
+.ix-orb-1 { width: 380px; height: 380px; left: -120px; top: -170px; background: var(--color-brand); opacity: 0.5; animation: ix-float 13s ease-in-out infinite; }
+.ix-orb-2 { width: 320px; height: 320px; right: -110px; bottom: -190px; background: var(--color-accent); opacity: 0.22; animation: ix-float 15s ease-in-out infinite reverse; }
+.ix-orb-3 { width: 220px; height: 220px; left: 45%; top: 60%; background: var(--color-brand-soft); opacity: 0.14; animation: ix-float 17s ease-in-out infinite; }
+@keyframes ix-float { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(40px, 28px); } }
+.ix-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 14px; }
+.ix-stat { position: relative; container-type: inline-size; padding: 24px 22px; border-radius: 1.25rem; background: color-mix(in srgb, var(--color-surface) 5%, transparent); border: 1px solid color-mix(in srgb, var(--color-brand-soft) 22%, transparent); backdrop-filter: blur(6px);
+  
+  transition: opacity 600ms ease calc(var(--i) * 110ms), translate 700ms var(--ease-out-expo) calc(var(--i) * 110ms), transform 300ms ease, border-color 300ms ease, background 300ms ease; }
+.is-armed .ix-stat { opacity: 0; translate: 0 22px; }
+.is-seen .ix-stat { opacity: 1; translate: 0 0; }
+.ix-stat:hover { transform: translateY(-6px); border-color: color-mix(in srgb, var(--color-brand-soft) 60%, transparent); background: color-mix(in srgb, var(--color-brand) 22%, transparent); }
+.ix-stat-icon { width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center; background: color-mix(in srgb, var(--color-brand-soft) 18%, transparent); color: var(--color-brand-soft);
+  transition: transform 350ms var(--ease-out-expo), background 300ms ease, color 300ms ease; }
+.ix-stat:hover .ix-stat-icon { background: #fff; color: var(--color-brand-strong); transform: rotate(-8deg) scale(1.06); }
+.ix-stat-num { margin-top: 18px; font-family: var(--font-display); font-weight: 600; font-size: clamp(2rem, 24cqi, 3.6rem); white-space: nowrap; letter-spacing: -0.04em; line-height: 1;
+  font-variant-numeric: tabular-nums; background: linear-gradient(120deg, #fff 30%, var(--color-brand-soft)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.ix-stat-num .ix-plus { color: var(--color-accent); -webkit-text-fill-color: var(--color-accent); }
+.ix-stat-label { margin-top: 10px; color: var(--color-on-navy); font-size: 0.95rem; font-weight: 500; }
+.ix-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.ix-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 15px 8px 10px; border-radius: 999px; background: color-mix(in srgb, var(--color-surface) 6%, transparent); border: 1px solid color-mix(in srgb, var(--color-brand-soft) 20%, transparent);
+  font-size: 0.875rem; color: #fff; transition: background 200ms ease, border-color 200ms ease; }
+.ix-pill:hover { background: color-mix(in srgb, var(--color-surface) 12%, transparent); border-color: color-mix(in srgb, var(--color-brand-soft) 52%, transparent); }
+.ix-note { margin: 14px 4px 4px; font-size: 0.8125rem; line-height: 1.5; color: var(--color-on-navy); }
+.ix-pill-k { color: var(--color-brand-soft); font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; }
+
+/* ───────── Step cards (auto-play, progress track, tilt + following glow) ───────── */
+.ix-steps { position: relative; }
+.ix-track { position: relative; height: 3px; border-radius: 3px; background: color-mix(in srgb, var(--color-navy) 8%, transparent); margin: 0 0 24px; overflow: hidden; }
+.ix-track > span { position: absolute; inset: 0 auto 0 0; border-radius: 3px; background: linear-gradient(90deg, var(--color-brand-soft), var(--color-brand) 60%, var(--color-accent));
+  transition: width 650ms var(--ease-out-expo); }
+.ix-step-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 16px; perspective: 1100px; }
+.ix-step { --rx: 0deg; --ry: 0deg; --mx: 50%; --my: 50%;
+  position: relative; overflow: hidden; outline: none; padding: 26px 24px 30px; border-radius: 1.25rem;
+  background: var(--color-surface); border: 1px solid var(--color-line-strong);
+  transform: rotateX(var(--rx)) rotateY(var(--ry)); transform-style: preserve-3d;
+  
+  transition: transform 220ms ease-out, background 350ms ease, border-color 350ms ease, box-shadow 350ms ease, opacity 600ms ease, translate 700ms var(--ease-out-expo); }
+.is-armed .ix-step { opacity: 0; translate: 0 26px; }
+.is-seen .ix-step { opacity: 1; translate: 0 0; transition-delay: 0ms, 0ms, 0ms, 0ms, calc(var(--i) * 120ms), calc(var(--i) * 120ms); }
+.ix-step:focus-visible { box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-soft) 78%, transparent); }
+.ix-step.is-active { background: linear-gradient(150deg, color-mix(in srgb, var(--color-brand) 10%, var(--color-surface)), var(--color-surface) 70%); border-color: color-mix(in srgb, var(--color-brand-soft) 78%, transparent);
+  box-shadow: 0 22px 48px -18px color-mix(in srgb, var(--color-brand) 33%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--color-brand-soft) 23%, transparent);
+  transform: rotateX(var(--rx)) rotateY(var(--ry)) translateY(-6px); }
+.ix-glow { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 300ms ease;
+  background: radial-gradient(260px circle at var(--mx) var(--my), color-mix(in srgb, var(--color-brand-soft) 29%, transparent), transparent 60%); }
+.ix-step:hover .ix-glow, .ix-step.is-active .ix-glow { opacity: 1; }
+.ix-step-num { position: relative; font-family: var(--font-display); font-weight: 600; font-size: 2.6rem; letter-spacing: -0.04em; line-height: 1; color: transparent;
+  -webkit-text-stroke: 1.2px color-mix(in srgb, var(--color-brand-soft) 91%, transparent); transform: translateZ(30px); transition: color 350ms ease, -webkit-text-stroke-color 350ms ease; }
+.ix-step.is-active .ix-step-num, .ix-step.is-done .ix-step-num { color: var(--color-brand); -webkit-text-stroke-color: transparent; }
+.ix-step-title { position: relative; margin-top: 18px; font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; letter-spacing: -0.02em; color: var(--color-text); transform: translateZ(20px); }
+.ix-step-desc { position: relative; margin-top: 8px; font-size: 0.93rem; line-height: 1.6; color: var(--color-muted); transition: color 300ms ease; }
+.ix-step.is-active .ix-step-desc { color: var(--color-text); }
+.ix-step-bar { position: absolute; left: 24px; right: 24px; bottom: 14px; height: 3px; border-radius: 3px; background: color-mix(in srgb, var(--color-navy) 7%, transparent); overflow: hidden; }
+.ix-step-bar > span { display: block; height: 100%; width: 0; border-radius: 3px; background: var(--color-brand-soft); }
+.ix-step.is-done .ix-step-bar > span { width: 100%; background: color-mix(in srgb, var(--color-brand-soft) 58%, transparent); }
+.ix-step.is-active .ix-step-bar > span { animation: ix-fill var(--cycle, 2800ms) linear forwards; }
+.ix-steps.is-paused .ix-step.is-active .ix-step-bar > span { animation: none; width: 100%; }
+@keyframes ix-fill { from { width: 0; } to { width: 100%; } }
+
+/* ───────── Stack explorer (tabs with timer, popping tiles, marquee) ───────── */
+.ix-explorer { border: 1px solid var(--color-line-strong); border-radius: 1.75rem; background: var(--color-surface); padding: 12px; box-shadow: 0 18px 40px -28px color-mix(in srgb, var(--color-navy) 30%, transparent); }
+.ix-tabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px; }
+.ix-tabs::-webkit-scrollbar { display: none; }
+.ix-tab { position: relative; overflow: hidden; flex: 0 0 auto; display: inline-flex; align-items: center; gap: 8px; padding: 10px 15px; border-radius: 12px;
+  border: 1px solid transparent; background: transparent; color: var(--color-muted); font-size: 0.9rem; font-weight: 500; cursor: pointer;
+  transition: background 200ms ease, color 200ms ease, border-color 200ms ease, box-shadow 200ms ease; }
+.ix-tab:hover { background: var(--color-surface-3); color: var(--color-text); border-color: var(--color-line); }
+.ix-tab[aria-selected="true"] { background: var(--color-brand-strong); color: #fff; box-shadow: 0 10px 26px -10px color-mix(in srgb, var(--color-brand) 48%, transparent); }
+.ix-tab-count { font-family: var(--font-mono); font-size: 0.7rem; opacity: 0.7; }
+.ix-tab-timer { position: absolute; left: 0; bottom: 0; height: 2px; background: color-mix(in srgb, var(--color-surface) 75%, transparent); animation: ix-fill var(--cycle, 3200ms) linear forwards; }
+.ix-panel { margin-top: 10px; padding: 22px; border-radius: 1.25rem; background: var(--color-surface-2); border: 1px solid var(--color-line); min-height: 220px; }
+.ix-panel-head { display: flex; align-items: center; gap: 14px; }
+.ix-panel-icon { width: 52px; height: 52px; border-radius: 15px; display: grid; place-items: center; color: #fff;
+  background: linear-gradient(135deg, var(--color-brand), var(--color-brand-strong)); box-shadow: 0 12px 28px -10px color-mix(in srgb, var(--color-brand) 42%, transparent); }
+.ix-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr)); gap: 10px; margin-top: 18px; }
+.ix-tile { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 14px; border: 1px solid var(--color-line); background: var(--color-surface);
+  animation: ix-pop 460ms cubic-bezier(.2,.9,.3,1.2) both; animation-delay: calc(var(--i) * 60ms);
+  transition: transform 220ms ease, border-color 220ms ease, background 220ms ease, box-shadow 220ms ease; }
+.ix-tile:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--color-brand-soft) 58%, transparent); background: color-mix(in srgb, var(--color-brand) 6%, transparent); box-shadow: 0 14px 30px -16px color-mix(in srgb, var(--color-brand) 42%, transparent); }
+.ix-badge { flex: 0 0 auto; width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; font-family: var(--font-display); font-weight: 600; font-size: 0.82rem; letter-spacing: -0.02em; }
+@keyframes ix-pop { from { opacity: 0; transform: translateY(10px) scale(0.92); } to { opacity: 1; transform: none; } }
+.ix-marquee { margin-top: 10px; overflow: hidden; border-radius: 1rem; border: 1px solid var(--color-line); background: var(--color-surface);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.ix-marquee-track { display: flex; width: max-content; animation: ix-marquee 48s linear infinite; }
+.ix-marquee:hover .ix-marquee-track { animation-play-state: paused; }
+.ix-marquee-set { display: flex; flex: 0 0 auto; }
+.ix-marquee-item { display: inline-flex; align-items: center; gap: 10px; padding: 13px 28px 13px 0; font-size: 0.9rem; font-weight: 500; color: var(--color-muted); white-space: nowrap; }
+.ix-marquee-item:first-child { padding-left: 28px; }
+.ix-marquee-dot { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; font-family: var(--font-display); font-size: 0.66rem; font-weight: 600; }
+@keyframes ix-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ───────── Value rows (highlight sweep, outlined number fills, title slides, arrow) ───────── */
+.ix-rows { list-style: none; margin: 0; padding: 0; }
+.ix-row { position: relative; display: grid; grid-template-columns: 3rem 1fr; gap: 0 1.25rem; align-items: baseline; padding: 22px 18px; border-top: 1px solid var(--color-line);
+  overflow: hidden; outline: none; cursor: default;
+   transition: opacity 600ms ease calc(var(--i) * 90ms), translate 700ms var(--ease-out-expo) calc(var(--i) * 90ms), border-radius 300ms ease; }
+.is-armed .ix-row { opacity: 0; translate: 36px 0; }
+.ix-row:last-child { border-bottom: 1px solid var(--color-line); }
+.is-seen .ix-row { opacity: 1; translate: 0 0; }
+.ix-row::before { content: ''; position: absolute; inset: 0; z-index: 0; background: linear-gradient(90deg, color-mix(in srgb, var(--color-brand) 11%, transparent), color-mix(in srgb, var(--color-accent) 4%, transparent) 55%, transparent);
+  transform: scaleX(0); transform-origin: left; transition: transform 500ms var(--ease-out-expo); }
+.ix-row.is-on::before { transform: scaleX(1); }
+.ix-row.is-on { border-radius: 14px; border-color: transparent; }
+.ix-row:focus-visible { box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--color-brand-soft) 78%, transparent); border-radius: 14px; }
+.ix-row > * { position: relative; z-index: 1; }
+.ix-row-n { font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; font-variant-numeric: tabular-nums; color: transparent;
+  -webkit-text-stroke: 1.2px var(--color-brand-soft); transition: color 300ms ease; }
+.ix-row.is-on .ix-row-n { color: var(--color-brand); -webkit-text-stroke-color: transparent; }
+.ix-row-t { display: flex; align-items: center; gap: 12px; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.25rem, 2.2vw, 1.75rem); letter-spacing: -0.03em; line-height: 1.15;
+  color: var(--color-text); transition: transform 450ms var(--ease-out-expo), color 300ms ease; }
+.ix-row.is-on .ix-row-t { transform: translateX(8px); color: var(--color-navy); }
+.ix-row-arrow { color: var(--color-brand); opacity: 0; transform: translateX(-10px) rotate(-12deg); transition: opacity 300ms ease, transform 450ms var(--ease-out-expo); }
+.ix-row.is-on .ix-row-arrow { opacity: 1; transform: none; }
+.ix-row-d { grid-column: 2; margin-top: 8px; color: var(--color-muted); font-size: 0.97rem; line-height: 1.6; transition: color 300ms ease, transform 450ms var(--ease-out-expo); }
+.ix-row.is-on .ix-row-d { color: var(--color-text); transform: translateX(8px); }
+.ix-row-meta { grid-column: 2; margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; max-height: 0; opacity: 0; transition: max-height 450ms var(--ease-out-expo), opacity 300ms ease; }
+.ix-row.is-on .ix-row-meta { max-height: 120px; opacity: 1; }
+
+/* ───────── Deliverable tiles ───────── */
+.ix-deliver { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 12px; }
+.ix-dtile { --mx: 50%; --my: 50%; position: relative; overflow: hidden; display: flex; gap: 14px; align-items: flex-start; padding: 18px 18px 20px; border-radius: 1.1rem;
+  background: var(--color-surface); border: 1px solid var(--color-line);
+  
+  transition: opacity 500ms ease calc(var(--i) * 70ms), transform 600ms cubic-bezier(.2,.9,.3,1.15) calc(var(--i) * 70ms), border-color 250ms ease, background 250ms ease, box-shadow 250ms ease; }
+.is-armed .ix-dtile { opacity: 0; transform: translateY(14px) scale(0.97); }
+.is-seen .ix-dtile { opacity: 1; transform: none; }
+.ix-dtile:hover { border-color: color-mix(in srgb, var(--color-brand-soft) 58%, transparent); background: color-mix(in srgb, var(--color-brand) 5%, transparent); box-shadow: 0 18px 36px -20px color-mix(in srgb, var(--color-brand) 48%, transparent); transform: translateY(-4px); transition-delay: 0ms; }
+.ix-dtile::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 250ms ease;
+  background: radial-gradient(220px circle at var(--mx) var(--my), color-mix(in srgb, var(--color-brand-soft) 23%, transparent), transparent 60%); }
+.ix-dtile:hover::after { opacity: 1; }
+.ix-check { position: relative; flex: 0 0 auto; width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; color: var(--color-brand);
+  background: color-mix(in srgb, var(--color-brand-soft) 22%, transparent); transition: background 250ms ease, color 250ms ease, transform 350ms var(--ease-out-expo); }
+.ix-check path { stroke-dasharray: 24; transition: stroke-dashoffset 600ms ease calc(250ms + var(--i) * 70ms); }
+.is-armed .ix-check path { stroke-dashoffset: 24; }
+.is-seen .ix-check path { stroke-dashoffset: 0; }
+.ix-dtile:hover .ix-check { background: var(--color-brand-strong); color: #fff; transform: rotate(-8deg) scale(1.08); }
+.ix-dnum { position: absolute; right: 14px; top: 12px; font-family: var(--font-mono); font-size: 0.68rem; color: var(--color-subtle); }
+
+/* ───────── Feature cards (icon flips to filled, card slides) ───────── */
+.ix-feature { --mx: 50%; --my: 50%; position: relative; overflow: hidden; display: flex; gap: 16px; padding: 20px; border-radius: 1.1rem; border: 1px solid transparent;
+  transition: transform 300ms var(--ease-out-expo), border-color 250ms ease, background 250ms ease; }
+.ix-feature:hover { transform: translateX(6px); border-color: var(--color-line-strong); background: var(--color-surface); }
+.ix-feature::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 250ms ease;
+  background: radial-gradient(240px circle at var(--mx) var(--my), color-mix(in srgb, var(--color-brand) 8%, transparent), transparent 60%); }
+.ix-feature:hover::after { opacity: 1; }
+.ix-feature-icon { flex: 0 0 auto; width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; border: 1px solid var(--color-line-strong); color: var(--color-brand);
+  transition: background 250ms ease, color 250ms ease, transform 350ms var(--ease-out-expo), border-color 250ms ease, box-shadow 250ms ease; }
+.ix-feature:hover .ix-feature-icon { background: var(--color-brand-strong); border-color: transparent; color: #fff; transform: rotate(-8deg) scale(1.06); box-shadow: 0 10px 24px -8px color-mix(in srgb, var(--color-brand) 48%, transparent); }
+
+/* ───────── Role pills ───────── */
+.ix-role { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px 7px 7px; border-radius: 999px; background: var(--color-surface); border: 1px solid var(--color-line-strong);
+  font-size: 0.875rem; color: var(--color-text); cursor: default;
+   transition: opacity 500ms ease calc(var(--i) * 60ms), translate 600ms var(--ease-out-expo) calc(var(--i) * 60ms), background 200ms ease, border-color 200ms ease, transform 200ms ease; }
+.is-armed .ix-role { opacity: 0; translate: 0 10px; }
+.is-seen .ix-role { opacity: 1; translate: 0 0; }
+.ix-role:hover { background: var(--color-brand); border-color: transparent; color: #fff; transform: translateY(-2px); }
+.ix-role-icon { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: color-mix(in srgb, var(--color-brand-soft) 28%, transparent); color: var(--color-brand); transition: background 200ms ease, color 200ms ease; }
+.ix-role:hover .ix-role-icon { background: #fff; color: var(--color-brand-strong); }
+
+/* ───────── Journey timeline (rail fills, dots pop, "now" pings, "next" shimmers) ───────── */
+.ix-journey { position: relative; }
+.ix-jlist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); }
+.ix-rail { position: absolute; top: 9px; left: 9px; height: 2px; width: calc(100% * (var(--n) - 1) / var(--n));
+  background-image: linear-gradient(90deg, color-mix(in srgb, var(--color-navy) 15%, transparent) 50%, transparent 50%); background-size: 10px 2px; }
+.ix-rail-fill { position: absolute; inset: 0 auto 0 0; width: calc(100% * var(--now) / (var(--n) - 1)); border-radius: 2px; background: linear-gradient(90deg, var(--color-brand-soft), var(--color-brand));
+  transition: width 1600ms cubic-bezier(.65,0,.35,1) 200ms; }
+.is-armed .ix-rail-fill { width: 0; }
+.is-seen .ix-rail-fill { width: calc(100% * var(--now) / (var(--n) - 1)); }
+.ix-jitem { position: relative; padding-right: 18px; }
+.ix-dot { position: relative; z-index: 1; display: block; width: 20px; height: 20px; border-radius: 50%; background: var(--color-bg); border: 2px solid color-mix(in srgb, var(--color-navy) 21%, transparent);
+  transition: transform 500ms cubic-bezier(.2,.9,.3,1.4) calc(300ms + var(--i) * 360ms), background 300ms ease, border-color 300ms ease; }
+.is-armed .ix-dot { transform: scale(0); }
+.is-seen .ix-dot { transform: scale(1); }
+.ix-jitem.is-done .ix-dot { border-color: var(--color-brand); box-shadow: inset 0 0 0 4px var(--color-bg), inset 0 0 0 10px var(--color-brand); }
+.ix-jitem.is-now .ix-dot { border-color: var(--color-brand); background: var(--color-brand); box-shadow: 0 0 0 5px color-mix(in srgb, var(--color-brand) 12%, transparent); }
+.ix-ping { position: absolute; inset: -2px; border-radius: 50%; border: 2px solid var(--color-brand); animation: ix-ping 1.8s cubic-bezier(0,0,.2,1) infinite; }
+@keyframes ix-ping { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.6); opacity: 0; } }
+.ix-jcard { margin-top: 22px; padding: 20px; border-radius: 1.1rem; background: var(--color-surface); border: 1px solid var(--color-line);
+   transition: opacity 600ms ease calc(400ms + var(--i) * 360ms), translate 700ms var(--ease-out-expo) calc(400ms + var(--i) * 360ms), transform 250ms ease, border-color 250ms ease; }
+.is-armed .ix-jcard { opacity: 0; translate: 0 16px; }
+.is-seen .ix-jcard { opacity: 1; translate: 0 0; }
+.ix-jcard:hover { transform: translateY(-5px); border-color: var(--color-line-strong); }
+.ix-jk { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.2rem, 2vw, 1.6rem); letter-spacing: -0.02em; color: var(--color-text); }
+.ix-jt { margin-top: 8px; color: var(--color-muted); font-size: 0.95rem; line-height: 1.55; }
+.ix-jitem.is-now .ix-jcard { background: linear-gradient(140deg, color-mix(in srgb, var(--color-brand) 12%, var(--color-surface)), var(--color-surface)); border-color: color-mix(in srgb, var(--color-brand-soft) 65%, transparent); box-shadow: 0 20px 44px -18px color-mix(in srgb, var(--color-brand) 36%, transparent); }
+.ix-jitem.is-now .ix-jt { color: var(--color-text); }
+.ix-live { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.14em; padding: 3px 8px; border-radius: 999px; background: var(--color-accent); color: var(--color-navy); }
+.ix-jitem.is-next .ix-jcard { border: 1.5px dashed color-mix(in srgb, var(--color-brand-soft) 52%, transparent);
+  background: linear-gradient(110deg, var(--color-surface) 40%, color-mix(in srgb, var(--color-brand-soft) 18%, var(--color-surface)) 50%, var(--color-surface) 60%); background-size: 250% 100%; animation: ix-shimmer 3.5s linear infinite; }
+@keyframes ix-shimmer { from { background-position: 100% 0; } to { background-position: -150% 0; } }
+@media (max-width: 759px) {
+  .ix-jlist { grid-template-columns: 1fr; gap: 16px; padding-left: 34px; }
+  .ix-rail { top: 6px; bottom: 6px; left: 9px; width: 2px; height: auto; background-image: linear-gradient(180deg, color-mix(in srgb, var(--color-navy) 15%, transparent) 50%, transparent 50%); background-size: 2px 10px; }
+  .ix-rail-fill { inset: 0 0 auto 0; width: 100%; height: calc(100% * var(--now) / (var(--n) - 1)); transition: height 1600ms cubic-bezier(.65,0,.35,1) 200ms; background: linear-gradient(180deg, var(--color-brand-soft), var(--color-brand)); }
+  .is-armed .ix-rail-fill { width: 100%; height: 0; }
+  .is-seen .ix-rail-fill { width: 100%; height: calc(100% * var(--now) / (var(--n) - 1)); }
+  .ix-jitem { padding: 0; }
+  .ix-dot { position: absolute; left: -34px; top: 24px; }
+  .ix-jcard { margin-top: 0; }
+}
+
+/* ───────── Reduced motion: final state, no movement ───────── */
+@media (prefers-reduced-motion: reduce) {
+  .ix-orb, .ix-marquee-track, .ix-tab-timer, .ix-ping, .ix-tile, .ix-jitem.is-next .ix-jcard { animation: none !important; }
+  .ix-stat, .ix-step, .ix-row, .ix-dtile, .ix-role, .ix-jcard { opacity: 1 !important; translate: 0 0 !important; transform: none !important; transition: none !important; }
+  .ix-check path { stroke-dashoffset: 0 !important; transition: none !important; }
+  .ix-dot { transform: none !important; transition: none !important; }
+  .ix-rail-fill { transition: none !important; }
+  .ix-step.is-active .ix-step-bar > span { animation: none; width: 100%; }
+}
+
+/* Phones: stats two per row, tighter tiles. */
+@media (max-width: 639px) {
+  .ix-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .ix-stat { padding: 18px 16px; }
+  .ix-stat-icon { width: 38px; height: 38px; border-radius: 11px; }
+  .ix-stat-num { margin-top: 14px; font-size: clamp(1.7rem, 22cqi, 2.6rem); }
+  .ix-stat-label { font-size: 0.82rem; }
+  .ix-panel { padding: 16px; min-height: 0; }
+}

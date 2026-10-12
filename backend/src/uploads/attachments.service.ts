@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { config } from '../config';
 import { DatabaseService } from '../database/database.service';
+import { extOf, mimeFor } from './file-types';
 
 export type OwnerType = 'enquiry' | 'application';
 
@@ -16,7 +17,7 @@ export class AttachmentsService {
   save(ownerType: OwnerType, ownerId: number, files: Express.Multer.File[] = []): void {
     for (const f of files) {
       this.db.run('INSERT INTO attachments (owner_type, owner_id, original_name, stored_name, mime, size) VALUES (?, ?, ?, ?, ?, ?)',
-        [ownerType, ownerId, f.originalname.slice(0, 255), f.filename, f.mimetype || 'application/octet-stream', f.size]);
+        [ownerType, ownerId, f.originalname.slice(0, 255), f.filename, mimeFor(extOf(f.originalname)), f.size]);
     }
   }
 

@@ -20,7 +20,12 @@ export function loadDotEnv(file: string): void {
 loadDotEnv(path.resolve(BACKEND_DIR, '..', '.env'));
 loadDotEnv(path.resolve(BACKEND_DIR, '.env'));
 
-const env = (key: string, fallback: string): string => process.env[key] ?? fallback;
+/** Reads a setting; an empty value (e.g. `SITE_URL=` left blank in .env) counts as unset and uses the fallback. */
+const env = (key: string, fallback: string): string => {
+  const v = process.env[key];
+  return v === undefined || v.trim() === '' ? fallback : v;
+};
+const isProd = process.env.NODE_ENV === 'production';
 
 export const config = {
   // API_PORT is used when the API runs inside server.js, where PORT belongs to the website.
@@ -32,15 +37,60 @@ export const config = {
   schemaPath: path.resolve(__dirname, '..', '..', 'database', 'schema.sql'),
   seedPath: path.resolve(__dirname, '..', '..', 'database', 'seed', 'content.json'),
   corsOrigin: env('CORS_ORIGIN', 'http://localhost:3000').split(',').map((s) => s.trim()),
+  isProd,
+  // Public URL of the site, used in emails and links.
+  siteUrl: env('SITE_URL', env('NEXT_PUBLIC_SITE_URL', 'http://localhost:3000')).replace(/\/$/, ''),
+  // The first super admin is created from these on first boot (when there are no users yet).
+  adminEmail: env('ADMIN_EMAIL', 'support@asprglobaltech.com'),
+  adminName: env('ADMIN_NAME', 'ASPR Admin'),
   adminPassword: env('ADMIN_PASSWORD', 'change-me-aspr'),
-  adminTokenSecret: env('ADMIN_TOKEN_SECRET', 'dev-only-secret-change-me'),
-  adminTokenTtlHours: Number(env('ADMIN_TOKEN_TTL_HOURS', '12')),
+  sessionTtlHours: Number(env('ADMIN_SESSION_TTL_HOURS', env('ADMIN_TOKEN_TTL_HOURS', '12'))),
+  // Secure cookies need HTTPS; set COOKIE_SECURE=false only to test a production build over plain http.
+  cookieSecure: env('COOKIE_SECURE', isProd ? 'true' : 'false') === 'true',
   trustProxy: env('TRUST_PROXY', 'false') === 'true',
+  // Transactional email (SMTP). Without SMTP_HOST emails are recorded in the outbox as "skipped".
+  smtp: {
+    host: env('SMTP_HOST', ''),
+    port: Number(env('SMTP_PORT', '465')),
+    secure: env('SMTP_SECURE', env('SMTP_PORT', '465') === '465' ? 'true' : 'false') === 'true',
+    user: env('SMTP_USER', ''),
+    pass: env('SMTP_PASS', ''),
+  },
+  mailFrom: env('MAIL_FROM', 'ASPR Global Tech <support@asprglobaltech.com>'),
+  // Where new-lead notifications go (comma-separated). Defaults to the company email in Settings.
+  leadsNotifyTo: env('LEADS_NOTIFY_TO', ''),
+  // The website's cache is cleared after admin edits by calling WEB_INTERNAL_URL/internal/revalidate.
+  webInternalUrl: env('WEB_INTERNAL_URL', 'http://127.0.0.1:3000'),
+  revalidateSecret: env('REVALIDATE_SECRET', ''),
   // Chat assistant (Google Gemini). Without a key the widget still works and serves knowledge-base fallbacks.
   geminiApiKey: env('GEMINI_API_KEY', ''),
   geminiModel: env('GEMINI_MODEL', 'gemini-2.5-flash'),
   geminiTimeoutMs: Number(env('GEMINI_TIMEOUT_MS', '30000')),
   chatSessionTtlDays: Number(env('CHAT_SESSION_TTL_DAYS', '30')),
   maxFileBytes: 10 * 1024 * 1024,
-  maxFiles: 10,
+  maxFiles: 5,
+  maxImageBytes: 8 * 1024 * 1024,
+  maxVideoBytes: 60 * 1024 * 1024,
 };
+
+/**
+ * Production start-up checks. Errors stop the process with a clear message; warnings are for
+ * optional features. (Sessions are random opaque tokens stored hashed, so there is no session
+ * secret to set. The first admin's password is checked separately when the account is created.)
+ */
+export function productionConfigProblems(): { errors: string[]; warnings: string[] } {
+  const errors: string[] = [];
+  const warnings: string[] = [];
+  if (!config.isProd) return { errors, warnings };
+  if (!/^https:\/\//.test(config.siteUrl) || /localhost|127\.0\.0\.1/.test(config.siteUrl)) {
+    errors.push(`SITE_URL / NEXT_PUBLIC_SITE_URL must be the public https URL (got "${config.siteUrl}").`);
+  }
+  for (const key of ['DB_PATH', 'UPLOAD_DIR']) {
+    const v = process.env[key];
+    if (!v || !path.isAbsolute(v)) errors.push(`${key} must be an absolute path outside the app folder, so redeploys never touch the data.`);
+  }
+  if (config.smtp.host && (!config.smtp.user || !config.smtp.pass)) errors.push('SMTP_HOST is set but SMTP_USER or SMTP_PASS is missing.');
+  if (!config.smtp.host) warnings.push('SMTP_HOST is not set: leads are saved but no email is sent (optional, strongly recommended).');
+  if (!process.env.GEMINI_API_KEY) warnings.push('GEMINI_API_KEY is not set: the chat assistant answers from the built-in knowledge base only (optional).');
+  return { errors, warnings };
+}

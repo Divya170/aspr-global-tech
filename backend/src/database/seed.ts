@@ -1,5 +1,3 @@
-import { fromApi } from '../content/collection-mapper';
-import { getCollection } from '../content/collections';
 import type { DatabaseService, Row } from './database.service';
 
 interface SeedFile {
@@ -7,31 +5,34 @@ interface SeedFile {
   articles: Row[]; faqGroups: Row[]; faqs: Row[]; packages: Row[]; needs: Row[]; settings: Row;
 }
 
-/** Inserts the approved design's content. Runs once, when the database is created. */
+/** v1 table for each seed key. The seed is frozen at the v1 schema; migrations take it from there. */
+const TABLES: [keyof SeedFile, string][] = [
+  ['services', 'services'], ['products', 'products'], ['industries', 'industries'], ['work', 'work_items'],
+  ['steps', 'process_steps'], ['roles', 'roles'], ['articles', 'articles'], ['faqGroups', 'faq_groups'],
+  ['packages', 'packages'], ['needs', 'needs'],
+];
+
+const column = (key: string) => key.replace(/[A-Z]/g, (c) => '_' + c.toLowerCase());
+
+/**
+ * Inserts the original site content into a brand-new database (v1 schema). Rows are written
+ * as-is, without the admin collection rules, so this keeps working however those rules change.
+ * Keys with no matching column are skipped.
+ */
 export function seedDatabase(db: DatabaseService, seed: SeedFile): Record<string, number> {
   const counts: Record<string, number> = {};
-  const insert = (collection: string, rows: Row[]) => {
-    const def = getCollection(collection)!;
+  const insert = (table: string, rows: Row[]) => {
+    const cols = new Set(db.all<{ name: string }>(`PRAGMA table_info(${table})`).map((c) => c.name));
     for (const row of rows) {
-      const m = fromApi(def, { active: true, ...row }, false);
-      if (Object.keys(m.errors).length) throw new Error(`Seed ${collection}: ${JSON.stringify(m.errors)}`);
-      db.run(`INSERT INTO ${def.table} (${m.columns.join(', ')}) VALUES (${m.columns.map(() => '?').join(', ')})`, m.values);
+      const entries = Object.entries({ active: true, ...row }).filter(([k]) => cols.has(column(k)));
+      db.run(`INSERT INTO ${table} (${entries.map(([k]) => column(k)).join(', ')}) VALUES (${entries.map(() => '?').join(', ')})`, entries.map(([, v]) => v));
     }
-    counts[collection] = rows.length;
+    counts[table] = rows.length;
   };
   db.tx(() => {
-    insert('services', seed.services);
-    insert('products', seed.products);
-    insert('industries', seed.industries);
-    insert('work', seed.work);
-    insert('steps', seed.steps);
-    insert('roles', seed.roles);
-    insert('articles', seed.articles);
-    insert('faq-groups', seed.faqGroups);
-    const groupIds = db.all<{ id: number; sort: number }>('SELECT id, sort FROM faq_groups');
-    insert('faqs', seed.faqs.map(({ groupSort, ...q }) => ({ ...q, groupId: groupIds.find((g) => g.sort === groupSort)!.id })));
-    insert('packages', seed.packages);
-    insert('needs', seed.needs);
+    for (const [key, table] of TABLES) insert(table, seed[key] as Row[]);
+    const groups = db.all<{ id: number; sort: number }>('SELECT id, sort FROM faq_groups');
+    insert('faqs', seed.faqs.map(({ groupSort, ...q }) => ({ ...q, groupId: groups.find((g) => g.sort === groupSort)!.id })));
     for (const [key, value] of Object.entries(seed.settings)) {
       db.run('INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)', [key, JSON.stringify(value)]);
     }

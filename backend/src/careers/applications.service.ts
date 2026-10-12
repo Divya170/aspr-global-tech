@@ -1,9 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import type { SessionUser } from '../admin/permissions';
+import { toCsv } from '../common/csv';
 import { assertValid } from '../common/errors';
 import { newReference } from '../common/reference';
 import { checkEmail, checkLength, checkPhone, Errors, str } from '../common/rules';
+import { config } from '../config';
+import { ContentService } from '../content/content.service';
 import { DatabaseService, Row } from '../database/database.service';
-import { toCsv } from '../enquiries/enquiries.service';
+import { MailService } from '../mail/mail.service';
+import { applicationForApplicant, applicationForTeam } from '../mail/templates';
+import { ActivityService } from '../ops/activity.service';
+import { NotificationsService } from '../ops/notifications.service';
 import { AttachmentsService } from '../uploads/attachments.service';
 
 const MAX_LINKS = 6;
@@ -14,7 +21,16 @@ export interface AppListParams { q?: string; status?: string; roleId?: string; p
 
 @Injectable()
 export class ApplicationsService {
-  constructor(private readonly db: DatabaseService, private readonly attachments: AttachmentsService) {}
+  private readonly logger = new Logger('Applications');
+
+  constructor(
+    private readonly db: DatabaseService,
+    private readonly attachments: AttachmentsService,
+    private readonly content: ContentService,
+    private readonly mail: MailService,
+    private readonly notifications: NotificationsService,
+    private readonly activity: ActivityService,
+  ) {}
 
   create(roleId: number, raw: Row, files: Express.Multer.File[] = [], meta: { ip?: string; userAgent?: string } = {}) {
     const role = this.db.get('SELECT id, title FROM roles WHERE id = ? AND active = 1', [roleId]);
@@ -37,14 +53,29 @@ export class ApplicationsService {
     checkLength(e, 'portfolio', input.portfolio, 'Your links');
     checkLength(e, 'message', input.message, 'Message');
     assertValid(e);
-    return this.db.tx(() => {
-      const refNo = newReference(this.db, 'applications');
-      const { lastInsertRowid: id } = this.db.run(
+    const { id, refNo } = this.db.tx(() => {
+      const ref = newReference(this.db, 'applications');
+      const { lastInsertRowid } = this.db.run(
         'INSERT INTO applications (ref_no, role_id, role_title, name, email, phone, portfolio, message, ip, user_agent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        [refNo, role.id, role.title, input.name, input.email, input.phone, input.portfolio, input.message, meta.ip || null, (meta.userAgent || '').slice(0, 300)]);
-      this.attachments.save('application', id, files);
-      return { refNo, role: role.title, attachments: files.length, message: 'Application received — we look at the work first and reply within one working day.' };
+        [ref, role.id, role.title, input.name, input.email, input.phone, input.portfolio, input.message, meta.ip || null, (meta.userAgent || '').slice(0, 300)]);
+      this.attachments.save('application', lastInsertRowid, files);
+      return { id: lastInsertRowid, refNo: ref };
     });
+    try {
+      const data = { id, refNo, role: role.title, name: input.name, email: input.email, phone: input.phone, portfolio: input.portfolio, attachments: files.length };
+      this.notifications.create({ type: 'application', title: `New application: ${role.title}`, body: `${input.name} · ${refNo}`, link: '/admin/applications', entity: 'application', entityId: id });
+      this.activity.log(null, { action: 'application.created', entity: 'application', entityId: id, summary: `${input.name} applied for ${role.title} (${refNo})` });
+      const company = this.content.settings(['company']).company || {};
+      this.mail.send('application-team', company.careersEmail || company.email || config.adminEmail, applicationForTeam(data), input.email);
+      this.mail.send('application-applicant', input.email, applicationForApplicant(data), company.careersEmail);
+    } catch (e) {
+      this.logger.error(`Application ${refNo} saved, but follow-up failed: ${(e as Error).message}`);
+    }
+    return { refNo, role: role.title, attachments: files.length, message: 'Application received. We look at the work first and reply within one working day.' };
+  }
+
+  roles() {
+    return this.db.all('SELECT id, title, active FROM roles ORDER BY sort, id').map((r) => ({ id: r.id, title: r.title, open: !!r.active }));
   }
 
   private map(r: Row): Row {
@@ -76,14 +107,14 @@ export class ApplicationsService {
     return { items: rows.map((r) => this.map(r)), total, page, pageSize, pages: Math.max(1, Math.ceil(total / pageSize)) };
   }
 
-  get(id: number) {
+  get(id: number): Row {
     const r = this.db.get('SELECT * FROM applications WHERE id = ?', [id]);
     if (!r) throw new NotFoundException('Application not found');
     return { ...this.map(r), attachments: this.attachments.list('application', id) };
   }
 
-  update(id: number, body: Row) {
-    this.get(id);
+  update(id: number, body: Row, actor: SessionUser, ip?: string) {
+    const before = this.get(id);
     const e: Errors = {}, sets: string[] = [], params: unknown[] = [];
     if (body.status !== undefined) {
       if (!(APPLICATION_STATUSES as readonly string[]).includes(String(body.status))) e.status = `Status must be one of: ${APPLICATION_STATUSES.join(', ')}.`;
@@ -91,13 +122,17 @@ export class ApplicationsService {
     }
     if (body.notes !== undefined) { const n = str(body.notes); checkLength(e, 'note', n, 'Notes'); sets.push('notes = ?'); params.push(n); }
     assertValid(e);
-    if (sets.length) this.db.run(`UPDATE applications SET ${sets.join(', ')}, updated_at = datetime('now') WHERE id = ?`, [...params, id]);
+    if (sets.length) {
+      this.db.run(`UPDATE applications SET ${sets.join(', ')}, updated_at = datetime('now') WHERE id = ?`, [...params, id]);
+      this.activity.log(actor, { action: 'application.updated', entity: 'application', entityId: id, summary: `${before.refNo}${body.status && body.status !== before.status ? `: status → ${body.status}` : ': notes updated'}` }, ip);
+    }
     return this.get(id);
   }
 
-  remove(id: number) {
-    this.get(id);
+  remove(id: number, actor: SessionUser, ip?: string) {
+    const a = this.get(id);
     this.db.tx(() => { this.attachments.removeFor('application', id); this.db.run('DELETE FROM applications WHERE id = ?', [id]); });
+    this.activity.log(actor, { action: 'application.deleted', entity: 'application', entityId: id, summary: `Deleted ${a.refNo} (${a.name})` }, ip);
     return { deleted: true, id };
   }
 

@@ -10,3 +10,5 @@ database/*.sqlite-shm
 # Live data — never deploy over it. The API creates and seeds an empty database on first start.
 database/*.sqlite
 aspr-global-tech.zip
+next-env.d.ts
+*.tsbuildinfo

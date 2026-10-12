@@ -2,6 +2,8 @@ import { CanActivate, ExecutionContext, HttpException, HttpStatus } from '@nestj
 import type { Request } from 'express';
 
 const buckets = new Map<string, number[]>();
+/** Raises every limit (e.g. 10 in the test suite). Leave unset in production. */
+const MULTIPLIER = Math.max(1, Number(process.env.RATE_LIMIT_MULTIPLIER) || 1);
 
 /**
  * Small in-memory sliding-window limiter for public form endpoints
@@ -17,7 +19,7 @@ export class RateLimitGuard implements CanActivate {
     const key = `${this.bucket}:${clientIp(req)}`;
     const now = Date.now();
     const hits = (buckets.get(key) || []).filter((t) => now - t < this.windowMs);
-    if (hits.length >= this.limit) {
+    if (hits.length >= this.limit * MULTIPLIER) {
       throw new HttpException({ statusCode: 429, message: 'Too many submissions from this connection — please try again in a few minutes.' }, HttpStatus.TOO_MANY_REQUESTS);
     }
     hits.push(now);

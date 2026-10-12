@@ -1,4 +1,5 @@
--- ASPR Global Tech — SQLite schema (applied idempotently by the backend on boot)
+-- ASPR Global Tech: v1 baseline schema. The backend applies it to new databases and to ones
+-- that predate the migration runner; every later change lives in backend/src/database/migrations/.
 PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS schema_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);

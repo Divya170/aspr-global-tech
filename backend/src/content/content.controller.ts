@@ -1,10 +1,12 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Query } from '@nestjs/common';
-import { str } from '../common/rules';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ContentService, PUBLIC_SETTINGS } from './content.service';
 
-const PUBLIC = ['services', 'products', 'industries', 'work', 'steps', 'roles', 'articles', 'faq-groups', 'faqs', 'packages', 'needs'];
+const PUBLIC = ['services', 'products', 'industries', 'steps', 'roles', 'articles', 'faq-groups', 'faqs', 'technologies', 'project-categories'];
 
-/** Public, read-only content API used by the Next.js site. Only published items are returned. */
+/**
+ * Public, read-only content API used by the Next.js site. Only published items are returned.
+ * Page endpoints return everything one page renders in a single request.
+ */
 @Controller()
 export class ContentController {
   constructor(private readonly content: ContentService) {}
@@ -14,14 +16,9 @@ export class ContentController {
     return { ok: true, time: new Date().toISOString() };
   }
 
-  @Get('content/home')
-  home() {
-    return this.content.home();
-  }
-
-  @Get('content/company')
-  company() {
-    return this.content.company();
+  @Get('site')
+  site() {
+    return this.content.site();
   }
 
   @Get('settings/public')
@@ -29,29 +26,87 @@ export class ContentController {
     return this.content.settings(PUBLIC_SETTINGS);
   }
 
-  @Post('packages/suggest')
-  @HttpCode(200)
-  suggest(@Body() body: { needs?: unknown }) {
-    const needs = Array.isArray(body?.needs) ? body.needs.map(str).filter(Boolean) : [];
-    return { package: this.content.suggest(needs) };
+  @Get('pages/home')
+  home() {
+    return this.content.home();
   }
 
-  @Get('content/articles/slug/:slug')
+  @Get('pages/about')
+  about() {
+    return this.content.about();
+  }
+
+  @Get('pages/process')
+  process() {
+    return this.content.process();
+  }
+
+  @Get('pages/careers')
+  careers() {
+    return this.content.careers();
+  }
+
+  @Get('pages/sitemap')
+  sitemap() {
+    return this.content.sitemap();
+  }
+
+  @Get('pages/:slug')
+  page(@Param('slug') slug: string) {
+    return this.content.page(slug);
+  }
+
+  @Get('services')
+  services() {
+    return this.content.services();
+  }
+
+  @Get('services/:slug')
+  service(@Param('slug') slug: string) {
+    return this.content.service(slug);
+  }
+
+  /** GET /api/projects?category=web-applications */
+  @Get('projects')
+  projects(@Query('category') category?: string) {
+    return this.content.projects(category);
+  }
+
+  @Get('projects/:slug')
+  project(@Param('slug') slug: string) {
+    return this.content.project(slug);
+  }
+
+  @Get('technologies')
+  technologies() {
+    return this.content.technologies();
+  }
+
+  @Get('testimonials')
+  testimonials() {
+    return this.content.publicTestimonials();
+  }
+
+  @Get('faqs')
+  faqs() {
+    return this.content.faqs();
+  }
+
+  @Get('articles')
+  articles() {
+    return this.content.articles();
+  }
+
+  @Get('articles/:slug')
   article(@Param('slug') slug: string) {
-    return this.content.articleBySlug(slug);
+    return this.content.article(slug);
   }
 
-  /** GET /api/content/services?pillar=Build · /api/content/articles?category=Grow&q=seo · /api/content/faqs?groupId=2 … */
+  /** Generic collection reads: /api/content/industries?q=… */
   @Get('content/:collection')
   list(@Param('collection') collection: string, @Query() query: Record<string, string>) {
     if (!PUBLIC.includes(collection)) return this.content.def('__none__');
     const { q, page, pageSize, ...filters } = query;
     return this.content.list(collection, { q, page: Number(page), pageSize: Number(pageSize), filters });
-  }
-
-  @Get('content/:collection/:id')
-  one(@Param('collection') collection: string, @Param('id') id: string) {
-    if (!PUBLIC.includes(collection)) return this.content.def('__none__');
-    return this.content.get(collection, Number(id), false);
   }
 }

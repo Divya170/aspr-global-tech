@@ -33,6 +33,10 @@ const WEB_HOST = process.env.HOST || '0.0.0.0';
 process.env.API_PORT = process.env.API_PORT || '4000';
 process.env.API_HOST = process.env.API_HOST || '127.0.0.1';
 process.env.API_INTERNAL_URL = process.env.API_INTERNAL_URL || `http://127.0.0.1:${process.env.API_PORT}`;
+// The API clears the website's content cache after admin edits. Both halves run in this process,
+// so a per-boot secret is enough when none is configured.
+process.env.WEB_INTERNAL_URL = process.env.WEB_INTERNAL_URL || `http://127.0.0.1:${WEB_PORT}`;
+process.env.REVALIDATE_SECRET = process.env.REVALIDATE_SECRET || require('crypto').randomBytes(24).toString('hex');
 
 for (const [file, hint] of [
   [path.join(ROOT, 'backend', 'dist', 'main.js'), 'backend'],

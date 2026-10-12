@@ -1,4 +1,4 @@
-import { discard } from '../uploads/upload.options';
+import { discard, verifyUploads } from '../uploads/upload.options';
 import { ValidationFailed } from './errors';
 
 /** Multipart submissions carry their fields as JSON in a `data` part (files in `files`). */
@@ -15,9 +15,13 @@ export function parseDataField(body: Record<string, unknown> | undefined, files?
   throw new ValidationFailed({}, 'The form data could not be read. Please try again.');
 }
 
-/** Runs a handler; if it throws, uploaded files are removed so rejected submissions leave no trace. */
+/**
+ * Verifies uploaded files by content, then runs the handler; if either throws, the files are
+ * removed so rejected submissions leave no trace.
+ */
 export function withUploads<T>(files: Express.Multer.File[] | undefined, fn: () => T): T {
   try {
+    verifyUploads(files);
     return fn();
   } catch (e) {
     discard(files);

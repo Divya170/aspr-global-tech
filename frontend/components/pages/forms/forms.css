@@ -1,0 +1,263 @@
+/*
+ * Contact + quote forms: glowing focus, choice cards with gradient borders, connected step
+ * indicator, drop zone, success marks and the "what happens next" stepper.
+ * Transforms/opacity only; everything settles to a static, fully visible state for reduced
+ * motion and before JavaScript (hidden entrance states only apply under .is-armed).
+ */
+
+/* ───────── Text controls: glowing focus + gradient focus line ───────── */
+.fm-control { transition: border-color 200ms ease, background-color 200ms ease, box-shadow 350ms ease; }
+.fm-control:hover:not(:focus) { border-color: color-mix(in srgb, var(--color-brand-soft) 52%, transparent); }
+.fm-control:focus { outline: none; border-color: var(--color-brand); background-color: color-mix(in srgb, var(--color-brand) 4%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-brand-soft) 17%, transparent), 0 16px 38px -20px color-mix(in srgb, var(--color-brand) 57%, transparent); }
+.fm-control[aria-invalid='true'] { border-color: var(--color-danger); }
+.fm-control[aria-invalid='true']:focus { box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-danger) 11%, transparent), 0 16px 38px -22px color-mix(in srgb, var(--color-danger) 56%, transparent); }
+.fm-wrap { position: relative; }
+.fm-line { position: absolute; left: 14px; right: 14px; bottom: 0; height: 2px; border-radius: 2px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--color-brand), var(--color-accent), transparent);
+  transform: scaleX(0); opacity: 0; transition: transform 500ms var(--ease-out-expo), opacity 300ms ease; }
+.fm-wrap:focus-within .fm-line { transform: scaleX(1); opacity: 1; }
+.fm-label { transition: color 200ms ease; }
+.fm-field:focus-within .fm-label { color: var(--color-brand); }
+/* Decorative leading icon inside a control (inputs/selects get pl-11). */
+.fm-lead { position: absolute; left: 0.95rem; top: 0; height: 3rem; display: grid; place-items: center; pointer-events: none; color: var(--color-subtle);
+  transition: color 250ms ease, transform 400ms var(--ease-out-expo); }
+.fm-wrap:hover .fm-lead { color: var(--color-muted); }
+.fm-wrap:focus-within .fm-lead { color: var(--color-brand); transform: scale(1.1); }
+.fm-wrap:has([aria-invalid='true']) .fm-lead { color: var(--color-danger); }
+.fm-chev { transition: color 250ms ease; }
+.fm-wrap:focus-within .fm-chev { color: var(--color-brand); }
+/* Field error / hint appearing after a check. */
+.fm-err { animation: fm-err-in 380ms var(--ease-out-expo) both; }
+@keyframes fm-err-in { from { opacity: 0; translate: 0 -4px; } to { opacity: 1; translate: 0 0; } }
+/* Textarea: ring that fills toward the minimum length, then turns into a tick. */
+.fm-meter { width: 15px; height: 15px; flex-shrink: 0; overflow: visible; }
+.fm-meter .fm-meter-track { stroke: color-mix(in srgb, var(--color-navy) 12%, transparent); }
+.fm-meter .fm-meter-fill { stroke: var(--color-brand); stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--m, 0));
+  transition: stroke-dashoffset 300ms var(--ease-out-expo), stroke 300ms ease; }
+.fm-meter.is-met .fm-meter-fill { stroke: var(--color-success); }
+.fm-meter .fm-meter-tick { stroke: var(--color-success); stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 400ms var(--ease-out-expo) 120ms; }
+.fm-meter.is-met .fm-meter-tick { stroke-dashoffset: 0; }
+
+/* ───────── Choice cards (radio) ───────── */
+.fm-choice { isolation: isolate; transition: transform 350ms var(--ease-out-expo), border-color 250ms ease, background 250ms ease, box-shadow 350ms ease, color 250ms ease; }
+.fm-choice::before { /* gradient border, shown when selected */
+  content: ''; position: absolute; inset: -1px; z-index: 1; border-radius: inherit; padding: 1px; pointer-events: none; opacity: 0; transition: opacity 300ms ease;
+  background: linear-gradient(135deg, var(--color-brand), var(--color-brand-soft) 55%, var(--color-accent));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+.fm-choice::after { /* cursor glow */
+  content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 300ms ease;
+  background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--color-brand) 10%, transparent), transparent 60%); }
+.fm-choice:hover { transform: translateY(-3px); box-shadow: 0 18px 36px -24px color-mix(in srgb, var(--color-brand) 51%, transparent); }
+.fm-choice:hover::after { opacity: 1; }
+.fm-choice.is-checked { border-color: transparent; color: var(--color-text);
+  background: linear-gradient(150deg, color-mix(in srgb, var(--color-brand) 12%, transparent), color-mix(in srgb, var(--color-accent) 5%, var(--color-surface)) 60%, var(--color-surface));
+  box-shadow: 0 20px 44px -24px color-mix(in srgb, var(--color-brand) 57%, transparent), 0 0 24px -8px color-mix(in srgb, var(--color-brand-soft) 46%, transparent); }
+.fm-choice.is-checked::before { opacity: 1; }
+.fm-choice:has(:focus-visible) { outline: 2px solid var(--color-brand); outline-offset: 3px; }
+.fm-choice:active { transform: translateY(-1px) scale(0.985); }
+.fm-chip.is-checked { background: linear-gradient(120deg, color-mix(in srgb, var(--color-brand) 18%, transparent), color-mix(in srgb, var(--color-accent) 12%, transparent)); }
+.fm-chip:hover { transform: translateY(-2px); }
+
+.fm-choice-icon { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; flex-shrink: 0; border-radius: 0.7rem;
+  border: 1px solid var(--color-line-strong); background: var(--color-surface-3); color: var(--color-subtle);
+  transition: background 300ms ease, color 300ms ease, transform 400ms var(--ease-out-expo), border-color 300ms ease, box-shadow 300ms ease; }
+.fm-choice:hover .fm-choice-icon { color: var(--color-brand); border-color: color-mix(in srgb, var(--color-brand-soft) 52%, transparent); transform: rotate(-6deg); }
+.fm-choice.is-checked .fm-choice-icon { background: var(--color-brand-strong); color: #fff; border-color: transparent; transform: rotate(-6deg) scale(1.05);
+  box-shadow: 0 10px 22px -10px color-mix(in srgb, var(--color-brand) 54%, transparent); }
+.fm-radio { transition: border-color 250ms ease, background 250ms ease, box-shadow 250ms ease; }
+.fm-choice.is-checked .fm-radio { box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-brand-soft) 20%, transparent); }
+
+/* Pop-in for check marks and confirmation icons. */
+.fm-pop { animation: fm-pop 450ms var(--ease-out-expo) both; }
+@keyframes fm-pop { 0% { scale: 0.3; opacity: 0; } 60% { scale: 1.2; opacity: 1; } 100% { scale: 1; } }
+
+/* Staggered rise when a wizard step changes (only inside .fm-pane-*, which is only set after a
+   step change, so server-rendered content is never hidden). `translate` keeps hover `transform` free. */
+:is(.fm-pane-fwd, .fm-pane-back) .fm-rise { animation: fm-rise 550ms var(--ease-out-expo) both; animation-delay: calc(var(--i, 0) * 40ms + 80ms); }
+@keyframes fm-rise { from { opacity: 0; translate: 0 14px; } to { opacity: 1; translate: 0 0; } }
+
+/* ───────── Wizard: connected step indicator ───────── */
+.fm-steps { position: relative; display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); }
+.fm-steps-track { position: absolute; top: calc(0.5rem + 0.875rem - 1px); left: calc(50% / var(--n, 4)); right: calc(50% / var(--n, 4));
+  height: 2px; border-radius: 2px; background: color-mix(in srgb, var(--color-navy) 8%, transparent); overflow: hidden; pointer-events: none; }
+.fm-steps-track > span { position: absolute; inset: 0; border-radius: inherit; transform-origin: 0 50%; transform: scaleX(var(--p, 0));
+  background: linear-gradient(90deg, var(--color-brand), var(--color-accent));
+  box-shadow: 0 0 12px var(--color-brand-soft); transition: transform 700ms var(--ease-out-expo); }
+.fm-node { display: flex; min-height: 2.75rem; width: 100%; flex-direction: column; align-items: center; gap: 0.45rem; padding: 0.5rem 0.25rem 0.25rem; border-radius: 0.75rem; text-align: center; }
+button.fm-node { cursor: pointer; }
+.fm-dot { position: relative; display: grid; place-items: center; width: 1.75rem; height: 1.75rem; border-radius: 999px; border: 1px solid var(--color-line-strong);
+  background: var(--color-surface); color: var(--color-subtle); font-family: var(--font-mono); font-size: 0.7rem;
+  transition: background 400ms ease, color 300ms ease, border-color 300ms ease, box-shadow 400ms ease, transform 400ms var(--ease-out-expo); }
+.fm-node.is-done .fm-dot { border-color: transparent; color: #fff; background: linear-gradient(135deg, var(--color-brand-strong), var(--color-brand));
+  box-shadow: 0 6px 16px -6px color-mix(in srgb, var(--color-brand) 54%, transparent); }
+button.fm-node:hover .fm-dot { transform: scale(1.12); }
+.fm-node.is-current .fm-dot { border-color: var(--color-brand-soft); background: var(--color-brand-strong); color: #fff; box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-brand-soft) 21%, transparent), 0 0 22px color-mix(in srgb, var(--color-brand) 42%, transparent); }
+.fm-node.is-current .fm-dot::after { content: ''; position: absolute; inset: -5px; border-radius: inherit; border: 1px solid color-mix(in srgb, var(--color-brand-soft) 78%, transparent);
+  animation: fm-ring 2.4s ease-out infinite; }
+@keyframes fm-ring { 0% { opacity: 0.9; scale: 0.85; } 80%, 100% { opacity: 0; scale: 1.45; } }
+.fm-node-label { transition: color 300ms ease; }
+
+/* Big outlined step number beside the step title. */
+.fm-bignum { font-family: var(--font-display); font-weight: 600; font-size: clamp(2.4rem, 4.6vw, 3.1rem); line-height: 0.9; letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums; color: transparent; user-select: none;
+  background: linear-gradient(165deg, var(--color-brand) 0%, var(--color-brand-soft) 55%, color-mix(in srgb, var(--color-accent) 45%, var(--color-brand-soft)) 100%);
+  -webkit-background-clip: text; background-clip: text; filter: drop-shadow(0 6px 18px color-mix(in srgb, var(--color-brand) 21%, transparent)); }
+.fm-stepchip { display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--color-brand-soft) 39%, transparent); padding: 0.3rem 0.75rem;
+  background: linear-gradient(120deg, color-mix(in srgb, var(--color-brand) 10%, transparent), color-mix(in srgb, var(--color-accent) 5%, transparent)); }
+.fm-stepchip::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--color-signal); box-shadow: 0 0 10px var(--color-signal); }
+
+/* Drawn check (step dots, success marks). */
+.fm-check path { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.fm-draw path { animation: fm-draw 500ms var(--ease-out-expo) both; animation-delay: var(--d, 0ms); }
+@keyframes fm-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+/* Step change: slide in from the direction of travel. */
+.fm-pane-fwd { animation: fm-pane-fwd 500ms var(--ease-out-expo) both; }
+.fm-pane-back { animation: fm-pane-back 500ms var(--ease-out-expo) both; }
+@keyframes fm-pane-fwd { from { opacity: 0; translate: 28px 0; } to { opacity: 1; translate: 0 0; } }
+@keyframes fm-pane-back { from { opacity: 0; translate: -28px 0; } to { opacity: 1; translate: 0 0; } }
+
+/* Review card on the last step. */
+.fm-review { background: linear-gradient(160deg, color-mix(in srgb, var(--color-brand) 5%, var(--color-surface)), var(--color-surface) 55%); }
+.fm-review-row { transition: background 200ms ease; border-radius: 0.5rem; }
+.fm-review-row:hover { background: var(--color-surface-3); }
+
+/* ───────── File drop zone ───────── */
+.fm-drop { position: relative; isolation: isolate; overflow: hidden; cursor: pointer;
+  transition: border-color 250ms ease, background 300ms ease, box-shadow 350ms ease, transform 350ms var(--ease-out-expo); }
+.fm-drop::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 350ms ease;
+  background: radial-gradient(120% 140% at 50% 120%, color-mix(in srgb, var(--color-brand) 17%, transparent), transparent 60%), radial-gradient(60% 80% at 15% 0%, color-mix(in srgb, var(--color-accent) 10%, transparent), transparent 70%); }
+.fm-drop:hover::before { opacity: 0.45; }
+.fm-drop.is-over { transform: scale(1.012); box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-brand-soft) 16%, transparent), 0 24px 50px -26px color-mix(in srgb, var(--color-brand) 57%, transparent); }
+.fm-drop.is-over::before { opacity: 1; }
+.fm-drop-icon { transition: transform 400ms var(--ease-out-expo), background 300ms ease, color 300ms ease, border-color 300ms ease, box-shadow 300ms ease; }
+.fm-drop:hover .fm-drop-icon, .fm-drop:focus-within .fm-drop-icon { transform: translateY(-3px); border-color: color-mix(in srgb, var(--color-brand-soft) 65%, transparent); }
+.fm-drop.is-over .fm-drop-icon { background: var(--color-brand-strong); color: #fff; border-color: transparent; box-shadow: 0 12px 26px -10px color-mix(in srgb, var(--color-brand) 54%, transparent);
+  animation: fm-bob 900ms ease-in-out infinite; }
+@keyframes fm-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -6px; } }
+.fm-drop-ring { position: absolute; inset: 6px; z-index: -1; border-radius: 0.6rem; border: 1px dashed color-mix(in srgb, var(--color-brand-soft) 72%, transparent); opacity: 0; pointer-events: none; transition: opacity 250ms ease; }
+.fm-drop.is-over .fm-drop-ring { opacity: 1; animation: fm-breathe 1.2s ease-in-out infinite; }
+@keyframes fm-breathe { 0%, 100% { scale: 1; } 50% { scale: 0.985; } }
+.fm-file { transition: border-color 200ms ease, background 200ms ease; }
+.fm-file:hover { border-color: var(--color-line-strong); background: var(--color-surface-2); }
+
+/* ───────── Error summary ───────── */
+.fm-sum { position: relative; isolation: isolate; overflow: hidden; border-radius: 1rem; border: 1px solid color-mix(in srgb, var(--color-danger) 34%, transparent);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--color-danger) 10%, transparent), color-mix(in srgb, var(--color-danger) 2%, transparent) 55%, color-mix(in srgb, var(--color-accent) 2%, transparent));
+  box-shadow: 0 18px 44px -30px color-mix(in srgb, var(--color-danger) 72%, transparent); }
+.fm-sum::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; pointer-events: none; background: linear-gradient(180deg, var(--color-danger), color-mix(in srgb, var(--color-accent) 42%, transparent)); }
+.fm-sum:focus-visible { outline: 2px solid color-mix(in srgb, var(--color-danger) 48%, transparent); outline-offset: 3px; }
+.fm-sum-icon { display: grid; place-items: center; width: 2rem; height: 2rem; flex-shrink: 0; border-radius: 0.65rem; color: var(--color-danger);
+  background: color-mix(in srgb, var(--color-danger) 11%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-danger) 28%, transparent); }
+.fm-sum-link .fm-sum-arrow { transition: transform 300ms var(--ease-out-expo); }
+.fm-sum-link:hover .fm-sum-arrow, .fm-sum-link:focus-visible .fm-sum-arrow { transform: translateX(3px); }
+.fm-shake { animation: fm-shake 420ms ease both; }
+@keyframes fm-shake { 0% { translate: 0 0; } 20% { translate: -6px 0; } 40% { translate: 5px 0; } 60% { translate: -3px 0; } 80% { translate: 2px 0; } 100% { translate: 0 0; } }
+
+/* ───────── Direct contact: glass cards ───────── */
+.fm-dc { position: relative; isolation: isolate; overflow: hidden; border: 1px solid var(--color-line); background: var(--color-surface);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  transition: transform 350ms var(--ease-out-expo), border-color 300ms ease, background 300ms ease, box-shadow 350ms ease; }
+.fm-dc::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 350ms ease;
+  background: linear-gradient(120deg, color-mix(in srgb, var(--color-brand) 10%, transparent), color-mix(in srgb, var(--color-accent) 4%, transparent) 55%, transparent); }
+.fm-dc:hover, .fm-dc:focus-visible { border-color: color-mix(in srgb, var(--color-brand-soft) 49%, transparent); box-shadow: 0 18px 36px -26px color-mix(in srgb, var(--color-brand) 54%, transparent); }
+.fm-dc:hover::before, .fm-dc:focus-visible::before { opacity: 1; }
+a.fm-dc:hover, a.fm-dc:focus-visible { transform: translateY(-2px); }
+.fm-dc-arrow { opacity: 0; transform: translate(-4px, 4px); transition: opacity 250ms ease, transform 350ms var(--ease-out-expo); }
+.fm-dc:hover .fm-dc-arrow, .fm-dc:focus-visible .fm-dc-arrow { opacity: 1; transform: none; }
+.fm-dc:focus-visible .fx-icon { background: var(--color-brand-strong); color: #fff; border-color: transparent; }
+
+/* Subtle live border for the main form panel (fx-border-live, toned down). */
+.fm-live::after { opacity: 0.5 !important; }
+.fm-halo { position: absolute; inset: 8% 6% auto; height: 60%; z-index: -1; border-radius: 50%; pointer-events: none; filter: blur(70px);
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--color-brand) 13%, transparent), color-mix(in srgb, var(--color-accent) 7%, transparent) 60%, transparent); }
+
+/* ───────── Grouped form (careers application): icon rail that lights up with focus ───────── */
+.fm-groups { display: grid; gap: 2rem; }
+.fm-group { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); }
+.fm-group-node { display: none; }
+@media (min-width: 640px) {
+  .fm-group { grid-template-columns: 2.25rem minmax(0, 1fr); column-gap: 1.25rem; }
+  .fm-group-node { position: relative; z-index: 1; display: grid; place-items: center; width: 2.25rem; height: 2.25rem; margin-top: 2.125rem; border-radius: 0.75rem;
+    border: 1px solid var(--color-line-strong); background: var(--color-surface); color: var(--color-subtle);
+    transition: background 300ms ease, color 300ms ease, border-color 300ms ease, box-shadow 350ms ease, transform 400ms var(--ease-out-expo); }
+  .fm-group:not(:last-child)::before { content: ''; position: absolute; left: calc(1.125rem - 1px); top: 4.875rem; bottom: -3.625rem; width: 2px; border-radius: 2px;
+    background: color-mix(in srgb, var(--color-navy) 7%, transparent); pointer-events: none; }
+  .fm-group:not(:last-child)::after { content: ''; position: absolute; left: calc(1.125rem - 1px); top: 4.875rem; bottom: -3.625rem; width: 2px; border-radius: 2px;
+    background: linear-gradient(180deg, var(--color-brand), var(--color-accent)); transform: scaleY(0); transform-origin: 50% 0; pointer-events: none;
+    transition: transform 600ms var(--ease-out-expo); }
+  .fm-group:focus-within .fm-group-node { border-color: transparent; color: #fff; background: linear-gradient(135deg, var(--color-brand-strong), var(--color-brand));
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-brand-soft) 16%, transparent), 0 10px 24px -10px color-mix(in srgb, var(--color-brand) 57%, transparent); transform: rotate(-6deg); }
+  .fm-group:focus-within::after { transform: scaleY(1); }
+  .fm-group.has-error .fm-group-node { border-color: color-mix(in srgb, var(--color-danger) 44%, transparent); color: var(--color-danger); }
+}
+
+/* Recognised work links under the links box (decorative echo of what was typed). */
+.fm-lchip { display: inline-flex; max-width: 100%; align-items: center; gap: 0.45rem; border-radius: 999px; border: 1px solid var(--color-line-strong);
+  background: var(--color-surface-2); padding: 0.3rem 0.7rem 0.3rem 0.4rem; font-size: 0.75rem; color: var(--color-muted);
+  animation: fm-chip-in 350ms var(--ease-out-expo) both; }
+.fm-lchip > b { display: grid; place-items: center; width: 1.35rem; height: 1.35rem; flex-shrink: 0; border-radius: 999px; background: color-mix(in srgb, var(--color-brand-soft) 24%, transparent); color: var(--color-brand); }
+.fm-lchip.is-known > b { background: var(--color-brand-strong); color: #fff; }
+@keyframes fm-chip-in { from { opacity: 0; scale: 0.85; } to { opacity: 1; scale: 1; } }
+
+/* ───────── Success mark (drawn ring + check + burst) ───────── */
+.fm-success { position: relative; display: grid; place-items: center; width: var(--s, 4.5rem); height: var(--s, 4.5rem); }
+.fm-success::before { content: ''; position: absolute; inset: -30%; border-radius: 50%; pointer-events: none; filter: blur(18px);
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--color-accent) 24%, transparent), transparent); animation: fm-glow-in 900ms ease both; }
+@keyframes fm-glow-in { from { opacity: 0; scale: 0.5; } to { opacity: 1; scale: 1; } }
+.fm-success svg { position: relative; width: 100%; height: 100%; overflow: visible; }
+.fm-success .fm-ring { stroke-dasharray: 1; animation: fm-draw 800ms var(--ease-out-expo) both; }
+.fm-success .fm-tick { stroke-dasharray: 1; animation: fm-draw 550ms var(--ease-out-expo) 450ms both; }
+.fm-success .fm-disc { animation: fm-pop 600ms var(--ease-out-expo) 150ms both; transform-box: fill-box; transform-origin: center; }
+.fm-burst { position: absolute; inset: 0; pointer-events: none; }
+.fm-burst > i { position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px; border-radius: 2px; opacity: 0;
+  background: var(--c, var(--color-success)); rotate: calc(var(--k) * 45deg); animation: fm-burst 900ms var(--ease-out-expo) 500ms both; }
+.fm-burst > i:nth-child(odd) { border-radius: 50%; width: 5px; height: 5px; }
+@keyframes fm-burst { 0% { opacity: 0; transform: translateY(0) scale(0.4); } 25% { opacity: 1; } 100% { opacity: 0; transform: translateY(calc(var(--s, 4.5rem) * -0.95)) scale(1); } }
+
+/* Inquiry ID chip. */
+.fm-id { position: relative; isolation: isolate; overflow: hidden; border-radius: 0.9rem; border: 1px solid color-mix(in srgb, var(--color-brand-soft) 52%, transparent);
+  background: linear-gradient(120deg, color-mix(in srgb, var(--color-brand) 11%, transparent), color-mix(in srgb, var(--color-accent) 7%, transparent));
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-brand-soft) 9%, transparent), 0 14px 40px -16px color-mix(in srgb, var(--color-brand) 51%, transparent); text-shadow: 0 0 18px color-mix(in srgb, var(--color-brand-soft) 40%, transparent); }
+.fm-id::after { content: ''; position: absolute; inset: -2px auto -2px -50%; width: 40%; z-index: -1; pointer-events: none;
+  background: linear-gradient(100deg, transparent, color-mix(in srgb, var(--color-surface) 70%, transparent), transparent); transform: skewX(-18deg);
+  animation: fm-sweep 1.6s var(--ease-out-expo) 900ms both; }
+@keyframes fm-sweep { from { translate: 0 0; } to { translate: 450% 0; } }
+
+/* ───────── "What happens next" stepper ───────── */
+.fm-next { display: grid; gap: var(--gap, 1.25rem); }
+.fm-next > li { position: relative; display: flex; gap: 1rem; }
+.fm-next > li:not(:last-child)::before, .fm-next > li:not(:last-child)::after { /* rail segment to the next node */
+  content: ''; position: absolute; left: calc(1rem - 1px); width: 2px; top: 2.25rem; bottom: calc(-1 * var(--gap, 1.25rem) + 0.25rem); border-radius: 2px; pointer-events: none; }
+.fm-next > li:not(:last-child)::before { background: color-mix(in srgb, var(--color-navy) 8%, transparent); }
+.fm-next > li:not(:last-child)::after { background: linear-gradient(180deg, var(--color-brand), var(--color-accent)); transform-origin: 50% 0;
+  transition: transform 600ms var(--ease-out-expo) calc(var(--i) * 280ms + 200ms); }
+.fm-next-num { position: relative; z-index: 1; display: grid; place-items: center; width: 2rem; height: 2rem; flex-shrink: 0; border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--color-brand-soft) 65%, transparent); background: var(--color-surface); color: var(--color-brand); font-family: var(--font-mono); font-size: 0.75rem;
+  box-shadow: 0 0 16px -4px color-mix(in srgb, var(--color-brand) 42%, transparent);
+  transition: background 400ms ease calc(var(--i) * 280ms), color 400ms ease calc(var(--i) * 280ms), border-color 400ms ease calc(var(--i) * 280ms),
+    box-shadow 400ms ease calc(var(--i) * 280ms), transform 400ms var(--ease-out-expo); }
+.fm-next-body { transition: opacity 600ms ease calc(var(--i) * 280ms), translate 700ms var(--ease-out-expo) calc(var(--i) * 280ms); }
+.fm-next > li:hover .fm-next-num { background: var(--color-brand-strong); color: #fff; border-color: transparent; transform: scale(1.1); transition-delay: 0ms; }
+.is-armed.fm-next > li::after { transform: scaleY(0); }
+.is-armed.fm-next .fm-next-num { border-color: var(--color-line-strong); color: var(--color-subtle); box-shadow: none; }
+.is-armed.fm-next .fm-next-body { opacity: 0; translate: 10px 0; }
+.is-armed.is-seen.fm-next > li::after { transform: scaleY(1); }
+.is-armed.is-seen.fm-next .fm-next-num { border-color: color-mix(in srgb, var(--color-brand-soft) 65%, transparent); color: var(--color-brand); box-shadow: 0 0 16px -4px color-mix(in srgb, var(--color-brand) 42%, transparent); }
+.is-armed.is-seen.fm-next .fm-next-body { opacity: 1; translate: 0 0; }
+.fm-next-cards .fm-next-body { flex: 1; min-width: 0; padding: 1.1rem 1.25rem; border-radius: 0.9rem; border: 1px solid var(--color-line); background: var(--color-surface);
+  transition: opacity 600ms ease calc(var(--i) * 280ms), translate 700ms var(--ease-out-expo) calc(var(--i) * 280ms), border-color 300ms ease, background 300ms ease, box-shadow 350ms ease; }
+.fm-next-cards > li:hover .fm-next-body { border-color: color-mix(in srgb, var(--color-brand-soft) 46%, transparent); background: linear-gradient(150deg, color-mix(in srgb, var(--color-brand) 6%, var(--color-surface)), var(--color-surface) 60%);
+  box-shadow: 0 18px 40px -28px color-mix(in srgb, var(--color-brand) 54%, transparent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .fm-choice:hover, .fm-chip:hover, a.fm-dc:hover, a.fm-dc:focus-visible, .fm-drop.is-over, .fm-next > li:hover .fm-next-num { transform: none; }
+  .fm-choice:active { transform: none; }
+  .fm-pop, .fm-rise, :is(.fm-pane-fwd, .fm-pane-back) .fm-rise, .fm-pane-fwd, .fm-pane-back, .fm-shake, .fm-draw path, .fm-success *, .fm-success::before, .fm-id::after,
+  .fm-node.is-current .fm-dot::after, .fm-drop.is-over .fm-drop-icon, .fm-drop.is-over .fm-drop-ring, .fm-err, .fm-lchip { animation: none !important; }
+  .fm-wrap:focus-within .fm-lead, .fm-group:focus-within .fm-group-node { transform: none; }
+  .fm-burst, .fm-id::after { display: none; }
+  .fm-success .fm-ring, .fm-success .fm-tick, .fm-check path { stroke-dashoffset: 0; }
+}
