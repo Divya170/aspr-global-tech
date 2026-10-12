@@ -210,12 +210,11 @@ The cause was ~450 animation frames during load (orbits, glows, conic borders, m
 | Package | Severity | Comes from | Affects production? |
 |---|---|---|---|
 | shell-quote (via concurrently) | critical | root devDependency `concurrently` (only `npm run dev`) | No |
-| nodemailer <= 10.0.5 | high (SMTP command injection via CRLF / `envelope.size`) | backend dependency `nodemailer@^7` | Yes, when SMTP is on. The app sets fixed envelopes and validates addresses, but upgrade to 10.x (major) before launch: needs your OK, since it changes a dependency version |
+| nodemailer <= 10.0.5 | high (SMTP command injection via CRLF / `envelope.size`) | backend dependency `nodemailer` | **Fixed:** upgraded to 10.1.0 with the owner's OK. Backend prod audit now 0 vulnerabilities; build pass, npm test 41/41, SMTP login verified |
 | frontend | — | — | 0 vulnerabilities |
 
 ## Left over
 - LCP target of 2.5 s: home 2.7 s, service page 3.2 s (perf targets met). The next step would be cutting the shared client bundle (hydration) or server-rendering more of the hero.
-- nodemailer major upgrade (above).
 - nginx config was not syntax-checked locally (nginx isn't installed here); `nginx -t` is step 7 in DEPLOY.md.
 - Pushing and opening the PR need GitHub credentials this terminal doesn't have (see the report).
 - The SMTP app password was shared in chat: rotate it after launch.
