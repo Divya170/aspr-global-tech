@@ -1,10 +1,21 @@
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import nextEnv from '@next/env';
 
 // Also read the project-root .env used by server.js in production. The /api proxy target and
 // NEXT_PUBLIC_* values are fixed at build time, so the build must see the same settings.
-nextEnv.loadEnvConfig(path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'));
+// Parsed directly (as server.js does): @next/env caches its first load (frontend/), so calling
+// loadEnvConfig for the root would silently do nothing. Real environment variables win; empty
+// values are skipped so the defaults below apply.
+const rootEnv = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '.env');
+if (fs.existsSync(rootEnv)) {
+  for (const line of fs.readFileSync(rootEnv, 'utf8').split(/\r?\n/)) {
+    const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*?)\s*$/i);
+    if (!m || line.trim().startsWith('#')) continue;
+    const value = m[2].replace(/^(['"])(.*)\1$/, '$2');
+    if (value !== '' && process.env[m[1]] === undefined) process.env[m[1]] = value;
+  }
+}
 
 const API = process.env.API_INTERNAL_URL || `http://127.0.0.1:${process.env.API_PORT || 4000}`;
 
