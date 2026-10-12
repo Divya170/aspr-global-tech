@@ -20,7 +20,11 @@ export function loadDotEnv(file: string): void {
 loadDotEnv(path.resolve(BACKEND_DIR, '..', '.env'));
 loadDotEnv(path.resolve(BACKEND_DIR, '.env'));
 
-const env = (key: string, fallback: string): string => process.env[key] ?? fallback;
+/** Reads a setting; an empty value (e.g. `SITE_URL=` left blank in .env) counts as unset and uses the fallback. */
+const env = (key: string, fallback: string): string => {
+  const v = process.env[key];
+  return v === undefined || v.trim() === '' ? fallback : v;
+};
 const isProd = process.env.NODE_ENV === 'production';
 
 export const config = {
